@@ -1,0 +1,617 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2A03AF471F555FA80088DBF4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A03AF461F555FA80088DBF4 /* main.m */; };
+		2A03AF4A1F555FA80088DBF4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A03AF491F555FA80088DBF4 /* AppDelegate.m */; };
+		2A03AF4D1F555FA80088DBF4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A03AF4C1F555FA80088DBF4 /* ViewController.m */; };
+		2A03AF501F555FA80088DBF4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2A03AF4E1F555FA80088DBF4 /* Main.storyboard */; };
+		2A03AF521F555FA80088DBF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A03AF511F555FA80088DBF4 /* Assets.xcassets */; };
+		2A03AF551F555FA80088DBF4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2A03AF531F555FA80088DBF4 /* LaunchScreen.storyboard */; };
+		2A03AF601F555FA80088DBF4 /* DiscoverMelodyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A03AF5F1F555FA80088DBF4 /* DiscoverMelodyTests.m */; };
+		2A03AF6B1F555FA80088DBF4 /* DiscoverMelodyUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A03AF6A1F555FA80088DBF4 /* DiscoverMelodyUITests.m */; };
+		38CCB4B7CD85FDAEFE84B1D3 /* libPods-DiscoverMelody.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 945FC02CD63525967FAFE213 /* libPods-DiscoverMelody.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2A03AF5C1F555FA80088DBF4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A03AF3A1F555FA80088DBF4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2A03AF411F555FA80088DBF4;
+			remoteInfo = DiscoverMelody;
+		};
+		2A03AF671F555FA80088DBF4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A03AF3A1F555FA80088DBF4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2A03AF411F555FA80088DBF4;
+			remoteInfo = DiscoverMelody;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1E620A6E158816600EA0CFFE /* Pods-DiscoverMelody.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DiscoverMelody.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DiscoverMelody/Pods-DiscoverMelody.debug.xcconfig"; sourceTree = "<group>"; };
+		2A03AF421F555FA80088DBF4 /* DiscoverMelody.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiscoverMelody.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2A03AF461F555FA80088DBF4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2A03AF481F555FA80088DBF4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		2A03AF491F555FA80088DBF4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		2A03AF4B1F555FA80088DBF4 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		2A03AF4C1F555FA80088DBF4 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		2A03AF4F1F555FA80088DBF4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		2A03AF511F555FA80088DBF4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2A03AF541F555FA80088DBF4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		2A03AF561F555FA80088DBF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2A03AF5B1F555FA80088DBF4 /* DiscoverMelodyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiscoverMelodyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2A03AF5F1F555FA80088DBF4 /* DiscoverMelodyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DiscoverMelodyTests.m; sourceTree = "<group>"; };
+		2A03AF611F555FA80088DBF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2A03AF661F555FA80088DBF4 /* DiscoverMelodyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiscoverMelodyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2A03AF6A1F555FA80088DBF4 /* DiscoverMelodyUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DiscoverMelodyUITests.m; sourceTree = "<group>"; };
+		2A03AF6C1F555FA80088DBF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2BF41B440646DC59DC6A7EC6 /* Pods-DiscoverMelody.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DiscoverMelody.release.xcconfig"; path = "Pods/Target Support Files/Pods-DiscoverMelody/Pods-DiscoverMelody.release.xcconfig"; sourceTree = "<group>"; };
+		945FC02CD63525967FAFE213 /* libPods-DiscoverMelody.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DiscoverMelody.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2A03AF3F1F555FA80088DBF4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				38CCB4B7CD85FDAEFE84B1D3 /* libPods-DiscoverMelody.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2A03AF581F555FA80088DBF4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2A03AF631F555FA80088DBF4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2A03AF391F555FA80088DBF4 = {
+			isa = PBXGroup;
+			children = (
+				2A03AF441F555FA80088DBF4 /* DiscoverMelody */,
+				2A03AF5E1F555FA80088DBF4 /* DiscoverMelodyTests */,
+				2A03AF691F555FA80088DBF4 /* DiscoverMelodyUITests */,
+				2A03AF431F555FA80088DBF4 /* Products */,
+				68F3B91CEBABB74BAD9DF5AA /* Pods */,
+				ECE8EBFEEC0F26A03517179E /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		2A03AF431F555FA80088DBF4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2A03AF421F555FA80088DBF4 /* DiscoverMelody.app */,
+				2A03AF5B1F555FA80088DBF4 /* DiscoverMelodyTests.xctest */,
+				2A03AF661F555FA80088DBF4 /* DiscoverMelodyUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2A03AF441F555FA80088DBF4 /* DiscoverMelody */ = {
+			isa = PBXGroup;
+			children = (
+				2A03AF481F555FA80088DBF4 /* AppDelegate.h */,
+				2A03AF491F555FA80088DBF4 /* AppDelegate.m */,
+				2A03AF4B1F555FA80088DBF4 /* ViewController.h */,
+				2A03AF4C1F555FA80088DBF4 /* ViewController.m */,
+				2A03AF4E1F555FA80088DBF4 /* Main.storyboard */,
+				2A03AF511F555FA80088DBF4 /* Assets.xcassets */,
+				2A03AF531F555FA80088DBF4 /* LaunchScreen.storyboard */,
+				2A03AF561F555FA80088DBF4 /* Info.plist */,
+				2A03AF451F555FA80088DBF4 /* Supporting Files */,
+			);
+			path = DiscoverMelody;
+			sourceTree = "<group>";
+		};
+		2A03AF451F555FA80088DBF4 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2A03AF461F555FA80088DBF4 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2A03AF5E1F555FA80088DBF4 /* DiscoverMelodyTests */ = {
+			isa = PBXGroup;
+			children = (
+				2A03AF5F1F555FA80088DBF4 /* DiscoverMelodyTests.m */,
+				2A03AF611F555FA80088DBF4 /* Info.plist */,
+			);
+			path = DiscoverMelodyTests;
+			sourceTree = "<group>";
+		};
+		2A03AF691F555FA80088DBF4 /* DiscoverMelodyUITests */ = {
+			isa = PBXGroup;
+			children = (
+				2A03AF6A1F555FA80088DBF4 /* DiscoverMelodyUITests.m */,
+				2A03AF6C1F555FA80088DBF4 /* Info.plist */,
+			);
+			path = DiscoverMelodyUITests;
+			sourceTree = "<group>";
+		};
+		68F3B91CEBABB74BAD9DF5AA /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1E620A6E158816600EA0CFFE /* Pods-DiscoverMelody.debug.xcconfig */,
+				2BF41B440646DC59DC6A7EC6 /* Pods-DiscoverMelody.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		ECE8EBFEEC0F26A03517179E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				945FC02CD63525967FAFE213 /* libPods-DiscoverMelody.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2A03AF411F555FA80088DBF4 /* DiscoverMelody */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2A03AF6F1F555FA80088DBF4 /* Build configuration list for PBXNativeTarget "DiscoverMelody" */;
+			buildPhases = (
+				0CBD6ABCAADA1953130F8AA6 /* [CP] Check Pods Manifest.lock */,
+				2A03AF3E1F555FA80088DBF4 /* Sources */,
+				2A03AF3F1F555FA80088DBF4 /* Frameworks */,
+				2A03AF401F555FA80088DBF4 /* Resources */,
+				0DA333F7C47FCCB3972E89E5 /* [CP] Embed Pods Frameworks */,
+				45516BBEF71FD306F71245CE /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DiscoverMelody;
+			productName = DiscoverMelody;
+			productReference = 2A03AF421F555FA80088DBF4 /* DiscoverMelody.app */;
+			productType = "com.apple.product-type.application";
+		};
+		2A03AF5A1F555FA80088DBF4 /* DiscoverMelodyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2A03AF721F555FA80088DBF4 /* Build configuration list for PBXNativeTarget "DiscoverMelodyTests" */;
+			buildPhases = (
+				2A03AF571F555FA80088DBF4 /* Sources */,
+				2A03AF581F555FA80088DBF4 /* Frameworks */,
+				2A03AF591F555FA80088DBF4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2A03AF5D1F555FA80088DBF4 /* PBXTargetDependency */,
+			);
+			name = DiscoverMelodyTests;
+			productName = DiscoverMelodyTests;
+			productReference = 2A03AF5B1F555FA80088DBF4 /* DiscoverMelodyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		2A03AF651F555FA80088DBF4 /* DiscoverMelodyUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2A03AF751F555FA80088DBF4 /* Build configuration list for PBXNativeTarget "DiscoverMelodyUITests" */;
+			buildPhases = (
+				2A03AF621F555FA80088DBF4 /* Sources */,
+				2A03AF631F555FA80088DBF4 /* Frameworks */,
+				2A03AF641F555FA80088DBF4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2A03AF681F555FA80088DBF4 /* PBXTargetDependency */,
+			);
+			name = DiscoverMelodyUITests;
+			productName = DiscoverMelodyUITests;
+			productReference = 2A03AF661F555FA80088DBF4 /* DiscoverMelodyUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2A03AF3A1F555FA80088DBF4 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = "Discover Melody";
+				TargetAttributes = {
+					2A03AF411F555FA80088DBF4 = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+					};
+					2A03AF5A1F555FA80088DBF4 = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 2A03AF411F555FA80088DBF4;
+					};
+					2A03AF651F555FA80088DBF4 = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 2A03AF411F555FA80088DBF4;
+					};
+				};
+			};
+			buildConfigurationList = 2A03AF3D1F555FA80088DBF4 /* Build configuration list for PBXProject "DiscoverMelody" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2A03AF391F555FA80088DBF4;
+			productRefGroup = 2A03AF431F555FA80088DBF4 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2A03AF411F555FA80088DBF4 /* DiscoverMelody */,
+				2A03AF5A1F555FA80088DBF4 /* DiscoverMelodyTests */,
+				2A03AF651F555FA80088DBF4 /* DiscoverMelodyUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2A03AF401F555FA80088DBF4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A03AF551F555FA80088DBF4 /* LaunchScreen.storyboard in Resources */,
+				2A03AF521F555FA80088DBF4 /* Assets.xcassets in Resources */,
+				2A03AF501F555FA80088DBF4 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2A03AF591F555FA80088DBF4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2A03AF641F555FA80088DBF4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0CBD6ABCAADA1953130F8AA6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DiscoverMelody-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		0DA333F7C47FCCB3972E89E5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DiscoverMelody/Pods-DiscoverMelody-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		45516BBEF71FD306F71245CE /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-DiscoverMelody/Pods-DiscoverMelody-resources.sh",
+				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DiscoverMelody/Pods-DiscoverMelody-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2A03AF3E1F555FA80088DBF4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A03AF4D1F555FA80088DBF4 /* ViewController.m in Sources */,
+				2A03AF4A1F555FA80088DBF4 /* AppDelegate.m in Sources */,
+				2A03AF471F555FA80088DBF4 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2A03AF571F555FA80088DBF4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A03AF601F555FA80088DBF4 /* DiscoverMelodyTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2A03AF621F555FA80088DBF4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A03AF6B1F555FA80088DBF4 /* DiscoverMelodyUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2A03AF5D1F555FA80088DBF4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2A03AF411F555FA80088DBF4 /* DiscoverMelody */;
+			targetProxy = 2A03AF5C1F555FA80088DBF4 /* PBXContainerItemProxy */;
+		};
+		2A03AF681F555FA80088DBF4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2A03AF411F555FA80088DBF4 /* DiscoverMelody */;
+			targetProxy = 2A03AF671F555FA80088DBF4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		2A03AF4E1F555FA80088DBF4 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2A03AF4F1F555FA80088DBF4 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		2A03AF531F555FA80088DBF4 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2A03AF541F555FA80088DBF4 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2A03AF6D1F555FA80088DBF4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		2A03AF6E1F555FA80088DBF4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2A03AF701F555FA80088DBF4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1E620A6E158816600EA0CFFE /* Pods-DiscoverMelody.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = DiscoverMelody/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.discovermelody.DiscoverMelody;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		2A03AF711F555FA80088DBF4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2BF41B440646DC59DC6A7EC6 /* Pods-DiscoverMelody.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = DiscoverMelody/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.discovermelody.DiscoverMelody;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		2A03AF731F555FA80088DBF4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = DiscoverMelodyTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.discovermelody.DiscoverMelodyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DiscoverMelody.app/DiscoverMelody";
+			};
+			name = Debug;
+		};
+		2A03AF741F555FA80088DBF4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = DiscoverMelodyTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.discovermelody.DiscoverMelodyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DiscoverMelody.app/DiscoverMelody";
+			};
+			name = Release;
+		};
+		2A03AF761F555FA80088DBF4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = DiscoverMelodyUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.discovermelody.DiscoverMelodyUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = DiscoverMelody;
+			};
+			name = Debug;
+		};
+		2A03AF771F555FA80088DBF4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = DiscoverMelodyUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.discovermelody.DiscoverMelodyUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = DiscoverMelody;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2A03AF3D1F555FA80088DBF4 /* Build configuration list for PBXProject "DiscoverMelody" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2A03AF6D1F555FA80088DBF4 /* Debug */,
+				2A03AF6E1F555FA80088DBF4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2A03AF6F1F555FA80088DBF4 /* Build configuration list for PBXNativeTarget "DiscoverMelody" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2A03AF701F555FA80088DBF4 /* Debug */,
+				2A03AF711F555FA80088DBF4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		2A03AF721F555FA80088DBF4 /* Build configuration list for PBXNativeTarget "DiscoverMelodyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2A03AF731F555FA80088DBF4 /* Debug */,
+				2A03AF741F555FA80088DBF4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		2A03AF751F555FA80088DBF4 /* Build configuration list for PBXNativeTarget "DiscoverMelodyUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2A03AF761F555FA80088DBF4 /* Debug */,
+				2A03AF771F555FA80088DBF4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2A03AF3A1F555FA80088DBF4 /* Project object */;
+}
