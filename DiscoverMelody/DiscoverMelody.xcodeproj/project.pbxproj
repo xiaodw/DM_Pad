@@ -229,6 +229,7 @@
 		2A03AF3A1F555FA80088DBF4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = DM;
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Discover Melody";
 				TargetAttributes = {
@@ -594,6 +595,7 @@
 				2A03AF711F555FA80088DBF4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2A03AF721F555FA80088DBF4 /* Build configuration list for PBXNativeTarget "DiscoverMelodyTests" */ = {
 			isa = XCConfigurationList;
@@ -602,6 +604,7 @@
 				2A03AF741F555FA80088DBF4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2A03AF751F555FA80088DBF4 /* Build configuration list for PBXNativeTarget "DiscoverMelodyUITests" */ = {
 			isa = XCConfigurationList;
@@ -610,6 +613,7 @@
 				2A03AF771F555FA80088DBF4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
