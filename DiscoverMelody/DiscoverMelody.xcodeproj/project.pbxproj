@@ -356,6 +356,7 @@
 		2A03AF3A1F555FA80088DBF4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = DM;
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Discover Melody";
 				TargetAttributes = {
