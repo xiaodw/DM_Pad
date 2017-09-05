@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		2A03AF471F555FA80088DBF4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A03AF461F555FA80088DBF4 /* main.m */; };
 		2A03AF4A1F555FA80088DBF4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A03AF491F555FA80088DBF4 /* AppDelegate.m */; };
-		2A03AF4D1F555FA80088DBF4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A03AF4C1F555FA80088DBF4 /* ViewController.m */; };
 		2A03AF501F555FA80088DBF4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2A03AF4E1F555FA80088DBF4 /* Main.storyboard */; };
 		2A03AF521F555FA80088DBF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A03AF511F555FA80088DBF4 /* Assets.xcassets */; };
 		2A03AF551F555FA80088DBF4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2A03AF531F555FA80088DBF4 /* LaunchScreen.storyboard */; };
@@ -19,6 +18,7 @@
 		2A05C4601F5D544100FC4D9A /* UIViewController+DMRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A05C45E1F5D544100FC4D9A /* UIViewController+DMRootViewController.m */; };
 		2A05C4631F5D545D00FC4D9A /* DMRootContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A05C4621F5D545D00FC4D9A /* DMRootContainerViewController.m */; };
 		2A27E0CF1F5E46EC00865644 /* DMTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A27E0CE1F5E46EC00865644 /* DMTools.m */; };
+		2A27E0D41F5E95C600865644 /* DMHttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A27E0D31F5E95C600865644 /* DMHttpClient.m */; };
 		2A5F86C61F5CEDDF00773ADD /* DMBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A5F86C51F5CEDDF00773ADD /* DMBaseViewController.m */; };
 		2AD2AB371F5D441D00EDA962 /* DMHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD2AB361F5D441D00EDA962 /* DMHomeViewController.m */; };
 		2AD2AB3B1F5D445E00EDA962 /* DMCourseListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD2AB3A1F5D445E00EDA962 /* DMCourseListViewController.m */; };
@@ -50,8 +50,6 @@
 		2A03AF461F555FA80088DBF4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2A03AF481F555FA80088DBF4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2A03AF491F555FA80088DBF4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		2A03AF4B1F555FA80088DBF4 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		2A03AF4C1F555FA80088DBF4 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		2A03AF4F1F555FA80088DBF4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2A03AF511F555FA80088DBF4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2A03AF541F555FA80088DBF4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -70,6 +68,8 @@
 		2A05C4621F5D545D00FC4D9A /* DMRootContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMRootContainerViewController.m; sourceTree = "<group>"; };
 		2A27E0CD1F5E46EC00865644 /* DMTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMTools.h; sourceTree = "<group>"; };
 		2A27E0CE1F5E46EC00865644 /* DMTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMTools.m; sourceTree = "<group>"; };
+		2A27E0D21F5E95C600865644 /* DMHttpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMHttpClient.h; sourceTree = "<group>"; };
+		2A27E0D31F5E95C600865644 /* DMHttpClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMHttpClient.m; sourceTree = "<group>"; };
 		2A5F86C41F5CEDDF00773ADD /* DMBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMBaseViewController.h; sourceTree = "<group>"; };
 		2A5F86C51F5CEDDF00773ADD /* DMBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMBaseViewController.m; sourceTree = "<group>"; };
 		2A5F86C71F5D260E00773ADD /* DiscoverMelody-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DiscoverMelody-Prefix.pch"; sourceTree = "<group>"; };
@@ -143,8 +143,6 @@
 				2A5F86C31F5CEDAD00773ADD /* Base */,
 				2A03AF481F555FA80088DBF4 /* AppDelegate.h */,
 				2A03AF491F555FA80088DBF4 /* AppDelegate.m */,
-				2A03AF4B1F555FA80088DBF4 /* ViewController.h */,
-				2A03AF4C1F555FA80088DBF4 /* ViewController.m */,
 				2A03AF4E1F555FA80088DBF4 /* Main.storyboard */,
 				2A03AF511F555FA80088DBF4 /* Assets.xcassets */,
 				2A03AF531F555FA80088DBF4 /* LaunchScreen.storyboard */,
@@ -215,6 +213,8 @@
 		2A27E0D11F5E914200865644 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				2A27E0D21F5E95C600865644 /* DMHttpClient.h */,
+				2A27E0D31F5E95C600865644 /* DMHttpClient.m */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -484,7 +484,6 @@
 			files = (
 				2A05C4631F5D545D00FC4D9A /* DMRootContainerViewController.m in Sources */,
 				2A5F86C61F5CEDDF00773ADD /* DMBaseViewController.m in Sources */,
-				2A03AF4D1F555FA80088DBF4 /* ViewController.m in Sources */,
 				2A03AF4A1F555FA80088DBF4 /* AppDelegate.m in Sources */,
 				2A05C45F1F5D544100FC4D9A /* DMRootViewController.m in Sources */,
 				2AD2AB3B1F5D445E00EDA962 /* DMCourseListViewController.m in Sources */,
@@ -492,6 +491,7 @@
 				2A05C4601F5D544100FC4D9A /* UIViewController+DMRootViewController.m in Sources */,
 				2AD2AB3F1F5D47FD00EDA962 /* DMCustomerServiceViewController.m in Sources */,
 				2AD2AB371F5D441D00EDA962 /* DMHomeViewController.m in Sources */,
+				2A27E0D41F5E95C600865644 /* DMHttpClient.m in Sources */,
 				2AD2AB431F5D492700EDA962 /* DMMenuViewController.m in Sources */,
 				2A03AF471F555FA80088DBF4 /* main.m in Sources */,
 			);
