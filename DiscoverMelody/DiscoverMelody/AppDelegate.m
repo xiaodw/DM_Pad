@@ -1,4 +1,5 @@
-//
+
+ //
 //  AppDelegate.m
 //  DiscoverMelody
 //
@@ -7,6 +8,7 @@
 //
 
 #import "AppDelegate.h"
+#import "DMRootViewController.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +19,21 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+    self.window.backgroundColor = [UIColor whiteColor];
+    
+    DMHomeViewController *homeVC = [[DMHomeViewController alloc] init];
+    DMCourseListViewController *clVC = [[DMCourseListViewController alloc] init];
+    DMCustomerServiceViewController *ssVC = [[DMCustomerServiceViewController alloc] init];
+    DMMenuViewController *menuVC = [[DMMenuViewController alloc] init];
+    
+    self.dmrVC = [[DMRootViewController alloc] initWithContentViewControllers:@[homeVC, clVC, ssVC] menuViewController:menuVC];
+    self.dmrVC.selectedIndex = 0;
+    self.dmrVC.oldSelectedIndex = 0;
+    self.window.rootViewController = self.dmrVC;
+    
+    [self.window makeKeyAndVisible];
+    
     return YES;
 }
 
