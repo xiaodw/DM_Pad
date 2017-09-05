@@ -1,0 +1,22 @@
+//
+//  DiscoverMelody-Prefix.pch
+//  DiscoverMelody
+//
+//  Created by Ares on 2017/9/4.
+//  Copyright © 2017年 Discover Melody. All rights reserved.
+//
+
+#ifndef DiscoverMelody_Prefix_pch
+#define DiscoverMelody_Prefix_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+#import "AppDelegate.h"
+#import "DMHomeViewController.h"
+#import "DMCourseListViewController.h"
+#import "DMCustomerServiceViewController.h"
+#import "DMMenuViewController.h"
+#import "DMRootViewController.h"
+#import "UIViewController+DMRootViewController.h"
+
+#endif /* DiscoverMelody_Prefix_pch */
