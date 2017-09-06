@@ -9,14 +9,26 @@
 #ifndef DiscoverMelody_Prefix_pch
 #define DiscoverMelody_Prefix_pch
 
+#define MAS_SHORTHAND
+#define MAS_SHORTHAND_GLOBALS
+
+#import <Masonry.h>
+
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+
+#import "DMConst.h"
+#import "DMMacros.h"
 #import "AppDelegate.h"
 #import "DMHomeViewController.h"
 #import "DMCourseListViewController.h"
 #import "DMCustomerServiceViewController.h"
 #import "DMMenuViewController.h"
 #import "DMRootViewController.h"
+
 #import "UIViewController+DMRootViewController.h"
+#import "UIColor+Hex.h"
+
 
 #endif /* DiscoverMelody_Prefix_pch */
