@@ -22,7 +22,7 @@
         [self setEdgesForExtendedLayout:UIRectEdgeNone];
     }
     [self.navigationController.navigationBar setBarTintColor:[UIColor blackColor]];
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor], NSFontAttributeName:[UIFont boldSystemFontOfSize:18]}];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor], NSFontAttributeName:DMFontPingFang_Medium(16)}];
     [self setNavigationbar];
 }
 
@@ -47,7 +47,7 @@
 - (void)setNavTitle:(NSString *)title {
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
     label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont boldSystemFontOfSize:24.0];
+    label.font = DMFontPingFang_Medium(16);//[UIFont boldSystemFontOfSize:24.0];
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor whiteColor];
     self.navigationItem.titleView = label;
