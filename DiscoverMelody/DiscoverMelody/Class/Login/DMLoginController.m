@@ -51,7 +51,7 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
     NSTimeInterval animationDuration;
     [animationDurationValue getValue:&animationDuration];
     
-    CGFloat loginButtonFrameBottom = [UIScreen mainScreen].bounds.size.height - _loginButton.frame.size.height - _loginButton.frame.origin.y;
+    CGFloat loginButtonFrameBottom = DMScreenHeight - _loginButton.dm_height - _loginButton.dm_y;
     
     if (loginButtonFrameBottom < kbSize.height) {
         CGFloat  offsetTop = kAccountTop - (kbSize.height - loginButtonFrameBottom + 10);
@@ -73,7 +73,7 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
     NSTimeInterval animationDuration;
     [animationDurationValue getValue:&animationDuration];
     
-    CGFloat accountTextFieldFrameY = _accountTextField.frame.origin.y;
+    CGFloat accountTextFieldFrameY = _accountTextField.dm_y;
     
     if (accountTextFieldFrameY < kAccountTop) {
         [_accountTextField updateConstraints:^(MASConstraintMaker *make) {

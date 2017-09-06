@@ -18,15 +18,23 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     
     DMHomeViewController *homeVC = [[DMHomeViewController alloc] init];
     DMCourseListViewController *clVC = [[DMCourseListViewController alloc] init];
     DMCustomerServiceViewController *ssVC = [[DMCustomerServiceViewController alloc] init];
+    UINavigationController *navHomeVC =
+    [[UINavigationController alloc] initWithRootViewController:homeVC];
+    UINavigationController *navClVC =
+    [[UINavigationController alloc] initWithRootViewController:clVC];
+    UINavigationController *navSsVC =
+    [[UINavigationController alloc] initWithRootViewController:ssVC];
+    
     DMMenuViewController *menuVC = [[DMMenuViewController alloc] init];
     
-    self.dmrVC = [[DMRootViewController alloc] initWithContentViewControllers:@[homeVC, clVC, ssVC] menuViewController:menuVC];
+    self.dmrVC = [[DMRootViewController alloc] initWithContentViewControllers:@[navHomeVC, navClVC, navSsVC] menuViewController:menuVC];
     self.dmrVC.selectedIndex = 0;
     self.dmrVC.oldSelectedIndex = 0;
     
