@@ -29,6 +29,7 @@
 
 #import "UIViewController+DMRootViewController.h"
 #import "UIColor+Hex.h"
+#import "UIView+Frame.h"
 
 
 #endif /* DiscoverMelody_Prefix_pch */

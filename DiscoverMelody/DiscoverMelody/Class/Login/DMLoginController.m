@@ -2,6 +2,9 @@
 
 #import "DMLoginTextField.h"
 
+const CGFloat kLogoTop = 183;
+const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
+
 @interface DMLoginController () <UITextFieldDelegate>
 
 @property (strong, nonatomic) UIImageView *backgroundImageView;
@@ -18,10 +21,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSLocale *locale = [NSLocale currentLocale];
-    NSString *displayName = [locale objectForKey:NSLocaleCountryCode];
-    NSLog(@"%@", displayName);
-    
     [self setupMakeAddSubviews];
     [self setupMakeLayoutSubviews];
     
@@ -30,19 +29,19 @@
 
 - (void)registerForKeyboardNotifications {
     // 使用NSNotificationCenter 键盘显示
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWasShown:)
-                                                 name:UIKeyboardWillShowNotification object:nil];
+    [DMNotificationCenter addObserver:self
+                             selector:@selector(keyboardWasShown:)
+                                 name:UIKeyboardWillShowNotification object:nil];
     // 使用NSNotificationCenter 键盘隐藏
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillBeHidden:)
-                                                 name:UIKeyboardWillHideNotification object:nil];
+    [DMNotificationCenter addObserver:self
+                             selector:@selector(keyboardWillBeHidden:)
+                                 name:UIKeyboardWillHideNotification object:nil];
 }
 
 // 实现当键盘出现的时候计算键盘的高度大小。用于输入框显示位置
 - (void)keyboardWasShown:(NSNotification*)aNotification {
     [self.logoImageView updateConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(-183);
+        make.top.equalTo(-kLogoTop);
     }];
     
     NSDictionary* info = [aNotification userInfo];
@@ -52,16 +51,16 @@
     NSTimeInterval animationDuration;
     [animationDurationValue getValue:&animationDuration];
     
-    CGFloat loginButtonFrameBottom = [UIScreen mainScreen].bounds.size.height - _loginButton.frame.size.height - _loginButton.frame.origin.y;
-    CGFloat offsetTop = 0;
+    CGFloat loginButtonFrameBottom = DMScreenHeight - _loginButton.dm_height - _loginButton.dm_y;
     
     if (loginButtonFrameBottom < kbSize.height) {
-        offsetTop = 437 - (kbSize.height - loginButtonFrameBottom + 10);
+        CGFloat  offsetTop = kAccountTop - (kbSize.height - loginButtonFrameBottom + 10);
         
         [_accountTextField updateConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(offsetTop);
         }];
     }
+    
     [UIView animateWithDuration:animationDuration animations:^{
         [self.view layoutIfNeeded];
     }];
@@ -74,17 +73,18 @@
     NSTimeInterval animationDuration;
     [animationDurationValue getValue:&animationDuration];
     
-    CGFloat accountTextFieldFrameY = _accountTextField.frame.origin.y;
+    CGFloat accountTextFieldFrameY = _accountTextField.dm_y;
     
-    if (accountTextFieldFrameY < 437) {
+    if (accountTextFieldFrameY < kAccountTop) {
         [_accountTextField updateConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(437);
+            make.top.equalTo(kAccountTop);
         }];
     }
     
     [self.logoImageView updateConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(183);
+        make.top.equalTo(kLogoTop);
     }];
+    
     [UIView animateWithDuration:animationDuration animations:^{
         [self.view layoutIfNeeded];
     }];
@@ -116,7 +116,7 @@
         return;
     }
     
-    [self touchesBegan:nil withEvent:nil];
+    [self touchesBegan:[NSSet set] withEvent:nil];
     NSLog(@"发送API{account: %@, pwd: %@}", accountString, pwdString);
 }
 
@@ -135,13 +135,13 @@
     }];
     
     [_logoImageView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(183);
+        make.top.equalTo(kLogoTop);
         make.centerX.equalTo(self.view);
         make.size.equalTo(CGSizeMake(178, 148));
     }];
     
     [_accountTextField makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(437);
+        make.top.equalTo(kAccountTop);
         make.centerX.equalTo(self.view);
         make.size.equalTo(CGSizeMake(265, 35));
     }];
@@ -180,6 +180,7 @@
     
     return _logoImageView;
 }
+
 - (DMLoginTextField *)accountTextField {
     if (!_accountTextField) {
         _accountTextField = [DMLoginTextField new];
@@ -207,7 +208,7 @@
         _loginButton.backgroundColor = [UIColor colorWithHexString:@"#F6087A"];
         _loginButton.layer.cornerRadius = 8;
         _loginButton.clipsToBounds = YES;
-        _loginButton.titleLabel.font = UIFontPingFang_Light(20);
+        _loginButton.titleLabel.font = DMFontPingFang_Light(20);
         [_loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_loginButton setTitle:@"登陆" forState:UIControlStateNormal];
         [_loginButton addTarget:self action:@selector(didTapLogin) forControlEvents:UIControlEventTouchUpInside];
@@ -219,14 +220,14 @@
 - (UILabel *)descriptionLabel {
     if (!_descriptionLabel) {
         _descriptionLabel = [UILabel new];
-        _descriptionLabel.font = UIFontPingFang_UltraLight(12);
+        _descriptionLabel.font = DMFontPingFang_UltraLight(12);
         _descriptionLabel.textColor = [UIColor colorWithHexString:@"#FFFFFF" ];
         
         NSString *urlString = @"www.DiscoverMelody.com";
         NSString *textString = [NSString stringWithFormat:@"此APP目前只提供给已购课的用户体验.未购课的用户请访问 %@ 了解更多信息", urlString];
         NSRange urlRange = [textString rangeOfString:urlString];
         NSMutableAttributedString *attributeString = [[NSMutableAttributedString alloc] initWithString:textString];
-        [attributeString setAttributes:@{NSFontAttributeName: UIFontPingFang_Light(12), NSForegroundColorAttributeName: [UIColor colorWithHexString:@"#F6087A"] } range:urlRange];
+        [attributeString setAttributes:@{NSFontAttributeName: DMFontPingFang_Light(12), NSForegroundColorAttributeName: [UIColor colorWithHexString:@"#F6087A"] } range:urlRange];
         _descriptionLabel.attributedText = attributeString;
     }
     

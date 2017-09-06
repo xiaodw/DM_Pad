@@ -31,6 +31,7 @@
 		51D2D55E1F5EBFE300764130 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D2D55D1F5EBFE300764130 /* UIColor+Hex.m */; };
 		51D2D5641F5EC00B00764130 /* DMLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D2D5611F5EC00B00764130 /* DMLoginController.m */; };
 		51D2D5651F5EC00B00764130 /* DMLoginTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D2D5631F5EC00B00764130 /* DMLoginTextField.m */; };
+		51D2D5681F5F999D00764130 /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D2D5671F5F999D00764130 /* UIView+Frame.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +103,8 @@
 		51D2D5611F5EC00B00764130 /* DMLoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMLoginController.m; sourceTree = "<group>"; };
 		51D2D5621F5EC00B00764130 /* DMLoginTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMLoginTextField.h; sourceTree = "<group>"; };
 		51D2D5631F5EC00B00764130 /* DMLoginTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMLoginTextField.m; sourceTree = "<group>"; };
+		51D2D5661F5F999D00764130 /* UIView+Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Frame.h"; sourceTree = "<group>"; };
+		51D2D5671F5F999D00764130 /* UIView+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Frame.m"; sourceTree = "<group>"; };
 		945FC02CD63525967FAFE213 /* libPods-DiscoverMelody.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DiscoverMelody.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -299,6 +302,8 @@
 			children = (
 				51D2D55C1F5EBFE300764130 /* UIColor+Hex.h */,
 				51D2D55D1F5EBFE300764130 /* UIColor+Hex.m */,
+				51D2D5661F5F999D00764130 /* UIView+Frame.h */,
+				51D2D5671F5F999D00764130 /* UIView+Frame.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -539,6 +544,7 @@
 				2AD2AB371F5D441D00EDA962 /* DMHomeViewController.m in Sources */,
 				2A27E0D41F5E95C600865644 /* DMHttpClient.m in Sources */,
 				51D2D55E1F5EBFE300764130 /* UIColor+Hex.m in Sources */,
+				51D2D5681F5F999D00764130 /* UIView+Frame.m in Sources */,
 				2AD2AB431F5D492700EDA962 /* DMMenuViewController.m in Sources */,
 				2A03AF471F555FA80088DBF4 /* main.m in Sources */,
 				2A4143891F5FF5F300E6B4E1 /* DMHomeView.m in Sources */,
