@@ -16,7 +16,6 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
@@ -30,6 +29,8 @@
     self.dmrVC = [[DMRootViewController alloc] initWithContentViewControllers:@[homeVC, clVC, ssVC] menuViewController:menuVC];
     self.dmrVC.selectedIndex = 0;
     self.dmrVC.oldSelectedIndex = 0;
+    
+    self.window.rootViewController = self.dmrVC;
     
     [self.window makeKeyAndVisible];
     
