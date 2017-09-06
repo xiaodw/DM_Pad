@@ -2,6 +2,9 @@
 
 #import "DMLoginTextField.h"
 
+const CGFloat kLogoTop = 183;
+const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
+
 @interface DMLoginController () <UITextFieldDelegate>
 
 @property (strong, nonatomic) UIImageView *backgroundImageView;
@@ -18,10 +21,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSLocale *locale = [NSLocale currentLocale];
-    NSString *displayName = [locale objectForKey:NSLocaleCountryCode];
-    NSLog(@"%@", displayName);
-    
     [self setupMakeAddSubviews];
     [self setupMakeLayoutSubviews];
     
@@ -30,19 +29,19 @@
 
 - (void)registerForKeyboardNotifications {
     // 使用NSNotificationCenter 键盘显示
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWasShown:)
-                                                 name:UIKeyboardWillShowNotification object:nil];
+    [DMNotificationCenter addObserver:self
+                             selector:@selector(keyboardWasShown:)
+                                 name:UIKeyboardWillShowNotification object:nil];
     // 使用NSNotificationCenter 键盘隐藏
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillBeHidden:)
-                                                 name:UIKeyboardWillHideNotification object:nil];
+    [DMNotificationCenter addObserver:self
+                             selector:@selector(keyboardWillBeHidden:)
+                                 name:UIKeyboardWillHideNotification object:nil];
 }
 
 // 实现当键盘出现的时候计算键盘的高度大小。用于输入框显示位置
 - (void)keyboardWasShown:(NSNotification*)aNotification {
     [self.logoImageView updateConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(-183);
+        make.top.equalTo(-kLogoTop);
     }];
     
     NSDictionary* info = [aNotification userInfo];
@@ -53,15 +52,15 @@
     [animationDurationValue getValue:&animationDuration];
     
     CGFloat loginButtonFrameBottom = [UIScreen mainScreen].bounds.size.height - _loginButton.frame.size.height - _loginButton.frame.origin.y;
-    CGFloat offsetTop = 0;
     
     if (loginButtonFrameBottom < kbSize.height) {
-        offsetTop = 437 - (kbSize.height - loginButtonFrameBottom + 10);
+        CGFloat  offsetTop = kAccountTop - (kbSize.height - loginButtonFrameBottom + 10);
         
         [_accountTextField updateConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(offsetTop);
         }];
     }
+    
     [UIView animateWithDuration:animationDuration animations:^{
         [self.view layoutIfNeeded];
     }];
@@ -76,15 +75,16 @@
     
     CGFloat accountTextFieldFrameY = _accountTextField.frame.origin.y;
     
-    if (accountTextFieldFrameY < 437) {
+    if (accountTextFieldFrameY < kAccountTop) {
         [_accountTextField updateConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(437);
+            make.top.equalTo(kAccountTop);
         }];
     }
     
     [self.logoImageView updateConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(183);
+        make.top.equalTo(kLogoTop);
     }];
+    
     [UIView animateWithDuration:animationDuration animations:^{
         [self.view layoutIfNeeded];
     }];
@@ -135,13 +135,13 @@
     }];
     
     [_logoImageView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(183);
+        make.top.equalTo(kLogoTop);
         make.centerX.equalTo(self.view);
         make.size.equalTo(CGSizeMake(178, 148));
     }];
     
     [_accountTextField makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(437);
+        make.top.equalTo(kAccountTop);
         make.centerX.equalTo(self.view);
         make.size.equalTo(CGSizeMake(265, 35));
     }];
@@ -180,6 +180,7 @@
     
     return _logoImageView;
 }
+
 - (DMLoginTextField *)accountTextField {
     if (!_accountTextField) {
         _accountTextField = [DMLoginTextField new];
