@@ -7,8 +7,9 @@
 //
 
 #import "DMHomeView.h"
+#import "DMHomeCell.h"
 
-@interface DMHomeView()
+@interface DMHomeView() <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UIView *topView;
 @property (nonatomic, strong) UITableView *bTableView;
 @property (nonatomic, strong) UIImageView *headImageView;
@@ -29,6 +30,56 @@
     return self;
 }
 
+#pragma mark -
+#pragma mark UITableView Delegate
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    cell.backgroundColor = [UIColor clearColor];
+    cell.textLabel.textColor = [UIColor colorWithRed:62/255.0f green:68/255.0f blue:75/255.0f alpha:1.0f];
+    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:17];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+}
+
+#pragma mark -
+#pragma mark UITableView Datasource
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 88;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex {
+    return 3;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *homeCell = @"homecell";
+    DMHomeCell *cell = [tableView dequeueReusableCellWithIdentifier:homeCell];
+    if (!cell) {
+        cell = [[DMHomeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:homeCell];
+    }
+    
+    if (indexPath.row == 0) {
+        cell.redView.hidden = NO;
+        cell.bottomView.layer.shadowOpacity = 0.2;
+    } else {
+        cell.redView.hidden = YES;
+        cell.bottomView.layer.shadowOpacity = 0;
+    }
+    
+    
+    return cell;
+}
+
+
 - (void)configSubViews {
     [self addSubview:self.topView];
     [self addSubview:self.bTableView];
@@ -44,6 +95,7 @@
         make.top.equalTo(_topView.mas_bottom).offset(0);
         make.centerX.equalTo(self);
         make.bottom.equalTo(self.mas_bottom).offset(0);
+        make.width.equalTo(self.frame.size.width);
     }];
 }
 
@@ -195,6 +247,15 @@
 - (UITableView *)bTableView {
     if (!_bTableView) {
         _bTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _bTableView.delegate = self;
+        _bTableView.dataSource = self;
+        _bTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _bTableView.backgroundColor = UIColorFromRGB(0xf6f6f6);
+        UIView *hV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 15)];
+        hV.backgroundColor = UIColorFromRGB(0xf6f6f6);
+        
+        _bTableView.tableHeaderView = hV;
+        
     }
     return _bTableView;
 }

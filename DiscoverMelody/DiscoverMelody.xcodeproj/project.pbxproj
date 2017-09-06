@@ -21,6 +21,7 @@
 		2A27E0D91F5EA65300865644 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2A27E0DB1F5EA65300865644 /* InfoPlist.strings */; };
 		2A4143891F5FF5F300E6B4E1 /* DMHomeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A4143881F5FF5F300E6B4E1 /* DMHomeView.m */; };
 		2A41438D1F6007DD00E6B4E1 /* timg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2A41438C1F6007DD00E6B4E1 /* timg.jpg */; };
+		2A4143901F600D6F00E6B4E1 /* DMHomeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A41438F1F600D6F00E6B4E1 /* DMHomeCell.m */; };
 		2A5F86C61F5CEDDF00773ADD /* DMBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A5F86C51F5CEDDF00773ADD /* DMBaseViewController.m */; };
 		2AD2AB371F5D441D00EDA962 /* DMHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD2AB361F5D441D00EDA962 /* DMHomeViewController.m */; };
 		2AD2AB3B1F5D445E00EDA962 /* DMCourseListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD2AB3A1F5D445E00EDA962 /* DMCourseListViewController.m */; };
@@ -82,6 +83,8 @@
 		2A4143871F5FF5F300E6B4E1 /* DMHomeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMHomeView.h; sourceTree = "<group>"; };
 		2A4143881F5FF5F300E6B4E1 /* DMHomeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMHomeView.m; sourceTree = "<group>"; };
 		2A41438C1F6007DD00E6B4E1 /* timg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = timg.jpg; sourceTree = "<group>"; };
+		2A41438E1F600D6F00E6B4E1 /* DMHomeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMHomeCell.h; sourceTree = "<group>"; };
+		2A41438F1F600D6F00E6B4E1 /* DMHomeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMHomeCell.m; sourceTree = "<group>"; };
 		2A5F86C41F5CEDDF00773ADD /* DMBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMBaseViewController.h; sourceTree = "<group>"; };
 		2A5F86C51F5CEDDF00773ADD /* DMBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMBaseViewController.m; sourceTree = "<group>"; };
 		2A5F86C71F5D260E00773ADD /* DiscoverMelody-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DiscoverMelody-Prefix.pch"; sourceTree = "<group>"; };
@@ -266,6 +269,8 @@
 				2AD2AB361F5D441D00EDA962 /* DMHomeViewController.m */,
 				2A4143871F5FF5F300E6B4E1 /* DMHomeView.h */,
 				2A4143881F5FF5F300E6B4E1 /* DMHomeView.m */,
+				2A41438E1F600D6F00E6B4E1 /* DMHomeCell.h */,
+				2A41438F1F600D6F00E6B4E1 /* DMHomeCell.m */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -531,6 +536,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				51D2D5651F5EC00B00764130 /* DMLoginTextField.m in Sources */,
+				2A4143901F600D6F00E6B4E1 /* DMHomeCell.m in Sources */,
 				2A05C4631F5D545D00FC4D9A /* DMRootContainerViewController.m in Sources */,
 				51D2D54D1F5EA73C00764130 /* DMConst.m in Sources */,
 				2A5F86C61F5CEDDF00773ADD /* DMBaseViewController.m in Sources */,
