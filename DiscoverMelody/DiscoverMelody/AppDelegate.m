@@ -30,7 +30,6 @@
     self.dmrVC = [[DMRootViewController alloc] initWithContentViewControllers:@[homeVC, clVC, ssVC] menuViewController:menuVC];
     self.dmrVC.selectedIndex = 0;
     self.dmrVC.oldSelectedIndex = 0;
-    self.window.rootViewController = self.dmrVC;
     
     [self.window makeKeyAndVisible];
     
