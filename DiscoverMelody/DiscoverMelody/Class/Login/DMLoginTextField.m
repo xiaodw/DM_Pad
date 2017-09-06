@@ -87,7 +87,7 @@
 - (UITextField *)textField {
     if (!_textField) {
         _textField = [UITextField new];
-        _textField.font = UIFontPingFang_Light(12);
+        _textField.font = DMFontPingFang_Light(12);
         _textField.textColor = [UIColor colorWithHexString:@"#FFFFFF" alpha:0.6];
         _textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         _textField.clearButtonMode = UITextFieldViewModeWhileEditing;

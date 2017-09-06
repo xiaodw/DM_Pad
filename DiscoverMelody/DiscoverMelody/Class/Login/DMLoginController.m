@@ -116,7 +116,7 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
         return;
     }
     
-    [self touchesBegan:nil withEvent:nil];
+    [self touchesBegan:[NSSet set] withEvent:nil];
     NSLog(@"发送API{account: %@, pwd: %@}", accountString, pwdString);
 }
 
@@ -208,7 +208,7 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
         _loginButton.backgroundColor = [UIColor colorWithHexString:@"#F6087A"];
         _loginButton.layer.cornerRadius = 8;
         _loginButton.clipsToBounds = YES;
-        _loginButton.titleLabel.font = UIFontPingFang_Light(20);
+        _loginButton.titleLabel.font = DMFontPingFang_Light(20);
         [_loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_loginButton setTitle:@"登陆" forState:UIControlStateNormal];
         [_loginButton addTarget:self action:@selector(didTapLogin) forControlEvents:UIControlEventTouchUpInside];
@@ -220,14 +220,14 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
 - (UILabel *)descriptionLabel {
     if (!_descriptionLabel) {
         _descriptionLabel = [UILabel new];
-        _descriptionLabel.font = UIFontPingFang_UltraLight(12);
+        _descriptionLabel.font = DMFontPingFang_UltraLight(12);
         _descriptionLabel.textColor = [UIColor colorWithHexString:@"#FFFFFF" ];
         
         NSString *urlString = @"www.DiscoverMelody.com";
         NSString *textString = [NSString stringWithFormat:@"此APP目前只提供给已购课的用户体验.未购课的用户请访问 %@ 了解更多信息", urlString];
         NSRange urlRange = [textString rangeOfString:urlString];
         NSMutableAttributedString *attributeString = [[NSMutableAttributedString alloc] initWithString:textString];
-        [attributeString setAttributes:@{NSFontAttributeName: UIFontPingFang_Light(12), NSForegroundColorAttributeName: [UIColor colorWithHexString:@"#F6087A"] } range:urlRange];
+        [attributeString setAttributes:@{NSFontAttributeName: DMFontPingFang_Light(12), NSForegroundColorAttributeName: [UIColor colorWithHexString:@"#F6087A"] } range:urlRange];
         _descriptionLabel.attributedText = attributeString;
     }
     
