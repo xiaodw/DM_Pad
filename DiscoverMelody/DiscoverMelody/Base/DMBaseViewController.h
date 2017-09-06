@@ -10,5 +10,6 @@
 
 @interface DMBaseViewController : UIViewController
 - (void)setNavTitle:(NSString *)title;
+- (void)setNavigationBarTransparence;
 - (void)clickMenuBtn:(id)sender;
 @end
