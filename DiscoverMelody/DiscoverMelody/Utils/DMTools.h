@@ -9,5 +9,9 @@
 #import <Foundation/Foundation.h>
 
 @interface DMTools : NSObject
-
+/*
+ * 是否包含某个字体
+ */
++ (BOOL)isHaveFont:(NSString *)postScriptName;
+    
 @end

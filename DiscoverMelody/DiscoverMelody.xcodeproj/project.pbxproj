@@ -568,18 +568,7 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-<<<<<<< HEAD
-		2A03AF4E1F555FA80088DBF4 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2A03AF4F1F555FA80088DBF4 /* Base */,
-				2A27E0D51F5E9E8900865644 /* zh-Hans */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-=======
->>>>>>> 572a77ce1c3bcdfea58918b54187b4b4938026cc
+
 		2A03AF531F555FA80088DBF4 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
