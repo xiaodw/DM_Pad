@@ -4,3 +4,6 @@
 
 #pragma mark - Other
 #define DMNotificationCenter [NSNotificationCenter defaultCenter]
+
+#define DMScreenHeight [UIScreen mainScreen].bounds.size.height 
+#define DMScreenWidth [UIScreen mainScreen].bounds.size.width
