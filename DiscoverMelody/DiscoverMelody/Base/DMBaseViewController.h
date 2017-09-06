@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface DMBaseViewController : UIViewController
-- (void)setNavTitle:(NSString *)title;
+//- (void)setNavTitle:(NSString *)title;
 - (void)setNavigationBarTransparence;
 - (void)clickMenuBtn:(id)sender;
 @end

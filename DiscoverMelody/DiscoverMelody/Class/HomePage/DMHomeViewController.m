@@ -22,8 +22,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self setNavTitle:@"个人主页"];
+    //[self setNavTitle:@"个人主页"];
+    self.title = @"个人主页";
     [self setNavigationBarTransparence];
+    self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.homeView];
 }
 
