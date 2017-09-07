@@ -38,6 +38,9 @@
 		51D2D5D21F60DDED00764130 /* UIColor+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D2D5D11F60DDED00764130 /* UIColor+Extension.m */; };
 		51D2D5D51F60E06800764130 /* DMCourseListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D2D5D41F60E06800764130 /* DMCourseListController.m */; };
 		51D2D5D81F60E2B700764130 /* DMCourseListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D2D5D71F60E2B700764130 /* DMCourseListCell.m */; };
+		51D2D5DE1F6123DE00764130 /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D2D5DD1F6123DE00764130 /* NSString+Extension.m */; };
+		51D2D62E1F613B0900764130 /* DMButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D2D62C1F613B0900764130 /* DMButton.m */; };
+		51D2D6311F613E0800764130 /* DMCourseListHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D2D6301F613E0800764130 /* DMCourseListHeaderView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -124,6 +127,12 @@
 		51D2D5D41F60E06800764130 /* DMCourseListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCourseListController.m; sourceTree = "<group>"; };
 		51D2D5D61F60E2B700764130 /* DMCourseListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCourseListCell.h; sourceTree = "<group>"; };
 		51D2D5D71F60E2B700764130 /* DMCourseListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCourseListCell.m; sourceTree = "<group>"; };
+		51D2D5DC1F6123DE00764130 /* NSString+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Extension.h"; sourceTree = "<group>"; };
+		51D2D5DD1F6123DE00764130 /* NSString+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Extension.m"; sourceTree = "<group>"; };
+		51D2D62C1F613B0900764130 /* DMButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMButton.m; sourceTree = "<group>"; };
+		51D2D62D1F613B0900764130 /* DMButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMButton.h; sourceTree = "<group>"; };
+		51D2D62F1F613E0800764130 /* DMCourseListHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCourseListHeaderView.h; sourceTree = "<group>"; };
+		51D2D6301F613E0800764130 /* DMCourseListHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCourseListHeaderView.m; sourceTree = "<group>"; };
 		945FC02CD63525967FAFE213 /* libPods-DiscoverMelody.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DiscoverMelody.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -178,6 +187,7 @@
 		2A03AF441F555FA80088DBF4 /* DiscoverMelody */ = {
 			isa = PBXGroup;
 			children = (
+				51D2D62B1F613ACA00764130 /* Common */,
 				51D2D55B1F5EBFDD00764130 /* Categories */,
 				2A27E0D11F5E914200865644 /* Network */,
 				2A497EB51F5E46B9009DEFF4 /* Utils */,
@@ -305,6 +315,8 @@
 				51D2D5D41F60E06800764130 /* DMCourseListController.m */,
 				51D2D5D61F60E2B700764130 /* DMCourseListCell.h */,
 				51D2D5D71F60E2B700764130 /* DMCourseListCell.m */,
+				51D2D62F1F613E0800764130 /* DMCourseListHeaderView.h */,
+				51D2D6301F613E0800764130 /* DMCourseListHeaderView.m */,
 			);
 			path = CourseList;
 			sourceTree = "<group>";
@@ -336,6 +348,8 @@
 				51D2D5671F5F999D00764130 /* UIView+Frame.m */,
 				51D2D5D01F60DDED00764130 /* UIColor+Extension.h */,
 				51D2D5D11F60DDED00764130 /* UIColor+Extension.m */,
+				51D2D5DC1F6123DE00764130 /* NSString+Extension.h */,
+				51D2D5DD1F6123DE00764130 /* NSString+Extension.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -349,6 +363,15 @@
 				51D2D5631F5EC00B00764130 /* DMLoginTextField.m */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		51D2D62B1F613ACA00764130 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				51D2D62D1F613B0900764130 /* DMButton.h */,
+				51D2D62C1F613B0900764130 /* DMButton.m */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 		68F3B91CEBABB74BAD9DF5AA /* Pods */ = {
@@ -567,12 +590,15 @@
 				2A05C4631F5D545D00FC4D9A /* DMRootContainerViewController.m in Sources */,
 				51D2D54D1F5EA73C00764130 /* DMConst.m in Sources */,
 				2A5F86C61F5CEDDF00773ADD /* DMBaseViewController.m in Sources */,
+				51D2D5DE1F6123DE00764130 /* NSString+Extension.m in Sources */,
 				2A03AF4A1F555FA80088DBF4 /* AppDelegate.m in Sources */,
+				51D2D62E1F613B0900764130 /* DMButton.m in Sources */,
 				2A05C45F1F5D544100FC4D9A /* DMRootViewController.m in Sources */,
 				51D2D5D21F60DDED00764130 /* UIColor+Extension.m in Sources */,
 				2A27E0CF1F5E46EC00865644 /* DMTools.m in Sources */,
 				51D2D5D81F60E2B700764130 /* DMCourseListCell.m in Sources */,
 				2A05C4601F5D544100FC4D9A /* UIViewController+DMRootViewController.m in Sources */,
+				51D2D6311F613E0800764130 /* DMCourseListHeaderView.m in Sources */,
 				51D2D5641F5EC00B00764130 /* DMLoginController.m in Sources */,
 				2AD2AB3F1F5D47FD00EDA962 /* DMCustomerServiceViewController.m in Sources */,
 				2A8782541F61438E004F9184 /* DMRequestModel.m in Sources */,
