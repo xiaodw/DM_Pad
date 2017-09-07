@@ -12,10 +12,4 @@
 //@property (nonatomic, copy) NSString *msg;
 //@property (nonatomic, assign) NSInteger code;
 //@property (nonatomic, copy) NSString *time;
-//@property (nonatomic, strong) NSMutableDictionary *data;
-@property (copy, nonatomic) NSString *name;
-@property (copy, nonatomic) NSString *icon;
-@property (assign, nonatomic) int age;
-@property (assign, nonatomic) double height;
-@property (strong, nonatomic) NSNumber *money;
 @end
