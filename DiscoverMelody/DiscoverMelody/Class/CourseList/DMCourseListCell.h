@@ -2,4 +2,6 @@
 
 @interface DMCourseListCell : UITableViewCell
 
+@property (strong, nonatomic) NSObject *model;
+
 @end
