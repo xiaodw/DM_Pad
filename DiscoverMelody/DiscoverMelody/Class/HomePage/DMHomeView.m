@@ -8,6 +8,7 @@
 
 #import "DMHomeView.h"
 #import "DMHomeCell.h"
+#import "UIImageView+WebCache.h"
 
 @interface DMHomeView() <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UIView *topView;
@@ -16,32 +17,41 @@
 @property (nonatomic, strong) UILabel *courseLabel; //课程名称
 @property (nonatomic, strong) UILabel *nameLabel;   //老师姓名
 @property (nonatomic, strong) UILabel *timeLabel;   //上课时间
+
+@property (nonatomic, strong) NSIndexPath *selectedIndexPath;
+
 @end
 
 @implementation DMHomeView
 
--(id)initWithFrame:(CGRect)frame delegate:(id<DMHomeVCDelegate>) delegate {
+- (id)initWithFrame:(CGRect)frame delegate:(id<DMHomeVCDelegate>) delegate {
     self = [super initWithFrame:frame];
     if (self) {
         self.delegate = delegate;
+        self.selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
         [self configSubViews];
         [self setupMakeLayoutSubviews];
+        [self updateTopViewInfo:nil];
     }
     return self;
 }
 
-#pragma mark -
-#pragma mark UITableView Delegate
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    cell.backgroundColor = [UIColor clearColor];
-    cell.textLabel.textColor = [UIColor colorWithRed:62/255.0f green:68/255.0f blue:75/255.0f alpha:1.0f];
-    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:17];
+- (void)updateTopViewInfo:(id)obj {
+    [_headImageView sd_setImageWithURL:nil placeholderImage:[UIImage imageNamed:@"timg.jpg"]];
+    _courseLabel.text = @"未来之星1v1--钢琴";
+    _nameLabel.text = @"郎郎";
+    _timeLabel.text = @"上课时间：9月8日 18:00";
 }
 
+#pragma mark -
+#pragma mark UITableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    self.selectedIndexPath = indexPath;
+    [tableView reloadData];
     
+    //更新topView数据
+    [self updateTopViewInfo:nil];
 }
 
 #pragma mark -
@@ -50,8 +60,7 @@
     return 88;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
@@ -59,26 +68,24 @@
     return 3;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *homeCell = @"homecell";
     DMHomeCell *cell = [tableView dequeueReusableCellWithIdentifier:homeCell];
     if (!cell) {
         cell = [[DMHomeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:homeCell];
     }
     
-    if (indexPath.row == 0) {
-        cell.redView.hidden = NO;
-        cell.bottomView.layer.shadowOpacity = 0.2;
+    if ([indexPath isEqual:self.selectedIndexPath]) {
+        [cell isSelectedCell:YES];
     } else {
-        cell.redView.hidden = YES;
-        cell.bottomView.layer.shadowOpacity = 0;
+        [cell isSelectedCell:NO];
     }
-    
+    cell.nameLabel.text = @"未来之星1v1-钢琴";
+    cell.timeLabel.text = @"上课时间：8月16日 10:00";
+    cell.statusLabel.text = @"未开始";
     
     return cell;
 }
-
 
 - (void)configSubViews {
     [self addSubview:self.topView];
@@ -171,7 +178,6 @@
         make.size.equalTo(CGSizeMake(330, 58));
     }];
     
-
 }
 
 - (void)configRightRegionView {
@@ -184,6 +190,7 @@
     cfLabel.text = @"本课文件";
     cfLabel.textAlignment = NSTextAlignmentCenter;
     cfLabel.textColor = [UIColor whiteColor];
+    cfLabel.font = DMFontPingFang_Medium(14);
     
     UIButton *crBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [crBtn setImage:[UIImage imageNamed:@"hp_enter_classroom"] forState:UIControlStateNormal];
@@ -193,6 +200,7 @@
     crLabel.text = @"进入课堂";
     crLabel.textAlignment = NSTextAlignmentCenter;
     crLabel.textColor = [UIColor whiteColor];
+    crLabel.font = DMFontPingFang_Medium(14);
     
     [_topView addSubview:cfBtn];
     [_topView addSubview:cfLabel];
@@ -263,7 +271,6 @@
 - (UIImageView *)headImageView {
     if (!_headImageView) {
         _headImageView = [[UIImageView alloc] init];
-        _headImageView.image = [UIImage imageNamed:@"timg.jpg"];
         _headImageView.layer.cornerRadius = 72/2;
         _headImageView.layer.masksToBounds = YES;
         _headImageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -274,9 +281,9 @@
 - (UILabel *)courseLabel {
     if (!_courseLabel) {
         _courseLabel = [[UILabel alloc] init];
-        _courseLabel.text = @"未来之星";
         _courseLabel.textAlignment = NSTextAlignmentCenter;
         _courseLabel.textColor = [UIColor whiteColor];
+        _courseLabel.font = DMFontPingFang_Medium(22);
     }
     return _courseLabel;
 }
@@ -284,9 +291,9 @@
 - (UILabel *)nameLabel {
     if (!_nameLabel) {
         _nameLabel = [[UILabel alloc] init];
-        _nameLabel.text = @"狼";
         _nameLabel.textAlignment = NSTextAlignmentCenter;
         _nameLabel.textColor = [UIColor whiteColor];
+        _nameLabel.font = DMFontPingFang_Medium(18);
     }
     return _nameLabel;
 }
@@ -294,9 +301,9 @@
 - (UILabel *)timeLabel {
     if (!_timeLabel) {
         _timeLabel = [[UILabel alloc] init];
-        _timeLabel.text = @"上课时间：9月8日 18:00";
         _timeLabel.textAlignment = NSTextAlignmentCenter;
         _timeLabel.textColor = [UIColor whiteColor];
+        _timeLabel.font = DMFontPingFang_Medium(20);
         
         _timeLabel.layer.cornerRadius = 5;
         //_timeLabel.layer.borderColor = [UIColor whiteColor].CGColor;

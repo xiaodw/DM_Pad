@@ -10,8 +10,8 @@
 #import "DMRootContainerViewController.h"
 #import "UIViewController+DMRootViewController.h"
 #import "DMHomeView.h"
+#import "DMHomeDataModel.h"
 @interface DMHomeViewController () <DMHomeVCDelegate>
-
 
 @property (nonatomic, strong) DMHomeView *homeView;
 
@@ -27,6 +27,14 @@
     [self setNavigationBarTransparence];
     self.view.backgroundColor = UIColorFromRGB(0xf6f6f6);
     [self.view addSubview:self.homeView];
+    [self getDataFromServer];
+}
+
+//获取首页数据
+- (void)getDataFromServer {
+    [DMHomeDataModel getHomeCourseData:^(BOOL result, NSMutableArray *array) {
+        
+    }];
 }
 
 - (DMHomeView *)homeView {
