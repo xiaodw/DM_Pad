@@ -24,6 +24,9 @@
     self = [super init];
     if (self) {
         [self commonInit];
+        [self createVC];
+        self.selectedIndex = 0;
+        self.oldSelectedIndex = 0;
     }
     return self;
 }
@@ -37,15 +40,31 @@
     _automaticSize = YES;
 }
 
-- (id)initWithContentViewControllers:(NSMutableArray *)contentViewControllers
-                  menuViewController:(UIViewController *)menuViewController {
-    self = [self init];
-    if (self) {
-        _contentVCs = contentViewControllers;
-        _menuViewController = menuViewController;
-    }
-    return self;
+- (void)createVC {
+    DMHomeViewController *homeVC = [[DMHomeViewController alloc] init];
+    DMCourseListController *clVC = [[DMCourseListController alloc] init];
+    DMCustomerServiceViewController *ssVC = [[DMCustomerServiceViewController alloc] init];
+    UINavigationController *navHomeVC =
+    [[UINavigationController alloc] initWithRootViewController:homeVC];
+    UINavigationController *navClVC =
+    [[UINavigationController alloc] initWithRootViewController:clVC];
+    UINavigationController *navSsVC =
+    [[UINavigationController alloc] initWithRootViewController:ssVC];
+    
+    DMMenuViewController *menuVC = [[DMMenuViewController alloc] init];
+    _menuViewController = menuVC;
+    _contentVCs = [NSMutableArray arrayWithObjects:navHomeVC, navClVC, navSsVC, nil];
 }
+
+//- (id)initWithContentViewControllers:(NSMutableArray *)contentViewControllers
+//                  menuViewController:(UIViewController *)menuViewController {
+//    self = [self init];
+//    if (self) {
+//        _contentVCs = contentViewControllers;
+//        _menuViewController = menuViewController;
+//    }
+//    return self;
+//}
 
 
 - (void)viewDidLoad {

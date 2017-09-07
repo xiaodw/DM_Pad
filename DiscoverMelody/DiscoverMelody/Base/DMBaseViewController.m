@@ -16,7 +16,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    // Do any additional setup after loading the view.
+    self.view.backgroundColor = UIColorFromRGB(0xf6f6f6);
     self.automaticallyAdjustsScrollViewInsets = NO;
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)])
     {
