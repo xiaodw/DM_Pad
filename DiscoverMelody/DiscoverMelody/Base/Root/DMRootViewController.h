@@ -22,7 +22,7 @@
 @property (assign, nonatomic) NSInteger selectedIndex;
 @property (assign, nonatomic) NSInteger oldSelectedIndex;
 
-- (id)initWithContentViewControllers:(NSArray *)contentViewControllers menuViewController:(UIViewController *)menuViewController;
+//- (id)initWithContentViewControllers:(NSArray *)contentViewControllers menuViewController:(UIViewController *)menuViewController;
 - (void)presentMenuViewController;
 
 - (void)togglePage:(NSInteger)selected;
