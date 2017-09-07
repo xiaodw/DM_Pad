@@ -1,13 +1,13 @@
 //
-//  DMCourseListViewController.h
+//  DMCourseListController.h
 //  DiscoverMelody
 //
-//  Created by Ares on 2017/9/4.
+//  Created by My mac on 2017/9/7.
 //  Copyright © 2017年 Discover Melody. All rights reserved.
 //
 
 #import "DMBaseViewController.h"
 
-@interface DMCourseListViewController : DMBaseViewController
+@interface DMCourseListController : DMBaseViewController
 
 @end
