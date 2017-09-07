@@ -26,3 +26,6 @@ blue:(((rgbValue) & 0xFF))/255.f alpha:1.0]
 
 #define DMScreenHeight [UIScreen mainScreen].bounds.size.height
 #define DMScreenWidth [UIScreen mainScreen].bounds.size.width
+
+#define OBJ_IS_NIL(s) (s==nil || [s isKindOfClass:[NSNull class]])
+#define STR_IS_NIL(key) (([@"<null>" isEqualToString:(key)] || [@"" isEqualToString:(key)] || key == nil || [key isKindOfClass:[NSNull class]]) ? 1: 0)
