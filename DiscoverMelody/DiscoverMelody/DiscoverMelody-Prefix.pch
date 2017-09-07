@@ -22,7 +22,7 @@
 #import "DMMacros.h"
 #import "AppDelegate.h"
 #import "DMHomeViewController.h"
-#import "DMCourseListViewController.h"
+#import "DMCourseListController.h"
 #import "DMCustomerServiceViewController.h"
 #import "DMMenuViewController.h"
 #import "DMRootViewController.h"
@@ -30,6 +30,7 @@
 #import "UIViewController+DMRootViewController.h"
 #import "UIColor+Hex.h"
 #import "UIView+Frame.h"
+#import "UIColor+Extension.h"
 
 
 #endif /* DiscoverMelody_Prefix_pch */

@@ -23,7 +23,7 @@
     self.window.backgroundColor = [UIColor whiteColor];
     
     DMHomeViewController *homeVC = [[DMHomeViewController alloc] init];
-    DMCourseListViewController *clVC = [[DMCourseListViewController alloc] init];
+    DMCourseListController *clVC = [[DMCourseListController alloc] init];
     DMCustomerServiceViewController *ssVC = [[DMCustomerServiceViewController alloc] init];
     UINavigationController *navHomeVC =
     [[UINavigationController alloc] initWithRootViewController:homeVC];
