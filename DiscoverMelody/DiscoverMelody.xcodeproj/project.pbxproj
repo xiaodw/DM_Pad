@@ -23,9 +23,11 @@
 		2A41438D1F6007DD00E6B4E1 /* timg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2A41438C1F6007DD00E6B4E1 /* timg.jpg */; };
 		2A4143901F600D6F00E6B4E1 /* DMHomeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A41438F1F600D6F00E6B4E1 /* DMHomeCell.m */; };
 		2A45F9701F60F6D50077CBA5 /* DMHomeDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A45F96F1F60F6D50077CBA5 /* DMHomeDataModel.m */; };
+		2A47AFBB1F626A14003A90DA /* DMMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A47AFBA1F626A14003A90DA /* DMMenuCell.m */; };
 		2A5F86C61F5CEDDF00773ADD /* DMBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A5F86C51F5CEDDF00773ADD /* DMBaseViewController.m */; };
 		2A8782541F61438E004F9184 /* DMRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A8782531F61438E004F9184 /* DMRequestModel.m */; };
 		2AC06F041F622DD2009F9BFA /* timg1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2AC06F031F622DD2009F9BFA /* timg1.jpg */; };
+		2AC06F071F6247AA009F9BFA /* DMMenuHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AC06F061F6247AA009F9BFA /* DMMenuHeadView.m */; };
 		2AD2AB371F5D441D00EDA962 /* DMHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD2AB361F5D441D00EDA962 /* DMHomeViewController.m */; };
 		2AD2AB3F1F5D47FD00EDA962 /* DMCustomerServiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD2AB3E1F5D47FD00EDA962 /* DMCustomerServiceViewController.m */; };
 		2AD2AB431F5D492700EDA962 /* DMMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD2AB421F5D492700EDA962 /* DMMenuViewController.m */; };
@@ -99,6 +101,8 @@
 		2A41438F1F600D6F00E6B4E1 /* DMHomeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMHomeCell.m; sourceTree = "<group>"; };
 		2A45F96E1F60F6D50077CBA5 /* DMHomeDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMHomeDataModel.h; sourceTree = "<group>"; };
 		2A45F96F1F60F6D50077CBA5 /* DMHomeDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMHomeDataModel.m; sourceTree = "<group>"; };
+		2A47AFB91F626A14003A90DA /* DMMenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMMenuCell.h; sourceTree = "<group>"; };
+		2A47AFBA1F626A14003A90DA /* DMMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMMenuCell.m; sourceTree = "<group>"; };
 		2A5F86C41F5CEDDF00773ADD /* DMBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMBaseViewController.h; sourceTree = "<group>"; };
 		2A5F86C51F5CEDDF00773ADD /* DMBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMBaseViewController.m; sourceTree = "<group>"; };
 		2A5F86C71F5D260E00773ADD /* DiscoverMelody-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DiscoverMelody-Prefix.pch"; sourceTree = "<group>"; };
@@ -106,6 +110,8 @@
 		2A8782521F61438E004F9184 /* DMRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMRequestModel.h; sourceTree = "<group>"; };
 		2A8782531F61438E004F9184 /* DMRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMRequestModel.m; sourceTree = "<group>"; };
 		2AC06F031F622DD2009F9BFA /* timg1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = timg1.jpg; sourceTree = "<group>"; };
+		2AC06F051F6247AA009F9BFA /* DMMenuHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMMenuHeadView.h; sourceTree = "<group>"; };
+		2AC06F061F6247AA009F9BFA /* DMMenuHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMMenuHeadView.m; sourceTree = "<group>"; };
 		2AD2AB351F5D441D00EDA962 /* DMHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMHomeViewController.h; sourceTree = "<group>"; };
 		2AD2AB361F5D441D00EDA962 /* DMHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMHomeViewController.m; sourceTree = "<group>"; };
 		2AD2AB3D1F5D47FD00EDA962 /* DMCustomerServiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCustomerServiceViewController.h; sourceTree = "<group>"; };
@@ -350,6 +356,10 @@
 			children = (
 				2AD2AB411F5D492700EDA962 /* DMMenuViewController.h */,
 				2AD2AB421F5D492700EDA962 /* DMMenuViewController.m */,
+				2AC06F051F6247AA009F9BFA /* DMMenuHeadView.h */,
+				2AC06F061F6247AA009F9BFA /* DMMenuHeadView.m */,
+				2A47AFB91F626A14003A90DA /* DMMenuCell.h */,
+				2A47AFBA1F626A14003A90DA /* DMMenuCell.m */,
 			);
 			path = SliderMenu;
 			sourceTree = "<group>";
@@ -638,9 +648,11 @@
 				51D2D5681F5F999D00764130 /* UIView+Frame.m in Sources */,
 				2AF695291F6149070078DC71 /* DMBaseDataModel.m in Sources */,
 				51D2D5D51F60E06800764130 /* DMCourseListController.m in Sources */,
+				2A47AFBB1F626A14003A90DA /* DMMenuCell.m in Sources */,
 				2AD2AB431F5D492700EDA962 /* DMMenuViewController.m in Sources */,
 				51B471481F62760E004FACC8 /* DMLiveButtonControlView.m in Sources */,
 				2A03AF471F555FA80088DBF4 /* main.m in Sources */,
+				2AC06F071F6247AA009F9BFA /* DMMenuHeadView.m in Sources */,
 				51B471391F62506D004FACC8 /* DMLiveController.m in Sources */,
 				2A4143891F5FF5F300E6B4E1 /* DMHomeView.m in Sources */,
 			);

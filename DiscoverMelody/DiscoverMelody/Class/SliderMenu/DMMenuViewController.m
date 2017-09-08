@@ -7,9 +7,14 @@
 //
 
 #import "DMMenuViewController.h"
+#import "DMMenuHeadView.h"
+#import "DMMenuCell.h"
 
 @interface DMMenuViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) DMMenuHeadView *headView;
+@property (nonatomic, strong) NSArray *items;
+@property (nonatomic, strong) NSArray *imageItems;
 @end
 
 @implementation DMMenuViewController
@@ -17,105 +22,94 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.view.backgroundColor = [UIColor orangeColor];
-    
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(20, 100, 50, 50);
-    [btn setTitle:@"主页" forState:UIControlStateNormal];
-    [btn addTarget:self action:@selector(clickHome) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:btn];
-    
-    UIButton *btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn1.frame = CGRectMake(20, 170, 50, 50);
-    [btn1 setTitle:@"课表" forState:UIControlStateNormal];
-    [btn1 addTarget:self action:@selector(clickL) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:btn1];
-    
-    UIButton *btn2 = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn2.frame = CGRectMake(20, 240, 50, 50);
-    [btn2 setTitle:@"客服" forState:UIControlStateNormal];
-    [btn2 addTarget:self action:@selector(clickC) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:btn2];
-    
-//    
-//    self.tableView.separatorColor = [UIColor colorWithRed:150/255.0f green:161/255.0f blue:177/255.0f alpha:1.0f];
-//    self.tableView.delegate = self;
-//    self.tableView.dataSource = self;
-//    self.tableView.opaque = NO;
-//    self.tableView.backgroundColor = [UIColor clearColor];
-//    [self.view addSubview:self.tableView];
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.items = [NSArray arrayWithObjects:@"个人主页", @"课程列表", @"联系客服", nil];
+    self.imageItems = [NSArray arrayWithObjects:@"home_icon", @"course_icon", @"customer_icon", nil];
+    [self loadUI];
+    [self updateUserInfo];
 }
 
-- (void)clickHome {
-    NSLog(@"主页");
-    [self.dmRootViewController togglePage:0];
+- (void)updateUserInfo {
+    [self.headView.headImageView sd_setImageWithURL:nil placeholderImage:DMPlaceholderImageDefault];
+    self.headView.nameLabel.text = @"用户姓名";
 }
 
-- (void)clickL {
-    NSLog(@"课表");
-    [self.dmRootViewController togglePage:1];
-}
+- (void)clickLoginOut:(id)sender {
 
-- (void)clickC {
-    NSLog(@"客服");
-    [self.dmRootViewController togglePage:2];
 }
 
 #pragma mark -
 #pragma mark UITableView Delegate
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    cell.backgroundColor = [UIColor clearColor];
-    cell.textLabel.textColor = [UIColor colorWithRed:62/255.0f green:68/255.0f blue:75/255.0f alpha:1.0f];
-    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:17];
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
+    [self.dmRootViewController togglePage:indexPath.row]; //0 主页 ，1 课表，2 客服
 }
 
 #pragma mark -
 #pragma mark UITableView Datasource
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 54;
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 130;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex {
-    return 3;
+    return self.items.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *cellIdentifier = @"Cell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *cellIdentifier = @"menuCell";
+    DMMenuCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        cell = [[DMMenuCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
-    NSArray *titles = @[@"个人主页", @"客服列表", @"联系客服"];
-    cell.textLabel.text = titles[indexPath.row];
-    
+    [cell configObj:[_items objectAtIndex:indexPath.row] imageName:[_imageItems objectAtIndex:indexPath.row]];
     return cell;
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)loadUI {
+    
+    UIButton *loginOutBtn = [self loadLoginOutView];
+    [self.view addSubview:loginOutBtn];
+    
+    self.headView = [[DMMenuHeadView alloc] initWithFrame:CGRectMake(0, 0, 150, 193)];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+    _tableView.backgroundColor = [UIColor whiteColor];
+    _tableView.tableHeaderView = self.headView;
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    _tableView.scrollEnabled =NO;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.view addSubview:self.tableView];
+    
+    [loginOutBtn makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(self.view);
+        make.bottom.equalTo(self.view.mas_bottom).offset(-20);
+        make.height.equalTo(34);
+    }];
+    
+    [_tableView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.equalTo(self.view);
+        make.width.equalTo(150);
+        make.bottom.equalTo(loginOutBtn.mas_top).offset(0);
+    }];
 }
-*/
+
+- (UIButton *)loadLoginOutView {
+    UIButton *loginOut = [UIButton buttonWithType:UIButtonTypeCustom];
+    [loginOut setTitle:@"退出登录" forState:UIControlStateNormal];
+    [loginOut setTitleColor:DMColorWithRGBA(51, 51, 51, 1) forState:UIControlStateNormal];
+    [loginOut.titleLabel setFont:DMFontPingFang_Light(14)];
+    [loginOut setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+    
+    [loginOut addTarget:self action:@selector(clickLoginOut:) forControlEvents:UIControlEventTouchUpInside];
+    return loginOut;
+}
 
 @end
+
+
+
