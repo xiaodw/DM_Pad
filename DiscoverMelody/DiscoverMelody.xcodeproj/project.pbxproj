@@ -205,6 +205,7 @@
 		2A03AF441F555FA80088DBF4 /* DiscoverMelody */ = {
 			isa = PBXGroup;
 			children = (
+				2A4FB8831F628E1200CD670D /* Vendors */,
 				51D2D62B1F613ACA00764130 /* Common */,
 				51D2D55B1F5EBFDD00764130 /* Categories */,
 				2A27E0D11F5E914200865644 /* Network */,
@@ -297,6 +298,21 @@
 				2A27E0CE1F5E46EC00865644 /* DMTools.m */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		2A4FB8831F628E1200CD670D /* Vendors */ = {
+			isa = PBXGroup;
+			children = (
+				2A4FB8841F628E7A00CD670D /* LiveVideo */,
+			);
+			path = Vendors;
+			sourceTree = "<group>";
+		};
+		2A4FB8841F628E7A00CD670D /* LiveVideo */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = LiveVideo;
 			sourceTree = "<group>";
 		};
 		2A5F86C31F5CEDAD00773ADD /* Base */ = {
