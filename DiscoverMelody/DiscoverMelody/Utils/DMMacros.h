@@ -42,6 +42,7 @@ blue:(((rgbValue) & 0xFF))/255.f alpha:1.0]
 #define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
 #define DMNotificationCenter [NSNotificationCenter defaultCenter]
 
+#define DMPlaceholderImageDefault [UIImage imageNamed:@"timg.jpg"] //设计出来之后，替换此处
 
 #define OBJ_IS_NIL(s) (s==nil || [s isKindOfClass:[NSNull class]])
 #define STR_IS_NIL(key) (([@"<null>" isEqualToString:(key)] || [@"" isEqualToString:(key)] || key == nil || [key isKindOfClass:[NSNull class]]) ? 1: 0)

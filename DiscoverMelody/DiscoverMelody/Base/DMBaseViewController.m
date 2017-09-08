@@ -70,7 +70,7 @@
 
 - (void)updateUserInfo {
     
-    [self.headImageView sd_setImageWithURL:nil placeholderImage:[UIImage imageNamed:@"timg.jpg"]];
+    [self.headImageView sd_setImageWithURL:nil placeholderImage:DMPlaceholderImageDefault];
     
     NSString *identityString = [self getIdentityType:@"学生"];
     NSString *userString = [NSString stringWithFormat:@"%@%@", @"用户名", identityString];

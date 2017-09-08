@@ -8,9 +8,11 @@
 
 #import "DMHomeViewController.h"
 #import "DMRootContainerViewController.h"
+#import "DMLiveController.h"
 #import "UIViewController+DMRootViewController.h"
 #import "DMHomeView.h"
 #import "DMHomeDataModel.h"
+
 @interface DMHomeViewController () <DMHomeVCDelegate>
 
 @property (nonatomic, strong) DMHomeView *homeView;
@@ -53,6 +55,9 @@
 - (void)clickClassRoom {
     
     NSLog(@"进入课堂");
+    
+    DMLiveController *liveVC = [DMLiveController new];
+    [self.navigationController pushViewController:liveVC animated:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
