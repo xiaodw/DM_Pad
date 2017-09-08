@@ -62,7 +62,7 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
     }
     
     [UIView animateWithDuration:animationDuration animations:^{
-        [self.view layoutIfNeeded];
+        [self.view layoutSubviews];
     }];
 }
 
@@ -86,7 +86,7 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
     }];
     
     [UIView animateWithDuration:animationDuration animations:^{
-        [self.view layoutIfNeeded];
+        [self.view layoutSubviews];
     }];
 }
 
