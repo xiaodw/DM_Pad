@@ -51,7 +51,7 @@
 
 - (UILabel *)createLabel:(NSTextAlignment)ali {
     UILabel *label = [[UILabel alloc] init];
-    label.textColor = UIColorFromRGB(0x000333);
+    label.textColor = UIColorFromRGB(0x333333);
     label.font = DMFontPingFang_UltraLight(16);
     label.textAlignment = ali;
     return label;
@@ -60,7 +60,7 @@
 - (void)isSelectedCell:(BOOL)isSelected {
     self.redView.hidden = YES;
     self.bottomView.layer.shadowOpacity = 0;
-    UIColor *color = UIColorFromRGB(0x000333);
+    UIColor *color = UIColorFromRGB(0x333333);
     UIFont *font = DMFontPingFang_UltraLight(16);
     if (isSelected) {
         color = UIColorFromRGB(0xf6087a);

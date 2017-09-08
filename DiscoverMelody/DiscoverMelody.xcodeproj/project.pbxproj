@@ -24,9 +24,11 @@
 		2A4143901F600D6F00E6B4E1 /* DMHomeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A41438F1F600D6F00E6B4E1 /* DMHomeCell.m */; };
 		2A45F9701F60F6D50077CBA5 /* DMHomeDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A45F96F1F60F6D50077CBA5 /* DMHomeDataModel.m */; };
 		2A5F86C61F5CEDDF00773ADD /* DMBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A5F86C51F5CEDDF00773ADD /* DMBaseViewController.m */; };
+		2A8782541F61438E004F9184 /* DMRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A8782531F61438E004F9184 /* DMRequestModel.m */; };
 		2AD2AB371F5D441D00EDA962 /* DMHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD2AB361F5D441D00EDA962 /* DMHomeViewController.m */; };
 		2AD2AB3F1F5D47FD00EDA962 /* DMCustomerServiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD2AB3E1F5D47FD00EDA962 /* DMCustomerServiceViewController.m */; };
 		2AD2AB431F5D492700EDA962 /* DMMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD2AB421F5D492700EDA962 /* DMMenuViewController.m */; };
+		2AF695291F6149070078DC71 /* DMBaseDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF695281F6149070078DC71 /* DMBaseDataModel.m */; };
 		38CCB4B7CD85FDAEFE84B1D3 /* libPods-DiscoverMelody.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 945FC02CD63525967FAFE213 /* libPods-DiscoverMelody.a */; };
 		51D2D54D1F5EA73C00764130 /* DMConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D2D54C1F5EA73C00764130 /* DMConst.m */; };
 		51D2D55E1F5EBFE300764130 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D2D55D1F5EBFE300764130 /* UIColor+Hex.m */; };
@@ -96,12 +98,17 @@
 		2A5F86C41F5CEDDF00773ADD /* DMBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMBaseViewController.h; sourceTree = "<group>"; };
 		2A5F86C51F5CEDDF00773ADD /* DMBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMBaseViewController.m; sourceTree = "<group>"; };
 		2A5F86C71F5D260E00773ADD /* DiscoverMelody-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DiscoverMelody-Prefix.pch"; sourceTree = "<group>"; };
+		2A87824C1F613006004F9184 /* DMNetConntectDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMNetConntectDefine.h; sourceTree = "<group>"; };
+		2A8782521F61438E004F9184 /* DMRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMRequestModel.h; sourceTree = "<group>"; };
+		2A8782531F61438E004F9184 /* DMRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMRequestModel.m; sourceTree = "<group>"; };
 		2AD2AB351F5D441D00EDA962 /* DMHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMHomeViewController.h; sourceTree = "<group>"; };
 		2AD2AB361F5D441D00EDA962 /* DMHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMHomeViewController.m; sourceTree = "<group>"; };
 		2AD2AB3D1F5D47FD00EDA962 /* DMCustomerServiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCustomerServiceViewController.h; sourceTree = "<group>"; };
 		2AD2AB3E1F5D47FD00EDA962 /* DMCustomerServiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCustomerServiceViewController.m; sourceTree = "<group>"; };
 		2AD2AB411F5D492700EDA962 /* DMMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMMenuViewController.h; sourceTree = "<group>"; };
 		2AD2AB421F5D492700EDA962 /* DMMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMMenuViewController.m; sourceTree = "<group>"; };
+		2AF695271F6149070078DC71 /* DMBaseDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMBaseDataModel.h; sourceTree = "<group>"; };
+		2AF695281F6149070078DC71 /* DMBaseDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMBaseDataModel.m; sourceTree = "<group>"; };
 		2BF41B440646DC59DC6A7EC6 /* Pods-DiscoverMelody.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DiscoverMelody.release.xcconfig"; path = "Pods/Target Support Files/Pods-DiscoverMelody/Pods-DiscoverMelody.release.xcconfig"; sourceTree = "<group>"; };
 		51D2D54B1F5EA73C00764130 /* DMConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMConst.h; sourceTree = "<group>"; };
 		51D2D54C1F5EA73C00764130 /* DMConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMConst.m; sourceTree = "<group>"; };
@@ -254,6 +261,9 @@
 			children = (
 				2A27E0D21F5E95C600865644 /* DMHttpClient.h */,
 				2A27E0D31F5E95C600865644 /* DMHttpClient.m */,
+				2A87824C1F613006004F9184 /* DMNetConntectDefine.h */,
+				2A8782521F61438E004F9184 /* DMRequestModel.h */,
+				2A8782531F61438E004F9184 /* DMRequestModel.m */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -277,6 +287,8 @@
 				2A05C45A1F5D544100FC4D9A /* Root */,
 				2A5F86C41F5CEDDF00773ADD /* DMBaseViewController.h */,
 				2A5F86C51F5CEDDF00773ADD /* DMBaseViewController.m */,
+				2AF695271F6149070078DC71 /* DMBaseDataModel.h */,
+				2AF695281F6149070078DC71 /* DMBaseDataModel.m */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -450,7 +462,6 @@
 				TargetAttributes = {
 					2A03AF411F555FA80088DBF4 = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = 7RXJBWS48Q;
 						ProvisioningStyle = Automatic;
 					};
 					2A03AF5A1F555FA80088DBF4 = {
@@ -589,11 +600,13 @@
 				51D2D6311F613E0800764130 /* DMCourseListHeaderView.m in Sources */,
 				51D2D5641F5EC00B00764130 /* DMLoginController.m in Sources */,
 				2AD2AB3F1F5D47FD00EDA962 /* DMCustomerServiceViewController.m in Sources */,
+				2A8782541F61438E004F9184 /* DMRequestModel.m in Sources */,
 				2AD2AB371F5D441D00EDA962 /* DMHomeViewController.m in Sources */,
 				2A45F9701F60F6D50077CBA5 /* DMHomeDataModel.m in Sources */,
 				2A27E0D41F5E95C600865644 /* DMHttpClient.m in Sources */,
 				51D2D55E1F5EBFE300764130 /* UIColor+Hex.m in Sources */,
 				51D2D5681F5F999D00764130 /* UIView+Frame.m in Sources */,
+				2AF695291F6149070078DC71 /* DMBaseDataModel.m in Sources */,
 				51D2D5D51F60E06800764130 /* DMCourseListController.m in Sources */,
 				2AD2AB431F5D492700EDA962 /* DMMenuViewController.m in Sources */,
 				2A03AF471F555FA80088DBF4 /* main.m in Sources */,
@@ -757,7 +770,7 @@
 			baseConfigurationReference = 1E620A6E158816600EA0CFFE /* Pods-DiscoverMelody.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 7RXJBWS48Q;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = DiscoverMelody/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -771,7 +784,7 @@
 			baseConfigurationReference = 2BF41B440646DC59DC6A7EC6 /* Pods-DiscoverMelody.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 7RXJBWS48Q;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = DiscoverMelody/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -34,5 +34,6 @@
 #import "UIView+Frame.h"
 #import "UIColor+Extension.h"
 
+#import "MJExtension.h"
 
 #endif /* DiscoverMelody_Prefix_pch */
