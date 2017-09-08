@@ -66,7 +66,7 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
     }];
 }
 
-//实现当键盘出现的时候计算键盘的高度大小。用于输入框显示位置
+// 实现当键盘出现的时候计算键盘的高度大小。用于输入框显示位置
 - (void)keyboardWillBeHidden:(NSNotification*)aNotification {
     NSDictionary* info = [aNotification userInfo];
     NSValue *animationDurationValue = [info objectForKey:UIKeyboardAnimationDurationUserInfoKey];

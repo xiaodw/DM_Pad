@@ -8,6 +8,7 @@
 @interface DMCourseListController () <UITableViewDelegate, UITableViewDataSource>
 
 #pragma mark - UI
+@property (strong, nonatomic) UIView *noCourseView;
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) DMCourseListHeaderView *tableViewHeaderView;
 
@@ -81,10 +82,11 @@
         
         self.currentPageNumber = nextPageNum;
         [self endRefreshing];
-//        if (最后一条) {
-//            [self.tableView.mj_footer endRefreshingWithNoMoreData];
-//            self.tableView.mj_footer.hidden = YES;
-//        }
+        if (self.textArray) {
+            [self.tableView.mj_footer endRefreshingWithNoMoreData];
+            self.tableView.mj_footer.hidden = YES;
+        }
+        self.noCourseView.hidden = self.courses.count;
         
         [self.tableView reloadData];
     });
@@ -93,6 +95,7 @@
 - (void)setupMakeAddSubviews {
     [self.view addSubview:self.tableViewHeaderView];
     [self.view addSubview:self.tableView];
+    [self.view addSubview:self.noCourseView];
 }
 
 - (void)setupMakeLayoutSubviews {
@@ -106,6 +109,12 @@
         make.top.equalTo(_tableViewHeaderView.mas_bottom);
         make.left.right.equalTo(_tableViewHeaderView);
         make.bottom.equalTo(self.view);
+    }];
+    
+    [_noCourseView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_tableViewHeaderView.mas_bottom).offset(185);
+        make.size.equalTo(CGSizeMake(134, 170));
+        make.centerX.equalTo(_tableViewHeaderView);
     }];
 }
 
@@ -151,6 +160,35 @@
     }
     
     return _courses;
+}
+
+- (UIView *)noCourseView {
+    if (!_noCourseView) {
+        _noCourseView = [UIView new];
+        
+        UIImageView *iconImageView = [UIImageView new];
+        iconImageView.image = [UIImage imageNamed:@"icon_noCourse"];
+        
+        UILabel *titleLabel = [UILabel new];
+        titleLabel.text = @"暂无课程";
+        titleLabel.font = DMFontPingFang_Light(20);
+        titleLabel.textColor = DMColorWithRGBA(204, 204, 204, 1);
+        
+        [_noCourseView addSubview:iconImageView];
+        [_noCourseView addSubview:titleLabel];
+        
+        [iconImageView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.centerX.equalTo(_noCourseView);
+            make.size.equalTo(CGSizeMake(134, 118));
+        }];
+        
+        [titleLabel makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(iconImageView.mas_bottom).offset(15);
+            make.centerX.equalTo(iconImageView);
+        }];
+    }
+    
+    return _noCourseView;
 }
 
 @end
