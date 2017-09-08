@@ -9,6 +9,7 @@
 
 #import "AppDelegate.h"
 #import "DMRootViewController.h"
+#import "DMLoginController.h"
 
 @interface AppDelegate ()
 
@@ -20,28 +21,9 @@
     // Override point for customization after application launch.
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
-    self.window.backgroundColor = [UIColor whiteColor];
-    
-    DMHomeViewController *homeVC = [[DMHomeViewController alloc] init];
-    DMCourseListController *clVC = [[DMCourseListController alloc] init];
-    DMCustomerServiceViewController *ssVC = [[DMCustomerServiceViewController alloc] init];
-    UINavigationController *navHomeVC =
-    [[UINavigationController alloc] initWithRootViewController:homeVC];
-    UINavigationController *navClVC =
-    [[UINavigationController alloc] initWithRootViewController:clVC];
-    UINavigationController *navSsVC =
-    [[UINavigationController alloc] initWithRootViewController:ssVC];
-    
-    DMMenuViewController *menuVC = [[DMMenuViewController alloc] init];
-    
-    self.dmrVC = [[DMRootViewController alloc] initWithContentViewControllers:@[navHomeVC, navClVC, navSsVC] menuViewController:menuVC];
-    self.dmrVC.selectedIndex = 0;
-    self.dmrVC.oldSelectedIndex = 0;
-    
-    self.window.rootViewController = self.dmrVC;
-    
+    self.dmrVC = [[DMRootViewController alloc] init];
+    self.window.rootViewController = [[DMLoginController alloc] init];
     [self.window makeKeyAndVisible];
-    
     return YES;
 }
 

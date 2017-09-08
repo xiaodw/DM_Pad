@@ -2,9 +2,6 @@
 //  DMMacros.h
 //  DiscoverMelody
 //
-//  Created by Ares on 2017/9/5.
-//  Copyright © 2017年 Discover Melody. All rights reserved.
-//
 
 #pragma mark - Font
 
@@ -21,8 +18,31 @@ blue:(((rgbValue) & 0xFF))/255.f alpha:1.0]
 #define DMColorWithHexString(hex) [UIColor colorWithHexString:hex]
 
 
-#pragma mark - Other
-#define DMNotificationCenter [NSNotificationCenter defaultCenter]
-
+#pragma mark - Numerical value
 #define DMScreenHeight [UIScreen mainScreen].bounds.size.height
 #define DMScreenWidth [UIScreen mainScreen].bounds.size.width
+
+#define DMScaleWidth(w) (DMScreenWidth * w / 1024)
+#define DMScaleHeight(h) (DMScreenHeight * h / 768)
+
+#pragma mark - Log
+#ifdef DEBUG
+#define DMLog(...)                      NSLog(__VA_ARGS__);
+#define NSLog(...)                      NSLog(__VA_ARGS__);
+#define DMLogFunc                       DMLog(@"%s",__func__);
+#define DMLogLine(arg1)                 DMLog(@"M:%s, L:%d.|\n%@",  __func__, __LINE__, arg1);
+#else
+#define DMLog(...)
+#define DMLogLine(arg1)
+#define NSLog(...)
+#define DMLogFunc                       DMLog(...)
+#endif
+
+#pragma mark - Other
+#define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
+#define DMNotificationCenter [NSNotificationCenter defaultCenter]
+
+
+#define OBJ_IS_NIL(s) (s==nil || [s isKindOfClass:[NSNull class]])
+#define STR_IS_NIL(key) (([@"<null>" isEqualToString:(key)] || [@"" isEqualToString:(key)] || key == nil || [key isKindOfClass:[NSNull class]]) ? 1: 0)
+
