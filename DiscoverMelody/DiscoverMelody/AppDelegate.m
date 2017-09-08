@@ -23,7 +23,7 @@
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
     self.dmrVC = [[DMRootViewController alloc] init];
-    self.window.rootViewController = [[DMLiveController alloc] init];
+    self.window.rootViewController = self.dmrVC;//[[DMLoginController alloc] init];
     [self.window makeKeyAndVisible];
     return YES;
 }
