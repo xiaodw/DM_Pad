@@ -9,6 +9,7 @@
 
 #import "AppDelegate.h"
 #import "DMRootViewController.h"
+#import "DMLoginController.h"
 
 @interface AppDelegate ()
 
@@ -20,9 +21,8 @@
     // Override point for customization after application launch.
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
-    self.window.backgroundColor = [UIColor whiteColor];
     self.dmrVC = [[DMRootViewController alloc] init];
-    self.window.rootViewController = self.dmrVC;
+    self.window.rootViewController = [[DMLoginController alloc] init];
     [self.window makeKeyAndVisible];
     return YES;
 }

@@ -1,11 +1,3 @@
-//
-//  UIColor+Extension.m
-//  DiscoverMelody
-//
-//  Created by My mac on 2017/9/7.
-//  Copyright © 2017年 Discover Melody. All rights reserved.
-//
-
 #import "UIColor+Extension.h"
 
 @implementation UIColor (Extension)
