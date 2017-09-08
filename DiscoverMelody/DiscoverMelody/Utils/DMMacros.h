@@ -26,15 +26,15 @@ blue:(((rgbValue) & 0xFF))/255.f alpha:1.0]
 
 #pragma mark - Log
 #ifdef DEBUG
-#define NSLog(...)                      NSLog(__VA_ARGS__);
 #define DMLog(...)                      NSLog(__VA_ARGS__);
-#define DMLogFunc                       BDLog(@"%s",__func__);
-#define DMLogLine(arg1)                 BDLog(@"M:%s, L:%d.|\n%@",  __func__, __LINE__, arg1);
+#define NSLog(...)                      NSLog(__VA_ARGS__);
+#define DMLogFunc                       DMLog(@"%s",__func__);
+#define DMLogLine(arg1)                 DMLog(@"M:%s, L:%d.|\n%@",  __func__, __LINE__, arg1);
 #else
-#define NSLog(...)
 #define DMLog(...)
-#define DMLogFunc
 #define DMLogLine(arg1)
+#define NSLog(...)
+#define DMLogFunc                       DMLog(...)
 #endif
 
 #pragma mark - Other

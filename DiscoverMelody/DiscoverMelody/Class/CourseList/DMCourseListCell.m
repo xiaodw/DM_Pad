@@ -42,7 +42,7 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
 
 - (void)setModel:(NSObject *)model {
     NSInteger random = arc4random_uniform(5);
-    DMLog(@"%ld", random);
+    DMLog(@"%zd", random);
     
     
     _numberLabel.text = [NSString stringWithFormat:@"    %@", @"1234567"];
@@ -239,6 +239,7 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
 - (UILabel *)statusLabel {
     if (!_statusLabel) {
         _statusLabel = [UILabel new];
+        _statusLabel.font = DMFontPingFang_Light(14);
         _statusLabel.textAlignment = NSTextAlignmentCenter;
     }
     
