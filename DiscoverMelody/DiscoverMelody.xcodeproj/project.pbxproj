@@ -25,11 +25,13 @@
 		2A45F9701F60F6D50077CBA5 /* DMHomeDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A45F96F1F60F6D50077CBA5 /* DMHomeDataModel.m */; };
 		2A5F86C61F5CEDDF00773ADD /* DMBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A5F86C51F5CEDDF00773ADD /* DMBaseViewController.m */; };
 		2A8782541F61438E004F9184 /* DMRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A8782531F61438E004F9184 /* DMRequestModel.m */; };
+		2AC06F041F622DD2009F9BFA /* timg1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2AC06F031F622DD2009F9BFA /* timg1.jpg */; };
 		2AD2AB371F5D441D00EDA962 /* DMHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD2AB361F5D441D00EDA962 /* DMHomeViewController.m */; };
 		2AD2AB3F1F5D47FD00EDA962 /* DMCustomerServiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD2AB3E1F5D47FD00EDA962 /* DMCustomerServiceViewController.m */; };
 		2AD2AB431F5D492700EDA962 /* DMMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD2AB421F5D492700EDA962 /* DMMenuViewController.m */; };
 		2AF695291F6149070078DC71 /* DMBaseDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF695281F6149070078DC71 /* DMBaseDataModel.m */; };
 		38CCB4B7CD85FDAEFE84B1D3 /* libPods-DiscoverMelody.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 945FC02CD63525967FAFE213 /* libPods-DiscoverMelody.a */; };
+		51B471391F62506D004FACC8 /* DMLiveController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B471381F62506D004FACC8 /* DMLiveController.m */; };
 		51D2D54D1F5EA73C00764130 /* DMConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D2D54C1F5EA73C00764130 /* DMConst.m */; };
 		51D2D55E1F5EBFE300764130 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D2D55D1F5EBFE300764130 /* UIColor+Hex.m */; };
 		51D2D5641F5EC00B00764130 /* DMLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D2D5611F5EC00B00764130 /* DMLoginController.m */; };
@@ -101,6 +103,7 @@
 		2A87824C1F613006004F9184 /* DMNetConntectDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMNetConntectDefine.h; sourceTree = "<group>"; };
 		2A8782521F61438E004F9184 /* DMRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMRequestModel.h; sourceTree = "<group>"; };
 		2A8782531F61438E004F9184 /* DMRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMRequestModel.m; sourceTree = "<group>"; };
+		2AC06F031F622DD2009F9BFA /* timg1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = timg1.jpg; sourceTree = "<group>"; };
 		2AD2AB351F5D441D00EDA962 /* DMHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMHomeViewController.h; sourceTree = "<group>"; };
 		2AD2AB361F5D441D00EDA962 /* DMHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMHomeViewController.m; sourceTree = "<group>"; };
 		2AD2AB3D1F5D47FD00EDA962 /* DMCustomerServiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCustomerServiceViewController.h; sourceTree = "<group>"; };
@@ -110,6 +113,8 @@
 		2AF695271F6149070078DC71 /* DMBaseDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMBaseDataModel.h; sourceTree = "<group>"; };
 		2AF695281F6149070078DC71 /* DMBaseDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMBaseDataModel.m; sourceTree = "<group>"; };
 		2BF41B440646DC59DC6A7EC6 /* Pods-DiscoverMelody.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DiscoverMelody.release.xcconfig"; path = "Pods/Target Support Files/Pods-DiscoverMelody/Pods-DiscoverMelody.release.xcconfig"; sourceTree = "<group>"; };
+		51B471371F62506D004FACC8 /* DMLiveController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMLiveController.h; sourceTree = "<group>"; };
+		51B471381F62506D004FACC8 /* DMLiveController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMLiveController.m; sourceTree = "<group>"; };
 		51D2D54B1F5EA73C00764130 /* DMConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMConst.h; sourceTree = "<group>"; };
 		51D2D54C1F5EA73C00764130 /* DMConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMConst.m; sourceTree = "<group>"; };
 		51D2D54E1F5EA84E00764130 /* DMMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMMacros.h; sourceTree = "<group>"; };
@@ -283,6 +288,7 @@
 		2A5F86C31F5CEDAD00773ADD /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				2AC06F031F622DD2009F9BFA /* timg1.jpg */,
 				2A41438C1F6007DD00E6B4E1 /* timg.jpg */,
 				2A05C45A1F5D544100FC4D9A /* Root */,
 				2A5F86C41F5CEDDF00773ADD /* DMBaseViewController.h */,
@@ -304,6 +310,7 @@
 				2A41438F1F600D6F00E6B4E1 /* DMHomeCell.m */,
 				2A45F96E1F60F6D50077CBA5 /* DMHomeDataModel.h */,
 				2A45F96F1F60F6D50077CBA5 /* DMHomeDataModel.m */,
+				51B471361F625052004FACC8 /* Live */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -337,6 +344,15 @@
 				2AD2AB421F5D492700EDA962 /* DMMenuViewController.m */,
 			);
 			path = SliderMenu;
+			sourceTree = "<group>";
+		};
+		51B471361F625052004FACC8 /* Live */ = {
+			isa = PBXGroup;
+			children = (
+				51B471371F62506D004FACC8 /* DMLiveController.h */,
+				51B471381F62506D004FACC8 /* DMLiveController.m */,
+			);
+			path = Live;
 			sourceTree = "<group>";
 		};
 		51D2D55B1F5EBFDD00764130 /* Categories */ = {
@@ -505,6 +521,7 @@
 				2A41438D1F6007DD00E6B4E1 /* timg.jpg in Resources */,
 				2A03AF551F555FA80088DBF4 /* LaunchScreen.storyboard in Resources */,
 				2A27E0D91F5EA65300865644 /* InfoPlist.strings in Resources */,
+				2AC06F041F622DD2009F9BFA /* timg1.jpg in Resources */,
 				2A03AF521F555FA80088DBF4 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -610,6 +627,7 @@
 				51D2D5D51F60E06800764130 /* DMCourseListController.m in Sources */,
 				2AD2AB431F5D492700EDA962 /* DMMenuViewController.m in Sources */,
 				2A03AF471F555FA80088DBF4 /* main.m in Sources */,
+				51B471391F62506D004FACC8 /* DMLiveController.m in Sources */,
 				2A4143891F5FF5F300E6B4E1 /* DMHomeView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

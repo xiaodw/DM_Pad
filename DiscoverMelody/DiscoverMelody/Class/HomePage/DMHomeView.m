@@ -8,7 +8,6 @@
 
 #import "DMHomeView.h"
 #import "DMHomeCell.h"
-#import "UIImageView+WebCache.h"
 
 @interface DMHomeView() <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UIView *topView;
@@ -37,7 +36,7 @@
 }
 
 - (void)updateTopViewInfo:(id)obj {
-    [_headImageView sd_setImageWithURL:nil placeholderImage:[UIImage imageNamed:@"timg.jpg"]];
+    [_headImageView sd_setImageWithURL:nil placeholderImage:[UIImage imageNamed:@"timg1.jpg"]];
     _courseLabel.text = @"未来之星1v1--钢琴";
     _nameLabel.text = @"郎郎";
     _timeLabel.text = @"上课时间：9月8日 18:00";
