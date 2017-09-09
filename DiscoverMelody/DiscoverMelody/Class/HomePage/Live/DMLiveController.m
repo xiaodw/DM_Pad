@@ -1,7 +1,6 @@
 #import "DMLiveController.h"
 #import "DMLiveButtonControlView.h"
-
-#import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
+#import "DMLiveVideoManager.h"
 
 #define kSmallSize CGSizeMake(240, 180)
 
@@ -12,9 +11,9 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     DMLayoutModeAll
 };
 
-@interface DMLiveController () <AgoraRtcEngineDelegate, DMLiveButtonControlViewDelegate>
+@interface DMLiveController () <DMLiveButtonControlViewDelegate>
 
-@property (strong, nonatomic) AgoraRtcEngineKit *agoraKit;
+@property (strong, nonatomic) DMLiveVideoManager *liveVideoManager;
 @property (strong, nonatomic) UIView *remoteView;
 @property (strong, nonatomic) UIView *localView;
 @property (strong, nonatomic) UIImageView *remoteVoiceImageView;
@@ -24,9 +23,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 @property (strong, nonatomic) UIImageView *timeImageView;
 @property (strong, nonatomic) UILabel *surplusTimeLabel;
 @property (strong, nonatomic) UILabel *describeLabel;
-
-@property (strong, nonatomic) AgoraRtcVideoCanvas *remoteVideoCanvas;
-@property (strong, nonatomic) AgoraRtcVideoCanvas *localVideoCanvas;
 
 @property (strong, nonatomic) NSArray *animationImages;
 
@@ -46,12 +42,12 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     self.view.backgroundColor = [UIColor whiteColor];
     [self.navigationController setNavigationBarHidden:YES];
     
-    [self setupMakeButtons];
+//    [self setupMakeButtons];
     [self setupMakeAddSubviews];
     [self setupMakeLayoutSubviews];
     
     [self joinChannel];
-    [self.agoraKit muteLocalAudioStream:YES];
+//    [self.agoraKit muteLocalAudioStream:YES];
 }
 
 
@@ -62,96 +58,45 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 }
 
 
-// Tutorial Step 8
-- (void)setupMakeButtons {
-    [self performSelector:@selector(hideControlButtons) withObject:nil afterDelay:3];
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(remoteVideoTapped:)];
-    [self.view addGestureRecognizer:tapGestureRecognizer];
-    self.view.userInteractionEnabled = true;
-}
+//- (void)setupMakeButtons {
+//    // 停止一切等待
+//    
+//    [self performSelector:@selector(hideControlButtons) withObject:nil afterDelay:3];
+//    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(remoteVideoTapped:)];
+//    [self.view addGestureRecognizer:tapGestureRecognizer];
+//    self.view.userInteractionEnabled = true;
+//}
 
-- (void)hideControlButtons {
-    self.controlView.hidden = true;
-}
-
-- (void)remoteVideoTapped:(UITapGestureRecognizer *)recognizer {
-    if (self.controlView.hidden) {
-        self.controlView.hidden = false;
-        [self performSelector:@selector(hideControlButtons) withObject:nil afterDelay:3];
-    }
-}
+//- (void)hideControlButtons {
+//    self.controlView.hidden = true;
+//}
+//
+//- (void)remoteVideoTapped:(UITapGestureRecognizer *)recognizer {
+//    if (self.controlView.hidden) {
+//        self.controlView.hidden = false;
+//        [self performSelector:@selector(hideControlButtons) withObject:nil afterDelay:3];
+//    }
+//}
 
 - (void)joinChannel {
-    [self.agoraKit joinChannelByKey:nil channelName:@"demoDM" info:nil uid:1234 joinSuccess:^(NSString *channel, NSUInteger uid, NSInteger elapsed) {
-        [_agoraKit setEnableSpeakerphone:YES];
-        [UIApplication sharedApplication].idleTimerDisabled = YES;
+    [self.liveVideoManager startLiveVideo:self.localView remote:self.remoteView isTapVideo:YES blockAudioVolume:^(NSInteger totalVolume, NSArray *speakers) {
+        // 做动画
+//        if (uid == self)
+    } blockTapVideoEvent:^(DMLiveVideoViewType type) {
+        if (DMLiveVideoViewType_Local == type) {
+            NSLog(@"DMLiveVideoViewType_Local");
+            return;
+        }
+        NSLog(@"DMLiveVideoViewType_Remote");
+        return;
     }];
 }
 
-#pragma mark - 声网delegate
-// 当加入频道成功回调
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine didJoinedOfUid:(NSUInteger)uid elapsed:(NSInteger)elapsed {
-    
-    NSLog(@"%s", __func__);
-}
-
-// 当远端第一帧返回回调
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine firstRemoteVideoDecodedOfUid:(NSUInteger)uid size: (CGSize)size elapsed:(NSInteger)elapsed {
-    NSLog(@"firstRemoteVideoDecodedOfUid uid : %zd", uid);
-
-//    AgoraRtcVideoCanvas *remoteVideoCanvas = [[AgoraRtcVideoCanvas alloc] init];
-    self.remoteVideoCanvas.uid = uid;
-//    remoteVideoCanvas.view = self.remoteView;
-//    remoteVideoCanvas.renderMode = AgoraRtc_Render_Hidden;
-    [self.agoraKit setupRemoteVideo:_remoteVideoCanvas];
-}
-
-// 关闭摄像头流回调 muteLocalVideoStream
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine didVideoMuted:(BOOL)muted byUid:(NSUInteger)uid {
-    self.remoteView.hidden = muted;
-    
-    NSLog(@"%s", __func__);
-}
-
-// 关闭麦克风流回调 muteLocalAudioStream
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine didAudioMuted:(BOOL)muted byUid:(NSUInteger)uid {
-    
-    NSLog(@"%s", __func__);
-}
-
-// 打开摄像头/ 关闭摄像头回调
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine didVideoEnabled:(BOOL)enabled byUid:(NSUInteger)uid {
-    NSLog(@"%s", __func__);
-}
-
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine firstLocalVideoFrameWithSize:(CGSize)size elapsed:(NSInteger)elapsed {
-    NSLog(@"%s", __func__);
-}
-
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine reportAudioVolumeIndicationOfSpeakers:
-(NSArray*)speakers totalVolume:(NSInteger)totalVolume {
-    NSLog(@"%@", speakers);
-}
-
-/** 远端断开连接回调(包含)
- * uid : 对方ID
- * reason : 离开方式
- ** AgoraRtc_UserOffline_Quit // 主动离开: leaveChannel / 杀死程序
- ** AgoraRtc_UserOffline_Dropped // 超时离线: 长时间接收不到对方数据包
- ** AgoraRtc_UserOffline_BecomeAudience // 成为观众
- */
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine didOfflineOfUid:(NSUInteger)uid reason:(AgoraRtcUserOfflineReason)reason {
-    self.remoteView.hidden = true;
-//    _remoteVideoCanvas = nil;
-    NSLog(@"%s, uid: %zd, 离开方式: %zd", __func__, uid, reason);
-}
-
-#pragma mark - 左侧按钮们
+#pragma mark - 左侧按钮们点击
 // 离开
 - (void)liveButtonControlViewDidTapLeave:(DMLiveButtonControlView *)liveButtonControlView {
     DMLogFunc
-    [self.agoraKit leaveChannel:^(AgoraRtcStats *stat) {
-        DMLog(@"离开房间");
+    [self.liveVideoManager quitLiveVideo:^(BOOL success) {
         [self.navigationVC popViewControllerAnimated:YES];
     }];
 }
@@ -159,7 +104,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 // 切换摄像头
 - (void)liveButtonControlViewDidTapSwichCamera:(DMLiveButtonControlView *)liveButtonControlView {
     DMLogFunc
-    [self.agoraKit switchCamera];
+//    [self.liveVideoManager switchCamera];
 }
 
 // 切换布局
@@ -344,39 +289,12 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     }];
 }
 
-- (AgoraRtcEngineKit *)agoraKit {
-    if (!_agoraKit) {
-        _agoraKit = [AgoraRtcEngineKit sharedEngineWithAppId:appID delegate:self];
-//        [_agoraKit setChannelProfile:AgoraRtc_ChannelProfile_LiveBroadcasting]; // 直播模式
-//        [_agoraKit enableDualStreamMode:YES]; // 双流模式
-        [_agoraKit enableVideo]; // 开启视频
-        [_agoraKit setVideoProfile:AgoraRtc_VideoProfile_720P swapWidthAndHeight: YES]; // 宽高是否交换: 旋转屏幕用
-        [_agoraKit setClientRole:AgoraRtc_ClientRole_Broadcaster withKey:nil];
-        [_agoraKit setupLocalVideo:self.localVideoCanvas];
-        [_agoraKit muteLocalAudioStream:YES];
+- (DMLiveVideoManager *)liveVideoManager {
+    if (!_liveVideoManager) {
+        _liveVideoManager = [DMLiveVideoManager shareInstance];
     }
     
-    return _agoraKit;
-}
-
-- (AgoraRtcVideoCanvas *)localVideoCanvas {
-    if (!_localVideoCanvas) {
-        _localVideoCanvas = [[AgoraRtcVideoCanvas alloc] init];
-        _localVideoCanvas.view = self.localView;
-        _localVideoCanvas.renderMode = AgoraRtc_Render_Hidden;
-    }
-    
-    return _localVideoCanvas;
-}
-
-- (AgoraRtcVideoCanvas *)remoteVideoCanvas {
-    if (!_remoteVideoCanvas) {
-        _remoteVideoCanvas = [[AgoraRtcVideoCanvas alloc] init];
-        _remoteVideoCanvas.view = self.remoteView;
-        _remoteVideoCanvas.renderMode = AgoraRtc_Render_Hidden;
-    }
-    
-    return _remoteVideoCanvas;
+    return _liveVideoManager;
 }
 
 - (NSArray *)animationImages {
