@@ -48,7 +48,6 @@
 
 //本课文件
 - (void)clickCourseFiles {
-    
     NSLog(@"本课文件");
 }
 //进入课堂
