@@ -16,10 +16,12 @@ typedef NS_ENUM(NSInteger, DMLiveVideoViewType) {
 
 typedef void (^BlockAudioVolume)(NSInteger totalVolume ,NSArray *speakers);
 typedef void (^BlockTapVideoEvent)(DMLiveVideoViewType type);
+typedef void (^BlockQuitLiveVideoEvent)(BOOL success);
 
 @interface DMLiveVideoManager : NSObject
 @property (nonatomic, strong) BlockAudioVolume blockAudioVolume;
 @property (nonatomic, strong) BlockTapVideoEvent blockTapVideoEvent;
+@property (nonatomic, strong) BlockQuitLiveVideoEvent blockQuitLiveVideoEvent;
 + (instancetype)shareInstance;
 /** 开始声网视频直播
  *
@@ -34,5 +36,7 @@ typedef void (^BlockTapVideoEvent)(DMLiveVideoViewType type);
             isTapVideo:(BOOL)isTap
       blockAudioVolume:(BlockAudioVolume)blockAudioVolume
       blockTapVideoEvent:(BlockTapVideoEvent)blockTapVideoEvent;
+
+- (void)quitLiveVideo:(BlockQuitLiveVideoEvent)blockQuitLiveVideoEvent;
 
 @end
