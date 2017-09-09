@@ -132,7 +132,7 @@
 
 - (AgoraRtcEngineKit *)agoraKit {
     if (!_agoraKit) {
-        _agoraKit = [AgoraRtcEngineKit sharedEngineWithAppId:appID delegate:self];
+        _agoraKit = [AgoraRtcEngineKit sharedEngineWithAppId:AgoraAppID delegate:self];
         [_agoraKit enableVideo];
         [_agoraKit setVideoProfile:AgoraRtc_VideoProfile_720P swapWidthAndHeight: false];
         [_agoraKit setupLocalVideo:self.localVideoCanvas];
