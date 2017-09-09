@@ -171,8 +171,9 @@ static DMLiveVideoManager* _instance = nil;
                                 uid:self.uId
                         joinSuccess:^(NSString *channel, NSUInteger uid, NSInteger elapsed)
     {
+        NSLog(@"自己加入用户id（%lu）", (unsigned long)uid);
         //开始外放
-        [self.agoraKit setEnableSpeakerphone:NO];
+        [self.agoraKit setEnableSpeakerphone:YES];
         [UIApplication sharedApplication].idleTimerDisabled = YES;
     }];
 
@@ -248,7 +249,7 @@ static DMLiveVideoManager* _instance = nil;
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine reportAudioVolumeIndicationOfSpeakers:(NSArray*)speakers
       totalVolume:(NSInteger)totalVolume
 {
-    NSLog(@"音量回调");
+    NSLog(@"音量回调---- > %@", speakers);
     if (self.blockAudioVolume) {
         self.blockAudioVolume(totalVolume, speakers);
     }
