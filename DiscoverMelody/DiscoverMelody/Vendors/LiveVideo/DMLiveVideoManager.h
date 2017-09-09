@@ -37,6 +37,13 @@ typedef void (^BlockQuitLiveVideoEvent)(BOOL success);
       blockAudioVolume:(BlockAudioVolume)blockAudioVolume
       blockTapVideoEvent:(BlockTapVideoEvent)blockTapVideoEvent;
 
+//退出上课视频
 - (void)quitLiveVideo:(BlockQuitLiveVideoEvent)blockQuitLiveVideoEvent;
+
+//前后摄像头切换
+- (void)switchCamera;
+
+//声音控制
+- (void)switchSound:(BOOL)isEnable block:(void(^)(BOOL success))block;
 
 @end
