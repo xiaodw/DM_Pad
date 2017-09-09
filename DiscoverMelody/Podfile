@@ -11,6 +11,6 @@ target 'DiscoverMelody' do
   #pod 'JSONModel', '~> 1.7.0’
   pod 'MJExtension', '~> 3.0’
   pod 'Reachability', '~> 3.1.1'
-  pod 'AgoraRtcEngine_iOS', '1.12'
+  pod 'AgoraRtcEngine_iOS', '1.13'
   
 end
