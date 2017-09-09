@@ -64,7 +64,7 @@ static DMLiveVideoManager* _instance = nil;
     //此方法释放 Agora SDK 使用的所有资源，用户将无法再使用和回调该 SDK 内的其它方法
     //且是同步调用，资源释放后返回
     //[AgoraRtcEngineKit destroy];
-    //self.blockQuitLiveVideoEvent(YES);
+    self.blockQuitLiveVideoEvent(YES);
 }
 
 //前后摄像头切换

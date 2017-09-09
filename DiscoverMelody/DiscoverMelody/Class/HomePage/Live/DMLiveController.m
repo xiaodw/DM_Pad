@@ -2,7 +2,7 @@
 #import "DMLiveButtonControlView.h"
 #import "DMLiveVideoManager.h"
 
-#define kSmallSize CGSizeMake(240, 180)
+#define kSmallSize CGSizeMake(DMScaleWidth(240), DMScaleHeight(180))
 
 typedef NS_ENUM(NSInteger, DMLayoutMode) {
     DMLayoutModeRemoteAndSmall, // 远端大, 本地小
@@ -104,7 +104,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 // 切换摄像头
 - (void)liveButtonControlViewDidTapSwichCamera:(DMLiveButtonControlView *)liveButtonControlView {
     DMLogFunc
-//    [self.liveVideoManager switchCamera];
+    [self.liveVideoManager switchCamera];
 }
 
 // 切换布局
