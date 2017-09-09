@@ -26,6 +26,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 @property (strong, nonatomic) UILabel *surplusTimeLabel;
 @property (strong, nonatomic) UILabel *describeLabel;
 
+#pragma mark - Other
 @property (strong, nonatomic) NSArray *animationImages;
 @property (assign, nonatomic) NSInteger tapLayoutCount;
 @property (assign, nonatomic) BOOL isCoursewareMode;
@@ -44,7 +45,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self setupMakeButtons];
     [self setupMakeAddSubviews];
     [self setupMakeLayoutSubviews];
-    
     [self joinChannel];
     
 //    [self.liveVideoManager switchSound:NO block:^(BOOL success) {
