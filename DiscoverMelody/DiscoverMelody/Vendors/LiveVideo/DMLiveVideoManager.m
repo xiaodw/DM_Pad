@@ -247,8 +247,10 @@ static DMLiveVideoManager* _instance = nil;
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine reportAudioVolumeIndicationOfSpeakers:(NSArray*)speakers
       totalVolume:(NSInteger)totalVolume
 {
-//    NSLog(@"音量回调");
-    self.blockAudioVolume(totalVolume, speakers);
+    NSLog(@"音量回调---- > %@", speakers);
+    if (self.blockAudioVolume) {
+        self.blockAudioVolume(totalVolume, speakers);
+    }
 }
 
 //统计数据
