@@ -189,6 +189,7 @@
 				515DCEC81F62980F00AA9465 /* CoreTelephony.framework in Frameworks */,
 				515DCEC61F62980800AA9465 /* libresolv.tbd in Frameworks */,
 				515DCEC41F62980000AA9465 /* libc++.tbd in Frameworks */,
+				2A4FB8881F629C7900CD670D /* libagora_fat.a in Frameworks */,
 				38CCB4B7CD85FDAEFE84B1D3 /* libPods-DiscoverMelody.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
