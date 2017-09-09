@@ -116,7 +116,7 @@ static DMLiveVideoManager* _instance = nil;
 - (void)setupLocalVideoDisplay {
     _localVideoCanvas.uid = 1;
     _localVideoCanvas.view = self.localView;
-    _localVideoCanvas.renderMode = AgoraRtc_Render_Adaptive;
+    _localVideoCanvas.renderMode = AgoraRtc_Render_Hidden;
     [self.agoraKit setupLocalVideo:_localVideoCanvas];
 }
 
@@ -133,7 +133,7 @@ static DMLiveVideoManager* _instance = nil;
 - (void)setupRemoteVideoDisplay:(NSUInteger)uid {
     _remoteVideoCanvas.uid = uid;
     _remoteVideoCanvas.view = self.remoteView;
-    _remoteVideoCanvas.renderMode = AgoraRtc_Render_Adaptive;
+    _remoteVideoCanvas.renderMode = AgoraRtc_Render_Hidden;
     [self.agoraKit setupRemoteVideo:_remoteVideoCanvas];
 }
 

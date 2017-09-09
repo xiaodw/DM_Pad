@@ -1,6 +1,7 @@
 #import "DMLiveController.h"
 #import "DMLiveButtonControlView.h"
 #import "DMLiveVideoManager.h"
+#import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
 
 #define kSmallSize CGSizeMake(DMScaleWidth(240), DMScaleHeight(180))
 
@@ -28,8 +29,8 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 
 @property (assign, nonatomic) NSInteger tapLayoutCount;
 @property (assign, nonatomic) BOOL isCoursewareMode;
-@property (strong, nonatomic) UIView *smallView;
-@property (strong, nonatomic) UITapGestureRecognizer *smallTGR;
+//@property (strong, nonatomic) UIView *smallView;
+//@property (strong, nonatomic) UITapGestureRecognizer *smallTGR;
 @property (assign, nonatomic) DMLayoutMode beforeLayoutMode;
 
 @end
@@ -47,9 +48,11 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self setupMakeLayoutSubviews];
     
     [self joinChannel];
-//    [self.agoraKit muteLocalAudioStream:YES];
+    
+//    [self.liveVideoManager switchSound:NO block:^(BOOL success) {
+//        
+//    }];
 }
-
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
@@ -79,9 +82,24 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 //}
 
 - (void)joinChannel {
+    WS(weakSelf)
     [self.liveVideoManager startLiveVideo:self.localView remote:self.remoteView isTapVideo:YES blockAudioVolume:^(NSInteger totalVolume, NSArray *speakers) {
-        // 做动画
-//        if (uid == self)
+        if (speakers.count == 0) return;
+        
+        for (int i = 0; i < speakers.count; i++) {
+            AgoraRtcAudioVolumeInfo *volumeInfo = speakers[i];
+            // (uid == self)
+            if (volumeInfo.uid == 10009) {
+                if (volumeInfo.volume <= 0) return;
+                // self make animation
+                [weakSelf.localVoiceImageView startAnimating];
+                return;
+            }
+            
+            if (volumeInfo.volume > 0) {
+                [weakSelf.remoteVoiceImageView startAnimating];
+            }
+        }
     } blockTapVideoEvent:^(DMLiveVideoViewType type) {
         if (DMLiveVideoViewType_Local == type) {
             NSLog(@"DMLiveVideoViewType_Local");
@@ -169,46 +187,186 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     
 }
 
-- (UITapGestureRecognizer *)smallTGR {
-    if (!_smallTGR) {
-        _smallTGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapSmall:)];
-    }
-    
-    return _smallTGR;
-}
+//- (UITapGestureRecognizer *)smallTGR {
+//    if (!_smallTGR) {
+//        _smallTGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapSmall:)];
+//    }
+//    
+//    return _smallTGR;
+//}
+//
+//- (void)setSmallView:(UIView *)smallView {
+//    [_smallView removeGestureRecognizer:self.smallTGR];
+//    _smallView.userInteractionEnabled = NO;
+//    _smallView = smallView;
+//    _smallView.userInteractionEnabled = YES;
+//    [_smallView addGestureRecognizer:self.smallTGR];
+//}
 
-- (void)setSmallView:(UIView *)smallView {
-    [_smallView removeGestureRecognizer:self.smallTGR];
-    _smallView.userInteractionEnabled = NO;
-    _smallView = smallView;
-    _smallView.userInteractionEnabled = YES;
-    [_smallView addGestureRecognizer:self.smallTGR];
-}
-
-- (void)didTapSmall:(UITapGestureRecognizer *)tap {
-    if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeAveragDistribution) return;
-    
-    NSLog(@"%@", tap.view);
-    if (tap.view == self.remoteView) {
-        [self didTapRemote];
-        return;
-    }
-    
-    if (tap.view == self.localView) {
-        [self didTapLocal];
-    }
-}
+//- (void)didTapSmall:(UITapGestureRecognizer *)tap {
+//    if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeAveragDistribution) return;
+//    
+//    NSLog(@"%@", tap.view);
+//    if (tap.view == self.remoteView) {
+//        [self didTapRemote];
+//        return;
+//    }
+//    
+//    if (tap.view == self.localView) {
+//        [self didTapLocal];
+//    }
+//}
 
 - (void)didTapRemote {
     self.tapLayoutCount = DMLayoutModeSmallAndRemote;
     [self makeLayoutViews];
-    self.smallView = self.localView;
+//    self.smallView = self.localView;
 }
 
 - (void)didTapLocal {
     self.tapLayoutCount = DMLayoutModeRemoteAndSmall;
     [self makeLayoutViews];
-    self.smallView = self.remoteView;
+//    self.smallView = self.remoteView;
+}
+
+- (DMLiveVideoManager *)liveVideoManager {
+    if (!_liveVideoManager) {
+        _liveVideoManager = [DMLiveVideoManager shareInstance];
+    }
+    
+    return _liveVideoManager;
+}
+
+- (NSArray *)animationImages {
+    if (!_animationImages) {
+        NSMutableArray *images = [NSMutableArray array];
+        NSString *iconName = @"icon_microphone_%d.png";
+        for (int i = 0; i < 5; i++) {
+            NSString *resource = [NSString stringWithFormat:iconName,i];
+            UIImage *image = [UIImage imageNamed:resource];
+            [images addObject:image];
+        }
+        
+        _animationImages = images;
+    }
+    
+    return _animationImages;
+}
+
+- (UIImageView *)setupVoiceImageView {
+    UIImageView *imageView = [UIImageView new];
+    imageView.image = self.animationImages.firstObject;
+    imageView.animationRepeatCount = 1;
+    imageView.animationDuration = 0.35;
+    imageView.animationImages = self.animationImages;
+    
+    return imageView;
+}
+
+- (UIImageView *)remoteVoiceImageView {
+    if (!_remoteVoiceImageView) {
+        _remoteVoiceImageView = [self setupVoiceImageView];
+    }
+    
+    return _remoteVoiceImageView;
+}
+
+- (UIImageView *)localVoiceImageView {
+    if (!_localVoiceImageView) {
+        _localVoiceImageView = [self setupVoiceImageView];
+    }
+    
+    return _localVoiceImageView;
+}
+
+- (UIView *)remoteView {
+    if (!_remoteView) {
+        _remoteView = [UIView new];
+        _remoteView.backgroundColor = [UIColor blackColor];
+    }
+    
+    return _remoteView;
+}
+
+- (UIView *)localView {
+    if (!_localView) {
+        _localView = [UIView new];
+        _localView.backgroundColor = [UIColor blackColor];
+//        _smallView = _localView;
+    }
+    
+    return _localView;
+}
+
+- (DMLiveButtonControlView *)controlView {
+    if (!_controlView) {
+        _controlView = [DMLiveButtonControlView new];
+        _controlView.delegate = self;
+    }
+    
+    return _controlView;
+}
+
+- (UIView *)timeView {
+    if (!_timeView) {
+        _timeView = [UIView new];
+        
+        [_timeView addSubview:self.timeImageView];
+        [_timeView addSubview:self.surplusTimeLabel];
+        [_timeView addSubview:self.describeLabel];
+        
+        [_timeImageView makeConstraints:^(MASConstraintMaker *make) {
+            make.left.centerY.equalTo(_timeView);
+            make.size.equalTo(CGSizeMake(19, 19));
+        }];
+        
+        [_surplusTimeLabel makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_timeImageView.mas_right).offset(10);
+            make.centerY.equalTo(_timeImageView);
+        }];
+        
+        [_describeLabel makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_surplusTimeLabel.mas_right).offset(20);
+            make.centerY.equalTo(_timeImageView);
+        }];
+    }
+    
+    return _timeView;
+}
+
+- (UIImageView *)timeImageView {
+    if (!_timeImageView) {
+        _timeImageView = [UIImageView new];
+        _timeImageView.image = [UIImage imageNamed:@"icon_time_white"];
+    }
+    
+    return _timeImageView;
+}
+
+- (UILabel *)surplusTimeLabel {
+    if (!_surplusTimeLabel) {
+        _surplusTimeLabel = [UILabel new];
+        _surplusTimeLabel.textColor = [UIColor whiteColor];
+        _surplusTimeLabel.text = @"00:45:00";
+        _surplusTimeLabel.font = DMFontPingFang_Light(14);
+    }
+    
+    return _surplusTimeLabel;
+}
+
+- (UILabel *)describeLabel {
+    if (!_describeLabel) {
+        _describeLabel = [UILabel new];
+        _describeLabel.text = @"本课堂将于15分钟后自动关闭";
+        _describeLabel.textColor = DMColorWithRGBA(246, 8, 112, 1);
+        _describeLabel.font = DMFontPingFang_Light(14);
+    }
+    
+    return _describeLabel;
+}
+
+- (void)dealloc {
+    DMLogFunc
 }
 
 - (void)makeLayoutViews {
@@ -287,140 +445,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [UIView animateWithDuration:0.25 animations:^{
         [self.view layoutSubviews];
     }];
-}
-
-- (DMLiveVideoManager *)liveVideoManager {
-    if (!_liveVideoManager) {
-        _liveVideoManager = [DMLiveVideoManager shareInstance];
-    }
-    
-    return _liveVideoManager;
-}
-
-- (NSArray *)animationImages {
-    if (!_animationImages) {
-        NSMutableArray *images = [NSMutableArray array];
-        NSString *iconName = @"icon_microphone_%d.png";
-        for (int i = 0; i < 5; i++) {
-            NSString *resource = [NSString stringWithFormat:iconName,i];
-            UIImage *image = [UIImage imageNamed:resource];
-            [images addObject:image];
-        }
-        
-        _animationImages = images;
-    }
-    
-    return _animationImages;
-}
-
-- (UIImageView *)remoteVoiceImageView {
-    if (!_remoteVoiceImageView) {
-        _remoteVoiceImageView = [UIImageView new];
-        _remoteVoiceImageView.image = self.animationImages.firstObject;
-        _remoteVoiceImageView.animationImages = self.animationImages;
-    }
-    
-    return _remoteVoiceImageView;
-}
-
-- (UIImageView *)localVoiceImageView {
-    if (!_localVoiceImageView) {
-        _localVoiceImageView = [UIImageView new];
-        _localVoiceImageView.image = self.animationImages.firstObject;
-        _localVoiceImageView.animationImages = self.animationImages;
-    }
-    
-    return _localVoiceImageView;
-}
-
-- (UIView *)remoteView {
-    if (!_remoteView) {
-        _remoteView = [UIView new];
-        _remoteView.backgroundColor = [UIColor blackColor];
-    }
-    
-    return _remoteView;
-}
-
-- (UIView *)localView {
-    if (!_localView) {
-        _localView = [UIView new];
-        _localView.backgroundColor = [UIColor blackColor];
-        _smallView = _localView;
-    }
-    
-    return _localView;
-}
-
-- (DMLiveButtonControlView *)controlView {
-    if (!_controlView) {
-        _controlView = [DMLiveButtonControlView new];
-        _controlView.delegate = self;
-    }
-    
-    return _controlView;
-}
-
-- (UIView *)timeView {
-    if (!_timeView) {
-        _timeView = [UIView new];
-        
-        [_timeView addSubview:self.timeImageView];
-        [_timeView addSubview:self.surplusTimeLabel];
-        [_timeView addSubview:self.describeLabel];
-        
-        [_timeImageView makeConstraints:^(MASConstraintMaker *make) {
-            make.left.centerY.equalTo(_timeView);
-            make.size.equalTo(CGSizeMake(19, 19));
-        }];
-        
-        [_surplusTimeLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(_timeImageView.mas_right).offset(10);
-            make.centerY.equalTo(_timeImageView);
-        }];
-        
-        [_describeLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(_surplusTimeLabel.mas_right).offset(20);
-            make.centerY.equalTo(_timeImageView);
-        }];
-    }
-    
-    return _timeView;
-}
-
-- (UIImageView *)timeImageView {
-    if (!_timeImageView) {
-        _timeImageView = [UIImageView new];
-        _timeImageView.image = [UIImage imageNamed:@"icon_time_white"];
-    }
-    
-    return _timeImageView;
-}
-
-- (UILabel *)surplusTimeLabel {
-    if (!_surplusTimeLabel) {
-        _surplusTimeLabel = [UILabel new];
-        _surplusTimeLabel.textColor = [UIColor whiteColor];
-        _surplusTimeLabel.text = @"00:45:00";
-        _surplusTimeLabel.font = DMFontPingFang_Light(14);
-    }
-    
-    return _surplusTimeLabel;
-}
-
-- (UILabel *)describeLabel {
-    if (!_describeLabel) {
-        _describeLabel = [UILabel new];
-        _describeLabel.text = @"本课堂将于15分钟后自动关闭";
-        _describeLabel.textColor = DMColorWithRGBA(246, 8, 112, 1);
-        _describeLabel.font = DMFontPingFang_Light(14);
-    }
-    
-    return _describeLabel;
-}
-
-- (void)dealloc {
-    DMLogFunc
 }
 
 @end
