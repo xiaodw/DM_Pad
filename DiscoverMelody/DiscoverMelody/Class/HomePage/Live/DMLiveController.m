@@ -88,8 +88,8 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         
         for (int i = 0; i < speakers.count; i++) {
             AgoraRtcAudioVolumeInfo *volumeInfo = speakers[i];
-            // (uid == self)
-            if (volumeInfo.uid == 10009) {
+            // uid 为 0 说明是自己
+            if (volumeInfo.uid == 0) {
                 if (volumeInfo.volume <= 0) return;
                 // self make animation
                 [weakSelf.localVoiceImageView startAnimating];
