@@ -14,6 +14,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 
 @interface DMLiveController () <DMLiveButtonControlViewDelegate>
 
+#pragma mark - UI
 @property (strong, nonatomic) DMLiveVideoManager *liveVideoManager;
 @property (strong, nonatomic) UIView *remoteView;
 @property (strong, nonatomic) UIView *localView;
@@ -26,11 +27,8 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 @property (strong, nonatomic) UILabel *describeLabel;
 
 @property (strong, nonatomic) NSArray *animationImages;
-
 @property (assign, nonatomic) NSInteger tapLayoutCount;
 @property (assign, nonatomic) BOOL isCoursewareMode;
-//@property (strong, nonatomic) UIView *smallView;
-//@property (strong, nonatomic) UITapGestureRecognizer *smallTGR;
 @property (assign, nonatomic) DMLayoutMode beforeLayoutMode;
 
 @end
@@ -43,7 +41,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     self.view.backgroundColor = [UIColor whiteColor];
     [self.navigationController setNavigationBarHidden:YES];
     
-//    [self setupMakeButtons];
+    [self setupMakeButtons];
     [self setupMakeAddSubviews];
     [self setupMakeLayoutSubviews];
     
@@ -60,26 +58,24 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self.navigationController setNavigationBarHidden:NO];
 }
 
+- (void)setupMakeButtons {
+    [self performSelector:@selector(hideControlButtons) withObject:nil afterDelay:1];
+    
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(remoteVideoTapped)];
+    [self.view addGestureRecognizer:tapGestureRecognizer];
+}
 
-//- (void)setupMakeButtons {
-//    // 停止一切等待
-//    
-//    [self performSelector:@selector(hideControlButtons) withObject:nil afterDelay:3];
-//    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(remoteVideoTapped:)];
-//    [self.view addGestureRecognizer:tapGestureRecognizer];
-//    self.view.userInteractionEnabled = true;
-//}
+- (void)hideControlButtons {
+    self.controlView.hidden = true;
+}
 
-//- (void)hideControlButtons {
-//    self.controlView.hidden = true;
-//}
-//
-//- (void)remoteVideoTapped:(UITapGestureRecognizer *)recognizer {
-//    if (self.controlView.hidden) {
-//        self.controlView.hidden = false;
-//        [self performSelector:@selector(hideControlButtons) withObject:nil afterDelay:3];
-//    }
-//}
+- (void)remoteVideoTapped {
+    if (self.controlView.hidden) {
+        self.controlView.hidden = false;
+        [[self class] cancelPreviousPerformRequestsWithTarget:self];
+        [self performSelector:@selector(hideControlButtons) withObject:nil afterDelay:1];
+    }
+}
 
 - (void)joinChannel {
     WS(weakSelf)
@@ -101,11 +97,12 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
             }
         }
     } blockTapVideoEvent:^(DMLiveVideoViewType type) {
+        if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeAveragDistribution) return;
         if (DMLiveVideoViewType_Local == type) {
-            NSLog(@"DMLiveVideoViewType_Local");
+            [self didTapLocal];
             return;
         }
-        NSLog(@"DMLiveVideoViewType_Remote");
+        [self didTapRemote];
         return;
     }];
 }
@@ -184,49 +181,16 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         make.size.equalTo(CGSizeMake(16, 25));
         make.bottom.equalTo(_localView.mas_bottom).offset(-20);
     }];
-    
 }
 
-//- (UITapGestureRecognizer *)smallTGR {
-//    if (!_smallTGR) {
-//        _smallTGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapSmall:)];
-//    }
-//    
-//    return _smallTGR;
-//}
-//
-//- (void)setSmallView:(UIView *)smallView {
-//    [_smallView removeGestureRecognizer:self.smallTGR];
-//    _smallView.userInteractionEnabled = NO;
-//    _smallView = smallView;
-//    _smallView.userInteractionEnabled = YES;
-//    [_smallView addGestureRecognizer:self.smallTGR];
-//}
-
-//- (void)didTapSmall:(UITapGestureRecognizer *)tap {
-//    if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeAveragDistribution) return;
-//    
-//    NSLog(@"%@", tap.view);
-//    if (tap.view == self.remoteView) {
-//        [self didTapRemote];
-//        return;
-//    }
-//    
-//    if (tap.view == self.localView) {
-//        [self didTapLocal];
-//    }
-//}
-
 - (void)didTapRemote {
-    self.tapLayoutCount = DMLayoutModeSmallAndRemote;
+    self.tapLayoutCount = DMLayoutModeAveragDistribution;
     [self makeLayoutViews];
-//    self.smallView = self.localView;
 }
 
 - (void)didTapLocal {
     self.tapLayoutCount = DMLayoutModeRemoteAndSmall;
     [self makeLayoutViews];
-//    self.smallView = self.remoteView;
 }
 
 - (DMLiveVideoManager *)liveVideoManager {
@@ -283,6 +247,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     if (!_remoteView) {
         _remoteView = [UIView new];
         _remoteView.backgroundColor = [UIColor blackColor];
+        _remoteView.userInteractionEnabled = NO;
     }
     
     return _remoteView;
@@ -292,7 +257,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     if (!_localView) {
         _localView = [UIView new];
         _localView.backgroundColor = [UIColor blackColor];
-//        _smallView = _localView;
     }
     
     return _localView;
@@ -387,6 +351,8 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
             make.top.right.equalTo(self.view);
             make.size.equalTo(kSmallSize);
         }];
+        _localView.userInteractionEnabled = YES;
+        _remoteView.userInteractionEnabled = NO;
     }
     else if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeSmallAndRemote) {
         NSLog(@"1%f", DMScreenWidth);
@@ -402,6 +368,8 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         [_localView remakeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
         }];
+        _localView.userInteractionEnabled = NO;
+        _remoteView.userInteractionEnabled = YES;
     }
     else if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeAveragDistribution) {
         NSLog(@"2%f", DMScreenWidth);
@@ -428,6 +396,8 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
                 make.right.equalTo(self.view);
             }];
         }
+        _localView.userInteractionEnabled = NO;
+        _remoteView.userInteractionEnabled = NO;
     }
     
     [_remoteVoiceImageView remakeConstraints:^(MASConstraintMaker *make) {

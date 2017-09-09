@@ -90,11 +90,9 @@ static DMLiveVideoManager* _instance = nil;
 - (void)addTapEvent {
     
     if (self.isTapVideo) {
-        self.localView.userInteractionEnabled = YES;
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapLocal)];
         [ self.localView addGestureRecognizer:tap];
         
-        self.remoteView.userInteractionEnabled = YES;
         UITapGestureRecognizer *tap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRemote)];
         [ self.remoteView addGestureRecognizer:tap1];
     }
@@ -243,7 +241,7 @@ static DMLiveVideoManager* _instance = nil;
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine reportAudioVolumeIndicationOfSpeakers:(NSArray*)speakers
       totalVolume:(NSInteger)totalVolume
 {
-    NSLog(@"音量回调");
+//    NSLog(@"音量回调");
     self.blockAudioVolume(totalVolume, speakers);
 }
 

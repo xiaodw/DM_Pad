@@ -42,8 +42,6 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
 
 - (void)setModel:(NSObject *)model {
     NSInteger random = arc4random_uniform(5);
-    DMLog(@"%zd", random);
-    
     
     _numberLabel.text = [NSString stringWithFormat:@"    %@", @"1234567"];
     _nameLabel.text = @"未来之星1V1--钢琴";
