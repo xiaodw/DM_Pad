@@ -35,6 +35,13 @@
 
 static DMLiveVideoManager* _instance = nil;
 
+- (void)bindingAccountInfo:(id)obj {
+    self.channelKey = @"";
+    self.channelName = @"111";
+    self.uId = 0;
+    self.signalingKey = @"";
+}
+
 - (void)startLiveVideo:(UIView *)localView
                 remote:(UIView *)remoteView
             isTapVideo:(BOOL)isTap
@@ -63,7 +70,7 @@ static DMLiveVideoManager* _instance = nil;
     
     //此方法释放 Agora SDK 使用的所有资源，用户将无法再使用和回调该 SDK 内的其它方法
     //且是同步调用，资源释放后返回
-    //[AgoraRtcEngineKit destroy];
+    [AgoraRtcEngineKit destroy];
     self.blockQuitLiveVideoEvent(YES);
 }
 
@@ -75,7 +82,9 @@ static DMLiveVideoManager* _instance = nil;
 //声音控制
 - (void)switchSound:(BOOL)isEnable block:(void(^)(BOOL success))block {
     int code = [self.agoraKit setEnableSpeakerphone:isEnable];
-    block((code == 0) ? YES : NO);
+    if (block) {
+        block((code == 0) ? YES : NO);
+    }
 }
 
 - (void)addTapEvent {
@@ -168,13 +177,6 @@ static DMLiveVideoManager* _instance = nil;
     //[UIApplication sharedApplication].idleTimerDisabled = !active;
 }
 
-- (void)bindingAccountInfo:(id)obj {
-    self.channelKey = @"";
-    self.channelName = @"100";
-    self.uId = 0;
-    self.signalingKey = @"";
-}
-
 #pragma mark -
 #pragma mark - AgoraRtcEngineDelegate
 //本地首帧视频显示回调
@@ -222,9 +224,9 @@ static DMLiveVideoManager* _instance = nil;
     NSLog(@"用户启动或者关闭视频-----》 %d", enabled);
 }
 
-//离开频道的回调
+//离开频道的回调 貌似是骗人的，不起作用
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine didLeaveChannelWithStats:(AgoraRtcStats *)stats {
-    self.blockQuitLiveVideoEvent(YES);
+//    self.blockQuitLiveVideoEvent(YES);
 }
 
 //摄像头的启用
