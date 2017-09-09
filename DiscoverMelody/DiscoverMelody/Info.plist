@@ -21,13 +21,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>use camera to start video call</string>
+	<string>访问您的摄像头</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>use microphone to start video call</string>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>audio</string>
-	</array>
+	<string>访问您的麦克风</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
