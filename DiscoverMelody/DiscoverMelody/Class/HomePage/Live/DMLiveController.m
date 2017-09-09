@@ -1,9 +1,9 @@
 #import "DMLiveController.h"
 #import "DMLiveButtonControlView.h"
-
+#import "DMLiveVideoManager.h"
 #import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
 
-#define kSmallSize CGSizeMake(240, 180)
+#define kSmallSize CGSizeMake(DMScaleWidth(240), DMScaleHeight(180))
 
 typedef NS_ENUM(NSInteger, DMLayoutMode) {
     DMLayoutModeRemoteAndSmall, // 远端大, 本地小
@@ -12,9 +12,10 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     DMLayoutModeAll
 };
 
-@interface DMLiveController () <AgoraRtcEngineDelegate, DMLiveButtonControlViewDelegate>
+@interface DMLiveController () <DMLiveButtonControlViewDelegate>
 
-@property (strong, nonatomic) AgoraRtcEngineKit *agoraKit;
+#pragma mark - UI
+@property (strong, nonatomic) DMLiveVideoManager *liveVideoManager;
 @property (strong, nonatomic) UIView *remoteView;
 @property (strong, nonatomic) UIView *localView;
 @property (strong, nonatomic) UIImageView *remoteVoiceImageView;
@@ -25,15 +26,10 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 @property (strong, nonatomic) UILabel *surplusTimeLabel;
 @property (strong, nonatomic) UILabel *describeLabel;
 
-@property (strong, nonatomic) AgoraRtcVideoCanvas *remoteVideoCanvas;
-@property (strong, nonatomic) AgoraRtcVideoCanvas *localVideoCanvas;
-
+#pragma mark - Other
 @property (strong, nonatomic) NSArray *animationImages;
-
 @property (assign, nonatomic) NSInteger tapLayoutCount;
 @property (assign, nonatomic) BOOL isCoursewareMode;
-@property (strong, nonatomic) UIView *smallView;
-@property (strong, nonatomic) UITapGestureRecognizer *smallTGR;
 @property (assign, nonatomic) DMLayoutMode beforeLayoutMode;
 
 @end
@@ -49,11 +45,12 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self setupMakeButtons];
     [self setupMakeAddSubviews];
     [self setupMakeLayoutSubviews];
-    
     [self joinChannel];
-    [self.agoraKit muteLocalAudioStream:YES];
+    
+//    [self.liveVideoManager switchSound:NO block:^(BOOL success) {
+//        
+//    }];
 }
-
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
@@ -61,97 +58,60 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self.navigationController setNavigationBarHidden:NO];
 }
 
-
-// Tutorial Step 8
 - (void)setupMakeButtons {
-    [self performSelector:@selector(hideControlButtons) withObject:nil afterDelay:3];
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(remoteVideoTapped:)];
+    [self performSelector:@selector(hideControlButtons) withObject:nil afterDelay:1];
+    
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(remoteVideoTapped)];
     [self.view addGestureRecognizer:tapGestureRecognizer];
-    self.view.userInteractionEnabled = true;
 }
 
 - (void)hideControlButtons {
     self.controlView.hidden = true;
 }
 
-- (void)remoteVideoTapped:(UITapGestureRecognizer *)recognizer {
+- (void)remoteVideoTapped {
     if (self.controlView.hidden) {
         self.controlView.hidden = false;
-        [self performSelector:@selector(hideControlButtons) withObject:nil afterDelay:3];
+        [[self class] cancelPreviousPerformRequestsWithTarget:self];
+        [self performSelector:@selector(hideControlButtons) withObject:nil afterDelay:1];
     }
 }
 
 - (void)joinChannel {
-    [self.agoraKit joinChannelByKey:nil channelName:@"demoDM" info:nil uid:1234 joinSuccess:^(NSString *channel, NSUInteger uid, NSInteger elapsed) {
-        [_agoraKit setEnableSpeakerphone:YES];
-        [UIApplication sharedApplication].idleTimerDisabled = YES;
+    WS(weakSelf)
+    [self.liveVideoManager startLiveVideo:self.localView remote:self.remoteView isTapVideo:YES blockAudioVolume:^(NSInteger totalVolume, NSArray *speakers) {
+        if (speakers.count == 0) return;
+        
+        for (int i = 0; i < speakers.count; i++) {
+            AgoraRtcAudioVolumeInfo *volumeInfo = speakers[i];
+            // uid 为 0 说明是自己
+            if (volumeInfo.uid == 0) {
+                if (volumeInfo.volume <= 0) return;
+                // self make animation
+                [weakSelf.localVoiceImageView startAnimating];
+                return;
+            }
+            
+            if (volumeInfo.volume > 0) {
+                [weakSelf.remoteVoiceImageView startAnimating];
+            }
+        }
+    } blockTapVideoEvent:^(DMLiveVideoViewType type) {
+        if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeAveragDistribution) return;
+        if (DMLiveVideoViewType_Local == type) {
+            [self didTapLocal];
+            return;
+        }
+        [self didTapRemote];
+        return;
     }];
 }
 
-#pragma mark - 声网delegate
-// 当加入频道成功回调
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine didJoinedOfUid:(NSUInteger)uid elapsed:(NSInteger)elapsed {
-    
-    NSLog(@"%s", __func__);
-}
-
-// 当远端第一帧返回回调
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine firstRemoteVideoDecodedOfUid:(NSUInteger)uid size: (CGSize)size elapsed:(NSInteger)elapsed {
-    NSLog(@"firstRemoteVideoDecodedOfUid uid : %zd", uid);
-
-//    AgoraRtcVideoCanvas *remoteVideoCanvas = [[AgoraRtcVideoCanvas alloc] init];
-    self.remoteVideoCanvas.uid = uid;
-//    remoteVideoCanvas.view = self.remoteView;
-//    remoteVideoCanvas.renderMode = AgoraRtc_Render_Hidden;
-    [self.agoraKit setupRemoteVideo:_remoteVideoCanvas];
-}
-
-// 关闭摄像头流回调 muteLocalVideoStream
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine didVideoMuted:(BOOL)muted byUid:(NSUInteger)uid {
-    self.remoteView.hidden = muted;
-    
-    NSLog(@"%s", __func__);
-}
-
-// 关闭麦克风流回调 muteLocalAudioStream
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine didAudioMuted:(BOOL)muted byUid:(NSUInteger)uid {
-    
-    NSLog(@"%s", __func__);
-}
-
-// 打开摄像头/ 关闭摄像头回调
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine didVideoEnabled:(BOOL)enabled byUid:(NSUInteger)uid {
-    NSLog(@"%s", __func__);
-}
-
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine firstLocalVideoFrameWithSize:(CGSize)size elapsed:(NSInteger)elapsed {
-    NSLog(@"%s", __func__);
-}
-
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine reportAudioVolumeIndicationOfSpeakers:
-(NSArray*)speakers totalVolume:(NSInteger)totalVolume {
-    NSLog(@"%@", speakers);
-}
-
-/** 远端断开连接回调(包含)
- * uid : 对方ID
- * reason : 离开方式
- ** AgoraRtc_UserOffline_Quit // 主动离开: leaveChannel / 杀死程序
- ** AgoraRtc_UserOffline_Dropped // 超时离线: 长时间接收不到对方数据包
- ** AgoraRtc_UserOffline_BecomeAudience // 成为观众
- */
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine didOfflineOfUid:(NSUInteger)uid reason:(AgoraRtcUserOfflineReason)reason {
-    self.remoteView.hidden = true;
-//    _remoteVideoCanvas = nil;
-    NSLog(@"%s, uid: %zd, 离开方式: %zd", __func__, uid, reason);
-}
-
-#pragma mark - 左侧按钮们
+#pragma mark - 左侧按钮们点击
 // 离开
 - (void)liveButtonControlViewDidTapLeave:(DMLiveButtonControlView *)liveButtonControlView {
     DMLogFunc
-    [self.agoraKit leaveChannel:^(AgoraRtcStats *stat) {
-        DMLog(@"离开房间");
+    [self.liveVideoManager quitLiveVideo:^(BOOL success) {
         [self.navigationVC popViewControllerAnimated:YES];
     }];
 }
@@ -159,7 +119,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 // 切换摄像头
 - (void)liveButtonControlViewDidTapSwichCamera:(DMLiveButtonControlView *)liveButtonControlView {
     DMLogFunc
-    [self.agoraKit switchCamera];
+    [self.liveVideoManager switchCamera];
 }
 
 // 切换布局
@@ -221,162 +181,24 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         make.size.equalTo(CGSizeMake(16, 25));
         make.bottom.equalTo(_localView.mas_bottom).offset(-20);
     }];
-    
-}
-
-- (UITapGestureRecognizer *)smallTGR {
-    if (!_smallTGR) {
-        _smallTGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapSmall:)];
-    }
-    
-    return _smallTGR;
-}
-
-- (void)setSmallView:(UIView *)smallView {
-    [_smallView removeGestureRecognizer:self.smallTGR];
-    _smallView.userInteractionEnabled = NO;
-    _smallView = smallView;
-    _smallView.userInteractionEnabled = YES;
-    [_smallView addGestureRecognizer:self.smallTGR];
-}
-
-- (void)didTapSmall:(UITapGestureRecognizer *)tap {
-    if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeAveragDistribution) return;
-    
-    NSLog(@"%@", tap.view);
-    if (tap.view == self.remoteView) {
-        [self didTapRemote];
-        return;
-    }
-    
-    if (tap.view == self.localView) {
-        [self didTapLocal];
-    }
 }
 
 - (void)didTapRemote {
-    self.tapLayoutCount = DMLayoutModeSmallAndRemote;
+    self.tapLayoutCount = DMLayoutModeAveragDistribution;
     [self makeLayoutViews];
-    self.smallView = self.localView;
 }
 
 - (void)didTapLocal {
     self.tapLayoutCount = DMLayoutModeRemoteAndSmall;
     [self makeLayoutViews];
-    self.smallView = self.remoteView;
 }
 
-- (void)makeLayoutViews {
-    self.tapLayoutCount += 1;
-    [_localView removeFromSuperview];
-    [_remoteView removeFromSuperview];
-    
-    if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeRemoteAndSmall) {
-        NSLog(@"3%f", DMScreenWidth);
-        [self.view insertSubview:_localView atIndex:0];
-        [self.view insertSubview:_remoteView atIndex:0];
-        
-        [_remoteView remakeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view);
-        }];
-        
-        [_localView remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.right.equalTo(self.view);
-            make.size.equalTo(kSmallSize);
-        }];
-    }
-    else if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeSmallAndRemote) {
-        NSLog(@"1%f", DMScreenWidth);
-        [self.view insertSubview:_remoteView atIndex:0];
-        [self.view insertSubview:_localView atIndex:0];
-        
-        [_remoteView remakeConstraints:^(MASConstraintMaker *make) {
-            
-            make.top.right.equalTo(self.view);
-            make.size.equalTo(kSmallSize);
-        }];
-        
-        [_localView remakeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view);
-        }];
-    }
-    else if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeAveragDistribution) {
-        NSLog(@"2%f", DMScreenWidth);
-        [self.view insertSubview:_remoteView atIndex:0];
-        [self.view insertSubview:_localView atIndex:0];
-        if (_isCoursewareMode) {
-            [_remoteView remakeConstraints:^(MASConstraintMaker *make) {
-                make.left.top.equalTo(self.view);
-                make.size.equalTo(CGSizeMake(DMScreenWidth * 0.5, DMScreenHeight * 0.5));
-            }];
-            
-            [_localView remakeConstraints:^(MASConstraintMaker *make) {
-                make.size.left.equalTo(_remoteView);
-                make.bottom.equalTo(self.view);
-            }];
-        }else {
-            [_remoteView remakeConstraints:^(MASConstraintMaker *make) {
-                make.left.centerY.equalTo(self.view);
-                make.size.equalTo(CGSizeMake(DMScreenWidth * 0.5, 385));
-            }];
-            
-            [_localView remakeConstraints:^(MASConstraintMaker *make) {
-                make.size.centerY.equalTo(_remoteView);
-                make.right.equalTo(self.view);
-            }];
-        }
+- (DMLiveVideoManager *)liveVideoManager {
+    if (!_liveVideoManager) {
+        _liveVideoManager = [DMLiveVideoManager shareInstance];
     }
     
-    [_remoteVoiceImageView remakeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(_remoteView.mas_right).offset(-15);
-        make.size.equalTo(CGSizeMake(16, 25));
-        make.bottom.equalTo(_remoteView.mas_bottom).offset(-20);
-    }];
-    
-    [_localVoiceImageView remakeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(_localView.mas_right).offset(-15);
-        make.size.equalTo(CGSizeMake(16, 25));
-        make.bottom.equalTo(_localView.mas_bottom).offset(-20);
-    }];
-    
-    [UIView animateWithDuration:0.25 animations:^{
-        [self.view layoutSubviews];
-    }];
-}
-
-- (AgoraRtcEngineKit *)agoraKit {
-    if (!_agoraKit) {
-        _agoraKit = [AgoraRtcEngineKit sharedEngineWithAppId:appID delegate:self];
-//        [_agoraKit setChannelProfile:AgoraRtc_ChannelProfile_LiveBroadcasting]; // 直播模式
-//        [_agoraKit enableDualStreamMode:YES]; // 双流模式
-        [_agoraKit enableVideo]; // 开启视频
-        [_agoraKit setVideoProfile:AgoraRtc_VideoProfile_720P swapWidthAndHeight: YES]; // 宽高是否交换: 旋转屏幕用
-        [_agoraKit setClientRole:AgoraRtc_ClientRole_Broadcaster withKey:nil];
-        [_agoraKit setupLocalVideo:self.localVideoCanvas];
-        [_agoraKit muteLocalAudioStream:YES];
-    }
-    
-    return _agoraKit;
-}
-
-- (AgoraRtcVideoCanvas *)localVideoCanvas {
-    if (!_localVideoCanvas) {
-        _localVideoCanvas = [[AgoraRtcVideoCanvas alloc] init];
-        _localVideoCanvas.view = self.localView;
-        _localVideoCanvas.renderMode = AgoraRtc_Render_Hidden;
-    }
-    
-    return _localVideoCanvas;
-}
-
-- (AgoraRtcVideoCanvas *)remoteVideoCanvas {
-    if (!_remoteVideoCanvas) {
-        _remoteVideoCanvas = [[AgoraRtcVideoCanvas alloc] init];
-        _remoteVideoCanvas.view = self.remoteView;
-        _remoteVideoCanvas.renderMode = AgoraRtc_Render_Hidden;
-    }
-    
-    return _remoteVideoCanvas;
+    return _liveVideoManager;
 }
 
 - (NSArray *)animationImages {
@@ -395,11 +217,19 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     return _animationImages;
 }
 
+- (UIImageView *)setupVoiceImageView {
+    UIImageView *imageView = [UIImageView new];
+    imageView.image = self.animationImages.firstObject;
+    imageView.animationRepeatCount = 1;
+    imageView.animationDuration = 0.35;
+    imageView.animationImages = self.animationImages;
+    
+    return imageView;
+}
+
 - (UIImageView *)remoteVoiceImageView {
     if (!_remoteVoiceImageView) {
-        _remoteVoiceImageView = [UIImageView new];
-        _remoteVoiceImageView.image = self.animationImages.firstObject;
-        _remoteVoiceImageView.animationImages = self.animationImages;
+        _remoteVoiceImageView = [self setupVoiceImageView];
     }
     
     return _remoteVoiceImageView;
@@ -407,9 +237,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 
 - (UIImageView *)localVoiceImageView {
     if (!_localVoiceImageView) {
-        _localVoiceImageView = [UIImageView new];
-        _localVoiceImageView.image = self.animationImages.firstObject;
-        _localVoiceImageView.animationImages = self.animationImages;
+        _localVoiceImageView = [self setupVoiceImageView];
     }
     
     return _localVoiceImageView;
@@ -419,6 +247,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     if (!_remoteView) {
         _remoteView = [UIView new];
         _remoteView.backgroundColor = [UIColor blackColor];
+        _remoteView.userInteractionEnabled = NO;
     }
     
     return _remoteView;
@@ -428,7 +257,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     if (!_localView) {
         _localView = [UIView new];
         _localView.backgroundColor = [UIColor blackColor];
-        _smallView = _localView;
     }
     
     return _localView;
@@ -503,6 +331,90 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 
 - (void)dealloc {
     DMLogFunc
+}
+
+- (void)makeLayoutViews {
+    self.tapLayoutCount += 1;
+    [_localView removeFromSuperview];
+    [_remoteView removeFromSuperview];
+    
+    if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeRemoteAndSmall) {
+        NSLog(@"3%f", DMScreenWidth);
+        [self.view insertSubview:_localView atIndex:0];
+        [self.view insertSubview:_remoteView atIndex:0];
+        
+        [_remoteView remakeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view);
+        }];
+        
+        [_localView remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.right.equalTo(self.view);
+            make.size.equalTo(kSmallSize);
+        }];
+        _localView.userInteractionEnabled = YES;
+        _remoteView.userInteractionEnabled = NO;
+    }
+    else if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeSmallAndRemote) {
+        NSLog(@"1%f", DMScreenWidth);
+        [self.view insertSubview:_remoteView atIndex:0];
+        [self.view insertSubview:_localView atIndex:0];
+        
+        [_remoteView remakeConstraints:^(MASConstraintMaker *make) {
+            
+            make.top.right.equalTo(self.view);
+            make.size.equalTo(kSmallSize);
+        }];
+        
+        [_localView remakeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view);
+        }];
+        _localView.userInteractionEnabled = NO;
+        _remoteView.userInteractionEnabled = YES;
+    }
+    else if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeAveragDistribution) {
+        NSLog(@"2%f", DMScreenWidth);
+        [self.view insertSubview:_remoteView atIndex:0];
+        [self.view insertSubview:_localView atIndex:0];
+        if (_isCoursewareMode) {
+            [_remoteView remakeConstraints:^(MASConstraintMaker *make) {
+                make.left.top.equalTo(self.view);
+                make.size.equalTo(CGSizeMake(DMScreenWidth * 0.5, DMScreenHeight * 0.5));
+            }];
+            
+            [_localView remakeConstraints:^(MASConstraintMaker *make) {
+                make.size.left.equalTo(_remoteView);
+                make.bottom.equalTo(self.view);
+            }];
+        }else {
+            [_remoteView remakeConstraints:^(MASConstraintMaker *make) {
+                make.left.centerY.equalTo(self.view);
+                make.size.equalTo(CGSizeMake(DMScreenWidth * 0.5, 385));
+            }];
+            
+            [_localView remakeConstraints:^(MASConstraintMaker *make) {
+                make.size.centerY.equalTo(_remoteView);
+                make.right.equalTo(self.view);
+            }];
+        }
+        _localView.userInteractionEnabled = NO;
+        _remoteView.userInteractionEnabled = NO;
+    }
+    
+    [_remoteVoiceImageView remakeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(_remoteView.mas_right).offset(-15);
+        make.size.equalTo(CGSizeMake(16, 25));
+        make.bottom.equalTo(_remoteView.mas_bottom).offset(-20);
+    }];
+    
+    [_localVoiceImageView remakeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(_localView.mas_right).offset(-15);
+        make.size.equalTo(CGSizeMake(16, 25));
+        make.bottom.equalTo(_localView.mas_bottom).offset(-20);
+    }];
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        [self.view layoutSubviews];
+    }];
 }
 
 @end

@@ -35,6 +35,13 @@
 
 static DMLiveVideoManager* _instance = nil;
 
+- (void)bindingAccountInfo:(id)obj {
+    self.channelKey = @"";
+    self.channelName = @"110";
+    self.uId = 0;
+    self.signalingKey = @"";
+}
+
 - (void)startLiveVideo:(UIView *)localView
                 remote:(UIView *)remoteView
             isTapVideo:(BOOL)isTap
@@ -54,6 +61,43 @@ static DMLiveVideoManager* _instance = nil;
     [self initializeAgoraEngine];
 }
 
+//前后摄像头切换
+- (void)switchCamera {
+    [self.agoraKit switchCamera];
+}
+
+//声音控制
+- (void)switchSound:(BOOL)isEnable block:(void(^)(BOOL success))block {
+    int code = [self.agoraKit setEnableSpeakerphone:isEnable];
+    if (block) {
+        block((code == 0) ? YES : NO);
+    }
+}
+
+- (void)addTapEvent {
+    
+    if (self.isTapVideo) {
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapLocal)];
+        [ self.localView addGestureRecognizer:tap];
+        
+        UITapGestureRecognizer *tap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRemote)];
+        [ self.remoteView addGestureRecognizer:tap1];
+    }
+}
+
+- (void)tapLocal {
+    NSLog(@"点击本地视频");
+    if (self.blockTapVideoEvent) {
+        self.blockTapVideoEvent(DMLiveVideoViewType_Local);
+    }
+}
+
+- (void)tapRemote {
+    NSLog(@"点击远程视频");
+    if (self.blockTapVideoEvent) {
+        self.blockTapVideoEvent(DMLiveVideoViewType_Remote);
+    }
+}
 
 - (void)quitLiveVideo:(BlockQuitLiveVideoEvent)blockQuitLiveVideoEvent {
     self.blockQuitLiveVideoEvent = blockQuitLiveVideoEvent;
@@ -63,31 +107,9 @@ static DMLiveVideoManager* _instance = nil;
     
     //此方法释放 Agora SDK 使用的所有资源，用户将无法再使用和回调该 SDK 内的其它方法
     //且是同步调用，资源释放后返回
-    //[AgoraRtcEngineKit destroy];
-    //self.blockQuitLiveVideoEvent(YES);
-}
-
-//前后摄像头切换
-- (void)switchCamera {
-    [self.agoraKit switchCamera];
-}
-
-//声音控制
-- (void)switchSound:(BOOL)isEnable block:(void(^)(BOOL success))block {
-    int code = [self.agoraKit setEnableSpeakerphone:isEnable];
-    block((code == 0) ? YES : NO);
-}
-
-- (void)addTapEvent {
-    
-    if (self.isTapVideo) {
-        self.localView.userInteractionEnabled = YES;
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapLocal)];
-        [ self.localView addGestureRecognizer:tap];
-        
-        self.remoteView.userInteractionEnabled = YES;
-        UITapGestureRecognizer *tap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRemote)];
-        [ self.remoteView addGestureRecognizer:tap1];
+    [AgoraRtcEngineKit destroy];
+    if (self.blockQuitLiveVideoEvent) {
+        self.blockQuitLiveVideoEvent(YES);
     }
 }
 
@@ -114,26 +136,16 @@ static DMLiveVideoManager* _instance = nil;
 }
 
 - (void)setupLocalVideoDisplay {
-    _localVideoCanvas.uid = 1;
+    _localVideoCanvas.uid = self.uId;
     _localVideoCanvas.view = self.localView;
-    _localVideoCanvas.renderMode = AgoraRtc_Render_Adaptive;
+    _localVideoCanvas.renderMode = AgoraRtc_Render_Hidden;
     [self.agoraKit setupLocalVideo:_localVideoCanvas];
-}
-
-- (void)tapLocal {
-    NSLog(@"点击本地视频");
-    self.blockTapVideoEvent(DMLiveVideoViewType_Local);
-}
-
-- (void)tapRemote {
-    NSLog(@"点击远程视频");
-    self.blockTapVideoEvent(DMLiveVideoViewType_Remote);
 }
 
 - (void)setupRemoteVideoDisplay:(NSUInteger)uid {
     _remoteVideoCanvas.uid = uid;
     _remoteVideoCanvas.view = self.remoteView;
-    _remoteVideoCanvas.renderMode = AgoraRtc_Render_Adaptive;
+    _remoteVideoCanvas.renderMode = AgoraRtc_Render_Hidden;
     [self.agoraKit setupRemoteVideo:_remoteVideoCanvas];
 }
 
@@ -157,8 +169,9 @@ static DMLiveVideoManager* _instance = nil;
                                 uid:self.uId
                         joinSuccess:^(NSString *channel, NSUInteger uid, NSInteger elapsed)
     {
+        NSLog(@"自己加入用户id（%lu）", (unsigned long)uid);
         //开始外放
-        [self.agoraKit setEnableSpeakerphone:NO];
+        [self.agoraKit setEnableSpeakerphone:YES];
         [UIApplication sharedApplication].idleTimerDisabled = YES;
     }];
 
@@ -166,13 +179,6 @@ static DMLiveVideoManager* _instance = nil;
 
 - (void)setIdleTimerActive:(BOOL)active {
     //[UIApplication sharedApplication].idleTimerDisabled = !active;
-}
-
-- (void)bindingAccountInfo:(id)obj {
-    self.channelKey = @"";
-    self.channelName = @"100";
-    self.uId = 0;
-    self.signalingKey = @"";
 }
 
 #pragma mark -
@@ -222,9 +228,9 @@ static DMLiveVideoManager* _instance = nil;
     NSLog(@"用户启动或者关闭视频-----》 %d", enabled);
 }
 
-//离开频道的回调
+//离开频道的回调 貌似是骗人的，不起作用
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine didLeaveChannelWithStats:(AgoraRtcStats *)stats {
-    self.blockQuitLiveVideoEvent(YES);
+//    self.blockQuitLiveVideoEvent(YES);
 }
 
 //摄像头的启用
@@ -241,8 +247,10 @@ static DMLiveVideoManager* _instance = nil;
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine reportAudioVolumeIndicationOfSpeakers:(NSArray*)speakers
       totalVolume:(NSInteger)totalVolume
 {
-    NSLog(@"音量回调");
-    self.blockAudioVolume(totalVolume, speakers);
+    NSLog(@"音量回调---- > %@", speakers);
+    if (self.blockAudioVolume) {
+        self.blockAudioVolume(totalVolume, speakers);
+    }
 }
 
 //统计数据
