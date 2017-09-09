@@ -54,6 +54,30 @@ static DMLiveVideoManager* _instance = nil;
     [self initializeAgoraEngine];
 }
 
+
+- (void)quitLiveVideo:(BlockQuitLiveVideoEvent)blockQuitLiveVideoEvent {
+    self.blockQuitLiveVideoEvent = blockQuitLiveVideoEvent;
+    [self.agoraKit setupLocalVideo:nil];
+    [self.agoraKit leaveChannel:^(AgoraRtcStats *stat) { }];
+    [self.agoraKit stopPreview];
+    
+    //此方法释放 Agora SDK 使用的所有资源，用户将无法再使用和回调该 SDK 内的其它方法
+    //且是同步调用，资源释放后返回
+    //[AgoraRtcEngineKit destroy];
+    //self.blockQuitLiveVideoEvent(YES);
+}
+
+//前后摄像头切换
+- (void)switchCamera {
+    [self.agoraKit switchCamera];
+}
+
+//声音控制
+- (void)switchSound:(BOOL)isEnable block:(void(^)(BOOL success))block {
+    int code = [self.agoraKit setEnableSpeakerphone:isEnable];
+    block((code == 0) ? YES : NO);
+}
+
 - (void)addTapEvent {
     
     if (self.isTapVideo) {
@@ -146,7 +170,7 @@ static DMLiveVideoManager* _instance = nil;
 
 - (void)bindingAccountInfo:(id)obj {
     self.channelKey = @"";
-    self.channelName = @"XL";
+    self.channelName = @"100";
     self.uId = 0;
     self.signalingKey = @"";
 }
@@ -196,6 +220,11 @@ static DMLiveVideoManager* _instance = nil;
 //用户启用/关闭视频
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine didVideoEnabled:(BOOL)enabled byUid:(NSUInteger)uid{
     NSLog(@"用户启动或者关闭视频-----》 %d", enabled);
+}
+
+//离开频道的回调
+- (void)rtcEngine:(AgoraRtcEngineKit *)engine didLeaveChannelWithStats:(AgoraRtcStats *)stats {
+    self.blockQuitLiveVideoEvent(YES);
 }
 
 //摄像头的启用

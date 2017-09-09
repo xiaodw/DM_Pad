@@ -56,6 +56,7 @@
     
     NSLog(@"进入课堂");
     DMLiveController *liveVC = [DMLiveController new];
+    liveVC.navigationVC = self.navigationController;
     [self.navigationController pushViewController:liveVC animated:YES];
 }
 

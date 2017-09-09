@@ -30,13 +30,22 @@
 		2A8782541F61438E004F9184 /* DMRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A8782531F61438E004F9184 /* DMRequestModel.m */; };
 		2AC06F041F622DD2009F9BFA /* timg1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2AC06F031F622DD2009F9BFA /* timg1.jpg */; };
 		2AC06F071F6247AA009F9BFA /* DMMenuHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AC06F061F6247AA009F9BFA /* DMMenuHeadView.m */; };
+		2AD28D6B1F63CE160042333D /* DMTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD28D6A1F63CE160042333D /* DMTestViewController.m */; };
 		2AD2AB371F5D441D00EDA962 /* DMHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD2AB361F5D441D00EDA962 /* DMHomeViewController.m */; };
 		2AD2AB3F1F5D47FD00EDA962 /* DMCustomerServiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD2AB3E1F5D47FD00EDA962 /* DMCustomerServiceViewController.m */; };
 		2AD2AB431F5D492700EDA962 /* DMMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD2AB421F5D492700EDA962 /* DMMenuViewController.m */; };
 		2AF695291F6149070078DC71 /* DMBaseDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF695281F6149070078DC71 /* DMBaseDataModel.m */; };
 		38CCB4B7CD85FDAEFE84B1D3 /* libPods-DiscoverMelody.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 945FC02CD63525967FAFE213 /* libPods-DiscoverMelody.a */; };
+		515DCEC41F62980000AA9465 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 515DCEC31F62980000AA9465 /* libc++.tbd */; };
+		515DCEC61F62980800AA9465 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 515DCEC51F62980800AA9465 /* libresolv.tbd */; };
+		515DCEC81F62980F00AA9465 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 515DCEC71F62980F00AA9465 /* CoreTelephony.framework */; };
+		515DCECA1F62981700AA9465 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 515DCEC91F62981700AA9465 /* CoreMedia.framework */; };
+		515DCECC1F62981E00AA9465 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 515DCECB1F62981E00AA9465 /* CoreMotion.framework */; };
+		515DCECE1F62982600AA9465 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 515DCECD1F62982600AA9465 /* VideoToolbox.framework */; };
+		515DCED01F62982C00AA9465 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 515DCECF1F62982C00AA9465 /* AudioToolbox.framework */; };
+		515DCED21F62984D00AA9465 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 515DCED11F62984D00AA9465 /* AVFoundation.framework */; };
+		515DCED41F62986700AA9465 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 515DCED31F62986700AA9465 /* SystemConfiguration.framework */; };
 		51B471391F62506D004FACC8 /* DMLiveController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B471381F62506D004FACC8 /* DMLiveController.m */; };
-		51B471421F626958004FACC8 /* DMLiveView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B471411F626958004FACC8 /* DMLiveView.m */; };
 		51B471481F62760E004FACC8 /* DMLiveButtonControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B471471F62760E004FACC8 /* DMLiveButtonControlView.m */; };
 		51D2D54D1F5EA73C00764130 /* DMConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D2D54C1F5EA73C00764130 /* DMConst.m */; };
 		51D2D55E1F5EBFE300764130 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D2D55D1F5EBFE300764130 /* UIColor+Hex.m */; };
@@ -118,6 +127,8 @@
 		2AC06F031F622DD2009F9BFA /* timg1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = timg1.jpg; sourceTree = "<group>"; };
 		2AC06F051F6247AA009F9BFA /* DMMenuHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMMenuHeadView.h; sourceTree = "<group>"; };
 		2AC06F061F6247AA009F9BFA /* DMMenuHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMMenuHeadView.m; sourceTree = "<group>"; };
+		2AD28D691F63CE160042333D /* DMTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMTestViewController.h; sourceTree = "<group>"; };
+		2AD28D6A1F63CE160042333D /* DMTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMTestViewController.m; sourceTree = "<group>"; };
 		2AD2AB351F5D441D00EDA962 /* DMHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMHomeViewController.h; sourceTree = "<group>"; };
 		2AD2AB361F5D441D00EDA962 /* DMHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMHomeViewController.m; sourceTree = "<group>"; };
 		2AD2AB3D1F5D47FD00EDA962 /* DMCustomerServiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCustomerServiceViewController.h; sourceTree = "<group>"; };
@@ -127,10 +138,17 @@
 		2AF695271F6149070078DC71 /* DMBaseDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMBaseDataModel.h; sourceTree = "<group>"; };
 		2AF695281F6149070078DC71 /* DMBaseDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMBaseDataModel.m; sourceTree = "<group>"; };
 		2BF41B440646DC59DC6A7EC6 /* Pods-DiscoverMelody.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DiscoverMelody.release.xcconfig"; path = "Pods/Target Support Files/Pods-DiscoverMelody/Pods-DiscoverMelody.release.xcconfig"; sourceTree = "<group>"; };
+		515DCEC31F62980000AA9465 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		515DCEC51F62980800AA9465 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
+		515DCEC71F62980F00AA9465 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		515DCEC91F62981700AA9465 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		515DCECB1F62981E00AA9465 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		515DCECD1F62982600AA9465 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
+		515DCECF1F62982C00AA9465 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		515DCED11F62984D00AA9465 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		515DCED31F62986700AA9465 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		51B471371F62506D004FACC8 /* DMLiveController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMLiveController.h; sourceTree = "<group>"; };
 		51B471381F62506D004FACC8 /* DMLiveController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMLiveController.m; sourceTree = "<group>"; };
-		51B471401F626958004FACC8 /* DMLiveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMLiveView.h; sourceTree = "<group>"; };
-		51B471411F626958004FACC8 /* DMLiveView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMLiveView.m; sourceTree = "<group>"; };
 		51B471431F62717A004FACC8 /* DMConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMConfig.h; sourceTree = "<group>"; };
 		51B471461F62760E004FACC8 /* DMLiveButtonControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMLiveButtonControlView.h; sourceTree = "<group>"; };
 		51B471471F62760E004FACC8 /* DMLiveButtonControlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMLiveButtonControlView.m; sourceTree = "<group>"; };
@@ -165,6 +183,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				515DCED41F62986700AA9465 /* SystemConfiguration.framework in Frameworks */,
+				515DCED21F62984D00AA9465 /* AVFoundation.framework in Frameworks */,
+				515DCED01F62982C00AA9465 /* AudioToolbox.framework in Frameworks */,
+				515DCECE1F62982600AA9465 /* VideoToolbox.framework in Frameworks */,
+				515DCECC1F62981E00AA9465 /* CoreMotion.framework in Frameworks */,
+				515DCECA1F62981700AA9465 /* CoreMedia.framework in Frameworks */,
+				515DCEC81F62980F00AA9465 /* CoreTelephony.framework in Frameworks */,
+				515DCEC61F62980800AA9465 /* libresolv.tbd in Frameworks */,
+				515DCEC41F62980000AA9465 /* libc++.tbd in Frameworks */,
 				2A4FB8881F629C7900CD670D /* libagora_fat.a in Frameworks */,
 				38CCB4B7CD85FDAEFE84B1D3 /* libPods-DiscoverMelody.a in Frameworks */,
 			);
@@ -351,6 +378,8 @@
 		2AB095B41F5D43D600E3644B /* HomePage */ = {
 			isa = PBXGroup;
 			children = (
+				2AD28D691F63CE160042333D /* DMTestViewController.h */,
+				2AD28D6A1F63CE160042333D /* DMTestViewController.m */,
 				2AD2AB351F5D441D00EDA962 /* DMHomeViewController.h */,
 				2AD2AB361F5D441D00EDA962 /* DMHomeViewController.m */,
 				2A4143871F5FF5F300E6B4E1 /* DMHomeView.h */,
@@ -404,8 +433,6 @@
 			children = (
 				51B471371F62506D004FACC8 /* DMLiveController.h */,
 				51B471381F62506D004FACC8 /* DMLiveController.m */,
-				51B471401F626958004FACC8 /* DMLiveView.h */,
-				51B471411F626958004FACC8 /* DMLiveView.m */,
 				51B471461F62760E004FACC8 /* DMLiveButtonControlView.h */,
 				51B471471F62760E004FACC8 /* DMLiveButtonControlView.m */,
 			);
@@ -459,6 +486,15 @@
 		ECE8EBFEEC0F26A03517179E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				515DCED31F62986700AA9465 /* SystemConfiguration.framework */,
+				515DCED11F62984D00AA9465 /* AVFoundation.framework */,
+				515DCECF1F62982C00AA9465 /* AudioToolbox.framework */,
+				515DCECD1F62982600AA9465 /* VideoToolbox.framework */,
+				515DCECB1F62981E00AA9465 /* CoreMotion.framework */,
+				515DCEC91F62981700AA9465 /* CoreMedia.framework */,
+				515DCEC71F62980F00AA9465 /* CoreTelephony.framework */,
+				515DCEC51F62980800AA9465 /* libresolv.tbd */,
+				515DCEC31F62980000AA9465 /* libc++.tbd */,
 				945FC02CD63525967FAFE213 /* libPods-DiscoverMelody.a */,
 			);
 			name = Frameworks;
@@ -664,9 +700,9 @@
 				2A05C4631F5D545D00FC4D9A /* DMRootContainerViewController.m in Sources */,
 				51D2D54D1F5EA73C00764130 /* DMConst.m in Sources */,
 				2A5F86C61F5CEDDF00773ADD /* DMBaseViewController.m in Sources */,
+				2AD28D6B1F63CE160042333D /* DMTestViewController.m in Sources */,
 				51D2D5DE1F6123DE00764130 /* NSString+Extension.m in Sources */,
 				2A03AF4A1F555FA80088DBF4 /* AppDelegate.m in Sources */,
-				51B471421F626958004FACC8 /* DMLiveView.m in Sources */,
 				51D2D62E1F613B0900764130 /* DMButton.m in Sources */,
 				2A05C45F1F5D544100FC4D9A /* DMRootViewController.m in Sources */,
 				51D2D5D21F60DDED00764130 /* UIColor+Extension.m in Sources */,

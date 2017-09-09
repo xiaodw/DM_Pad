@@ -2,4 +2,6 @@
 
 @interface DMLiveController : UIViewController
 
+@property (strong, nonatomic) UINavigationController *navigationVC;
+
 @end

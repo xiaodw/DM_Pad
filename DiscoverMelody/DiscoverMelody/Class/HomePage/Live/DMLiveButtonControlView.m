@@ -2,6 +2,7 @@
 
 @interface DMLiveButtonControlView ()
 
+@property (strong, nonatomic) UIImageView *shadowImageView;
 @property (strong, nonatomic) UIButton *leaveChannelButton;
 @property (strong, nonatomic) UIButton *swichCameraButton;
 @property (strong, nonatomic) UIButton *swichLayoutButton;
@@ -41,6 +42,7 @@
 }
 
 - (void)setupMakeAddSubviews {
+    [self addSubview:self.shadowImageView];
     [self addSubview:self.leaveChannelButton];
     [self addSubview:self.swichCameraButton];
     [self addSubview:self.swichLayoutButton];
@@ -48,8 +50,12 @@
 }
 
 - (void)setupMakeLayoutSubviews {
+    [_shadowImageView makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
+    
     [_leaveChannelButton makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self);
+        make.left.equalTo(23);
         make.top.equalTo(30);
         make.size.equalTo(CGSizeMake(60, 60));
     }];
@@ -75,6 +81,15 @@
     [button setImage:[UIImage imageNamed:name] forState:UIControlStateNormal];
     [button addTarget:self action:sel forControlEvents:UIControlEventTouchUpInside];
     return button;
+}
+
+- (UIImageView *)shadowImageView {
+    if (!_shadowImageView) {
+        _shadowImageView = [UIImageView new];
+        _shadowImageView.image = [UIImage imageNamed:@"image_shadow"];
+    }
+    
+    return _shadowImageView;
 }
 
 - (UIButton *)leaveChannelButton {
