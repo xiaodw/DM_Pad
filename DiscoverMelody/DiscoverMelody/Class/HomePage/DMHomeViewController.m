@@ -12,7 +12,7 @@
 #import "UIViewController+DMRootViewController.h"
 #import "DMHomeView.h"
 #import "DMHomeDataModel.h"
-
+#import "DMTestViewController.h"
 @interface DMHomeViewController () <DMHomeVCDelegate>
 
 @property (nonatomic, strong) DMHomeView *homeView;
@@ -48,14 +48,12 @@
 
 //本课文件
 - (void)clickCourseFiles {
-    
     NSLog(@"本课文件");
 }
 //进入课堂
 - (void)clickClassRoom {
     
     NSLog(@"进入课堂");
-    
     DMLiveController *liveVC = [DMLiveController new];
     liveVC.navigationVC = self.navigationController;
     [self.navigationController pushViewController:liveVC animated:YES];
