@@ -37,7 +37,7 @@ static DMLiveVideoManager* _instance = nil;
 
 - (void)bindingAccountInfo:(id)obj {
     self.channelKey = @"";
-    self.channelName = @"111";
+    self.channelName = @"110";
     self.uId = 0;
     self.signalingKey = @"";
 }
@@ -59,19 +59,6 @@ static DMLiveVideoManager* _instance = nil;
     
     [self bindingAccountInfo:nil];
     [self initializeAgoraEngine];
-}
-
-
-- (void)quitLiveVideo:(BlockQuitLiveVideoEvent)blockQuitLiveVideoEvent {
-    self.blockQuitLiveVideoEvent = blockQuitLiveVideoEvent;
-    [self.agoraKit setupLocalVideo:nil];
-    [self.agoraKit leaveChannel:^(AgoraRtcStats *stat) { }];
-    [self.agoraKit stopPreview];
-    
-    //此方法释放 Agora SDK 使用的所有资源，用户将无法再使用和回调该 SDK 内的其它方法
-    //且是同步调用，资源释放后返回
-    [AgoraRtcEngineKit destroy];
-    self.blockQuitLiveVideoEvent(YES);
 }
 
 //前后摄像头切换
@@ -98,6 +85,34 @@ static DMLiveVideoManager* _instance = nil;
     }
 }
 
+- (void)tapLocal {
+    NSLog(@"点击本地视频");
+    if (self.blockTapVideoEvent) {
+        self.blockTapVideoEvent(DMLiveVideoViewType_Local);
+    }
+}
+
+- (void)tapRemote {
+    NSLog(@"点击远程视频");
+    if (self.blockTapVideoEvent) {
+        self.blockTapVideoEvent(DMLiveVideoViewType_Remote);
+    }
+}
+
+- (void)quitLiveVideo:(BlockQuitLiveVideoEvent)blockQuitLiveVideoEvent {
+    self.blockQuitLiveVideoEvent = blockQuitLiveVideoEvent;
+    [self.agoraKit setupLocalVideo:nil];
+    [self.agoraKit leaveChannel:^(AgoraRtcStats *stat) { }];
+    [self.agoraKit stopPreview];
+    
+    //此方法释放 Agora SDK 使用的所有资源，用户将无法再使用和回调该 SDK 内的其它方法
+    //且是同步调用，资源释放后返回
+    [AgoraRtcEngineKit destroy];
+    if (self.blockQuitLiveVideoEvent) {
+        self.blockQuitLiveVideoEvent(YES);
+    }
+}
+
 - (void)initializeAgoraEngine {
     
     self.localVideoCanvas = [[AgoraRtcVideoCanvas alloc] init];
@@ -121,20 +136,10 @@ static DMLiveVideoManager* _instance = nil;
 }
 
 - (void)setupLocalVideoDisplay {
-    _localVideoCanvas.uid = 1;
+    _localVideoCanvas.uid = self.uId;
     _localVideoCanvas.view = self.localView;
     _localVideoCanvas.renderMode = AgoraRtc_Render_Hidden;
     [self.agoraKit setupLocalVideo:_localVideoCanvas];
-}
-
-- (void)tapLocal {
-    NSLog(@"点击本地视频");
-    self.blockTapVideoEvent(DMLiveVideoViewType_Local);
-}
-
-- (void)tapRemote {
-    NSLog(@"点击远程视频");
-    self.blockTapVideoEvent(DMLiveVideoViewType_Remote);
 }
 
 - (void)setupRemoteVideoDisplay:(NSUInteger)uid {
@@ -164,8 +169,9 @@ static DMLiveVideoManager* _instance = nil;
                                 uid:self.uId
                         joinSuccess:^(NSString *channel, NSUInteger uid, NSInteger elapsed)
     {
+        NSLog(@"自己加入用户id（%lu）", (unsigned long)uid);
         //开始外放
-        [self.agoraKit setEnableSpeakerphone:NO];
+        [self.agoraKit setEnableSpeakerphone:YES];
         [UIApplication sharedApplication].idleTimerDisabled = YES;
     }];
 
