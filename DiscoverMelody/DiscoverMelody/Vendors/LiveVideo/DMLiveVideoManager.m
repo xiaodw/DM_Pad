@@ -67,6 +67,17 @@ static DMLiveVideoManager* _instance = nil;
     //self.blockQuitLiveVideoEvent(YES);
 }
 
+//前后摄像头切换
+- (void)switchCamera {
+    [self.agoraKit switchCamera];
+}
+
+//声音控制
+- (void)switchSound:(BOOL)isEnable block:(void(^)(BOOL success))block {
+    int code = [self.agoraKit setEnableSpeakerphone:isEnable];
+    block((code == 0) ? YES : NO);
+}
+
 - (void)addTapEvent {
     
     if (self.isTapVideo) {
