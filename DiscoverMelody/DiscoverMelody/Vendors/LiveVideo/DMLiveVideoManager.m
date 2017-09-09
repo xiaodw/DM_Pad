@@ -159,7 +159,7 @@ static DMLiveVideoManager* _instance = nil;
 
 - (void)bindingAccountInfo:(id)obj {
     self.channelKey = @"";
-    self.channelName = @"XL";
+    self.channelName = @"100";
     self.uId = 0;
     self.signalingKey = @"";
 }

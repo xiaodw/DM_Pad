@@ -4,4 +4,4 @@
 //
 
 //声网appID
-#define AgoraAppID @"045cdf7e28644ab49bf5d86dc9a5bcae"
+#define AgoraAppID @"f8101ce899cc4da8807b3eb81bed86e3"
