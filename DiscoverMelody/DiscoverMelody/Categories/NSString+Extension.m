@@ -18,4 +18,22 @@
     return [self boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin attributes:dict context:nil].size;
 }
 
+- (instancetype)stringByPaddingLeftWithString:(NSString *)padString total:(NSInteger)total {
+    if (self.length >= total) return self;
+    NSMutableString *fullString = [NSMutableString stringWithString:@""];
+    for (int i = 0; i < total-self.length; i++) {
+        [fullString appendString:padString];
+    }
+    [fullString appendString:self];
+    return fullString;
+}
+- (instancetype)stringByPaddingRightWithString:(NSString *)padString total:(NSInteger)total {
+    if (self.length >= total) return self;
+    NSMutableString *fullString = [NSMutableString stringWithString:self];
+    for (int i = 0; i < total-self.length; i++) {
+        [fullString appendString:padString];
+    }
+    return fullString;
+}
+
 @end
