@@ -16,6 +16,8 @@
 		2A05C45F1F5D544100FC4D9A /* DMRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A05C45C1F5D544100FC4D9A /* DMRootViewController.m */; };
 		2A05C4601F5D544100FC4D9A /* UIViewController+DMRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A05C45E1F5D544100FC4D9A /* UIViewController+DMRootViewController.m */; };
 		2A05C4631F5D545D00FC4D9A /* DMRootContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A05C4621F5D545D00FC4D9A /* DMRootContainerViewController.m */; };
+		2A23C9711F665AAD0097F91B /* DMCustomerInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A23C9701F665AAD0097F91B /* DMCustomerInfoView.m */; };
+		2A23C9741F665F110097F91B /* DMCustomerPhoneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A23C9731F665F110097F91B /* DMCustomerPhoneCell.m */; };
 		2A27E0CF1F5E46EC00865644 /* DMTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A27E0CE1F5E46EC00865644 /* DMTools.m */; };
 		2A27E0D41F5E95C600865644 /* DMHttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A27E0D31F5E95C600865644 /* DMHttpClient.m */; };
 		2A27E0D91F5EA65300865644 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2A27E0DB1F5EA65300865644 /* InfoPlist.strings */; };
@@ -28,6 +30,7 @@
 		2A5F86C61F5CEDDF00773ADD /* DMBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A5F86C51F5CEDDF00773ADD /* DMBaseViewController.m */; };
 		2A7A64C61F629F0800D1E62C /* DMLiveVideoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A7A64C51F629F0800D1E62C /* DMLiveVideoManager.m */; };
 		2A8782541F61438E004F9184 /* DMRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A8782531F61438E004F9184 /* DMRequestModel.m */; };
+		2A9D91671F6690FC00DF4A3B /* DMCustomerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A9D91661F6690FC00DF4A3B /* DMCustomerCell.m */; };
 		2AC06F041F622DD2009F9BFA /* timg1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2AC06F031F622DD2009F9BFA /* timg1.jpg */; };
 		2AC06F071F6247AA009F9BFA /* DMMenuHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AC06F061F6247AA009F9BFA /* DMMenuHeadView.m */; };
 		2AD28D6B1F63CE160042333D /* DMTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD28D6A1F63CE160042333D /* DMTestViewController.m */; };
@@ -98,6 +101,10 @@
 		2A05C45E1F5D544100FC4D9A /* UIViewController+DMRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+DMRootViewController.m"; sourceTree = "<group>"; };
 		2A05C4611F5D545D00FC4D9A /* DMRootContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMRootContainerViewController.h; sourceTree = "<group>"; };
 		2A05C4621F5D545D00FC4D9A /* DMRootContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMRootContainerViewController.m; sourceTree = "<group>"; };
+		2A23C96F1F665AAD0097F91B /* DMCustomerInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCustomerInfoView.h; sourceTree = "<group>"; };
+		2A23C9701F665AAD0097F91B /* DMCustomerInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCustomerInfoView.m; sourceTree = "<group>"; };
+		2A23C9721F665F110097F91B /* DMCustomerPhoneCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCustomerPhoneCell.h; sourceTree = "<group>"; };
+		2A23C9731F665F110097F91B /* DMCustomerPhoneCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCustomerPhoneCell.m; sourceTree = "<group>"; };
 		2A27E0CD1F5E46EC00865644 /* DMTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMTools.h; sourceTree = "<group>"; };
 		2A27E0CE1F5E46EC00865644 /* DMTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMTools.m; sourceTree = "<group>"; };
 		2A27E0D21F5E95C600865644 /* DMHttpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMHttpClient.h; sourceTree = "<group>"; };
@@ -125,6 +132,8 @@
 		2A87824C1F613006004F9184 /* DMNetConntectDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMNetConntectDefine.h; sourceTree = "<group>"; };
 		2A8782521F61438E004F9184 /* DMRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMRequestModel.h; sourceTree = "<group>"; };
 		2A8782531F61438E004F9184 /* DMRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMRequestModel.m; sourceTree = "<group>"; };
+		2A9D91651F6690FC00DF4A3B /* DMCustomerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCustomerCell.h; sourceTree = "<group>"; };
+		2A9D91661F6690FC00DF4A3B /* DMCustomerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCustomerCell.m; sourceTree = "<group>"; };
 		2AC06F031F622DD2009F9BFA /* timg1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = timg1.jpg; sourceTree = "<group>"; };
 		2AC06F051F6247AA009F9BFA /* DMMenuHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMMenuHeadView.h; sourceTree = "<group>"; };
 		2AC06F061F6247AA009F9BFA /* DMMenuHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMMenuHeadView.m; sourceTree = "<group>"; };
@@ -413,6 +422,12 @@
 			children = (
 				2AD2AB3D1F5D47FD00EDA962 /* DMCustomerServiceViewController.h */,
 				2AD2AB3E1F5D47FD00EDA962 /* DMCustomerServiceViewController.m */,
+				2A23C96F1F665AAD0097F91B /* DMCustomerInfoView.h */,
+				2A23C9701F665AAD0097F91B /* DMCustomerInfoView.m */,
+				2A23C9721F665F110097F91B /* DMCustomerPhoneCell.h */,
+				2A23C9731F665F110097F91B /* DMCustomerPhoneCell.m */,
+				2A9D91651F6690FC00DF4A3B /* DMCustomerCell.h */,
+				2A9D91661F6690FC00DF4A3B /* DMCustomerCell.m */,
 			);
 			path = CustomerService;
 			sourceTree = "<group>";
@@ -702,10 +717,12 @@
 				2A05C4631F5D545D00FC4D9A /* DMRootContainerViewController.m in Sources */,
 				51D2D54D1F5EA73C00764130 /* DMConst.m in Sources */,
 				2A5F86C61F5CEDDF00773ADD /* DMBaseViewController.m in Sources */,
+				2A23C9711F665AAD0097F91B /* DMCustomerInfoView.m in Sources */,
 				2AD28D6B1F63CE160042333D /* DMTestViewController.m in Sources */,
 				51D2D5DE1F6123DE00764130 /* NSString+Extension.m in Sources */,
 				2A03AF4A1F555FA80088DBF4 /* AppDelegate.m in Sources */,
 				51D2D62E1F613B0900764130 /* DMButton.m in Sources */,
+				2A9D91671F6690FC00DF4A3B /* DMCustomerCell.m in Sources */,
 				2A05C45F1F5D544100FC4D9A /* DMRootViewController.m in Sources */,
 				51D2D5D21F60DDED00764130 /* UIColor+Extension.m in Sources */,
 				2A27E0CF1F5E46EC00865644 /* DMTools.m in Sources */,
@@ -718,6 +735,7 @@
 				2AD2AB371F5D441D00EDA962 /* DMHomeViewController.m in Sources */,
 				2A45F9701F60F6D50077CBA5 /* DMHomeDataModel.m in Sources */,
 				2A7A64C61F629F0800D1E62C /* DMLiveVideoManager.m in Sources */,
+				2A23C9741F665F110097F91B /* DMCustomerPhoneCell.m in Sources */,
 				2A27E0D41F5E95C600865644 /* DMHttpClient.m in Sources */,
 				51D2D55E1F5EBFE300764130 /* UIColor+Hex.m in Sources */,
 				51D2D5681F5F999D00764130 /* UIView+Frame.m in Sources */,
