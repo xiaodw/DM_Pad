@@ -9,6 +9,7 @@
 #import "DMCustomerServiceViewController.h"
 #import "DMCustomerPhoneCell.h"
 #import "DMCustomerCell.h"
+#import "DMPopCodeView.h"
 @interface DMCustomerServiceViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *phoneArray;
@@ -56,6 +57,19 @@
     _tableView.backgroundColor = DMColorWithRGBA(246, 246, 246, 1);
     [self.view addSubview:self.tableView];
     
+    UILabel *bottomLabel = [[UILabel alloc] init];
+    bottomLabel.text = @"如需修改上课时间，了解更多详情，请联系以上任意客服";
+    bottomLabel.font = DMFontPingFang_UltraLight(13);
+    bottomLabel.textColor = DMColorWithRGBA(153, 153, 153, 1);
+    bottomLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:bottomLabel];
+    
+    [bottomLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(self.view);
+        make.bottom.equalTo(self.view).equalTo(-30);
+        make.height.equalTo(16);
+    }];
+    
 }
 
 - (void)sectionClick:(BOOL)isfurled {
@@ -78,6 +92,8 @@
 #pragma mark UITableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    DMPopCodeView *codeView = [[DMPopCodeView alloc] initWithTitle:@"寻律课程顾问-A老师" message:@"微信号：Dsicover-Melody-1" imageName:@"codeTest"];
+    [codeView show];
 }
 
 #pragma mark -

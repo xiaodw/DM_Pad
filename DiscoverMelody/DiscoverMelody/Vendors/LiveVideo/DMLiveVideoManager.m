@@ -41,8 +41,8 @@ static DMLiveVideoManager* _instance = nil;
 
 - (void)bindingAccountInfo:(id)obj {
     self.channelKey = @"";
-    self.channelName = @"112";
-    self.uId = 0;
+    self.channelName = @"110";
+    self.uId = 11111111111;
     self.signalingKey = @"";
 }
 
@@ -255,7 +255,7 @@ static DMLiveVideoManager* _instance = nil;
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine reportAudioVolumeIndicationOfSpeakers:(NSArray*)speakers
       totalVolume:(NSInteger)totalVolume
 {
-    NSLog(@"音量回调---- > %@", speakers);
+//    NSLog(@"音量回调---- > %@", speakers);
     if (self.blockAudioVolume) {
         self.blockAudioVolume(totalVolume, speakers);
     }

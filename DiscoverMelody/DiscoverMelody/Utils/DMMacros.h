@@ -17,7 +17,8 @@ green:((((rgbValue) & 0xFF00) >> 8))/255.f \
 blue:(((rgbValue) & 0xFF))/255.f alpha:1.0]
 #define DMColorWithRGBA(red,green,blue,alpha) [UIColor colorWithR:red g:green b:blue a:alpha]
 #define DMColorWithHexString(hex) [UIColor colorWithHexString:hex]
-
+#define DMColorBaseMeiRed DMColorWithRGBA(246, 8, 112, 1)
+#define DMColor102 DMColorWithRGBA(102, 102, 102, 1)
 
 #pragma mark - Numerical value
 #define DMScreenHeight [UIScreen mainScreen].bounds.size.height
