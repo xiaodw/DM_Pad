@@ -8,6 +8,7 @@
 
 #import "DMLiveVideoManager.h"
 #import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
+#import "agorasdk.h"
 
 @interface DMLiveVideoManager () <AgoraRtcEngineDelegate>
 
@@ -29,6 +30,9 @@
 //初始化声网
 - (void)initializeAgoraEngine;
 
+//初始化信令
+- (void)initializeSignaling;
+
 @end
 
 @implementation DMLiveVideoManager
@@ -37,7 +41,7 @@ static DMLiveVideoManager* _instance = nil;
 
 - (void)bindingAccountInfo:(id)obj {
     self.channelKey = @"";
-    self.channelName = @"110";
+    self.channelName = @"112";
     self.uId = 0;
     self.signalingKey = @"";
 }
@@ -133,6 +137,10 @@ static DMLiveVideoManager* _instance = nil;
     [self.agoraKit startPreview];
     //加入频道
     [self joinChannel];
+}
+
+- (void)initializeSignaling {
+    
 }
 
 - (void)setupLocalVideoDisplay {
