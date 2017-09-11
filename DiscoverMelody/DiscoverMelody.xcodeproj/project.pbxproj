@@ -26,6 +26,7 @@
 		2A4143901F600D6F00E6B4E1 /* DMHomeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A41438F1F600D6F00E6B4E1 /* DMHomeCell.m */; };
 		2A45F9701F60F6D50077CBA5 /* DMHomeDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A45F96F1F60F6D50077CBA5 /* DMHomeDataModel.m */; };
 		2A47AFBB1F626A14003A90DA /* DMMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A47AFBA1F626A14003A90DA /* DMMenuCell.m */; };
+		2A4E96A11F66AA57000C4DFD /* DMPopCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A4E96A01F66AA57000C4DFD /* DMPopCodeView.m */; };
 		2A4FB8881F629C7900CD670D /* libagora_fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A4FB8871F629C7900CD670D /* libagora_fat.a */; };
 		2A5F86C61F5CEDDF00773ADD /* DMBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A5F86C51F5CEDDF00773ADD /* DMBaseViewController.m */; };
 		2A7A64C61F629F0800D1E62C /* DMLiveVideoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A7A64C51F629F0800D1E62C /* DMLiveVideoManager.m */; };
@@ -122,6 +123,8 @@
 		2A45F96F1F60F6D50077CBA5 /* DMHomeDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMHomeDataModel.m; sourceTree = "<group>"; };
 		2A47AFB91F626A14003A90DA /* DMMenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMMenuCell.h; sourceTree = "<group>"; };
 		2A47AFBA1F626A14003A90DA /* DMMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMMenuCell.m; sourceTree = "<group>"; };
+		2A4E969F1F66AA57000C4DFD /* DMPopCodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMPopCodeView.h; sourceTree = "<group>"; };
+		2A4E96A01F66AA57000C4DFD /* DMPopCodeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMPopCodeView.m; sourceTree = "<group>"; };
 		2A4FB8861F629C7900CD670D /* agorasdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = agorasdk.h; sourceTree = "<group>"; };
 		2A4FB8871F629C7900CD670D /* libagora_fat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libagora_fat.a; sourceTree = "<group>"; };
 		2A5F86C41F5CEDDF00773ADD /* DMBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMBaseViewController.h; sourceTree = "<group>"; };
@@ -431,6 +434,8 @@
 				2A23C9731F665F110097F91B /* DMCustomerPhoneCell.m */,
 				2A9D91651F6690FC00DF4A3B /* DMCustomerCell.h */,
 				2A9D91661F6690FC00DF4A3B /* DMCustomerCell.m */,
+				2A4E969F1F66AA57000C4DFD /* DMPopCodeView.h */,
+				2A4E96A01F66AA57000C4DFD /* DMPopCodeView.m */,
 			);
 			path = CustomerService;
 			sourceTree = "<group>";
@@ -736,6 +741,7 @@
 				51D2D5641F5EC00B00764130 /* DMLoginController.m in Sources */,
 				2AD2AB3F1F5D47FD00EDA962 /* DMCustomerServiceViewController.m in Sources */,
 				2A8782541F61438E004F9184 /* DMRequestModel.m in Sources */,
+				2A4E96A11F66AA57000C4DFD /* DMPopCodeView.m in Sources */,
 				2AD2AB371F5D441D00EDA962 /* DMHomeViewController.m in Sources */,
 				2A45F9701F60F6D50077CBA5 /* DMHomeDataModel.m in Sources */,
 				2A7A64C61F629F0800D1E62C /* DMLiveVideoManager.m in Sources */,
