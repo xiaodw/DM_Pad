@@ -21,22 +21,22 @@
 
 
 //登录
-#define DM_User_Loing_Url [DM_Url stringByAppendingFormat:@"user/login"]
+#define DM_User_Loing_Url               [DM_Url stringByAppendingFormat:@"user/login"]
 
 //退出登录
-#define DM_User_Logout_Url [DM_Url stringByAppendingFormat:@"user/logout"]
+#define DM_User_Logout_Url              [DM_Url stringByAppendingFormat:@"user/logout"]
 
 //课程列表/个人主页的课程列表
-#define DM_User_Course_List_Url [DM_Url stringByAppendingFormat:@"course/list"]
+#define DM_User_Course_List_Url         [DM_Url stringByAppendingFormat:@"course/list"]
 
 //本课课件列表
-#define DM_User_Attachment_List_Url [DM_Url stringByAppendingFormat:@"attachment/list"]
+#define DM_User_Attachment_List_Url     [DM_Url stringByAppendingFormat:@"attachment/list"]
 
 //课件上传
-#define DM_User_Attachment_Upload_Url [DM_Url stringByAppendingFormat:@"attachment/upload"]
+#define DM_User_Attachment_Upload_Url   [DM_Url stringByAppendingFormat:@"attachment/upload"]
 
 //删除课件
-#define DM_User_Attachment_Del_Url [DM_Url stringByAppendingFormat:@"attachment/del"]
+#define DM_User_Attachment_Del_Url      [DM_Url stringByAppendingFormat:@"attachment/del"]
 
 
 #endif /* DMServerApiConfig_h */
