@@ -93,6 +93,7 @@
     self.teachLabel.text = @"寻律课程顾问-A老师";
     self.wecatAccountLabel.text = @"微信号：Discover-Melody-1";
     self.bgCodeImageView.image = [UIImage imageNamed:@"customer_code"];
+    [self.codeImageView sd_setImageWithURL:nil placeholderImage:[UIImage imageNamed:@"codeTest"]];
 }
 
 - (void)awakeFromNib {
