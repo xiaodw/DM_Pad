@@ -26,6 +26,11 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 @property (strong, nonatomic) UILabel *surplusTimeLabel;
 @property (strong, nonatomic) UILabel *describeLabel;
 
+//@property (strong, nonatomic) UIView *remotePlaceholderView;
+//@property (strong, nonatomic) UILabel *remotePlaceholderTitleLabel;
+//@property (strong, nonatomic) UIView *localPlaceholderView;
+//@property (strong, nonatomic) UILabel *localPlaceholderTitleLabel;
+
 #pragma mark - Other
 @property (strong, nonatomic) NSArray *animationImages;
 @property (assign, nonatomic) NSInteger tapLayoutCount;
@@ -42,14 +47,16 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     self.view.backgroundColor = [UIColor whiteColor];
     [self.navigationController setNavigationBarHidden:YES];
     
-    [self setupMakeButtons];
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(remoteVideoTapped)];
+    [self.view addGestureRecognizer:tapGestureRecognizer];
+    
     [self setupMakeAddSubviews];
     [self setupMakeLayoutSubviews];
     [self joinChannel];
     
-//    [self.liveVideoManager switchSound:NO block:^(BOOL success) {
-//        
-//    }];
+    [self.liveVideoManager switchSound:NO block:^(BOOL success) {
+        
+    }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -58,23 +65,10 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self.navigationController setNavigationBarHidden:NO];
 }
 
-- (void)setupMakeButtons {
-    [self performSelector:@selector(hideControlButtons) withObject:nil afterDelay:1];
-    
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(remoteVideoTapped)];
-    [self.view addGestureRecognizer:tapGestureRecognizer];
-}
-
-- (void)hideControlButtons {
-    self.controlView.hidden = true;
-}
-
 - (void)remoteVideoTapped {
-    if (self.controlView.hidden) {
-        self.controlView.hidden = false;
-        [[self class] cancelPreviousPerformRequestsWithTarget:self];
-        [self performSelector:@selector(hideControlButtons) withObject:nil afterDelay:1];
-    }
+    [UIView animateWithDuration:0.15 animations:^{
+        self.controlView.alpha = self.controlView.alpha == 1 ? 0 : 1;;
+    }];
 }
 
 - (void)joinChannel {
@@ -216,6 +210,41 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     
     return _animationImages;
 }
+
+//- (UIView *)remotePlaceholderView {
+//    if (!_remotePlaceholderView) {
+//        _remotePlaceholderView = [UIView new];
+//    }
+//    
+//    return _remotePlaceholderView;
+//}
+//
+//- (UILabel *)remotePlaceholderTitleLabel {
+//    if (!_remotePlaceholderTitleLabel) {
+//        _remotePlaceholderTitleLabel = [UILabel new];
+//        _remotePlaceholderTitleLabel.textColor = DMColorWithRGBA(102, 102, 102, 1);
+//        _remotePlaceholderTitleLabel.font = DMFontPingFang_Light(20);
+//    }
+//    
+//    return _remotePlaceholderTitleLabel;
+//}
+//
+//- (UIView *)localPlaceholderView {
+//    if (!_localPlaceholderView) {
+//        _localPlaceholderView = [UIView new];
+//    }
+//    
+//    return _localPlaceholderView;
+//}
+//
+//- (UILabel *)localPlaceholderTitleLabel {
+//    if (!_localPlaceholderTitleLabel) {
+//        _localPlaceholderTitleLabel = [UILabel new];
+//        _localPlaceholderTitleLabel.textColor = DMColorWithRGBA(102, 102, 102, 1);
+//    }
+//    
+//    return _localPlaceholderTitleLabel;
+//}
 
 - (UIImageView *)setupVoiceImageView {
     UIImageView *imageView = [UIImageView new];
