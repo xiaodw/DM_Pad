@@ -4,7 +4,6 @@
 #define kColor51 DMColorWithRGBA(51, 51, 51, 1)
 #define kColor153 DMColorWithRGBA(153, 153, 153, 1)
 #define kColorGreen DMColorWithRGBA(99, 213, 105, 1)
-#define kColorRed DMColorWithRGBA(246, 8, 122, 1)
 #define kColor204 DMColorWithRGBA(204, 204, 204, 1)
 
 NSString *const kStatusTextKey = @"StatusTextKey";
@@ -249,10 +248,10 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
         _statusButton = [DMButton new];
         _statusButton.spacing = 7;
         _statusButton.layer.cornerRadius = 5;
-        _statusButton.layer.borderColor = kColorRed.CGColor;
+        _statusButton.layer.borderColor = DMColorBaseMeiRed.CGColor;
         _statusButton.layer.borderWidth = 0.5;
         _statusButton.titleLabel.font = DMFontPingFang_Light(14);
-        [_statusButton setTitleColor:kColorRed forState:UIControlStateNormal];
+        [_statusButton setTitleColor:DMColorBaseMeiRed forState:UIControlStateNormal];
         [_statusButton setTitle:@"回顾" forState:UIControlStateNormal];
         [_statusButton setImage:[UIImage imageNamed:@"btn_relook_arrow_right"] forState:UIControlStateNormal];
     }
