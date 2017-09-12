@@ -8,8 +8,8 @@
 
 #import "DMLiveVideoManager.h"
 #import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
-#import "agorasdk.h"
 
+#import "DMSignalingKey.h"
 @interface DMLiveVideoManager () <AgoraRtcEngineDelegate>
 
 @property (nonatomic, strong) NSString *channelKey;
@@ -24,6 +24,8 @@
 @property (nonatomic, strong) UIView *remoteView;
 @property (nonatomic, strong) AgoraRtcVideoCanvas *localVideoCanvas;
 @property (nonatomic, strong) AgoraRtcVideoCanvas *remoteVideoCanvas;
+
+@property (nonatomic, strong) AgoraAPI* inst;
 
 - (void)bindingAccountInfo:(id)obj;//绑定声网账号信息
 - (void)layoutLocalAndRemoteView:(UIView *)localView remote:(UIView *)remoteView;
@@ -58,6 +60,10 @@ static DMLiveVideoManager* _instance = nil;
     self.blockDidRejoinChannel = blockDidRejoinChannel;
 }
 
+-(void)firstRemoteVideoDecodedOfUid:(BlockFirstRemoteVideoDecodedOfUid)blockFirstRemoteVideoDecodedOfUid {
+    self.blockFirstRemoteVideoDecodedOfUid = blockFirstRemoteVideoDecodedOfUid;
+}
+
 - (void)startLiveVideo:(UIView *)localView
                 remote:(UIView *)remoteView
             isTapVideo:(BOOL)isTap
@@ -75,6 +81,7 @@ static DMLiveVideoManager* _instance = nil;
     
     [self bindingAccountInfo:nil];
     [self initializeAgoraEngine];
+    [self initializeSignaling];
 }
 
 //前后摄像头切换
@@ -152,10 +159,6 @@ static DMLiveVideoManager* _instance = nil;
     [self joinChannel];
 }
 
-- (void)initializeSignaling {
-    
-}
-
 - (void)setupLocalVideoDisplay {
     _localVideoCanvas.uid = self.uId;
     _localVideoCanvas.view = self.localView;
@@ -214,6 +217,9 @@ static DMLiveVideoManager* _instance = nil;
           elapsed:(NSInteger)elapsed
 {
     NSLog(@"远程首帧");
+    if (self.blockFirstRemoteVideoDecodedOfUid) {
+        self.blockFirstRemoteVideoDecodedOfUid(uid, size);
+    }
     [self setupRemoteVideoDisplay:uid];
 }
 
@@ -225,13 +231,19 @@ static DMLiveVideoManager* _instance = nil;
 //用户加入回调
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine didJoinedOfUid:(NSUInteger)uid elapsed:(NSInteger)elapsed {
     NSLog(@"有用户加入用户id（%lu）", (unsigned long)uid);
-    self.blockDidJoinedOfUid(uid);
+    if (self.blockDidJoinedOfUid) {
+       self.blockDidJoinedOfUid(uid);
+    }
+    
 }
 
 //用户离线
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine didOfflineOfUid:(NSUInteger)uid reason:(AgoraRtcUserOfflineReason)reason {
     NSLog(@"有用户离线用户id（%lu）", (unsigned long)uid);
-    self.blockDidOfflineOfUid(uid);
+    if (self.blockDidOfflineOfUid) {
+        self.blockDidOfflineOfUid(uid);
+    }
+    
 }
 
 //用户重新加入频道
@@ -239,7 +251,10 @@ static DMLiveVideoManager* _instance = nil;
           elapsed:(NSInteger) elapsed
 {
     NSLog(@"有用户重新加入--->> 频道（%@），用户id（%lu）", channel, (unsigned long)uid);
-    self.blockDidRejoinChannel(uid, channel);
+    if (self.blockDidRejoinChannel) {
+        self.blockDidRejoinChannel(uid, channel);
+    }
+    
 }
 
 //用户停止/重新发送视频回调
@@ -301,6 +316,88 @@ static DMLiveVideoManager* _instance = nil;
 //除非 APP 主动调用 leaveChannel，SDK 仍然会自动重连。
 - (void)rtcEngineConnectionDidLost:(AgoraRtcEngineKit *)engine {
     NSLog(@"网络连接丢失");
+}
+
+#pragma mark -
+#pragma mark - 信令SDK
+
+- (void)initializeSignaling {
+    self.inst = [AgoraAPI getInstanceWithoutMedia:AgoraSAppID];
+    AgoraAPI * __weak weak_inst = _inst;
+    NSString *name = @"222222";
+    unsigned expiredTime =  (unsigned)[[NSDate date] timeIntervalSince1970] + 3600;
+    NSString * token =  [DMSignalingKey calcToken:AgoraSAppID certificate:certificate1 account:name expiredTime:expiredTime];
+    
+    WS(weakSelf)
+    [self.inst login2:AgoraSAppID
+              account:name
+                token:token
+                  uid:0
+             deviceID:@""
+      retry_time_in_s:60
+          retry_count:5
+     ];
+    //收到消息
+    _inst.onMessageInstantReceive = ^(NSString *account, uint32_t uid, NSString *msg) {
+        if (weakSelf.blockOnMessageInstantReceive) {
+            weakSelf.blockOnMessageInstantReceive(account, msg);
+        }
+        
+    };
+    
+    //登录成功
+    _inst.onLoginSuccess = ^(uint32_t uid, int fd) {
+        if (weakSelf.blockSignalingOnLoginSuccess) {
+            weakSelf.blockSignalingOnLoginSuccess(uid);
+        }
+    };
+    //登录失败
+    _inst.onLoginFailed = ^(AgoraEcode ecode) {
+        if (weakSelf.blockSignalingOnLoginFailed) {
+            weakSelf.blockSignalingOnLoginFailed(ecode);
+        }
+    };
+    //登录之后，失去和服务器的连接
+    _inst.onLogout = ^(AgoraEcode ecode) {
+        if (weakSelf.blockSignalingOnLogout) {
+            weakSelf.blockSignalingOnLogout(ecode);
+        }
+    };
+}
+
+-(void)onSignalingLoginSuccess:(BlockSignalingOnLoginSuccess)blockSignalingOnLoginSuccess {
+    self.blockSignalingOnLoginSuccess = blockSignalingOnLoginSuccess;
+}
+
+-(void)onSignalingLoginFailed:(BlockSignalingOnLoginFailed)blockSignalingOnLoginFailed {
+    self.blockSignalingOnLoginFailed = blockSignalingOnLoginFailed;
+}
+
+-(void)onSignalingLogout:(BlockSignalingOnLogout)blockSignalingOnLogout {
+    self.blockSignalingOnLogout = blockSignalingOnLogout;
+}
+
+-(void)onSignalingMessageReceive:(BlockOnMessageInstantReceive)blockOnMessageInstantReceive {
+    self.blockOnMessageInstantReceive = blockOnMessageInstantReceive;
+}
+
+- (void)sendMessageSynEvent:(NSString *)name
+                        msg:(NSString*)msg
+                      msgID:(NSString*)msgID
+                    success:(void(^)(NSString *messageID))success
+                      faile:(void(^)(NSString *messageID, AgoraEcode ecode))faile {
+    
+    
+    [_inst messageInstantSend:name uid:0 msg:msg msgID:msgID];
+    
+    //发送成功
+    _inst.onMessageSendSuccess = ^(NSString *messageID) {
+        success(messageID);
+    };
+    //失败
+    _inst.onMessageSendError = ^(NSString *messageID, AgoraEcode ecode) {
+        faile(messageID, ecode);
+    };
 }
 
 + (instancetype)shareInstance {
