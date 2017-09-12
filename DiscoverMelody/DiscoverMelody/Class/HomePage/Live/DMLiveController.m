@@ -132,6 +132,11 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         [weakSelf didTapRemote];
         return;
     }];
+    
+    //接收信令同步的消息，完成同步功能
+    [self.liveVideoManager onSignalingMessageReceive:^(NSString *account, NSString *msg) {
+        NSLog(@"接收到来自 %@，的超级好消息 %@", account , msg);
+    }];
 }
 
 #pragma mark - 左侧按钮们点击
