@@ -41,8 +41,8 @@ static DMLiveVideoManager* _instance = nil;
 
 - (void)bindingAccountInfo:(id)obj {
     self.channelKey = @"";
-    self.channelName = @"110";
-    self.uId = 11111111111;
+    self.channelName = @"112";
+    self.uId = 0;
     self.signalingKey = @"";
 }
 
@@ -84,6 +84,7 @@ static DMLiveVideoManager* _instance = nil;
 
 //声音控制
 - (void)switchSound:(BOOL)isEnable block:(void(^)(BOOL success))block {
+    [self.agoraKit muteLocalAudioStream:YES];
     int code = [self.agoraKit setEnableSpeakerphone:isEnable];
     if (block) {
         block((code == 0) ? YES : NO);
