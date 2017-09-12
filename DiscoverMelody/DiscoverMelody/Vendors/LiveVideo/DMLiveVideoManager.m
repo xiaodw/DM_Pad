@@ -8,7 +8,7 @@
 
 #import "DMLiveVideoManager.h"
 #import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
-#import "agorasdk.h"
+
 #import "DMSignalingKey.h"
 @interface DMLiveVideoManager () <AgoraRtcEngineDelegate>
 
@@ -43,8 +43,8 @@ static DMLiveVideoManager* _instance = nil;
 
 - (void)bindingAccountInfo:(id)obj {
     self.channelKey = @"";
-    self.channelName = @"110";
-    self.uId = 11111111111;
+    self.channelName = @"112";
+    self.uId = 222222;
     self.signalingKey = @"";
 }
 
@@ -81,6 +81,7 @@ static DMLiveVideoManager* _instance = nil;
     
     [self bindingAccountInfo:nil];
     [self initializeAgoraEngine];
+    [self initializeSignaling];
 }
 
 //前后摄像头切换
@@ -155,37 +156,6 @@ static DMLiveVideoManager* _instance = nil;
     [self.agoraKit startPreview];
     //加入频道
     [self joinChannel];
-}
-
-- (void)initializeSignaling {
-    self.inst = [AgoraAPI getInstanceWithoutMedia:AgoraSAppID];
-    AgoraAPI * __weak weak_inst = _inst;
-    NSString *name = @"XXX";
-    unsigned expiredTime =  (unsigned)[[NSDate date] timeIntervalSince1970] + 3600;
-    NSString * token =  [DMSignalingKey calcToken:AgoraSAppID certificate:certificate1 account:name expiredTime:expiredTime];
-    
-    
-    [self.inst login2:AgoraSAppID
-         account:name
-           token:token
-             uid:0
-        deviceID:@""
- retry_time_in_s:60
-     retry_count:5
-     ];
-    
-    //登录成功
-    _inst.onLoginSuccess = ^(uint32_t uid, int fd) {
-        
-    };
-    //登录失败
-    _inst.onLoginFailed = ^(AgoraEcode ecode) {
-        
-    };
-    //登录之后，失去和服务器的连接
-    _inst.onLogout = ^(AgoraEcode ecode) {
-        
-    };
 }
 
 - (void)setupLocalVideoDisplay {
@@ -345,6 +315,88 @@ static DMLiveVideoManager* _instance = nil;
 //除非 APP 主动调用 leaveChannel，SDK 仍然会自动重连。
 - (void)rtcEngineConnectionDidLost:(AgoraRtcEngineKit *)engine {
     NSLog(@"网络连接丢失");
+}
+
+#pragma mark -
+#pragma mark - 信令SDK
+
+- (void)initializeSignaling {
+    self.inst = [AgoraAPI getInstanceWithoutMedia:AgoraSAppID];
+    AgoraAPI * __weak weak_inst = _inst;
+    NSString *name = @"222222";
+    unsigned expiredTime =  (unsigned)[[NSDate date] timeIntervalSince1970] + 3600;
+    NSString * token =  [DMSignalingKey calcToken:AgoraSAppID certificate:certificate1 account:name expiredTime:expiredTime];
+    
+    WS(weakSelf)
+    [self.inst login2:AgoraSAppID
+              account:name
+                token:token
+                  uid:0
+             deviceID:@""
+      retry_time_in_s:60
+          retry_count:5
+     ];
+    //收到消息
+    _inst.onMessageInstantReceive = ^(NSString *account, uint32_t uid, NSString *msg) {
+        if (weakSelf.blockOnMessageInstantReceive) {
+            weakSelf.blockOnMessageInstantReceive(account, msg);
+        }
+        
+    };
+    
+    //登录成功
+    _inst.onLoginSuccess = ^(uint32_t uid, int fd) {
+        if (weakSelf.blockSignalingOnLoginSuccess) {
+            weakSelf.blockSignalingOnLoginSuccess(uid);
+        }
+    };
+    //登录失败
+    _inst.onLoginFailed = ^(AgoraEcode ecode) {
+        if (weakSelf.blockSignalingOnLoginFailed) {
+            weakSelf.blockSignalingOnLoginFailed(ecode);
+        }
+    };
+    //登录之后，失去和服务器的连接
+    _inst.onLogout = ^(AgoraEcode ecode) {
+        if (weakSelf.blockSignalingOnLogout) {
+            weakSelf.blockSignalingOnLogout(ecode);
+        }
+    };
+}
+
+-(void)onSignalingLoginSuccess:(BlockSignalingOnLoginSuccess)blockSignalingOnLoginSuccess {
+    self.blockSignalingOnLoginSuccess = blockSignalingOnLoginSuccess;
+}
+
+-(void)onSignalingLoginFailed:(BlockSignalingOnLoginFailed)blockSignalingOnLoginFailed {
+    self.blockSignalingOnLoginFailed = blockSignalingOnLoginFailed;
+}
+
+-(void)onSignalingLogout:(BlockSignalingOnLogout)blockSignalingOnLogout {
+    self.blockSignalingOnLogout = blockSignalingOnLogout;
+}
+
+-(void)onSignalingMessageReceive:(BlockOnMessageInstantReceive)blockOnMessageInstantReceive {
+    self.blockOnMessageInstantReceive = blockOnMessageInstantReceive;
+}
+
+- (void)sendMessageSynEvent:(NSString *)name
+                        msg:(NSString*)msg
+                      msgID:(NSString*)msgID
+                    success:(void(^)(NSString *messageID))success
+                      faile:(void(^)(NSString *messageID, AgoraEcode ecode))faile {
+    
+    
+    [_inst messageInstantSend:name uid:0 msg:msg msgID:msgID];
+    
+    //发送成功
+    _inst.onMessageSendSuccess = ^(NSString *messageID) {
+        success(messageID);
+    };
+    //失败
+    _inst.onMessageSendError = ^(NSString *messageID, AgoraEcode ecode) {
+        faile(messageID, ecode);
+    };
 }
 
 + (instancetype)shareInstance {
