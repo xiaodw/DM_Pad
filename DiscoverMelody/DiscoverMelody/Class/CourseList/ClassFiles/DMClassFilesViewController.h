@@ -1,13 +1,13 @@
 //
-//  DMHomeViewController.h
+//  DMClassFilesViewController.h
 //  DiscoverMelody
 //
-//  Created by Ares on 2017/9/4.
+//  Created by Ares on 2017/9/12.
 //  Copyright © 2017年 Discover Melody. All rights reserved.
 //
 
 #import "DMBaseViewController.h"
 
-@interface DMHomeViewController : DMBaseViewController
+@interface DMClassFilesViewController : DMBaseViewController
 
 @end

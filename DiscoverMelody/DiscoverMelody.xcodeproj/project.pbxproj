@@ -36,11 +36,21 @@
 		2A9D91691F669D2800DF4A3B /* codeTest.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A9D91681F669D2800DF4A3B /* codeTest.png */; };
 		2AC06F041F622DD2009F9BFA /* timg1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2AC06F031F622DD2009F9BFA /* timg1.jpg */; };
 		2AC06F071F6247AA009F9BFA /* DMMenuHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AC06F061F6247AA009F9BFA /* DMMenuHeadView.m */; };
+		2AC478151F67B3E500D42F79 /* DMCoursewareFallsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AC478141F67B3E500D42F79 /* DMCoursewareFallsCell.m */; };
 		2AD28D6B1F63CE160042333D /* DMTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD28D6A1F63CE160042333D /* DMTestViewController.m */; };
 		2AD2AB371F5D441D00EDA962 /* DMHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD2AB361F5D441D00EDA962 /* DMHomeViewController.m */; };
 		2AD2AB3F1F5D47FD00EDA962 /* DMCustomerServiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD2AB3E1F5D47FD00EDA962 /* DMCustomerServiceViewController.m */; };
 		2AD2AB431F5D492700EDA962 /* DMMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD2AB421F5D492700EDA962 /* DMMenuViewController.m */; };
 		2AF695291F6149070078DC71 /* DMBaseDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF695281F6149070078DC71 /* DMBaseDataModel.m */; };
+		2AF870F11F67BA5E0001E2D3 /* DMCoursewareFallsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF870F01F67BA5E0001E2D3 /* DMCoursewareFallsView.m */; };
+		2AF870F91F67C16A0001E2D3 /* zu0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2AF870F21F67C16A0001E2D3 /* zu0.jpg */; };
+		2AF870FA1F67C16A0001E2D3 /* zu1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2AF870F31F67C16A0001E2D3 /* zu1.jpg */; };
+		2AF870FB1F67C16A0001E2D3 /* zu2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2AF870F41F67C16A0001E2D3 /* zu2.jpg */; };
+		2AF870FC1F67C16A0001E2D3 /* zu3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2AF870F51F67C16A0001E2D3 /* zu3.jpg */; };
+		2AF870FD1F67C16A0001E2D3 /* zu4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2AF870F61F67C16A0001E2D3 /* zu4.jpg */; };
+		2AF870FE1F67C16A0001E2D3 /* zu5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2AF870F71F67C16A0001E2D3 /* zu5.jpg */; };
+		2AF870FF1F67C16A0001E2D3 /* zu6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2AF870F81F67C16A0001E2D3 /* zu6.jpg */; };
+		2AF871031F67D74F0001E2D3 /* DMClassFilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF871021F67D74F0001E2D3 /* DMClassFilesViewController.m */; };
 		38CCB4B7CD85FDAEFE84B1D3 /* libPods-DiscoverMelody.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 945FC02CD63525967FAFE213 /* libPods-DiscoverMelody.a */; };
 		515DCEC41F62980000AA9465 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 515DCEC31F62980000AA9465 /* libc++.tbd */; };
 		515DCEC61F62980800AA9465 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 515DCEC51F62980800AA9465 /* libresolv.tbd */; };
@@ -146,6 +156,8 @@
 		2AC06F031F622DD2009F9BFA /* timg1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = timg1.jpg; sourceTree = "<group>"; };
 		2AC06F051F6247AA009F9BFA /* DMMenuHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMMenuHeadView.h; sourceTree = "<group>"; };
 		2AC06F061F6247AA009F9BFA /* DMMenuHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMMenuHeadView.m; sourceTree = "<group>"; };
+		2AC478131F67B3E500D42F79 /* DMCoursewareFallsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCoursewareFallsCell.h; sourceTree = "<group>"; };
+		2AC478141F67B3E500D42F79 /* DMCoursewareFallsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCoursewareFallsCell.m; sourceTree = "<group>"; };
 		2AD28D691F63CE160042333D /* DMTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMTestViewController.h; sourceTree = "<group>"; };
 		2AD28D6A1F63CE160042333D /* DMTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMTestViewController.m; sourceTree = "<group>"; };
 		2AD2AB351F5D441D00EDA962 /* DMHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMHomeViewController.h; sourceTree = "<group>"; };
@@ -156,6 +168,17 @@
 		2AD2AB421F5D492700EDA962 /* DMMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMMenuViewController.m; sourceTree = "<group>"; };
 		2AF695271F6149070078DC71 /* DMBaseDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMBaseDataModel.h; sourceTree = "<group>"; };
 		2AF695281F6149070078DC71 /* DMBaseDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMBaseDataModel.m; sourceTree = "<group>"; };
+		2AF870EF1F67BA5E0001E2D3 /* DMCoursewareFallsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCoursewareFallsView.h; sourceTree = "<group>"; };
+		2AF870F01F67BA5E0001E2D3 /* DMCoursewareFallsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCoursewareFallsView.m; sourceTree = "<group>"; };
+		2AF870F21F67C16A0001E2D3 /* zu0.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = zu0.jpg; sourceTree = "<group>"; };
+		2AF870F31F67C16A0001E2D3 /* zu1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = zu1.jpg; sourceTree = "<group>"; };
+		2AF870F41F67C16A0001E2D3 /* zu2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = zu2.jpg; sourceTree = "<group>"; };
+		2AF870F51F67C16A0001E2D3 /* zu3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = zu3.jpg; sourceTree = "<group>"; };
+		2AF870F61F67C16A0001E2D3 /* zu4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = zu4.jpg; sourceTree = "<group>"; };
+		2AF870F71F67C16A0001E2D3 /* zu5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = zu5.jpg; sourceTree = "<group>"; };
+		2AF870F81F67C16A0001E2D3 /* zu6.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = zu6.jpg; sourceTree = "<group>"; };
+		2AF871011F67D74F0001E2D3 /* DMClassFilesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMClassFilesViewController.h; sourceTree = "<group>"; };
+		2AF871021F67D74F0001E2D3 /* DMClassFilesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMClassFilesViewController.m; sourceTree = "<group>"; };
 		2BF41B440646DC59DC6A7EC6 /* Pods-DiscoverMelody.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DiscoverMelody.release.xcconfig"; path = "Pods/Target Support Files/Pods-DiscoverMelody/Pods-DiscoverMelody.release.xcconfig"; sourceTree = "<group>"; };
 		515DCEC31F62980000AA9465 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		515DCEC51F62980800AA9465 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
@@ -388,6 +411,13 @@
 		2A5F86C31F5CEDAD00773ADD /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				2AF870F21F67C16A0001E2D3 /* zu0.jpg */,
+				2AF870F31F67C16A0001E2D3 /* zu1.jpg */,
+				2AF870F41F67C16A0001E2D3 /* zu2.jpg */,
+				2AF870F51F67C16A0001E2D3 /* zu3.jpg */,
+				2AF870F61F67C16A0001E2D3 /* zu4.jpg */,
+				2AF870F71F67C16A0001E2D3 /* zu5.jpg */,
+				2AF870F81F67C16A0001E2D3 /* zu6.jpg */,
 				2A9D91681F669D2800DF4A3B /* codeTest.png */,
 				2AC06F031F622DD2009F9BFA /* timg1.jpg */,
 				2A41438C1F6007DD00E6B4E1 /* timg.jpg */,
@@ -418,9 +448,21 @@
 			path = HomePage;
 			sourceTree = "<group>";
 		};
+		2AC478121F67B39F00D42F79 /* CoursewareFalls */ = {
+			isa = PBXGroup;
+			children = (
+				2AC478131F67B3E500D42F79 /* DMCoursewareFallsCell.h */,
+				2AC478141F67B3E500D42F79 /* DMCoursewareFallsCell.m */,
+				2AF870EF1F67BA5E0001E2D3 /* DMCoursewareFallsView.h */,
+				2AF870F01F67BA5E0001E2D3 /* DMCoursewareFallsView.m */,
+			);
+			path = CoursewareFalls;
+			sourceTree = "<group>";
+		};
 		2AD2AB381F5D444A00EDA962 /* CourseList */ = {
 			isa = PBXGroup;
 			children = (
+				2AF871001F67D7300001E2D3 /* ClassFiles */,
 				51D2D5D31F60E06800764130 /* DMCourseListController.h */,
 				51D2D5D41F60E06800764130 /* DMCourseListController.m */,
 				51D2D5D61F60E2B700764130 /* DMCourseListCell.h */,
@@ -459,6 +501,15 @@
 				2A47AFBA1F626A14003A90DA /* DMMenuCell.m */,
 			);
 			path = SliderMenu;
+			sourceTree = "<group>";
+		};
+		2AF871001F67D7300001E2D3 /* ClassFiles */ = {
+			isa = PBXGroup;
+			children = (
+				2AF871011F67D74F0001E2D3 /* DMClassFilesViewController.h */,
+				2AF871021F67D74F0001E2D3 /* DMClassFilesViewController.m */,
+			);
+			path = ClassFiles;
 			sourceTree = "<group>";
 		};
 		51B471361F625052004FACC8 /* Live */ = {
@@ -503,6 +554,7 @@
 		51D2D62B1F613ACA00764130 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				2AC478121F67B39F00D42F79 /* CoursewareFalls */,
 				51D2D62D1F613B0900764130 /* DMButton.h */,
 				51D2D62C1F613B0900764130 /* DMButton.m */,
 			);
@@ -647,12 +699,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2AF870FF1F67C16A0001E2D3 /* zu6.jpg in Resources */,
+				2AF870F91F67C16A0001E2D3 /* zu0.jpg in Resources */,
 				2A41438D1F6007DD00E6B4E1 /* timg.jpg in Resources */,
 				2A03AF551F555FA80088DBF4 /* LaunchScreen.storyboard in Resources */,
+				2AF870FB1F67C16A0001E2D3 /* zu2.jpg in Resources */,
 				2A27E0D91F5EA65300865644 /* InfoPlist.strings in Resources */,
 				2AC06F041F622DD2009F9BFA /* timg1.jpg in Resources */,
+				2AF870FE1F67C16A0001E2D3 /* zu5.jpg in Resources */,
 				2A9D91691F669D2800DF4A3B /* codeTest.png in Resources */,
+				2AF870FA1F67C16A0001E2D3 /* zu1.jpg in Resources */,
+				2AF870FC1F67C16A0001E2D3 /* zu3.jpg in Resources */,
 				2A03AF521F555FA80088DBF4 /* Assets.xcassets in Resources */,
+				2AF870FD1F67C16A0001E2D3 /* zu4.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -731,6 +790,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2AF871031F67D74F0001E2D3 /* DMClassFilesViewController.m in Sources */,
 				51D2D5651F5EC00B00764130 /* DMLoginTextField.m in Sources */,
 				2A4143901F600D6F00E6B4E1 /* DMHomeCell.m in Sources */,
 				2A05C4631F5D545D00FC4D9A /* DMRootContainerViewController.m in Sources */,
@@ -739,6 +799,7 @@
 				2A23C9711F665AAD0097F91B /* DMCustomerInfoView.m in Sources */,
 				2AD28D6B1F63CE160042333D /* DMTestViewController.m in Sources */,
 				51D2D5DE1F6123DE00764130 /* NSString+Extension.m in Sources */,
+				2AF870F11F67BA5E0001E2D3 /* DMCoursewareFallsView.m in Sources */,
 				2A03AF4A1F555FA80088DBF4 /* AppDelegate.m in Sources */,
 				51D2D62E1F613B0900764130 /* DMButton.m in Sources */,
 				2A9D91671F6690FC00DF4A3B /* DMCustomerCell.m in Sources */,
@@ -752,6 +813,7 @@
 				51D2D6311F613E0800764130 /* DMCourseListHeaderView.m in Sources */,
 				51D2D5641F5EC00B00764130 /* DMLoginController.m in Sources */,
 				2AD2AB3F1F5D47FD00EDA962 /* DMCustomerServiceViewController.m in Sources */,
+				2AC478151F67B3E500D42F79 /* DMCoursewareFallsCell.m in Sources */,
 				2A8782541F61438E004F9184 /* DMRequestModel.m in Sources */,
 				2A4E96A11F66AA57000C4DFD /* DMPopCodeView.m in Sources */,
 				2AD2AB371F5D441D00EDA962 /* DMHomeViewController.m in Sources */,
@@ -929,7 +991,6 @@
 			baseConfigurationReference = 1E620A6E158816600EA0CFFE /* Pods-DiscoverMelody.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = BR9B47C6A9;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = DiscoverMelody/Info.plist;
@@ -950,7 +1011,6 @@
 			baseConfigurationReference = 2BF41B440646DC59DC6A7EC6 /* Pods-DiscoverMelody.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = BR9B47C6A9;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = DiscoverMelody/Info.plist;

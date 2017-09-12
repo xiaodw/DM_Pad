@@ -15,7 +15,8 @@
 
 //导航透明
 - (void)setNavigationBarTransparence;
-
+//导航不透明
+- (void)setNavigationBarNoTransparence;
 //导航条左侧菜单点击
 - (void)clickMenuBtn:(id)sender;
 
@@ -26,7 +27,20 @@
           imageName:(NSString *)imageName
                font:(UIFont *)font;
 
+- (void)setLeftBtn:(CGRect)frame
+             title:(NSString *)title
+       titileColor:(UIColor *)titleColor
+         imageName:(NSString *)imageName
+              font:(UIFont *)font;
+
 //更新导航条用户信息
 - (void)updateUserInfo;
+
+
+- (void)leftOneAction:(id)sender;
+- (void)rightOneAction:(id)sender;
+
+- (void)updateRightBtnTitle:(NSString *)title;
+- (void)updateRightBtnImage:(NSString *)imageName;
 
 @end
