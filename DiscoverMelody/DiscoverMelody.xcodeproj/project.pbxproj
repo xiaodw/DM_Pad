@@ -52,6 +52,7 @@
 		515DCED21F62984D00AA9465 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 515DCED11F62984D00AA9465 /* AVFoundation.framework */; };
 		515DCED41F62986700AA9465 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 515DCED31F62986700AA9465 /* SystemConfiguration.framework */; };
 		515DCF031F66B63800AA9465 /* DMLiveWillStartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 515DCF021F66B63800AA9465 /* DMLiveWillStartView.m */; };
+		515DCF061F67A7D200AA9465 /* DMCoursewareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 515DCF051F67A7D200AA9465 /* DMCoursewareView.m */; };
 		51B471391F62506D004FACC8 /* DMLiveController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B471381F62506D004FACC8 /* DMLiveController.m */; };
 		51B471481F62760E004FACC8 /* DMLiveButtonControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B471471F62760E004FACC8 /* DMLiveButtonControlView.m */; };
 		51D2D54D1F5EA73C00764130 /* DMConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D2D54C1F5EA73C00764130 /* DMConst.m */; };
@@ -168,6 +169,8 @@
 		515DCED31F62986700AA9465 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		515DCF011F66B63800AA9465 /* DMLiveWillStartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMLiveWillStartView.h; sourceTree = "<group>"; };
 		515DCF021F66B63800AA9465 /* DMLiveWillStartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMLiveWillStartView.m; sourceTree = "<group>"; };
+		515DCF041F67A7D200AA9465 /* DMCoursewareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCoursewareView.h; sourceTree = "<group>"; };
+		515DCF051F67A7D200AA9465 /* DMCoursewareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCoursewareView.m; sourceTree = "<group>"; };
 		51B471371F62506D004FACC8 /* DMLiveController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMLiveController.h; sourceTree = "<group>"; };
 		51B471381F62506D004FACC8 /* DMLiveController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMLiveController.m; sourceTree = "<group>"; };
 		51B471431F62717A004FACC8 /* DMConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMConfig.h; sourceTree = "<group>"; };
@@ -470,6 +473,8 @@
 				51B471471F62760E004FACC8 /* DMLiveButtonControlView.m */,
 				515DCF011F66B63800AA9465 /* DMLiveWillStartView.h */,
 				515DCF021F66B63800AA9465 /* DMLiveWillStartView.m */,
+				515DCF041F67A7D200AA9465 /* DMCoursewareView.h */,
+				515DCF051F67A7D200AA9465 /* DMCoursewareView.m */,
 			);
 			path = Live;
 			sourceTree = "<group>";
@@ -746,6 +751,7 @@
 				515DCF031F66B63800AA9465 /* DMLiveWillStartView.m in Sources */,
 				2A05C45F1F5D544100FC4D9A /* DMRootViewController.m in Sources */,
 				51D2D5D21F60DDED00764130 /* UIColor+Extension.m in Sources */,
+				515DCF061F67A7D200AA9465 /* DMCoursewareView.m in Sources */,
 				2A27E0CF1F5E46EC00865644 /* DMTools.m in Sources */,
 				51D2D5D81F60E2B700764130 /* DMCourseListCell.m in Sources */,
 				2A05C4601F5D544100FC4D9A /* UIViewController+DMRootViewController.m in Sources */,
