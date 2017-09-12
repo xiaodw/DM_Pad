@@ -46,6 +46,18 @@ static DMLiveVideoManager* _instance = nil;
     self.signalingKey = @"";
 }
 
+-(void)didJoinedOfUid:(BlockDidJoinedOfUid)blockDidJoinedOfUid {
+    self.blockDidJoinedOfUid = blockDidJoinedOfUid;
+}
+
+-(void)didOfflineOfUid:(BlockDidOfflineOfUid)blockDidOfflineOfUid {
+    self.blockDidOfflineOfUid = blockDidOfflineOfUid;
+}
+
+-(void)didRejoinChannel:(BlockDidRejoinChannel)blockDidRejoinChannel {
+    self.blockDidRejoinChannel = blockDidRejoinChannel;
+}
+
 - (void)startLiveVideo:(UIView *)localView
                 remote:(UIView *)remoteView
             isTapVideo:(BOOL)isTap
@@ -212,11 +224,13 @@ static DMLiveVideoManager* _instance = nil;
 //用户加入回调
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine didJoinedOfUid:(NSUInteger)uid elapsed:(NSInteger)elapsed {
     NSLog(@"有用户加入用户id（%lu）", (unsigned long)uid);
+    self.blockDidJoinedOfUid(uid);
 }
 
 //用户离线
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine didOfflineOfUid:(NSUInteger)uid reason:(AgoraRtcUserOfflineReason)reason {
     NSLog(@"有用户离线用户id（%lu）", (unsigned long)uid);
+    self.blockDidOfflineOfUid(uid);
 }
 
 //用户重新加入频道
@@ -224,6 +238,7 @@ static DMLiveVideoManager* _instance = nil;
           elapsed:(NSInteger) elapsed
 {
     NSLog(@"有用户重新加入--->> 频道（%@），用户id（%lu）", channel, (unsigned long)uid);
+    self.blockDidRejoinChannel(uid, channel);
 }
 
 //用户停止/重新发送视频回调
