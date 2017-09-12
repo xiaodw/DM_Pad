@@ -44,7 +44,7 @@ static DMLiveVideoManager* _instance = nil;
 - (void)bindingAccountInfo:(id)obj {
     self.channelKey = @"";
     self.channelName = @"112";
-    self.uId = 0;
+    self.uId = 222222;
     self.signalingKey = @"";
 }
 
