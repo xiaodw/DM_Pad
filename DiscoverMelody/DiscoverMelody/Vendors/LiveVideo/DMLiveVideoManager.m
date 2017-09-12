@@ -91,6 +91,7 @@ static DMLiveVideoManager* _instance = nil;
 
 //声音控制
 - (void)switchSound:(BOOL)isEnable block:(void(^)(BOOL success))block {
+    [self.agoraKit muteLocalAudioStream:YES];
     int code = [self.agoraKit setEnableSpeakerphone:isEnable];
     if (block) {
         block((code == 0) ? YES : NO);
