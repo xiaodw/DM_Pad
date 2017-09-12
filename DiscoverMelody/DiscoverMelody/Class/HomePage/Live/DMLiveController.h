@@ -2,6 +2,6 @@
 
 @interface DMLiveController : UIViewController
 
-@property (strong, nonatomic) UINavigationController *navigationVC;
+@property (weak, nonatomic) UINavigationController *navigationVC;
 
 @end

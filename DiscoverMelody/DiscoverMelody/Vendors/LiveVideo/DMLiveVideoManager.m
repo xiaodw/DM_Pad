@@ -9,7 +9,7 @@
 #import "DMLiveVideoManager.h"
 #import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
 #import "agorasdk.h"
-
+#import "DMSignalingKey.h"
 @interface DMLiveVideoManager () <AgoraRtcEngineDelegate>
 
 @property (nonatomic, strong) NSString *channelKey;
@@ -24,6 +24,8 @@
 @property (nonatomic, strong) UIView *remoteView;
 @property (nonatomic, strong) AgoraRtcVideoCanvas *localVideoCanvas;
 @property (nonatomic, strong) AgoraRtcVideoCanvas *remoteVideoCanvas;
+
+@property (nonatomic, strong) AgoraAPI* inst;
 
 - (void)bindingAccountInfo:(id)obj;//绑定声网账号信息
 - (void)layoutLocalAndRemoteView:(UIView *)localView remote:(UIView *)remoteView;
@@ -56,6 +58,10 @@ static DMLiveVideoManager* _instance = nil;
 
 -(void)didRejoinChannel:(BlockDidRejoinChannel)blockDidRejoinChannel {
     self.blockDidRejoinChannel = blockDidRejoinChannel;
+}
+
+-(void)firstRemoteVideoDecodedOfUid:(BlockFirstRemoteVideoDecodedOfUid)blockFirstRemoteVideoDecodedOfUid {
+    self.blockFirstRemoteVideoDecodedOfUid = blockFirstRemoteVideoDecodedOfUid;
 }
 
 - (void)startLiveVideo:(UIView *)localView
@@ -152,7 +158,34 @@ static DMLiveVideoManager* _instance = nil;
 }
 
 - (void)initializeSignaling {
+    self.inst = [AgoraAPI getInstanceWithoutMedia:AgoraSAppID];
+    AgoraAPI * __weak weak_inst = _inst;
+    NSString *name = @"XXX";
+    unsigned expiredTime =  (unsigned)[[NSDate date] timeIntervalSince1970] + 3600;
+    NSString * token =  [DMSignalingKey calcToken:AgoraSAppID certificate:certificate1 account:name expiredTime:expiredTime];
     
+    
+    [self.inst login2:AgoraSAppID
+         account:name
+           token:token
+             uid:0
+        deviceID:@""
+ retry_time_in_s:60
+     retry_count:5
+     ];
+    
+    //登录成功
+    _inst.onLoginSuccess = ^(uint32_t uid, int fd) {
+        
+    };
+    //登录失败
+    _inst.onLoginFailed = ^(AgoraEcode ecode) {
+        
+    };
+    //登录之后，失去和服务器的连接
+    _inst.onLogout = ^(AgoraEcode ecode) {
+        
+    };
 }
 
 - (void)setupLocalVideoDisplay {
@@ -213,6 +246,9 @@ static DMLiveVideoManager* _instance = nil;
           elapsed:(NSInteger)elapsed
 {
     NSLog(@"远程首帧");
+    if (self.blockFirstRemoteVideoDecodedOfUid) {
+        self.blockFirstRemoteVideoDecodedOfUid(uid, size);
+    }
     [self setupRemoteVideoDisplay:uid];
 }
 
@@ -224,13 +260,19 @@ static DMLiveVideoManager* _instance = nil;
 //用户加入回调
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine didJoinedOfUid:(NSUInteger)uid elapsed:(NSInteger)elapsed {
     NSLog(@"有用户加入用户id（%lu）", (unsigned long)uid);
-    self.blockDidJoinedOfUid(uid);
+    if (self.blockDidJoinedOfUid) {
+       self.blockDidJoinedOfUid(uid);
+    }
+    
 }
 
 //用户离线
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine didOfflineOfUid:(NSUInteger)uid reason:(AgoraRtcUserOfflineReason)reason {
     NSLog(@"有用户离线用户id（%lu）", (unsigned long)uid);
-    self.blockDidOfflineOfUid(uid);
+    if (self.blockDidOfflineOfUid) {
+        self.blockDidOfflineOfUid(uid);
+    }
+    
 }
 
 //用户重新加入频道
@@ -238,7 +280,10 @@ static DMLiveVideoManager* _instance = nil;
           elapsed:(NSInteger) elapsed
 {
     NSLog(@"有用户重新加入--->> 频道（%@），用户id（%lu）", channel, (unsigned long)uid);
-    self.blockDidRejoinChannel(uid, channel);
+    if (self.blockDidRejoinChannel) {
+        self.blockDidRejoinChannel(uid, channel);
+    }
+    
 }
 
 //用户停止/重新发送视频回调
