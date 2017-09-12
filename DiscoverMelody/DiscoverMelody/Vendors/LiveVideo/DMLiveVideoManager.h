@@ -14,14 +14,23 @@ typedef NS_ENUM(NSInteger, DMLiveVideoViewType) {
     DMLiveVideoViewType_Remote,
 };
 
-typedef void (^BlockAudioVolume)(NSInteger totalVolume ,NSArray *speakers);
-typedef void (^BlockTapVideoEvent)(DMLiveVideoViewType type);
-typedef void (^BlockQuitLiveVideoEvent)(BOOL success);
+typedef void (^BlockAudioVolume)(NSInteger totalVolume ,NSArray *speakers); //音量
+typedef void (^BlockTapVideoEvent)(DMLiveVideoViewType type);//屏幕点击事件
+typedef void (^BlockQuitLiveVideoEvent)(BOOL success);//退出直播事件
+
+typedef void (^BlockDidJoinedOfUid)(NSUInteger uid);//有用户加入
+typedef void (^BlockDidOfflineOfUid)(NSUInteger uid);//有用户离开
+typedef void (^BlockDidRejoinChannel)(NSUInteger uid, NSString *channel);//用户重新加入
 
 @interface DMLiveVideoManager : NSObject
 @property (nonatomic, strong) BlockAudioVolume blockAudioVolume;
 @property (nonatomic, strong) BlockTapVideoEvent blockTapVideoEvent;
 @property (nonatomic, strong) BlockQuitLiveVideoEvent blockQuitLiveVideoEvent;
+
+@property (nonatomic, strong) BlockDidJoinedOfUid blockDidJoinedOfUid;
+@property (nonatomic, strong) BlockDidOfflineOfUid blockDidOfflineOfUid;
+@property (nonatomic, strong) BlockDidRejoinChannel blockDidRejoinChannel;
+
 + (instancetype)shareInstance;
 /** 开始声网视频直播
  *
