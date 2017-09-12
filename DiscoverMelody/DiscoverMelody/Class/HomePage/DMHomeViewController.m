@@ -13,6 +13,9 @@
 #import "DMHomeView.h"
 #import "DMHomeDataModel.h"
 #import "DMTestViewController.h"
+
+#import "DMClassFilesViewController.h"
+
 @interface DMHomeViewController () <DMHomeVCDelegate>
 
 @property (nonatomic, strong) DMHomeView *homeView;
@@ -26,7 +29,7 @@
     // Do any additional setup after loading the view.
     //[self setNavTitle:@"个人主页"];
     self.title = @"个人主页";
-    [self setNavigationBarTransparence];
+    
     self.view.backgroundColor = UIColorFromRGB(0xf6f6f6);
     [self.view addSubview:self.homeView];
     [self getDataFromServer];
@@ -50,6 +53,8 @@
 - (void)clickCourseFiles {
     
     NSLog(@"本课文件");
+    DMClassFilesViewController *cf = [[DMClassFilesViewController alloc] init];
+    [self.navigationController pushViewController:cf animated:YES];
 }
 //进入课堂
 - (void)clickClassRoom {
