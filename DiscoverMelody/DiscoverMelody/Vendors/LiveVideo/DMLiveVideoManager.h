@@ -22,6 +22,8 @@ typedef void (^BlockDidJoinedOfUid)(NSUInteger uid);//有用户加入
 typedef void (^BlockDidOfflineOfUid)(NSUInteger uid);//有用户离开
 typedef void (^BlockDidRejoinChannel)(NSUInteger uid, NSString *channel);//用户重新加入
 
+typedef void (^BlockFirstRemoteVideoDecodedOfUid)(NSUInteger uid, CGSize size);//远程首帧回调
+
 @interface DMLiveVideoManager : NSObject
 @property (nonatomic, strong) BlockAudioVolume blockAudioVolume;
 @property (nonatomic, strong) BlockTapVideoEvent blockTapVideoEvent;
@@ -30,6 +32,8 @@ typedef void (^BlockDidRejoinChannel)(NSUInteger uid, NSString *channel);//用�
 @property (nonatomic, strong) BlockDidJoinedOfUid blockDidJoinedOfUid;
 @property (nonatomic, strong) BlockDidOfflineOfUid blockDidOfflineOfUid;
 @property (nonatomic, strong) BlockDidRejoinChannel blockDidRejoinChannel;
+
+@property (nonatomic, strong) BlockFirstRemoteVideoDecodedOfUid blockFirstRemoteVideoDecodedOfUid;
 
 + (instancetype)shareInstance;
 /** 开始声网视频直播
@@ -55,4 +59,20 @@ typedef void (^BlockDidRejoinChannel)(NSUInteger uid, NSString *channel);//用�
 //声音控制
 - (void)switchSound:(BOOL)isEnable block:(void(^)(BOOL success))block;
 
+/////////信令////////
+
+//发送同步消息（点对点）
+//- (void)sendSynchronousMessage;
+
+
 @end
+
+
+
+
+
+
+
+
+
+
