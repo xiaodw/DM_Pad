@@ -2,6 +2,7 @@
 #import "DMLiveButtonControlView.h"
 #import "DMLiveVideoManager.h"
 #import "DMButton.h"
+#import "DMLiveWillStartView.h"
 #import "NSString+Extension.h"
 #import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
 
@@ -34,12 +35,15 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 @property (strong, nonatomic) UIImageView *localVoiceImageView; // 本地声音的view
 @property (strong, nonatomic) UIImageView *localPlaceholderView; // 本地没有人占位图
 @property (strong, nonatomic) UILabel *localPlaceholderTitleLabel; // 本地没有人占位图远端说明
+
 @property (strong, nonatomic) DMLiveButtonControlView *controlView; // 左侧按钮们
+@property (strong, nonatomic) UIImageView *shadowImageView;
+@property (strong, nonatomic) UIImageView *shadowRightImageView;
 @property (strong, nonatomic) UIView *timeView; // 底部时间条
 @property (strong, nonatomic) DMButton *timeButton; // 底部时间条: 图标
 @property (strong, nonatomic) UILabel *alreadyTimeLabel; // 底部时间条: 过了多少时间
 @property (strong, nonatomic) UILabel *describeTimeLabel; // 底部时间条: 提示
-
+@property (strong, nonatomic) DMLiveWillStartView *willStartView; // 即将开始的View
 
 #pragma mark - Other
 @property (nonatomic, strong) dispatch_source_t timer; // 1秒中更新一次时间UI
@@ -59,7 +63,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 - (void)setupServerData {
     NSDateFormatter *formater = [[NSDateFormatter alloc] init];
     [formater setDateFormat:@"yyyy-MM-dd HH:mm:ss "];
-    _startDate = [formater dateFromString:@"2017-09-11 18:28:00"];
+    _startDate = [formater dateFromString:@"2017-09-11 20:50:00"];
     _lectureTotalSecond = 45 * 60;
 }
 
@@ -162,19 +166,35 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 
 - (void)setupMakeAddSubviews {
     [self.view addSubview:self.remoteView];
+    [self.view addSubview:self.shadowRightImageView];
     [self.view addSubview:self.localView];
+    [self.view addSubview:self.shadowImageView];
     [self.view addSubview:self.controlView];
     [self.view addSubview:self.timeView];
+    [self.view addSubview:self.remoteVoiceImageView];
+    [self.view addSubview:self.localVoiceImageView];
+    
     [self.remoteView addSubview:self.remotePlaceholderView];
     [self.remoteView addSubview:self.remotePlaceholderTitleLabel];
     [self.localView addSubview:self.localPlaceholderView];
     [self.localView addSubview:self.localPlaceholderTitleLabel];
+    
+    [self.view addSubview:self.willStartView];
 }
 
 - (void)setupMakeLayoutSubviews {
     [_controlView makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.bottom.equalTo(self.view);
         make.width.equalTo(225);
+    }];
+    
+    [_shadowImageView makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(_controlView);
+    }];
+    
+    [_shadowRightImageView makeConstraints:^(MASConstraintMaker *make) {
+        make.right.top.bottom.equalTo(self.view);
+        make.width.equalTo(_shadowImageView);
     }];
     
     [_timeView makeConstraints:^(MASConstraintMaker *make) {
@@ -226,6 +246,11 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         make.top.equalTo(_localPlaceholderView.mas_bottom).offset(15);
         make.centerX.equalTo(_localPlaceholderView);
     }];
+    
+    [_willStartView makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.view);
+        make.size.equalTo(CGSizeMake(406, 406));
+    }];
 }
 
 - (void)didTapRemote {
@@ -263,13 +288,16 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     // 2个时间的时间差
     NSInteger timeDifference = [currentDate timeIntervalSinceDate:_startDate];
     
-    DMLog(@"timeDifference: %ld", timeDifference);
+    
+    DMLog(@"timeDifference: %zd", timeDifference);
     
     // 做几分钟开课操作
-    {
-        // return;
+    if (timeDifference < 0) {
+        self.willStartView.willStartDescribeLabel.text = [NSString stringWithFormat:@"距离上课时间还有%zd分钟", -dateCom.minute + 1];
+         return;
     }
-    
+    [_willStartView removeFromSuperview];
+    _willStartView = nil;
     _timeView.hidden = NO;
     NSString *hour = [[NSString stringWithFormat:@"%zd",dateCom.hour] stringByPaddingLeftWithString:@"0" total:2];
     NSString *minute = [[NSString stringWithFormat:@"%zd",dateCom.minute] stringByPaddingLeftWithString:@"0" total:2];
@@ -438,6 +466,25 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     return _localView;
 }
 
+- (UIImageView *)shadowImageView {
+    if (!_shadowImageView) {
+        _shadowImageView = [UIImageView new];
+        _shadowImageView.image = [UIImage imageNamed:@"image_shadow"];
+    }
+    
+    return _shadowImageView;
+}
+
+
+- (UIImageView *)shadowRightImageView {
+    if (!_shadowRightImageView) {
+        _shadowRightImageView = [UIImageView new];
+        _shadowRightImageView.image = [UIImage imageNamed:@"image_shadowRigthToLeft"];
+    }
+    
+    return _shadowRightImageView;
+}
+
 - (DMLiveButtonControlView *)controlView {
     if (!_controlView) {
         _controlView = [DMLiveButtonControlView new];
@@ -503,6 +550,14 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     }
     
     return _describeTimeLabel;
+}
+
+- (DMLiveWillStartView *)willStartView {
+    if (!_willStartView) {
+        _willStartView = [DMLiveWillStartView new];
+    }
+    
+    return _willStartView;
 }
 
 - (void)dealloc {
@@ -575,6 +630,8 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         _localView.userInteractionEnabled = NO;
         _remoteView.userInteractionEnabled = NO;
     }
+
+    NSLog(@"%@", [NSThread currentThread]);
     
     [_remoteVoiceImageView remakeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(_remoteView.mas_right).offset(-15);
