@@ -8,7 +8,7 @@
 
 #import "DMCoursewareFallsView.h"
 #import "DMCoursewareFallsCell.h"
-
+#import "DMPHAsset.h"
 @interface DMCoursewareFallsView ()
 @property (nonatomic, assign) NSInteger columns;
 @property (nonatomic, assign) CGFloat lineSpacing;
@@ -88,7 +88,18 @@
         NSLog(@"无法创建CollectionViewCell时打印，自定义的cell就不可能进来了。");
     }
     cell.tag = indexPath.row;
-    [cell.courseImageView sd_setImageWithURL:nil placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"zu%ld.jpg", indexPath.row]]];
+    id obj = [self.datas objectAtIndex:indexPath.row];
+    if ([obj isKindOfClass:[DMPHAsset class]]) {
+        DMPHAsset *asset = (DMPHAsset *)obj;
+        [asset thumbnailImageWithSize:self.frame.size compression:NO resultHandler:^(UIImage *image, NSDictionary *info) {
+            
+            cell.courseImageView.image = image;
+        }];
+        
+    } else {
+        [cell.courseImageView sd_setImageWithURL:nil placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"zu%ld.jpg", indexPath.row]]];
+    }
+    
     [cell displayEditStatus:self.isSelected];
     if (self.isSelected) {
         NSString *indexRow = [NSString stringWithFormat:@"%ld", indexPath.row];
