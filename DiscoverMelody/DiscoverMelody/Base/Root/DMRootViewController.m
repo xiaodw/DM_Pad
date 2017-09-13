@@ -146,7 +146,7 @@
 
 - (void)presentMenuViewControllerWithAnimatedApperance:(BOOL)animateApperance {
     self.containerViewController.animateApperance = animateApperance;
-    self.calculatedMenuViewSize = CGSizeMake(150, self.contentViewController.view.frame.size.height);
+    self.calculatedMenuViewSize = CGSizeMake(Menu_Width, self.contentViewController.view.frame.size.height);
     [self dm_addController:self.containerViewController frame:self.contentViewController.view.frame];
     self.visible = YES;
 }

@@ -10,6 +10,7 @@
 
 @interface DMBaseViewController ()
 @property (nonatomic, strong) UINavigationItem *navigationBar;
+@property (nonatomic, strong) UIButton *rightButton;
 @end
 
 @implementation DMBaseViewController
@@ -127,6 +128,30 @@
     self.navigationController.navigationBar.shadowImage = [UIImage new];
 }
 
+//MARK: - 设置导航栏透明
+- (void)setNavigationBarNoTransparence {
+
+    self.edgesForExtendedLayout = UIRectEdgeAll;
+    [[UINavigationBar appearance] setBarTintColor:[UIColor blackColor]];
+
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake([UIScreen mainScreen].bounds.size.width, 65), 0, [UIScreen mainScreen].scale);
+    [[UIColor blackColor] set];
+    UIRectFill(CGRectMake(0, 0, CGSizeMake([UIScreen mainScreen].bounds.size.width, 65).width, CGSizeMake([UIScreen mainScreen].bounds.size.width, 65).height));
+    UIImage *pressedColorImg = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    UIImageView *imageView=[[UIImageView alloc] initWithFrame:CGRectMake(0, -20, [UIScreen mainScreen].bounds.size.width, 65)];
+    imageView.image= pressedColorImg;
+    
+    [self.navigationController.navigationBar sendSubviewToBack:imageView];
+    [self.navigationController.navigationBar setBackgroundImage:imageView.image forBarMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                                     [UIColor whiteColor], NSForegroundColorAttributeName,
+                                                                     [UIFont boldSystemFontOfSize:16], NSFontAttributeName,
+                                                                     nil]];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+}
+
+
 - (void)setRigthBtn:(CGRect)frame title:(NSString *)title titileColor:(UIColor *)titleColor imageName:(NSString *)imageName font:(UIFont *)font {
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame = frame;
@@ -145,10 +170,49 @@
     }
     [btn addTarget:self action:@selector(rightOneAction:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
+    self.rightButton = btn;
+}
+
+- (void)setLeftBtn:(CGRect)frame title:(NSString *)title titileColor:(UIColor *)titleColor imageName:(NSString *)imageName font:(UIFont *)font {
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = frame;
+    [btn setTitle:title forState:UIControlStateNormal];
+    [btn setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
+    if (!STR_IS_NIL(title)) {
+        [btn setTitleColor:titleColor forState:UIControlStateNormal];
+        [btn.titleLabel setFont:font];
+        [btn setTitle:title forState:UIControlStateNormal];
+        [btn setTitleEdgeInsets:UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)];
+        btn.contentEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0);
+    }
+    if (!STR_IS_NIL(imageName)) {
+        [btn setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
+        [btn setImageEdgeInsets:UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)];
+    }
+    [btn addTarget:self action:@selector(leftOneAction:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    fixedSpace.width = -15;
+    
+    self.navigationItem.leftBarButtonItems = @[fixedSpace, [[UIBarButtonItem alloc] initWithCustomView:btn]];
+
+}
+
+- (void)leftOneAction:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)rightOneAction:(id)sender {
 
+}
+
+
+- (void)updateRightBtnTitle:(NSString *)title {
+    [self.rightButton setTitle:title forState:UIControlStateNormal];
+}
+
+- (void)updateRightBtnImage:(NSString *)imageName {
+    [self.rightButton setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
 }
 
 - (void)clickMenuBtn:(id)sender {
