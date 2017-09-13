@@ -43,12 +43,17 @@
     _cfView.datas = self.dataArray;
     [_cfView.collectionView reloadData];
     
-    [_cfView didSelectItemAtIndexPath:^(NSIndexPath *indexPath, DMCoursewareFallsCellEventType type) {
+    [_cfView didSelectItemAtIndexPath:^(NSIndexPath *indexPath, DMItemsOperation iOt, DMCoursewareFallsCellEventType type) {
         if (type == DMCoursewareFallsCellEventType_Preview) {
             //预览
             
         } else if (type == DMCoursewareFallsCellEventType_Select) {
             //选择
+            if (iOt == DMItemsOperation_Add) {
+                
+            } else if (iOt == DMItemsOperation_Remove) {
+            
+            }
         }
     }];
     

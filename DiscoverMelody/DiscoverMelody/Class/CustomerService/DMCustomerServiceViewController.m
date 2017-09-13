@@ -79,13 +79,10 @@
         [self.statusDic setObject:@"1" forKey:@"1"];
         //[self.tableView deleteSections:set withRowAnimation:UITableViewRowAnimationFade];
         [self.tableView reloadData];
-        
     } else {
         [self.statusDic setObject:@"0" forKey:@"1"];
         [self.tableView reloadSections:set withRowAnimation:UITableViewRowAnimationFade];
-        
     }
-    
 }
 
 #pragma mark -

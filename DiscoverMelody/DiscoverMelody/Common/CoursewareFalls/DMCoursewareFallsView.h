@@ -13,8 +13,14 @@ typedef NS_ENUM(NSInteger, DMCoursewareFallsCellEventType) {
     DMCoursewareFallsCellEventType_Select,
 };
 
+typedef NS_ENUM(NSInteger, DMItemsOperation) {
+    DMItemsOperation_None = 0, //默认
+    DMItemsOperation_Add,//添加item，在DMCoursewareFallsCellEventType_Select下的行为操作
+    DMItemsOperation_Remove,//移除item，在DMCoursewareFallsCellEventType_Select下的行为操作
+};
 
-typedef void (^BlockDidSelectItemAtIndexPath)(NSIndexPath *indexPath, DMCoursewareFallsCellEventType type); //cell的点击回调
+
+typedef void (^BlockDidSelectItemAtIndexPath)(NSIndexPath *indexPath, DMItemsOperation iOt, DMCoursewareFallsCellEventType type); //cell的点击回调
 
 @interface DMCoursewareFallsView : UIView<UICollectionViewDataSource,UICollectionViewDelegate>
 @property (nonatomic, strong) UICollectionView *collectionView;

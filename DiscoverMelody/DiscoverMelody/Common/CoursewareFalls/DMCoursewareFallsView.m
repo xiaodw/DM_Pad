@@ -135,17 +135,21 @@
     if (self.blockDidSelectItemAtIndexPath) {
         if (self.isSelected) {
             //再选择状态下
-            self.blockDidSelectItemAtIndexPath(indexPath, DMCoursewareFallsCellEventType_Select);
             NSString *indexRow = [NSString stringWithFormat:@"%ld", indexPath.row];
             DMCoursewareFallsCell *cell = (DMCoursewareFallsCell *)[collectionView cellForItemAtIndexPath:indexPath];
             if (![self.selectedArray containsObject:indexRow]) {
+                self.blockDidSelectItemAtIndexPath(indexPath, DMItemsOperation_Add, DMCoursewareFallsCellEventType_Select);
                 [cell displaySelected:YES number:self.selectedArray.count+1];
                 [self.selectedArray addObject:indexRow];
+            } else {
+                self.blockDidSelectItemAtIndexPath(indexPath, DMItemsOperation_Remove, DMCoursewareFallsCellEventType_Select);
+                [self.selectedArray removeObject:indexRow];
+                [collectionView reloadData];
             }
 
         } else {
             //再非选择状态下
-            self.blockDidSelectItemAtIndexPath(indexPath, DMCoursewareFallsCellEventType_Preview);
+            self.blockDidSelectItemAtIndexPath(indexPath, DMItemsOperation_None, DMCoursewareFallsCellEventType_Preview);
         }
     }
 }

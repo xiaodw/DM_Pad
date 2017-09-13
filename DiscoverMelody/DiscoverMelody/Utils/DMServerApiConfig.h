@@ -14,8 +14,8 @@
 #define ENVIRONMENT   [[[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"]] objectForKey:@"DMSeverCodeKey"] intValue]
 
 #define DM_Url    (ENVIRONMENT == 0) ? \
-@"http://api.cn.discovermelody.com/" : ((ENVIRONMENT == 1) ? \
-@"http://api.cn.discovermelody.com/" : ( (ENVIRONMENT == 2) ? \
+@"http://test.api.cn.discovermelody.com/" : ((ENVIRONMENT == 1) ? \
+@"http://test.api.cn.discovermelody.com/" : ( (ENVIRONMENT == 2) ? \
 @"http://api.cn.discovermelody.com/" : \
 @"http://api.cn.discovermelody.com/"))
 
