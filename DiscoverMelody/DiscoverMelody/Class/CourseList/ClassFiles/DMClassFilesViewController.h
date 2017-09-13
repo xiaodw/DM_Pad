@@ -9,5 +9,5 @@
 #import "DMBaseViewController.h"
 
 @interface DMClassFilesViewController : DMBaseViewController
-
+@property (nonatomic, copy) NSString *courseID;
 @end

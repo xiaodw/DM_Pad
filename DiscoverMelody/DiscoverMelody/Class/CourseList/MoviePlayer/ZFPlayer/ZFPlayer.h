@@ -43,6 +43,9 @@
 
 #define ZFPlayerOrientationIsPortrait       UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation)
 
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((((rgbValue) & 0xFF0000) >> 16))/255.f \
+green:((((rgbValue) & 0xFF00) >> 8))/255.f \
+blue:(((rgbValue) & 0xFF))/255.f alpha:1.0]
 
 #import "ZFPlayerView.h"
 #import "ZFPlayerModel.h"

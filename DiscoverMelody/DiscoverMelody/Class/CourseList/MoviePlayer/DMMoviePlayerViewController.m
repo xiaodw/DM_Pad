@@ -28,8 +28,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self.navigationController setNavigationBarHidden:YES];
     // 自动播放，默认不自动播放
     [self.playerView autoPlayTheVideo];
+    
+    [self.view addSubview:self.playerView];
 }
 
 /**
@@ -67,7 +70,7 @@
         _playerModel.title            = @"这里设置视频标题";
         _playerModel.videoURL         = self.videoURL;
         _playerModel.placeholderImage = [UIImage imageNamed:@"loading_bgView1.png"];
-        _playerModel.fatherView       = self.playerFatherView;
+        _playerModel.fatherView       = self.view;
     }
     return _playerModel;
 }
@@ -101,6 +104,9 @@
     return _playerView;
 }
 
+- (void)zf_playerBackAction {
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 
 - (void)didReceiveMemoryWarning {

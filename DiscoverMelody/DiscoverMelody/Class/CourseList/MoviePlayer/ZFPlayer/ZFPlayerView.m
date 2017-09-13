@@ -1456,16 +1456,10 @@ typedef NS_ENUM(NSInteger, PanDirection){
 }
 
 - (void)zf_controlView:(UIView *)controlView backAction:(UIButton *)sender {
-    if (ZFPlayerShared.isLockScreen) {
-        [self unLockTheScreen];
-    } else {
-        if (!self.isFullScreen) {
-            // player加到控制器上，只有一个player时候
-            [self pause];
-            if ([self.delegate respondsToSelector:@selector(zf_playerBackAction)]) { [self.delegate zf_playerBackAction]; }
-        } else {
-            [self interfaceOrientation:UIInterfaceOrientationPortrait];
-        }
+    // player加到控制器上，只有一个player时候
+    [self pause];
+    if ([self.delegate respondsToSelector:@selector(zf_playerBackAction)]) {
+        [self.delegate zf_playerBackAction];
     }
 }
 

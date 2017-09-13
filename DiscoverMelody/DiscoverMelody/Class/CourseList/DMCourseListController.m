@@ -3,6 +3,9 @@
 #import "DMCourseListCell.h"
 #import "DMCourseListHeaderView.h"
 
+#import "DMMoviePlayerViewController.h"
+#import "DMClassFilesViewController.h"
+
 #define kCellID @"course"
 
 @interface DMCourseListController () <UITableViewDelegate, UITableViewDataSource, DMCourseListCellDelegate>
@@ -36,6 +39,11 @@
     [self setupMakeAddSubviews];
     [self setupMakeLayoutSubviews];
     [self setupMJRefresh];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO];
 }
 
 - (void)setupMJRefresh {
@@ -134,11 +142,15 @@
 }
 
 - (void)courseListCellDidTapRelook:(DMCourseListCell *)courseListCell {
-    
+    DMMoviePlayerViewController *movieVC = [[DMMoviePlayerViewController alloc] init];
+    movieVC.videoURL = [NSURL URLWithString:@"http://baobab.wdjcdn.com/1456316686552The.mp4"];
+    [self.navigationController pushViewController:movieVC animated:YES];
 }
 
 - (void)courseListCellDidTapCoursesFiles:(DMCourseListCell *)courseListCell {
-    
+    DMClassFilesViewController *cf = [[DMClassFilesViewController alloc] init];
+    cf.courseID = @"";
+    [self.navigationController pushViewController:cf animated:YES];
 }
 
 - (UITableView *)tableView {
@@ -199,5 +211,5 @@
     
     return _noCourseView;
 }
-//[NSURL URLWithString:self.dataSource[indexPath.row]];
+
 @end
