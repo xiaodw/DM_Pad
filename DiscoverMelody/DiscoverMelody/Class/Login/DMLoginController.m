@@ -118,8 +118,7 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
     
     [self touchesBegan:[NSSet set] withEvent:nil];
     NSLog(@"发送API{account: %@, pwd: %@}", accountString, pwdString);
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    DMRootViewController *rootVC = delegate.dmrVC;
+    DMRootViewController *rootVC = APP_DELEGATE.dmrVC;
     [self presentViewController:rootVC animated:YES completion:nil];
 }
 

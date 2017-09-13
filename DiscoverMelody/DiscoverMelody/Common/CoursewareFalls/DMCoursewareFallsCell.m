@@ -52,6 +52,8 @@
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
+        self.backgroundColor = DMColorWithRGBA(240, 240, 240, 1);
+        self.contentView.backgroundColor = DMColorWithRGBA(240, 240, 240, 1);
         [self.contentView addSubview:self.courseImageView];
         [self.contentView addSubview:self.statusView];
         [self.contentView addSubview:self.selectedView];

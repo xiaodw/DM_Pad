@@ -62,7 +62,7 @@
     self.collectionView.alwaysBounceVertical = YES;
     [self addSubview:self.collectionView];
     
-    self.collectionView.backgroundColor = [UIColor whiteColor];
+    self.collectionView.backgroundColor = DMColorWithRGBA(240, 240, 240, 1);
     
     //注册cell和ReusableView（相当于头部）
     [self.collectionView registerClass:[DMCoursewareFallsCell class] forCellWithReuseIdentifier:@"courseCcell"];

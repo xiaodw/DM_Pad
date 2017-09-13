@@ -149,7 +149,7 @@
             frame.origin.x = 0;
                 
             if (!_limitMenuViewSize) {
-                frame.size.width = self.dmRootViewController.calculatedMenuViewSize.width + self.containerOrigin.x + point.x;
+                frame.size.width = Menu_Width;//self.dmRootViewController.calculatedMenuViewSize.width + self.containerOrigin.x + point.x;
                 if (frame.size.width > self.view.frame.size.width)
                     frame.size.width = self.view.frame.size.width;
             }

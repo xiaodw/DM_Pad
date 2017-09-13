@@ -51,6 +51,7 @@
 		2AF870FE1F67C16A0001E2D3 /* zu5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2AF870F71F67C16A0001E2D3 /* zu5.jpg */; };
 		2AF870FF1F67C16A0001E2D3 /* zu6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2AF870F81F67C16A0001E2D3 /* zu6.jpg */; };
 		2AF871031F67D74F0001E2D3 /* DMClassFilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF871021F67D74F0001E2D3 /* DMClassFilesViewController.m */; };
+		2AF871061F67FD9E0001E2D3 /* DMCoursewareBottom.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF871051F67FD9E0001E2D3 /* DMCoursewareBottom.m */; };
 		38CCB4B7CD85FDAEFE84B1D3 /* libPods-DiscoverMelody.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 945FC02CD63525967FAFE213 /* libPods-DiscoverMelody.a */; };
 		515DCEC41F62980000AA9465 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 515DCEC31F62980000AA9465 /* libc++.tbd */; };
 		515DCEC61F62980800AA9465 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 515DCEC51F62980800AA9465 /* libresolv.tbd */; };
@@ -151,6 +152,7 @@
 		2A87824C1F613006004F9184 /* DMNetConntectDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMNetConntectDefine.h; sourceTree = "<group>"; };
 		2A8782521F61438E004F9184 /* DMRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMRequestModel.h; sourceTree = "<group>"; };
 		2A8782531F61438E004F9184 /* DMRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMRequestModel.m; sourceTree = "<group>"; };
+		2A96D00A1F68C5CA00666441 /* DMRootViewDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMRootViewDefine.h; sourceTree = "<group>"; };
 		2A9D91651F6690FC00DF4A3B /* DMCustomerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCustomerCell.h; sourceTree = "<group>"; };
 		2A9D91661F6690FC00DF4A3B /* DMCustomerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCustomerCell.m; sourceTree = "<group>"; };
 		2A9D91681F669D2800DF4A3B /* codeTest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = codeTest.png; sourceTree = "<group>"; };
@@ -180,6 +182,8 @@
 		2AF870F81F67C16A0001E2D3 /* zu6.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = zu6.jpg; sourceTree = "<group>"; };
 		2AF871011F67D74F0001E2D3 /* DMClassFilesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMClassFilesViewController.h; sourceTree = "<group>"; };
 		2AF871021F67D74F0001E2D3 /* DMClassFilesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMClassFilesViewController.m; sourceTree = "<group>"; };
+		2AF871041F67FD9E0001E2D3 /* DMCoursewareBottom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCoursewareBottom.h; sourceTree = "<group>"; };
+		2AF871051F67FD9E0001E2D3 /* DMCoursewareBottom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCoursewareBottom.m; sourceTree = "<group>"; };
 		2BF41B440646DC59DC6A7EC6 /* Pods-DiscoverMelody.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DiscoverMelody.release.xcconfig"; path = "Pods/Target Support Files/Pods-DiscoverMelody/Pods-DiscoverMelody.release.xcconfig"; sourceTree = "<group>"; };
 		515DCEC31F62980000AA9465 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		515DCEC51F62980800AA9465 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
@@ -340,6 +344,7 @@
 				2A05C45E1F5D544100FC4D9A /* UIViewController+DMRootViewController.m */,
 				2A05C4611F5D545D00FC4D9A /* DMRootContainerViewController.h */,
 				2A05C4621F5D545D00FC4D9A /* DMRootContainerViewController.m */,
+				2A96D00A1F68C5CA00666441 /* DMRootViewDefine.h */,
 			);
 			path = Root;
 			sourceTree = "<group>";
@@ -458,6 +463,8 @@
 				2AC478141F67B3E500D42F79 /* DMCoursewareFallsCell.m */,
 				2AF870EF1F67BA5E0001E2D3 /* DMCoursewareFallsView.h */,
 				2AF870F01F67BA5E0001E2D3 /* DMCoursewareFallsView.m */,
+				2AF871041F67FD9E0001E2D3 /* DMCoursewareBottom.h */,
+				2AF871051F67FD9E0001E2D3 /* DMCoursewareBottom.m */,
 			);
 			path = CoursewareFalls;
 			sourceTree = "<group>";
@@ -663,6 +670,7 @@
 				TargetAttributes = {
 					2A03AF411F555FA80088DBF4 = {
 						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = BR9B47C6A9;
 						ProvisioningStyle = Automatic;
 					};
 					2A03AF5A1F555FA80088DBF4 = {
@@ -799,6 +807,7 @@
 				2A4143901F600D6F00E6B4E1 /* DMHomeCell.m in Sources */,
 				2A05C4631F5D545D00FC4D9A /* DMRootContainerViewController.m in Sources */,
 				51D2D54D1F5EA73C00764130 /* DMConst.m in Sources */,
+				2AF871061F67FD9E0001E2D3 /* DMCoursewareBottom.m in Sources */,
 				2A5F86C61F5CEDDF00773ADD /* DMBaseViewController.m in Sources */,
 				2A23C9711F665AAD0097F91B /* DMCustomerInfoView.m in Sources */,
 				2AD28D6B1F63CE160042333D /* DMTestViewController.m in Sources */,
@@ -996,7 +1005,7 @@
 			baseConfigurationReference = 1E620A6E158816600EA0CFFE /* Pods-DiscoverMelody.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = BR9B47C6A9;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = DiscoverMelody/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1016,7 +1025,7 @@
 			baseConfigurationReference = 2BF41B440646DC59DC6A7EC6 /* Pods-DiscoverMelody.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = BR9B47C6A9;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = DiscoverMelody/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
