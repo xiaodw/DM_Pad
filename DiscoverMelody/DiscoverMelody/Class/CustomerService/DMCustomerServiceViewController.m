@@ -92,8 +92,11 @@
 #pragma mark UITableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    DMPopCodeView *codeView = [[DMPopCodeView alloc] initWithTitle:@"寻律课程顾问-A老师" message:@"微信号：Dsicover-Melody-1" imageName:@"codeTest"];
-    [codeView show];
+    if (indexPath.section != 0) {
+        DMPopCodeView *codeView = [[DMPopCodeView alloc] initWithTitle:@"寻律课程顾问-A老师" message:@"微信号：Dsicover-Melody-1" imageName:@"codeTest"];
+        [codeView show];
+    }
+    
 }
 
 #pragma mark -
