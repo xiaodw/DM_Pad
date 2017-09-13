@@ -15,6 +15,7 @@
 @property (nonatomic, strong) DMMenuHeadView *headView;
 @property (nonatomic, strong) NSArray *items;
 @property (nonatomic, strong) NSArray *imageItems;
+@property (nonatomic, strong) NSArray *selImageItems;
 @end
 
 @implementation DMMenuViewController
@@ -25,6 +26,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.items = [NSArray arrayWithObjects:@"个人主页", @"课程列表", @"联系客服", nil];
     self.imageItems = [NSArray arrayWithObjects:@"home_icon", @"course_icon", @"customer_icon", nil];
+    self.selImageItems = [NSArray arrayWithObjects:@"home_icon_sel", @"course_icon_sel", @"customer_icon_sel", nil];
     [self loadUI];
     [self updateUserInfo];
 }
@@ -43,6 +45,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self.dmRootViewController togglePage:indexPath.row]; //0 主页 ，1 课表，2 客服
+    //DMMenuCell *cell = (DMMenuCell *)[tableView cellForRowAtIndexPath:indexPath];
+    //[cell configObj:[_items objectAtIndex:indexPath.row] imageName:[_selImageItems objectAtIndex:indexPath.row]];
+    [tableView reloadData];
 }
 
 #pragma mark -
@@ -66,7 +71,12 @@
     if (cell == nil) {
         cell = [[DMMenuCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
-    [cell configObj:[_items objectAtIndex:indexPath.row] imageName:[_imageItems objectAtIndex:indexPath.row]];
+    
+    if (APP_DELEGATE.dmrVC.selectedIndex == indexPath.row) {
+        [cell configObj:[_items objectAtIndex:indexPath.row] imageName:[_selImageItems objectAtIndex:indexPath.row]];
+    } else {
+        [cell configObj:[_items objectAtIndex:indexPath.row] imageName:[_imageItems objectAtIndex:indexPath.row]];
+    }
     return cell;
 }
 
@@ -101,11 +111,12 @@
 - (UIButton *)loadLoginOutView {
     UIButton *loginOut = [UIButton buttonWithType:UIButtonTypeCustom];
     [loginOut setTitle:@"退出登录" forState:UIControlStateNormal];
+    [loginOut setImage:[UIImage imageNamed:@"logout_icon"] forState:UIControlStateNormal];
     [loginOut setTitleColor:DMColorWithRGBA(51, 51, 51, 1) forState:UIControlStateNormal];
     [loginOut.titleLabel setFont:DMFontPingFang_Light(14)];
-    [loginOut setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-    
     [loginOut addTarget:self action:@selector(clickLoginOut:) forControlEvents:UIControlEventTouchUpInside];
+    //[loginOut setTitleEdgeInsets:UIEdgeInsetsMake(0.0, -24, -28.0, 0.0)];
+    [loginOut setImageEdgeInsets:UIEdgeInsetsMake(0, -5.0, 0.0, 5)];
     return loginOut;
 }
 
