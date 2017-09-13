@@ -3,7 +3,7 @@
 #import "DMLiveVideoManager.h"
 #import "DMLiveButtonControlView.h"
 #import "DMLiveWillStartView.h"
-#import "DMCoursewareView.h"
+#import "DMLiveCoursewareView.h"
 #import "NSString+Extension.h"
 #import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
 
@@ -24,7 +24,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     DMLayoutModeAll // 全部模式
 };
 
-@interface DMLiveController () <DMLiveButtonControlViewDelegate>
+@interface DMLiveController ()<DMLiveButtonControlViewDelegate, DMLiveCoursewareViewDelegate>
 
 #pragma mark - UI
 @property (strong, nonatomic) DMLiveVideoManager *liveVideoManager; // 声网SDK Manager
@@ -33,6 +33,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 @property (strong, nonatomic) UIImageView *remoteVoiceImageView; // 远端声音的view
 @property (strong, nonatomic) UIImageView *remotePlaceholderView; // 远端没有人占位图
 @property (strong, nonatomic) UILabel *remotePlaceholderTitleLabel; // 远端没有人占位图远端说明
+@property (strong, nonatomic) DMLiveCoursewareView *coursewareView; // 课件视图
 
 @property (strong, nonatomic) UIView *localView; // 本地窗口
 @property (strong, nonatomic) UIImageView *localVoiceImageView; // 本地声音的view
@@ -77,7 +78,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 - (void)setupServerData {
     NSDateFormatter *formater = [[NSDateFormatter alloc] init];
     [formater setDateFormat:@"yyyy-MM-dd HH:mm:ss "];
-    _startDate = [formater dateFromString:@"2017-09-12 13:20:00"];
+    _startDate = [formater dateFromString:@"2017-09-13 09:40:00"];
     _lectureTotalSecond = 45 * 60;
     _userIdentity = 0;
     
@@ -99,6 +100,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self setupMakeLayoutSubviews];
     [self joinChannel];
     [self setupMakeLiveCallback];
+    
     
     [self.liveVideoManager switchSound:NO block:nil];
     
@@ -201,12 +203,37 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 
 // 课件
 - (void)liveButtonControlViewDidTapCourseFiles:(DMLiveButtonControlView *)liveButtonControlView {
-    DMLogFunc
-    _isCoursewareMode = !_isCoursewareMode;
+    if (_isCoursewareMode) return;
+    _isCoursewareMode = YES;
+    [self didTapCourseFiles];
+}
+
+- (void)liveCoursewareViewDidTapClose:(DMLiveCoursewareView *)liveCoursewareView {
+    if (!_isCoursewareMode) return;
+    _isCoursewareMode = NO;
+    [self didTapCourseFiles];
+}
+
+- (void)didTapCourseFiles {
     if (_isCoursewareMode) _beforeLayoutMode = self.tapLayoutCount-1 % DMLayoutModeAll;
     
     self.tapLayoutCount = _isCoursewareMode ? 1 : _beforeLayoutMode;
     [self makeLayoutViews];
+    if (_isCoursewareMode) {
+        [self.view addSubview:self.coursewareView];
+        [_coursewareView makeConstraints:^(MASConstraintMaker *make) {
+            make.right.bottom.top.equalTo(self.view);
+            make.width.equalTo(DMScreenWidth*0.5);
+        }];
+        self.coursewareView.allCoursewares = @[@"http://img1.gtimg.com/20/2040/204026/20402623_980x1200_292.jpg",
+                                               @"http://inews.gtimg.com/newsapp_bt/0/1932634129/1000",
+                                               @"http://inews.gtimg.com/newsapp_bt/0/2033290112/1000",
+                                               @"https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3101684928,1733765632&fm=173&s=28E870226CB4C49EC3A9B4580300D0A1&w=218&h=146&img.JPG",
+                                               @"https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3101684928,1733765632&fm=173&s=28E870226CB4C49EC3A9B4580300D0A1&w=218&h=146&img.JPG"];
+    }else {
+        [self.coursewareView removeFromSuperview];
+        _coursewareView = nil;
+    }
 }
 
 - (void)setupMakeAddSubviews {
@@ -620,6 +647,15 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     }
     
     return _willStartView;
+}
+
+- (DMLiveCoursewareView *)coursewareView {
+    if (!_coursewareView) {
+        _coursewareView = [DMLiveCoursewareView new];
+        _coursewareView.delegate = self;
+    }
+    
+    return _coursewareView;
 }
 
 - (void)dealloc {
