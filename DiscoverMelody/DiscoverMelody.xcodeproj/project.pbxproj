@@ -38,6 +38,7 @@
 		2A3D1D2A1F692A44005671B2 /* ZFPlayerControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A3D1D181F692A44005671B2 /* ZFPlayerControlView.m */; };
 		2A3D1D2B1F692A44005671B2 /* ZFPlayerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A3D1D1B1F692A44005671B2 /* ZFPlayerModel.m */; };
 		2A3D1D2C1F692A44005671B2 /* ZFPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A3D1D1D1F692A44005671B2 /* ZFPlayerView.m */; };
+		2A3D1D301F695C5F005671B2 /* DMQuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A3D1D2F1F695C5F005671B2 /* DMQuestionViewController.m */; };
 		2A40302A1F677CBA00663C72 /* DMSignalingKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A4030291F677CBA00663C72 /* DMSignalingKey.m */; };
 		2A4143891F5FF5F300E6B4E1 /* DMHomeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A4143881F5FF5F300E6B4E1 /* DMHomeView.m */; };
 		2A41438D1F6007DD00E6B4E1 /* timg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2A41438C1F6007DD00E6B4E1 /* timg.jpg */; };
@@ -180,6 +181,8 @@
 		2A3D1D1B1F692A44005671B2 /* ZFPlayerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPlayerModel.m; sourceTree = "<group>"; };
 		2A3D1D1C1F692A44005671B2 /* ZFPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFPlayerView.h; sourceTree = "<group>"; };
 		2A3D1D1D1F692A44005671B2 /* ZFPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPlayerView.m; sourceTree = "<group>"; };
+		2A3D1D2E1F695C5F005671B2 /* DMQuestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMQuestionViewController.h; sourceTree = "<group>"; };
+		2A3D1D2F1F695C5F005671B2 /* DMQuestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMQuestionViewController.m; sourceTree = "<group>"; };
 		2A4030281F677CBA00663C72 /* DMSignalingKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMSignalingKey.h; sourceTree = "<group>"; };
 		2A4030291F677CBA00663C72 /* DMSignalingKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMSignalingKey.m; sourceTree = "<group>"; };
 		2A4143871F5FF5F300E6B4E1 /* DMHomeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMHomeView.h; sourceTree = "<group>"; };
@@ -483,6 +486,15 @@
 			path = Category;
 			sourceTree = "<group>";
 		};
+		2A3D1D2D1F695C10005671B2 /* Questionnaire */ = {
+			isa = PBXGroup;
+			children = (
+				2A3D1D2E1F695C5F005671B2 /* DMQuestionViewController.h */,
+				2A3D1D2F1F695C5F005671B2 /* DMQuestionViewController.m */,
+			);
+			path = Questionnaire;
+			sourceTree = "<group>";
+		};
 		2A497EB51F5E46B9009DEFF4 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -583,6 +595,7 @@
 		2AD2AB381F5D444A00EDA962 /* CourseList */ = {
 			isa = PBXGroup;
 			children = (
+				2A3D1D2D1F695C10005671B2 /* Questionnaire */,
 				2A3D1CF71F690AAC005671B2 /* MoviePlayer */,
 				2AF871001F67D7300001E2D3 /* ClassFiles */,
 				51D2D5D31F60E06800764130 /* DMCourseListController.h */,
@@ -942,6 +955,7 @@
 				2A40302A1F677CBA00663C72 /* DMSignalingKey.m in Sources */,
 				515DCF031F66B63800AA9465 /* DMLiveWillStartView.m in Sources */,
 				2A3D1D221F692A44005671B2 /* UINavigationController+ZFPlayerRotation.m in Sources */,
+				2A3D1D301F695C5F005671B2 /* DMQuestionViewController.m in Sources */,
 				2A05C45F1F5D544100FC4D9A /* DMRootViewController.m in Sources */,
 				51D2D5D21F60DDED00764130 /* UIColor+Extension.m in Sources */,
 				515DCF061F67A7D200AA9465 /* DMLiveCoursewareView.m in Sources */,

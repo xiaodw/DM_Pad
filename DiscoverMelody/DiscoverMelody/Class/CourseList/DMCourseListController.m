@@ -5,6 +5,7 @@
 
 #import "DMMoviePlayerViewController.h"
 #import "DMClassFilesViewController.h"
+#import "DMQuestionViewController.h"
 
 #define kCellID @"course"
 
