@@ -50,7 +50,6 @@
 		2AF870FD1F67C16A0001E2D3 /* zu4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2AF870F61F67C16A0001E2D3 /* zu4.jpg */; };
 		2AF870FE1F67C16A0001E2D3 /* zu5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2AF870F71F67C16A0001E2D3 /* zu5.jpg */; };
 		2AF870FF1F67C16A0001E2D3 /* zu6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2AF870F81F67C16A0001E2D3 /* zu6.jpg */; };
-		2AF871031F67D74F0001E2D3 /* DMClassFilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF871021F67D74F0001E2D3 /* DMClassFilesViewController.m */; };
 		2AF871061F67FD9E0001E2D3 /* DMCoursewareBottom.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF871051F67FD9E0001E2D3 /* DMCoursewareBottom.m */; };
 		38CCB4B7CD85FDAEFE84B1D3 /* libPods-DiscoverMelody.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 945FC02CD63525967FAFE213 /* libPods-DiscoverMelody.a */; };
 		515DCEC41F62980000AA9465 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 515DCEC31F62980000AA9465 /* libc++.tbd */; };
@@ -63,7 +62,9 @@
 		515DCED21F62984D00AA9465 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 515DCED11F62984D00AA9465 /* AVFoundation.framework */; };
 		515DCED41F62986700AA9465 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 515DCED31F62986700AA9465 /* SystemConfiguration.framework */; };
 		515DCF031F66B63800AA9465 /* DMLiveWillStartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 515DCF021F66B63800AA9465 /* DMLiveWillStartView.m */; };
-		515DCF061F67A7D200AA9465 /* DMCoursewareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 515DCF051F67A7D200AA9465 /* DMCoursewareView.m */; };
+		515DCF061F67A7D200AA9465 /* DMLiveCoursewareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 515DCF051F67A7D200AA9465 /* DMLiveCoursewareView.m */; };
+		515DCF091F67C5A500AA9465 /* DMLiveCoursewareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 515DCF081F67C5A500AA9465 /* DMLiveCoursewareCell.m */; };
+		519FA4E81F68CD890015A2B2 /* DMClassFilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF871021F67D74F0001E2D3 /* DMClassFilesViewController.m */; };
 		51B471391F62506D004FACC8 /* DMLiveController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B471381F62506D004FACC8 /* DMLiveController.m */; };
 		51B471481F62760E004FACC8 /* DMLiveButtonControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B471471F62760E004FACC8 /* DMLiveButtonControlView.m */; };
 		51D2D54D1F5EA73C00764130 /* DMConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D2D54C1F5EA73C00764130 /* DMConst.m */; };
@@ -196,8 +197,10 @@
 		515DCED31F62986700AA9465 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		515DCF011F66B63800AA9465 /* DMLiveWillStartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMLiveWillStartView.h; sourceTree = "<group>"; };
 		515DCF021F66B63800AA9465 /* DMLiveWillStartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMLiveWillStartView.m; sourceTree = "<group>"; };
-		515DCF041F67A7D200AA9465 /* DMCoursewareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCoursewareView.h; sourceTree = "<group>"; };
-		515DCF051F67A7D200AA9465 /* DMCoursewareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCoursewareView.m; sourceTree = "<group>"; };
+		515DCF041F67A7D200AA9465 /* DMLiveCoursewareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMLiveCoursewareView.h; sourceTree = "<group>"; };
+		515DCF051F67A7D200AA9465 /* DMLiveCoursewareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMLiveCoursewareView.m; sourceTree = "<group>"; };
+		515DCF071F67C5A500AA9465 /* DMLiveCoursewareCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMLiveCoursewareCell.h; sourceTree = "<group>"; };
+		515DCF081F67C5A500AA9465 /* DMLiveCoursewareCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMLiveCoursewareCell.m; sourceTree = "<group>"; };
 		51B471371F62506D004FACC8 /* DMLiveController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMLiveController.h; sourceTree = "<group>"; };
 		51B471381F62506D004FACC8 /* DMLiveController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMLiveController.m; sourceTree = "<group>"; };
 		51B471431F62717A004FACC8 /* DMConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMConfig.h; sourceTree = "<group>"; };
@@ -531,8 +534,10 @@
 				51B471471F62760E004FACC8 /* DMLiveButtonControlView.m */,
 				515DCF011F66B63800AA9465 /* DMLiveWillStartView.h */,
 				515DCF021F66B63800AA9465 /* DMLiveWillStartView.m */,
-				515DCF041F67A7D200AA9465 /* DMCoursewareView.h */,
-				515DCF051F67A7D200AA9465 /* DMCoursewareView.m */,
+				515DCF041F67A7D200AA9465 /* DMLiveCoursewareView.h */,
+				515DCF051F67A7D200AA9465 /* DMLiveCoursewareView.m */,
+				515DCF071F67C5A500AA9465 /* DMLiveCoursewareCell.h */,
+				515DCF081F67C5A500AA9465 /* DMLiveCoursewareCell.m */,
 			);
 			path = Live;
 			sourceTree = "<group>";
@@ -670,7 +675,6 @@
 				TargetAttributes = {
 					2A03AF411F555FA80088DBF4 = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = BR9B47C6A9;
 						ProvisioningStyle = Automatic;
 					};
 					2A03AF5A1F555FA80088DBF4 = {
@@ -802,7 +806,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2AF871031F67D74F0001E2D3 /* DMClassFilesViewController.m in Sources */,
+				519FA4E81F68CD890015A2B2 /* DMClassFilesViewController.m in Sources */,
+				515DCF091F67C5A500AA9465 /* DMLiveCoursewareCell.m in Sources */,
 				51D2D5651F5EC00B00764130 /* DMLoginTextField.m in Sources */,
 				2A4143901F600D6F00E6B4E1 /* DMHomeCell.m in Sources */,
 				2A05C4631F5D545D00FC4D9A /* DMRootContainerViewController.m in Sources */,
@@ -820,7 +825,7 @@
 				515DCF031F66B63800AA9465 /* DMLiveWillStartView.m in Sources */,
 				2A05C45F1F5D544100FC4D9A /* DMRootViewController.m in Sources */,
 				51D2D5D21F60DDED00764130 /* UIColor+Extension.m in Sources */,
-				515DCF061F67A7D200AA9465 /* DMCoursewareView.m in Sources */,
+				515DCF061F67A7D200AA9465 /* DMLiveCoursewareView.m in Sources */,
 				2A27E0CF1F5E46EC00865644 /* DMTools.m in Sources */,
 				51D2D5D81F60E2B700764130 /* DMCourseListCell.m in Sources */,
 				2A05C4601F5D544100FC4D9A /* UIViewController+DMRootViewController.m in Sources */,
@@ -1005,7 +1010,7 @@
 			baseConfigurationReference = 1E620A6E158816600EA0CFFE /* Pods-DiscoverMelody.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = BR9B47C6A9;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = DiscoverMelody/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1025,7 +1030,7 @@
 			baseConfigurationReference = 2BF41B440646DC59DC6A7EC6 /* Pods-DiscoverMelody.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = BR9B47C6A9;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = DiscoverMelody/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

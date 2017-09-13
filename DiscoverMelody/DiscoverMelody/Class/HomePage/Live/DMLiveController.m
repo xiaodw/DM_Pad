@@ -3,7 +3,7 @@
 #import "DMLiveVideoManager.h"
 #import "DMLiveButtonControlView.h"
 #import "DMLiveWillStartView.h"
-#import "DMCoursewareView.h"
+#import "DMLiveCoursewareView.h"
 #import "NSString+Extension.h"
 #import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
 
@@ -24,7 +24,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     DMLayoutModeAll // 全部模式
 };
 
-@interface DMLiveController () <DMLiveButtonControlViewDelegate>
+@interface DMLiveController ()<DMLiveButtonControlViewDelegate, DMLiveCoursewareViewDelegate>
 
 #pragma mark - UI
 @property (strong, nonatomic) DMLiveVideoManager *liveVideoManager; // 声网SDK Manager
@@ -33,6 +33,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 @property (strong, nonatomic) UIImageView *remoteVoiceImageView; // 远端声音的view
 @property (strong, nonatomic) UIImageView *remotePlaceholderView; // 远端没有人占位图
 @property (strong, nonatomic) UILabel *remotePlaceholderTitleLabel; // 远端没有人占位图远端说明
+@property (strong, nonatomic) DMLiveCoursewareView *coursewareView; // 课件视图
 
 @property (strong, nonatomic) UIView *localView; // 本地窗口
 @property (strong, nonatomic) UIImageView *localVoiceImageView; // 本地声音的view
@@ -77,7 +78,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 - (void)setupServerData {
     NSDateFormatter *formater = [[NSDateFormatter alloc] init];
     [formater setDateFormat:@"yyyy-MM-dd HH:mm:ss "];
-    _startDate = [formater dateFromString:@"2017-09-12 13:20:00"];
+    _startDate = [formater dateFromString:@"2017-09-13 09:40:00"];
     _lectureTotalSecond = 45 * 60;
     _userIdentity = 0;
     
@@ -99,6 +100,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self setupMakeLayoutSubviews];
     [self joinChannel];
     [self setupMakeLiveCallback];
+    
     
     [self.liveVideoManager switchSound:NO block:nil];
     
@@ -201,12 +203,39 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 
 // 课件
 - (void)liveButtonControlViewDidTapCourseFiles:(DMLiveButtonControlView *)liveButtonControlView {
-    DMLogFunc
-    _isCoursewareMode = !_isCoursewareMode;
+    if (_isCoursewareMode) return;
+    _isCoursewareMode = YES;
+    [self didTapCourseFiles];
+}
+
+- (void)liveCoursewareViewDidTapClose:(DMLiveCoursewareView *)liveCoursewareView {
+    if (!_isCoursewareMode) return;
+    _isCoursewareMode = NO;
+    [self didTapCourseFiles];
+}
+
+- (void)didTapCourseFiles {
     if (_isCoursewareMode) _beforeLayoutMode = self.tapLayoutCount-1 % DMLayoutModeAll;
     
     self.tapLayoutCount = _isCoursewareMode ? 1 : _beforeLayoutMode;
     [self makeLayoutViews];
+    if (_isCoursewareMode) {
+        [self.view addSubview:self.coursewareView];
+        [_coursewareView makeConstraints:^(MASConstraintMaker *make) {
+            make.right.bottom.top.equalTo(self.view);
+            make.width.equalTo(DMScreenWidth*0.5);
+        }];
+        self.coursewareView.allCoursewares = @[@"http://f11.baidu.com/it/u=435066478,1958291651&fm=76",
+                                               @"http://f12.baidu.com/it/u=108550577,1474666626&fm=76",
+                                               @"http://f11.baidu.com/it/u=4245406495,4169406916&fm=76",
+                                               @"http://f12.baidu.com/it/u=189212114,1570521444&fm=76",
+                                               @"http://f11.baidu.com/it/u=10925524,1784854435&fm=76",
+                                               @"http://f10.baidu.com/it/u=1262675490,65787803&fm=76",
+                                               @"http://f11.baidu.com/it/u=435066478,1958291651&fm=76"];
+    }else {
+        [self.coursewareView removeFromSuperview];
+        _coursewareView = nil;
+    }
 }
 
 - (void)setupMakeAddSubviews {
@@ -622,6 +651,15 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     return _willStartView;
 }
 
+- (DMLiveCoursewareView *)coursewareView {
+    if (!_coursewareView) {
+        _coursewareView = [DMLiveCoursewareView new];
+        _coursewareView.delegate = self;
+    }
+    
+    return _coursewareView;
+}
+
 - (void)dealloc {
     [self invalidate];
     DMLogFunc
@@ -632,8 +670,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [_localView removeFromSuperview];
     [_remoteBackgroundView removeFromSuperview];
     
-//    self.remotePlaceholderView.hidden = self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeRemoteAndSmall;
-//    self.remotePlaceholderTitleLabel.hidden = self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeRemoteAndSmall;
     if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeRemoteAndSmall) { // 远端大, 本地小模式
         [self.view insertSubview:_localView atIndex:0];
         [self.view insertSubview:_remoteBackgroundView atIndex:0];
