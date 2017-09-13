@@ -50,7 +50,6 @@
 		2AF870FD1F67C16A0001E2D3 /* zu4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2AF870F61F67C16A0001E2D3 /* zu4.jpg */; };
 		2AF870FE1F67C16A0001E2D3 /* zu5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2AF870F71F67C16A0001E2D3 /* zu5.jpg */; };
 		2AF870FF1F67C16A0001E2D3 /* zu6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2AF870F81F67C16A0001E2D3 /* zu6.jpg */; };
-		2AF871031F67D74F0001E2D3 /* DMClassFilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF871021F67D74F0001E2D3 /* DMClassFilesViewController.m */; };
 		2AF871061F67FD9E0001E2D3 /* DMCoursewareBottom.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF871051F67FD9E0001E2D3 /* DMCoursewareBottom.m */; };
 		38CCB4B7CD85FDAEFE84B1D3 /* libPods-DiscoverMelody.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 945FC02CD63525967FAFE213 /* libPods-DiscoverMelody.a */; };
 		515DCEC41F62980000AA9465 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 515DCEC31F62980000AA9465 /* libc++.tbd */; };
@@ -65,6 +64,7 @@
 		515DCF031F66B63800AA9465 /* DMLiveWillStartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 515DCF021F66B63800AA9465 /* DMLiveWillStartView.m */; };
 		515DCF061F67A7D200AA9465 /* DMLiveCoursewareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 515DCF051F67A7D200AA9465 /* DMLiveCoursewareView.m */; };
 		515DCF091F67C5A500AA9465 /* DMLiveCoursewareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 515DCF081F67C5A500AA9465 /* DMLiveCoursewareCell.m */; };
+		519FA4E81F68CD890015A2B2 /* DMClassFilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF871021F67D74F0001E2D3 /* DMClassFilesViewController.m */; };
 		51B471391F62506D004FACC8 /* DMLiveController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B471381F62506D004FACC8 /* DMLiveController.m */; };
 		51B471481F62760E004FACC8 /* DMLiveButtonControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B471471F62760E004FACC8 /* DMLiveButtonControlView.m */; };
 		51D2D54D1F5EA73C00764130 /* DMConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D2D54C1F5EA73C00764130 /* DMConst.m */; };
@@ -806,6 +806,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				519FA4E81F68CD890015A2B2 /* DMClassFilesViewController.m in Sources */,
 				515DCF091F67C5A500AA9465 /* DMLiveCoursewareCell.m in Sources */,
 				51D2D5651F5EC00B00764130 /* DMLoginTextField.m in Sources */,
 				2A4143901F600D6F00E6B4E1 /* DMHomeCell.m in Sources */,
