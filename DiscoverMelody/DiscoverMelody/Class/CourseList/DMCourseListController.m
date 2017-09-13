@@ -190,5 +190,5 @@
     
     return _noCourseView;
 }
-
+//[NSURL URLWithString:self.dataSource[indexPath.row]];
 @end

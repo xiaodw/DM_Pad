@@ -21,6 +21,8 @@
 		2A27E0CF1F5E46EC00865644 /* DMTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A27E0CE1F5E46EC00865644 /* DMTools.m */; };
 		2A27E0D41F5E95C600865644 /* DMHttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A27E0D31F5E95C600865644 /* DMHttpClient.m */; };
 		2A27E0D91F5EA65300865644 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2A27E0DB1F5EA65300865644 /* InfoPlist.strings */; };
+		2A3D1CFA1F690AD1005671B2 /* DMMoviePlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A3D1CF91F690AD1005671B2 /* DMMoviePlayerViewController.m */; };
+		2A3D1CFC1F690F41005671B2 /* loading_bgView1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A3D1CFB1F690F41005671B2 /* loading_bgView1.png */; };
 		2A40302A1F677CBA00663C72 /* DMSignalingKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A4030291F677CBA00663C72 /* DMSignalingKey.m */; };
 		2A4143891F5FF5F300E6B4E1 /* DMHomeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A4143881F5FF5F300E6B4E1 /* DMHomeView.m */; };
 		2A41438D1F6007DD00E6B4E1 /* timg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2A41438C1F6007DD00E6B4E1 /* timg.jpg */; };
@@ -129,6 +131,9 @@
 		2A27E0D61F5E9E8900865644 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		2A27E0DA1F5EA65300865644 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2A27E0DC1F5EA65D00865644 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		2A3D1CF81F690AD1005671B2 /* DMMoviePlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMMoviePlayerViewController.h; sourceTree = "<group>"; };
+		2A3D1CF91F690AD1005671B2 /* DMMoviePlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMMoviePlayerViewController.m; sourceTree = "<group>"; };
+		2A3D1CFB1F690F41005671B2 /* loading_bgView1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loading_bgView1.png; sourceTree = "<group>"; };
 		2A4030281F677CBA00663C72 /* DMSignalingKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMSignalingKey.h; sourceTree = "<group>"; };
 		2A4030291F677CBA00663C72 /* DMSignalingKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMSignalingKey.m; sourceTree = "<group>"; };
 		2A4143871F5FF5F300E6B4E1 /* DMHomeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMHomeView.h; sourceTree = "<group>"; };
@@ -376,6 +381,15 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
+		2A3D1CF71F690AAC005671B2 /* MoviePlayer */ = {
+			isa = PBXGroup;
+			children = (
+				2A3D1CF81F690AD1005671B2 /* DMMoviePlayerViewController.h */,
+				2A3D1CF91F690AD1005671B2 /* DMMoviePlayerViewController.m */,
+			);
+			path = MoviePlayer;
+			sourceTree = "<group>";
+		};
 		2A497EB51F5E46B9009DEFF4 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -422,6 +436,7 @@
 		2A5F86C31F5CEDAD00773ADD /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				2A3D1CFB1F690F41005671B2 /* loading_bgView1.png */,
 				2AF870F21F67C16A0001E2D3 /* zu0.jpg */,
 				2AF870F31F67C16A0001E2D3 /* zu1.jpg */,
 				2AF870F41F67C16A0001E2D3 /* zu2.jpg */,
@@ -475,6 +490,7 @@
 		2AD2AB381F5D444A00EDA962 /* CourseList */ = {
 			isa = PBXGroup;
 			children = (
+				2A3D1CF71F690AAC005671B2 /* MoviePlayer */,
 				2AF871001F67D7300001E2D3 /* ClassFiles */,
 				51D2D5D31F60E06800764130 /* DMCourseListController.h */,
 				51D2D5D41F60E06800764130 /* DMCourseListController.m */,
@@ -715,6 +731,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A3D1CFC1F690F41005671B2 /* loading_bgView1.png in Resources */,
 				2AF870FF1F67C16A0001E2D3 /* zu6.jpg in Resources */,
 				2AF870F91F67C16A0001E2D3 /* zu0.jpg in Resources */,
 				2A41438D1F6007DD00E6B4E1 /* timg.jpg in Resources */,
@@ -789,6 +806,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-DiscoverMelody/Pods-DiscoverMelody-resources.sh",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
+				"${PODS_ROOT}/ZFPlayer/ZFPlayer/ZFPlayer.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -831,6 +849,7 @@
 				2A05C4601F5D544100FC4D9A /* UIViewController+DMRootViewController.m in Sources */,
 				51D2D6311F613E0800764130 /* DMCourseListHeaderView.m in Sources */,
 				51D2D5641F5EC00B00764130 /* DMLoginController.m in Sources */,
+				2A3D1CFA1F690AD1005671B2 /* DMMoviePlayerViewController.m in Sources */,
 				2AD2AB3F1F5D47FD00EDA962 /* DMCustomerServiceViewController.m in Sources */,
 				2AC478151F67B3E500D42F79 /* DMCoursewareFallsCell.m in Sources */,
 				2A8782541F61438E004F9184 /* DMRequestModel.m in Sources */,
