@@ -52,6 +52,10 @@
 		2AF870FF1F67C16A0001E2D3 /* zu6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2AF870F81F67C16A0001E2D3 /* zu6.jpg */; };
 		2AF871061F67FD9E0001E2D3 /* DMCoursewareBottom.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF871051F67FD9E0001E2D3 /* DMCoursewareBottom.m */; };
 		38CCB4B7CD85FDAEFE84B1D3 /* libPods-DiscoverMelody.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 945FC02CD63525967FAFE213 /* libPods-DiscoverMelody.a */; };
+		5117331B1F69543A004E0CD1 /* DMPhotoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5117331A1F69543A004E0CD1 /* DMPhotoController.m */; };
+		5117331E1F695488004E0CD1 /* DMCollectionListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5117331D1F695488004E0CD1 /* DMCollectionListController.m */; };
+		511733231F695543004E0CD1 /* DMPHCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 511733201F695543004E0CD1 /* DMPHCollection.m */; };
+		511733241F695543004E0CD1 /* DMPHAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 511733221F695543004E0CD1 /* DMPHAsset.m */; };
 		515DCEC41F62980000AA9465 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 515DCEC31F62980000AA9465 /* libc++.tbd */; };
 		515DCEC61F62980800AA9465 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 515DCEC51F62980800AA9465 /* libresolv.tbd */; };
 		515DCEC81F62980F00AA9465 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 515DCEC71F62980F00AA9465 /* CoreTelephony.framework */; };
@@ -186,6 +190,14 @@
 		2AF871041F67FD9E0001E2D3 /* DMCoursewareBottom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCoursewareBottom.h; sourceTree = "<group>"; };
 		2AF871051F67FD9E0001E2D3 /* DMCoursewareBottom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCoursewareBottom.m; sourceTree = "<group>"; };
 		2BF41B440646DC59DC6A7EC6 /* Pods-DiscoverMelody.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DiscoverMelody.release.xcconfig"; path = "Pods/Target Support Files/Pods-DiscoverMelody/Pods-DiscoverMelody.release.xcconfig"; sourceTree = "<group>"; };
+		511733191F69543A004E0CD1 /* DMPhotoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMPhotoController.h; sourceTree = "<group>"; };
+		5117331A1F69543A004E0CD1 /* DMPhotoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMPhotoController.m; sourceTree = "<group>"; };
+		5117331C1F695488004E0CD1 /* DMCollectionListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCollectionListController.h; sourceTree = "<group>"; };
+		5117331D1F695488004E0CD1 /* DMCollectionListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCollectionListController.m; sourceTree = "<group>"; };
+		5117331F1F695543004E0CD1 /* DMPHCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMPHCollection.h; sourceTree = "<group>"; };
+		511733201F695543004E0CD1 /* DMPHCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMPHCollection.m; sourceTree = "<group>"; };
+		511733211F695543004E0CD1 /* DMPHAsset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMPHAsset.h; sourceTree = "<group>"; };
+		511733221F695543004E0CD1 /* DMPHAsset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMPHAsset.m; sourceTree = "<group>"; };
 		515DCEC31F62980000AA9465 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		515DCEC51F62980800AA9465 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
 		515DCEC71F62980F00AA9465 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -525,6 +537,21 @@
 			path = ClassFiles;
 			sourceTree = "<group>";
 		};
+		511733181F69539F004E0CD1 /* Photo */ = {
+			isa = PBXGroup;
+			children = (
+				511733191F69543A004E0CD1 /* DMPhotoController.h */,
+				5117331A1F69543A004E0CD1 /* DMPhotoController.m */,
+				5117331C1F695488004E0CD1 /* DMCollectionListController.h */,
+				5117331D1F695488004E0CD1 /* DMCollectionListController.m */,
+				5117331F1F695543004E0CD1 /* DMPHCollection.h */,
+				511733201F695543004E0CD1 /* DMPHCollection.m */,
+				511733211F695543004E0CD1 /* DMPHAsset.h */,
+				511733221F695543004E0CD1 /* DMPHAsset.m */,
+			);
+			path = Photo;
+			sourceTree = "<group>";
+		};
 		51B471361F625052004FACC8 /* Live */ = {
 			isa = PBXGroup;
 			children = (
@@ -571,6 +598,7 @@
 		51D2D62B1F613ACA00764130 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				511733181F69539F004E0CD1 /* Photo */,
 				2AC478121F67B39F00D42F79 /* CoursewareFalls */,
 				51D2D62D1F613B0900764130 /* DMButton.h */,
 				51D2D62C1F613B0900764130 /* DMButton.m */,
@@ -675,6 +703,7 @@
 				TargetAttributes = {
 					2A03AF411F555FA80088DBF4 = {
 						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 7RXJBWS48Q;
 						ProvisioningStyle = Automatic;
 					};
 					2A03AF5A1F555FA80088DBF4 = {
@@ -806,6 +835,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				511733241F695543004E0CD1 /* DMPHAsset.m in Sources */,
 				519FA4E81F68CD890015A2B2 /* DMClassFilesViewController.m in Sources */,
 				515DCF091F67C5A500AA9465 /* DMLiveCoursewareCell.m in Sources */,
 				51D2D5651F5EC00B00764130 /* DMLoginTextField.m in Sources */,
@@ -822,9 +852,11 @@
 				51D2D62E1F613B0900764130 /* DMButton.m in Sources */,
 				2A9D91671F6690FC00DF4A3B /* DMCustomerCell.m in Sources */,
 				2A40302A1F677CBA00663C72 /* DMSignalingKey.m in Sources */,
+				511733231F695543004E0CD1 /* DMPHCollection.m in Sources */,
 				515DCF031F66B63800AA9465 /* DMLiveWillStartView.m in Sources */,
 				2A05C45F1F5D544100FC4D9A /* DMRootViewController.m in Sources */,
 				51D2D5D21F60DDED00764130 /* UIColor+Extension.m in Sources */,
+				5117331E1F695488004E0CD1 /* DMCollectionListController.m in Sources */,
 				515DCF061F67A7D200AA9465 /* DMLiveCoursewareView.m in Sources */,
 				2A27E0CF1F5E46EC00865644 /* DMTools.m in Sources */,
 				51D2D5D81F60E2B700764130 /* DMCourseListCell.m in Sources */,
@@ -843,6 +875,7 @@
 				51D2D55E1F5EBFE300764130 /* UIColor+Hex.m in Sources */,
 				51D2D5681F5F999D00764130 /* UIView+Frame.m in Sources */,
 				2AF695291F6149070078DC71 /* DMBaseDataModel.m in Sources */,
+				5117331B1F69543A004E0CD1 /* DMPhotoController.m in Sources */,
 				51D2D5D51F60E06800764130 /* DMCourseListController.m in Sources */,
 				2A47AFBB1F626A14003A90DA /* DMMenuCell.m in Sources */,
 				2AD2AB431F5D492700EDA962 /* DMMenuViewController.m in Sources */,
@@ -1010,7 +1043,7 @@
 			baseConfigurationReference = 1E620A6E158816600EA0CFFE /* Pods-DiscoverMelody.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 7RXJBWS48Q;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = DiscoverMelody/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1030,7 +1063,7 @@
 			baseConfigurationReference = 2BF41B440646DC59DC6A7EC6 /* Pods-DiscoverMelody.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 7RXJBWS48Q;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = DiscoverMelody/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
