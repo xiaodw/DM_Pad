@@ -105,7 +105,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self.liveVideoManager switchSound:NO block:nil];
     
 #warning 移动到API 返回之后启动
-    [self timer];
+    //[self timer];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
