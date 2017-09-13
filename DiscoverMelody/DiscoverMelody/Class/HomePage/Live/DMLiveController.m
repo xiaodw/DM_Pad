@@ -225,11 +225,13 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
             make.right.bottom.top.equalTo(self.view);
             make.width.equalTo(DMScreenWidth*0.5);
         }];
-        self.coursewareView.allCoursewares = @[@"http://img1.gtimg.com/20/2040/204026/20402623_980x1200_292.jpg",
-                                               @"http://inews.gtimg.com/newsapp_bt/0/1932634129/1000",
-                                               @"http://inews.gtimg.com/newsapp_bt/0/2033290112/1000",
-                                               @"https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3101684928,1733765632&fm=173&s=28E870226CB4C49EC3A9B4580300D0A1&w=218&h=146&img.JPG",
-                                               @"https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3101684928,1733765632&fm=173&s=28E870226CB4C49EC3A9B4580300D0A1&w=218&h=146&img.JPG"];
+        self.coursewareView.allCoursewares = @[@"http://f11.baidu.com/it/u=435066478,1958291651&fm=76",
+                                               @"http://f12.baidu.com/it/u=108550577,1474666626&fm=76",
+                                               @"http://f11.baidu.com/it/u=4245406495,4169406916&fm=76",
+                                               @"http://f12.baidu.com/it/u=189212114,1570521444&fm=76",
+                                               @"http://f11.baidu.com/it/u=10925524,1784854435&fm=76",
+                                               @"http://f10.baidu.com/it/u=1262675490,65787803&fm=76",
+                                               @"http://f11.baidu.com/it/u=435066478,1958291651&fm=76"];
     }else {
         [self.coursewareView removeFromSuperview];
         _coursewareView = nil;
@@ -668,8 +670,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [_localView removeFromSuperview];
     [_remoteBackgroundView removeFromSuperview];
     
-//    self.remotePlaceholderView.hidden = self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeRemoteAndSmall;
-//    self.remotePlaceholderTitleLabel.hidden = self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeRemoteAndSmall;
     if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeRemoteAndSmall) { // 远端大, 本地小模式
         [self.view insertSubview:_localView atIndex:0];
         [self.view insertSubview:_remoteBackgroundView atIndex:0];

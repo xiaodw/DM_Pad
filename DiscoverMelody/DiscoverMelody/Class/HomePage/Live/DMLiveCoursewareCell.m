@@ -40,8 +40,8 @@
 - (UIImageView *)imageView {
     if (!_imageView) {
         _imageView = [UIImageView new];
-//        [_imageView sd_setIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-//        [_imageView sd_setShowActivityIndicatorView:YES];
+        [_imageView sd_setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        [_imageView sd_setShowActivityIndicatorView:YES];
     }
     
     return _imageView;
