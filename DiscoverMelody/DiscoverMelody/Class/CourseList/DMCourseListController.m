@@ -5,7 +5,7 @@
 
 #define kCellID @"course"
 
-@interface DMCourseListController () <UITableViewDelegate, UITableViewDataSource>
+@interface DMCourseListController () <UITableViewDelegate, UITableViewDataSource, DMCourseListCellDelegate>
 
 #pragma mark - UI
 @property (strong, nonatomic) UIView *noCourseView;
@@ -126,10 +126,19 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     DMCourseListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellID];
-    
+    cell.delegate = self;
     cell.contentView.backgroundColor = indexPath.row%2 ? self.view.backgroundColor : [UIColor whiteColor];
     cell.model = [NSObject new];
+    
     return cell;
+}
+
+- (void)courseListCellDidTapRelook:(DMCourseListCell *)courseListCell {
+    
+}
+
+- (void)courseListCellDidTapCoursesFiles:(DMCourseListCell *)courseListCell {
+    
 }
 
 - (UITableView *)tableView {

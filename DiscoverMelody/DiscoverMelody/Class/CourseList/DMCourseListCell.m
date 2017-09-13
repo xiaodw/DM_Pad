@@ -25,8 +25,8 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
 @property (strong, nonatomic) UILabel *dateLabel; // 日期
 @property (strong, nonatomic) UILabel *detailDateLabel; // 时间
 @property (strong, nonatomic) UILabel *periodLabel; // 课时
-@property (strong, nonatomic) UILabel *statusLabel; // 状态
-@property (strong, nonatomic) DMButton *statusButton; // 状态
+@property (strong, nonatomic) UILabel *statusLabel; // 状态: 标签
+@property (strong, nonatomic) DMButton *statusButton; // 状态: 回看
 @property (strong, nonatomic) UIView *filesPositionView; // 课程文件自使用适应宽度的一个view
 @property (strong, nonatomic) UIButton *filesButton; // 课程文件
 @property (strong, nonatomic) UIView *questionnairePositionView; // 调查问卷自使用适应宽度的一个view
@@ -68,6 +68,18 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
         normalImage = [UIImage imageNamed:@"icon_questionnaire_disabled"];
     }
     [_questionnaireButton setImage:normalImage forState:UIControlStateNormal];
+}
+
+- (void)didTapRelook {
+    if (![self.delegate respondsToSelector:@selector(courseListCellDidTapRelook:)]) return;
+    
+    [self.delegate courseListCellDidTapRelook:self];
+}
+
+- (void)didTapFiles {
+    if (![self.delegate respondsToSelector:@selector(courseListCellDidTapCoursesFiles:)]) return;
+    
+    [self.delegate courseListCellDidTapCoursesFiles:self];
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -254,6 +266,7 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
         [_statusButton setTitleColor:DMColorBaseMeiRed forState:UIControlStateNormal];
         [_statusButton setTitle:@"回顾" forState:UIControlStateNormal];
         [_statusButton setImage:[UIImage imageNamed:@"btn_relook_arrow_right"] forState:UIControlStateNormal];
+        [_statusButton addTarget:self action:@selector(didTapRelook) forControlEvents:UIControlEventTouchUpInside];
     }
     
     return _statusButton;
@@ -279,6 +292,7 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
         _filesButton = [UIButton new];
         [_filesButton setImage:[UIImage imageNamed:@"icon_file_normal"] forState:UIControlStateNormal];
         [_filesButton setImage:[UIImage imageNamed:@"icon_file_disabled"] forState:UIControlStateDisabled];
+        [_filesButton addTarget:self action:@selector(didTapFiles) forControlEvents:UIControlEventTouchUpInside];
     }
     
     return _filesButton;
