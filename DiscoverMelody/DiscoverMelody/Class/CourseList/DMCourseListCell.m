@@ -82,6 +82,12 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
     [self.delegate courseListCellDidTapCoursesFiles:self];
 }
 
+- (void)didTapQuestionnaire {
+    if (![self.delegate respondsToSelector:@selector(courseListCellDidTapQuestionnaire:)]) return;
+    
+    [self.delegate courseListCellDidTapQuestionnaire:self];
+}
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
@@ -309,6 +315,7 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
 - (UIButton *)questionnaireButton {
     if (!_questionnaireButton) {
         _questionnaireButton = [UIButton new];
+        [_questionnaireButton addTarget:self action:@selector(didTapQuestionnaire) forControlEvents:UIControlEventTouchUpInside];
     }
     
     return _questionnaireButton;

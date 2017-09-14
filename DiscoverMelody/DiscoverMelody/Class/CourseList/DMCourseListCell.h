@@ -7,6 +7,7 @@
 @optional
 - (void)courseListCellDidTapCoursesFiles:(DMCourseListCell *)courseListCell;
 - (void)courseListCellDidTapRelook:(DMCourseListCell *)courseListCell;
+- (void)courseListCellDidTapQuestionnaire:(DMCourseListCell *)courseListCell;
 
 @end
 

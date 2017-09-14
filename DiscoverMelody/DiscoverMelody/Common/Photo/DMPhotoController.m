@@ -1,6 +1,8 @@
 #import "DMPhotoController.h"
 #import "DMPHCollection.h"
 #import "DMCoursewareFallsView.h"
+#import <Photos/Photos.h>
+#import "DMCollectionListController.h"
 
 #define kCoursewareCellID @"Courseware"
 #define kLeftMargin 15
@@ -9,12 +11,10 @@
 #define kColumns 3
 #define kCellWH ((DMScreenWidth-(kLeftMargin+kRightMargin)-(kColumnSpacing*(kColumns-1)))/kColumns)
 
-@interface DMPhotosController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface DMPhotosController ()
 
-@property (strong, nonatomic)DMPHCollection *collection;
-@property (strong, nonatomic) DMCoursewareFallsView *collectionView;
-
-@property (strong, nonatomic) UIButton *closeButton;
+//@property (strong, nonatomic)DMPHCollection *collection;
+//@property (strong, nonatomic) DMCoursewareFallsView *collectionView;
 
 @end
 
@@ -23,46 +23,56 @@
 - (void)setCollection:(DMPHCollection *)collection {
     _collection = collection;
     
-    self.collectionView.datas = collection.assets;
+//    self.collectionView.datas = collection.assets;
 }
 
-- (void)didTapClose {
-    [self dismissViewControllerAnimated:YES completion:nil];
+- (void)didTapLeft {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (UIButton *)closeButton {
-    if (!_closeButton) {
-        _closeButton = [UIButton new];
-        _closeButton.backgroundColor = [UIColor redColor];
-        [_closeButton addTarget:self action:@selector(didTapClose) forControlEvents:UIControlEventTouchUpInside];
-        [_closeButton setTitle:@"关闭" forState:UIControlStateNormal];
-        
-    }
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
-    return _closeButton;
+    self.view.dm_width = DMScreenWidth * 0.5;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor redColor];
+    self.view.backgroundColor = [UIColor greenColor];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(didTapLeft)];
     
-    [self setupMakeAddSubviews];
-    [self setupMakeLayoutSubviews];
+    PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
+    if (status == PHAuthorizationStatusRestricted ||
+        status == PHAuthorizationStatusDenied) {
+        NSString *appName = [[NSBundle mainBundle].infoDictionary objectForKey:@"CFBundleName"];
+        NSString *tipTextWhenNoPhotosAuthorization = [NSString stringWithFormat:@"请在设备的\"设置-隐私-照片\"选项中，允许 %@ 访问你的手机相册", appName];
+        
+        // 展示提示语
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"授权警告" message:tipTextWhenNoPhotosAuthorization delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alertView show];
+        return;
+    }
     
-    [_collectionView didSelectItemAtIndexPath:^(NSIndexPath *indexPath, DMItemsOperation iOt, DMCoursewareFallsCellEventType type) {
-        if (type == DMCoursewareFallsCellEventType_Preview) {
-            //预览
-            
-        } else if (type == DMCoursewareFallsCellEventType_Select) {
-            //选择
-            if (iOt == DMItemsOperation_Add) {
-                
-            } else if (iOt == DMItemsOperation_Remove) {
-                
-            }
-        }
-    }];
+//    [self.view addSubview:self.collectionView];
+//    [_collectionView makeConstraints:^(MASConstraintMaker *make) {
+//        make.edges.equalTo(self.view);
+//    }];
+    
+//    [_collectionView didSelectItemAtIndexPath:^(NSIndexPath *indexPath, DMItemsOperation iOt, DMCoursewareFallsCellEventType type) {
+//        if (type == DMCoursewareFallsCellEventType_Preview) {
+//            //预览
+//            NSLog(@"%@", indexPath);
+//        } else if (type == DMCoursewareFallsCellEventType_Select) {
+//            //选择
+//            NSLog(@"%@", indexPath);
+//            if (iOt == DMItemsOperation_Add) {
+//                NSLog(@"%@", indexPath);
+//            } else if (iOt == DMItemsOperation_Remove) {
+//                NSLog(@"%@", indexPath);
+//            }
+//        }
+//    }];
     
 //    [_bottomView didDelete:^{
 //        
@@ -73,43 +83,22 @@
 //    }];
 }
 
-- (void)setupMakeAddSubviews {
-    [self.view addSubview:self.collectionView];
-    [self.view addSubview:self.closeButton];
-    
-}
-
-- (void)setupMakeLayoutSubviews {
-    [_collectionView makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
-    }];
-    
-    [self.closeButton makeConstraints:^(MASConstraintMaker *make) {
-        make.right.top.equalTo(self.view);
-        make.size.equalTo(CGSizeMake(100, 100));
-    }];
-}
-
-- (DMCoursewareFallsView *)collectionView {
-    if (!_collectionView) {
-        _collectionView = [[DMCoursewareFallsView alloc] initWithFrame:CGRectZero columns:kColumns lineSpacing:kColumnSpacing columnSpacing:kColumnSpacing leftMargin:kLeftMargin rightMargin:kRightMargin];
-        
-//        self.bottomView = [[DMCoursewareBottom alloc] initWithFrame:CGRectMake(0, DMScreenHeight-64-50, DMScreenWidth, 50)];
-//        _bottomView.backgroundColor = [UIColor whiteColor];
-//        _bottomView.synBtn.hidden = YES;
-//        [self.view addSubview:_bottomView];
-    }
-    
-    return _collectionView;
-}
+//- (DMCoursewareFallsView *)collectionView {
+//    if (!_collectionView) {
+//        _collectionView = [[DMCoursewareFallsView alloc] initWithFrame:CGRectZero columns:kColumns lineSpacing:kColumnSpacing columnSpacing:kColumnSpacing leftMargin:kLeftMargin rightMargin:kRightMargin];
+//        
+////        self.bottomView = [[DMCoursewareBottom alloc] initWithFrame:CGRectMake(0, DMScreenHeight-64-50, DMScreenWidth, 50)];
+////        _bottomView.backgroundColor = [UIColor whiteColor];
+////        _bottomView.synBtn.hidden = YES;
+////        [self.view addSubview:_bottomView];
+//    }
+//    
+//    return _collectionView;
+//}
 
 - (void)dealloc {
     NSLog(@"%s", __func__);
 }
-
-@end
-
-@interface DMPhotoController ()
 
 @end
 
@@ -118,11 +107,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor redColor];
     
-    DMPhotosController *photosVC = [DMPhotosController new];
+    DMCollectionListController *photosVC = [DMCollectionListController new];
     UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:photosVC];
-    photosVC.collection = self.collection;
     [self addChildViewController:navigationVC];
     [self.view addSubview:navigationVC.view];
 }

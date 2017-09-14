@@ -6,6 +6,7 @@
 #import "DMLiveCoursewareView.h"
 #import "NSString+Extension.h"
 #import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
+#import "DMPhotoController.h"
 
 
 #define kSmallSize CGSizeMake(DMScaleWidth(240), DMScaleHeight(180))
@@ -205,7 +206,9 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 - (void)liveButtonControlViewDidTapCourseFiles:(DMLiveButtonControlView *)liveButtonControlView {
     if (_isCoursewareMode) return;
     _isCoursewareMode = YES;
-    [self didTapCourseFiles];
+//    [self didTapCourseFiles];
+    DMPhotoController *photoVC = [DMPhotoController new];
+    [self.navigationVC pushViewController:photoVC animated:YES];
 }
 
 - (void)liveCoursewareViewDidTapClose:(DMLiveCoursewareView *)liveCoursewareView {

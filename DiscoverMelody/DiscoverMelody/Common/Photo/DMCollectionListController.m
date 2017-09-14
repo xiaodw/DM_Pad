@@ -1,6 +1,7 @@
 #import "DMCollectionListController.h"
 #import <Photos/Photos.h>
 #import "DMPHCollection.h"
+#import "DMPhotoController.h"
 
 @interface DMCollectionListController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -11,10 +12,18 @@
 
 @implementation DMCollectionListController
 
+- (void)setAssetCollections:(NSArray *)assetCollections {
+    
+    DMPhotoController *photosVC = [DMPhotoController new];
+//    photosVC.
+//    self.navigationController pushViewController:<#(nonnull UIViewController *)#> animated:<#(BOOL)#>
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor blueColor];
+//    self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.tableView];
     
     [_tableView makeConstraints:^(MASConstraintMaker *make) {
@@ -22,17 +31,6 @@
     }];
     
     NSMutableArray *collections = [NSMutableArray array];
-    PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
-    if (status == PHAuthorizationStatusRestricted ||
-        status == PHAuthorizationStatusDenied) {
-        NSString *appName = [[NSBundle mainBundle].infoDictionary objectForKey:@"CFBundleName"];
-        NSString *tipTextWhenNoPhotosAuthorization = [NSString stringWithFormat:@"请在设备的\"设置-隐私-照片\"选项中，允许 %@ 访问你的手机相册", appName];
-        
-        // 展示提示语
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"授权警告" message:tipTextWhenNoPhotosAuthorization delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-        [alertView show];
-        return;
-    }
     // 获取所有相册
     PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
     
