@@ -97,7 +97,8 @@
         }];
         
     } else {
-        [cell.courseImageView sd_setImageWithURL:nil placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"zu%ld.jpg", indexPath.row]]];
+        NSString *imageUrl = self.datas[indexPath.row];
+        [cell.courseImageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"zu%ld.jpg", indexPath.row]]];
     }
     
     [cell displayEditStatus:self.isSelected];

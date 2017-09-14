@@ -79,6 +79,10 @@
 		2AF870FF1F67C16A0001E2D3 /* zu6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2AF870F81F67C16A0001E2D3 /* zu6.jpg */; };
 		2AF871061F67FD9E0001E2D3 /* DMCoursewareBottom.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF871051F67FD9E0001E2D3 /* DMCoursewareBottom.m */; };
 		38CCB4B7CD85FDAEFE84B1D3 /* libPods-DiscoverMelody.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 945FC02CD63525967FAFE213 /* libPods-DiscoverMelody.a */; };
+		5100E42E1F6A4C1A000AB506 /* DMCourseFilesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5100E42D1F6A4C1A000AB506 /* DMCourseFilesController.m */; };
+		5100E4631F6A6358000AB506 /* DMTransitioningAnimationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5100E4601F6A6358000AB506 /* DMTransitioningAnimationHelper.m */; };
+		5100E4641F6A6358000AB506 /* DMPresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5100E4621F6A6358000AB506 /* DMPresentationController.m */; };
+		5100E4701F6A7662000AB506 /* DMTabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5100E46F1F6A7662000AB506 /* DMTabBarView.m */; };
 		5117331B1F69543A004E0CD1 /* DMPhotoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5117331A1F69543A004E0CD1 /* DMPhotoController.m */; };
 		5117331E1F695488004E0CD1 /* DMCollectionListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5117331D1F695488004E0CD1 /* DMCollectionListController.m */; };
 		511733231F695543004E0CD1 /* DMPHCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 511733201F695543004E0CD1 /* DMPHCollection.m */; };
@@ -95,6 +99,7 @@
 		515DCF031F66B63800AA9465 /* DMLiveWillStartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 515DCF021F66B63800AA9465 /* DMLiveWillStartView.m */; };
 		515DCF061F67A7D200AA9465 /* DMLiveCoursewareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 515DCF051F67A7D200AA9465 /* DMLiveCoursewareView.m */; };
 		515DCF091F67C5A500AA9465 /* DMLiveCoursewareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 515DCF081F67C5A500AA9465 /* DMLiveCoursewareCell.m */; };
+		5169FF1E1F6A8FF600396EFA /* DMBottomBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FF1D1F6A8FF600396EFA /* DMBottomBar.m */; };
 		519FA4E81F68CD890015A2B2 /* DMClassFilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF871021F67D74F0001E2D3 /* DMClassFilesViewController.m */; };
 		51B471391F62506D004FACC8 /* DMLiveController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B471381F62506D004FACC8 /* DMLiveController.m */; };
 		51B471481F62760E004FACC8 /* DMLiveButtonControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B471471F62760E004FACC8 /* DMLiveButtonControlView.m */; };
@@ -271,6 +276,14 @@
 		2AF871041F67FD9E0001E2D3 /* DMCoursewareBottom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCoursewareBottom.h; sourceTree = "<group>"; };
 		2AF871051F67FD9E0001E2D3 /* DMCoursewareBottom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCoursewareBottom.m; sourceTree = "<group>"; };
 		2BF41B440646DC59DC6A7EC6 /* Pods-DiscoverMelody.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DiscoverMelody.release.xcconfig"; path = "Pods/Target Support Files/Pods-DiscoverMelody/Pods-DiscoverMelody.release.xcconfig"; sourceTree = "<group>"; };
+		5100E42C1F6A4C1A000AB506 /* DMCourseFilesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCourseFilesController.h; sourceTree = "<group>"; };
+		5100E42D1F6A4C1A000AB506 /* DMCourseFilesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCourseFilesController.m; sourceTree = "<group>"; };
+		5100E45F1F6A6358000AB506 /* DMTransitioningAnimationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMTransitioningAnimationHelper.h; sourceTree = "<group>"; };
+		5100E4601F6A6358000AB506 /* DMTransitioningAnimationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMTransitioningAnimationHelper.m; sourceTree = "<group>"; };
+		5100E4611F6A6358000AB506 /* DMPresentationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMPresentationController.h; sourceTree = "<group>"; };
+		5100E4621F6A6358000AB506 /* DMPresentationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMPresentationController.m; sourceTree = "<group>"; };
+		5100E46E1F6A7662000AB506 /* DMTabBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMTabBarView.h; sourceTree = "<group>"; };
+		5100E46F1F6A7662000AB506 /* DMTabBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMTabBarView.m; sourceTree = "<group>"; };
 		511733191F69543A004E0CD1 /* DMPhotoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMPhotoController.h; sourceTree = "<group>"; };
 		5117331A1F69543A004E0CD1 /* DMPhotoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMPhotoController.m; sourceTree = "<group>"; };
 		5117331C1F695488004E0CD1 /* DMCollectionListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCollectionListController.h; sourceTree = "<group>"; };
@@ -294,6 +307,8 @@
 		515DCF051F67A7D200AA9465 /* DMLiveCoursewareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMLiveCoursewareView.m; sourceTree = "<group>"; };
 		515DCF071F67C5A500AA9465 /* DMLiveCoursewareCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMLiveCoursewareCell.h; sourceTree = "<group>"; };
 		515DCF081F67C5A500AA9465 /* DMLiveCoursewareCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMLiveCoursewareCell.m; sourceTree = "<group>"; };
+		5169FF1C1F6A8FF600396EFA /* DMBottomBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMBottomBar.h; sourceTree = "<group>"; };
+		5169FF1D1F6A8FF600396EFA /* DMBottomBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMBottomBar.m; sourceTree = "<group>"; };
 		51B471371F62506D004FACC8 /* DMLiveController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMLiveController.h; sourceTree = "<group>"; };
 		51B471381F62506D004FACC8 /* DMLiveController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMLiveController.m; sourceTree = "<group>"; };
 		51B471431F62717A004FACC8 /* DMConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMConfig.h; sourceTree = "<group>"; };
@@ -725,6 +740,30 @@
 			path = ClassFiles;
 			sourceTree = "<group>";
 		};
+		5100E42B1F6A4B8F000AB506 /* Course */ = {
+			isa = PBXGroup;
+			children = (
+				5100E42C1F6A4C1A000AB506 /* DMCourseFilesController.h */,
+				5100E42D1F6A4C1A000AB506 /* DMCourseFilesController.m */,
+				5100E46E1F6A7662000AB506 /* DMTabBarView.h */,
+				5100E46F1F6A7662000AB506 /* DMTabBarView.m */,
+				5169FF1C1F6A8FF600396EFA /* DMBottomBar.h */,
+				5169FF1D1F6A8FF600396EFA /* DMBottomBar.m */,
+			);
+			path = Course;
+			sourceTree = "<group>";
+		};
+		5100E45E1F6A634F000AB506 /* Transitioning */ = {
+			isa = PBXGroup;
+			children = (
+				5100E45F1F6A6358000AB506 /* DMTransitioningAnimationHelper.h */,
+				5100E4601F6A6358000AB506 /* DMTransitioningAnimationHelper.m */,
+				5100E4611F6A6358000AB506 /* DMPresentationController.h */,
+				5100E4621F6A6358000AB506 /* DMPresentationController.m */,
+			);
+			path = Transitioning;
+			sourceTree = "<group>";
+		};
 		511733181F69539F004E0CD1 /* Photo */ = {
 			isa = PBXGroup;
 			children = (
@@ -753,6 +792,7 @@
 				515DCF051F67A7D200AA9465 /* DMLiveCoursewareView.m */,
 				515DCF071F67C5A500AA9465 /* DMLiveCoursewareCell.h */,
 				515DCF081F67C5A500AA9465 /* DMLiveCoursewareCell.m */,
+				5100E42B1F6A4B8F000AB506 /* Course */,
 			);
 			path = Live;
 			sourceTree = "<group>";
@@ -789,6 +829,7 @@
 			isa = PBXGroup;
 			children = (
 				2A84269E1F6A644F005BA6EC /* DMUserDefaults */,
+				5100E45E1F6A634F000AB506 /* Transitioning */,
 				511733181F69539F004E0CD1 /* Photo */,
 				2AC478121F67B39F00D42F79 /* CoursewareFalls */,
 				51D2D62D1F613B0900764130 /* DMButton.h */,
@@ -1032,6 +1073,7 @@
 				519FA4E81F68CD890015A2B2 /* DMClassFilesViewController.m in Sources */,
 				515DCF091F67C5A500AA9465 /* DMLiveCoursewareCell.m in Sources */,
 				51D2D5651F5EC00B00764130 /* DMLoginTextField.m in Sources */,
+				5169FF1E1F6A8FF600396EFA /* DMBottomBar.m in Sources */,
 				2A3D1D281F692A44005671B2 /* ZFBrightnessView.m in Sources */,
 				2A4143901F600D6F00E6B4E1 /* DMHomeCell.m in Sources */,
 				2A05C4631F5D545D00FC4D9A /* DMRootContainerViewController.m in Sources */,
@@ -1040,6 +1082,7 @@
 				2A5F86C61F5CEDDF00773ADD /* DMBaseViewController.m in Sources */,
 				2A8426A11F6A6468005BA6EC /* DMUserDefaults.m in Sources */,
 				2A3D1D1E1F692A44005671B2 /* ASValuePopUpView.m in Sources */,
+				5100E4631F6A6358000AB506 /* DMTransitioningAnimationHelper.m in Sources */,
 				2A23C9711F665AAD0097F91B /* DMCustomerInfoView.m in Sources */,
 				2AD28D6B1F63CE160042333D /* DMTestViewController.m in Sources */,
 				2AB7DD6E1F6A37B900270C03 /* DMEStarView.m in Sources */,
@@ -1053,6 +1096,7 @@
 				2A3D1D261F692A44005671B2 /* UIWindow+CurrentViewController.m in Sources */,
 				2A9D91671F6690FC00DF4A3B /* DMCustomerCell.m in Sources */,
 				2A3D1D251F692A44005671B2 /* UIViewController+ZFPlayerRotation.m in Sources */,
+				5100E4701F6A7662000AB506 /* DMTabBarView.m in Sources */,
 				2A40302A1F677CBA00663C72 /* DMSignalingKey.m in Sources */,
 				511733231F695543004E0CD1 /* DMPHCollection.m in Sources */,
 				515DCF031F66B63800AA9465 /* DMLiveWillStartView.m in Sources */,
@@ -1079,6 +1123,7 @@
 				2A8782541F61438E004F9184 /* DMRequestModel.m in Sources */,
 				2A4E96A11F66AA57000C4DFD /* DMPopCodeView.m in Sources */,
 				2A3D1D271F692A44005671B2 /* MMMaterialDesignSpinner.m in Sources */,
+				5100E4641F6A6358000AB506 /* DMPresentationController.m in Sources */,
 				2AD2AB371F5D441D00EDA962 /* DMHomeViewController.m in Sources */,
 				2A45F9701F60F6D50077CBA5 /* DMHomeDataModel.m in Sources */,
 				2A7A64C61F629F0800D1E62C /* DMLiveVideoManager.m in Sources */,
@@ -1099,6 +1144,7 @@
 				2A03AF471F555FA80088DBF4 /* main.m in Sources */,
 				2AB7DD741F6A37F000270C03 /* DMTextView.m in Sources */,
 				2AC06F071F6247AA009F9BFA /* DMMenuHeadView.m in Sources */,
+				5100E42E1F6A4C1A000AB506 /* DMCourseFilesController.m in Sources */,
 				51B471391F62506D004FACC8 /* DMLiveController.m in Sources */,
 				2A4143891F5FF5F300E6B4E1 /* DMHomeView.m in Sources */,
 			);

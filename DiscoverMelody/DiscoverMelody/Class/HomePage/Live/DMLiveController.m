@@ -7,6 +7,8 @@
 #import "NSString+Extension.h"
 #import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
 #import "DMPhotoController.h"
+#import "DMCourseFilesController.h"
+#import "DMTransitioningAnimationHelper.h"
 
 
 #define kSmallSize CGSizeMake(DMScaleWidth(240), DMScaleHeight(180))
@@ -58,6 +60,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 @property (assign, nonatomic) NSInteger tapLayoutCount; // 点击布局按钮次数
 @property (assign, nonatomic) BOOL isCoursewareMode; // 是否是课件布局模式
 @property (assign, nonatomic) DMLayoutMode beforeLayoutMode; // 课件布局模式之前的模式
+@property (strong, nonatomic) DMTransitioningAnimationHelper *animationHelper;
 
 #pragma mark - 临时变量做测试用
 @property (strong, nonatomic) NSDate *startDate;
@@ -194,7 +197,10 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 
 // 切换摄像头
 - (void)liveButtonControlViewDidTapSwichCamera:(DMLiveButtonControlView *)liveButtonControlView {
-    [self.liveVideoManager switchCamera];
+//    [self.liveVideoManager switchCamera];
+    
+    if (_isCoursewareMode) return;
+    _isCoursewareMode = YES;
 }
 
 // 切换布局
@@ -204,11 +210,14 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 
 // 课件
 - (void)liveButtonControlViewDidTapCourseFiles:(DMLiveButtonControlView *)liveButtonControlView {
-    if (_isCoursewareMode) return;
-    _isCoursewareMode = YES;
+    DMCourseFilesController *courseFilesVC = [DMCourseFilesController new];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:courseFilesVC];
+    nav.transitioningDelegate = self.animationHelper;
+    nav.modalPresentationStyle = UIModalPresentationCustom;
+    [self presentViewController:nav animated:YES completion:nil];
+    
 //    [self didTapCourseFiles];
-    DMPhotoController *photoVC = [DMPhotoController new];
-    [self.navigationVC pushViewController:photoVC animated:YES];
+ 
 }
 
 - (void)liveCoursewareViewDidTapClose:(DMLiveCoursewareView *)liveCoursewareView {
@@ -661,6 +670,16 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     }
     
     return _coursewareView;
+}
+
+- (DMTransitioningAnimationHelper *)animationHelper {
+    if (!_animationHelper) {
+        _animationHelper = [DMTransitioningAnimationHelper new];
+        _animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth * 0.5, DMScreenHeight);
+        _animationHelper.coverBackgroundColor = [UIColor clearColor];
+    }
+    
+    return _animationHelper;
 }
 
 - (void)dealloc {
