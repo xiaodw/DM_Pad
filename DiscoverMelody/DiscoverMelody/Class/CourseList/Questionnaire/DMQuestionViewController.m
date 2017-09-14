@@ -29,24 +29,55 @@
     [self updateTopViewInfo:nil];
 }
 
+- (void)clickCommitBtn:(id)sender {
+
+}
+
 - (void)loadUI {
     UIImageView *topImageView = [[UIImageView alloc] init];
     topImageView.image = [UIImage imageNamed:@"question_bg"];
-    [self.view addSubview:topImageView];
-    
-    [topImageView addSubview:self.timeLabel];
-    [topImageView addSubview:self.classNameLabel];
-    [topImageView addSubview:self.typeLabel];
-    
+
     UIView *headView2 = [[UIView alloc] init];
     headView2.backgroundColor = [UIColor whiteColor];
     headView2.alpha = 0.1;
     headView2.layer.cornerRadius = 50/2;
     headView2.layer.masksToBounds = YES;
-    [topImageView addSubview:headView2];
     
+    [self.view addSubview:topImageView];
+    [topImageView addSubview:self.timeLabel];
+    [topImageView addSubview:self.classNameLabel];
+    [topImageView addSubview:self.typeLabel];
+    [topImageView addSubview:headView2];
     [topImageView addSubview:self.hImageView];
     [topImageView addSubview:self.nameLabel];
+    
+    UIView *bottomView = [[UIView alloc] init];
+    bottomView.backgroundColor = [UIColor whiteColor];
+    
+    UIButton *commitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    commitBtn.backgroundColor = DMColorBaseMeiRed;
+    [commitBtn setTitle:@"提交" forState:UIControlStateNormal];
+    [commitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [commitBtn.titleLabel setFont:DMFontPingFang_Regular(16)];
+    [commitBtn addTarget:self action:@selector(clickCommitBtn:) forControlEvents:UIControlEventTouchUpInside];
+    commitBtn.layer.cornerRadius = 5;
+    commitBtn.layer.masksToBounds = YES;
+    
+    [self.view addSubview:bottomView];
+    [bottomView addSubview:commitBtn];
+    
+    [bottomView makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.equalTo(self.view).offset(0);
+        make.centerX.equalTo(topImageView);
+        make.height.equalTo(120);
+    }];
+    
+    [commitBtn makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(bottomView.mas_bottom).offset(-43);
+        make.centerX.equalTo(bottomView);
+        make.height.equalTo(40);
+        make.width.equalTo(130);
+    }];
     
     [topImageView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(self.view);
