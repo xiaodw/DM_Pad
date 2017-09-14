@@ -18,6 +18,10 @@
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 
+#import "DMLoginDataModel.h"
+#import "DMHomeDataModel.h"
+#import "DMCourseDatasModel.h"
+
 #import "DMRootViewDefine.h"
 #import "DMConfig.h"
 #import "DMConst.h"
@@ -37,6 +41,12 @@
 
 #import "MJExtension.h"
 #import "UIImageView+WebCache.h"
+#import "DMApiModel.h"
+
+#import "DMHttpClient.h"
+#import "DMServerApiConfig.h"
+#import "DMUserDefaults.h"
+#import "DMAccount.h"
 
 
 #endif /* DiscoverMelody_Prefix_pch */

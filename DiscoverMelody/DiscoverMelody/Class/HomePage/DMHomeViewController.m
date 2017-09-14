@@ -20,6 +20,7 @@
 
 @property (nonatomic, strong) DMHomeView *homeView;
 
+
 @end
 
 @implementation DMHomeViewController
@@ -33,11 +34,20 @@
     self.view.backgroundColor = UIColorFromRGB(0xf6f6f6);
     [self.view addSubview:self.homeView];
     [self getDataFromServer];
+    
 }
 
 //获取首页数据
 - (void)getDataFromServer {
-    [DMHomeDataModel getHomeCourseData:^(BOOL result, NSMutableArray *array) {
+    WS(weakSelf);
+    
+    NSString *type = [DMAccount getUserIdentity];
+    
+    [DMApiModel getHomeCourseData:type block:^(BOOL result, NSArray *array) {
+        if (!OBJ_IS_NIL(array) && array.count > 0) {
+            weakSelf.homeView.datas = array;
+            [weakSelf.homeView reloadHomeTableView];
+        }
         
     }];
 }

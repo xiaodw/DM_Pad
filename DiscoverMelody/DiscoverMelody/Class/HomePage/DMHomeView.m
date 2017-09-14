@@ -23,6 +23,10 @@
 
 @implementation DMHomeView
 
+- (void)reloadHomeTableView {
+    [self.bTableView reloadData];
+}
+
 - (id)initWithFrame:(CGRect)frame delegate:(id<DMHomeVCDelegate>) delegate {
     self = [super initWithFrame:frame];
     if (self) {
@@ -30,15 +34,15 @@
         self.selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
         [self configSubViews];
         [self setupMakeLayoutSubviews];
-        [self updateTopViewInfo:nil];
+        //[self updateTopViewInfo:nil];
     }
     return self;
 }
 
-- (void)updateTopViewInfo:(id)obj {
-    [_headImageView sd_setImageWithURL:nil placeholderImage:[UIImage imageNamed:@"timg1.jpg"]];
-    _courseLabel.text = @"未来之星1v1--钢琴";
-    _nameLabel.text = @"郎郎";
+- (void)updateTopViewInfo:(DMCourseDatasModel *)obj {
+    [_headImageView sd_setImageWithURL:[NSURL URLWithString:obj.avatar] placeholderImage:[UIImage imageNamed:@"timg1.jpg"]];
+    _courseLabel.text = obj.course_name;
+    _nameLabel.text = obj.teacher_name;
     _timeLabel.text = @"上课时间：9月8日 18:00";
 }
 
@@ -48,9 +52,6 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     self.selectedIndexPath = indexPath;
     [tableView reloadData];
-    
-    //更新topView数据
-    [self updateTopViewInfo:nil];
 }
 
 #pragma mark -
@@ -64,7 +65,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex {
-    return 3;
+    return self.datas.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -73,15 +74,27 @@
     if (!cell) {
         cell = [[DMHomeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:homeCell];
     }
-    
+    DMCourseDatasModel *data = [self.datas objectAtIndex:indexPath.row];
     if ([indexPath isEqual:self.selectedIndexPath]) {
         [cell isSelectedCell:YES];
+        [self updateTopViewInfo:data];
     } else {
         [cell isSelectedCell:NO];
     }
-    cell.nameLabel.text = @"未来之星1v1-钢琴";
+    cell.nameLabel.text = data.course_name;
     cell.timeLabel.text = @"上课时间：8月16日 10:00";
     cell.statusLabel.text = @"未开始";
+    if (data.live_status.intValue == 0) {
+        cell.statusLabel.text = @"未开始";
+    } else if (data.live_status.intValue == 1) {
+        cell.statusLabel.text = @"上课中";
+    } else if (data.live_status.intValue == 2) {
+        cell.statusLabel.text = @"上完课";
+    } else if (data.live_status.intValue == 3) {
+        cell.statusLabel.text = @"取消课程";
+    } else if (data.live_status.intValue == 4) {
+        cell.statusLabel.text = @"结束";
+    }
     
     return cell;
 }

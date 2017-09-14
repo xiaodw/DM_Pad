@@ -13,6 +13,8 @@
 
 @implementation DMHttpClient
 
+#define Data_Key @"data"
+
 + (DMHttpClient *)sharedInstance {
     static DMHttpClient *instance = nil;
     static dispatch_once_t onceToken;
@@ -30,18 +32,38 @@
          success:(void (^)(id responseObject))success
          failure:(void (^)( NSError *error))failure {
 
-    [[DMRequestModel sharedInstance] requestWithPath:url method:requestMethod parameters:parameters prepareExecute:^{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    if (OBJ_IS_NIL(parameters)) {
+        dic = [self fixedParameters:[NSMutableDictionary dictionary]];
+    } else {
+        dic = [self fixedParameters:parameters];
+    }
+    
+    [[DMRequestModel sharedInstance] requestWithPath:url method:requestMethod parameters:dic prepareExecute:^{
         
     } success:^(id responseObject) {
-
-        NSLog(@"%@",responseObject);
-        if (![responseObject isKindOfClass:[NSDictionary class]]) return;
-        id responseDataModel = [dataModelClass mj_objectWithKeyValues:responseObject];
+//        NSString *string = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+//        NSLog(@"str = %@",string);
+        id responseObj = responseObject;
+        
+        if (![responseObject isKindOfClass:[NSDictionary class]]) {
+            responseObj = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
+        }
+        NSLog(@"返回的数据 = %@",responseObj);
+        id responseDataModel = [dataModelClass mj_objectWithKeyValues:[responseObj objectForKey:Data_Key]];
         success(responseDataModel);
     
     } failure:^(NSError *error) {
+        NSLog(@"网络请求错误信息 = %@", error);
         failure(error);
     }];
+}
+
+- (NSMutableDictionary *)fixedParameters:(NSMutableDictionary *)source {
+    [source setObject:App_Version forKey:@"ver"];
+    [source setObject:App_Type forKey:@"app"];
+    [source setObject:STR_IS_NIL([DMAccount getToken]) ? @"": [DMAccount getToken] forKey:@"token"];
+    return source;
 }
 
 //请求合法性校验

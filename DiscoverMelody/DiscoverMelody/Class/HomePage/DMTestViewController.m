@@ -52,6 +52,23 @@
 
 }
 
+- (void)apiPass {
+    //登录
+    [DMApiModel loginSystem:@"admin" psd:@"123123" block:^(BOOL result) {
+        if (result) {
+            NSLog(@"读取姓名： ------   %@", [DMAccount getUserName]);
+        } else {
+            NSLog(@"登录失败了");
+        }
+    }];
+    //退出登录
+    [DMApiModel logoutSystem:^(BOOL result) {
+        if (result) {
+            NSLog(@"退出了登录");
+        }
+    }];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

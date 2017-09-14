@@ -15,5 +15,7 @@
 
 @interface DMHomeView : UIView
 @property (nonatomic, weak)id <DMHomeVCDelegate>delegate;
+@property (nonatomic, strong) NSArray *datas;
 -(id)initWithFrame:(CGRect)frame delegate:(id<DMHomeVCDelegate>) delegate;
+- (void)reloadHomeTableView;
 @end
