@@ -45,6 +45,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO];
+    [self setNavigationBarNoTransparence];
 }
 
 - (void)setupMJRefresh {
@@ -159,6 +160,8 @@
 // 调查问卷
 - (void)courseListCellDidTapQuestionnaire:(DMCourseListCell *)courseListCell {
     DMLogFunc
+    DMQuestionViewController *qtVC = [[DMQuestionViewController alloc] init];
+    [self.navigationController pushViewController:qtVC animated:YES];
 }
 
 - (UITableView *)tableView {

@@ -31,7 +31,7 @@
 
 - (void)setNavigationbar {
      if (self.navigationController.viewControllers.count > 1) {
-         
+         [self setLeftBtn:CGRectMake(0, 0, 44, 44) title:@"" titileColor:nil imageName:@"back_icon" font:nil];
      } else {
          [self setupMenuButton];
      }
@@ -128,7 +128,7 @@
     self.navigationController.navigationBar.shadowImage = [UIImage new];
 }
 
-//MARK: - 设置导航栏透明
+//MARK: - 设置导航栏不透明
 - (void)setNavigationBarNoTransparence {
 
     self.edgesForExtendedLayout = UIRectEdgeAll;
