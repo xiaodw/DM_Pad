@@ -74,6 +74,12 @@
 - (void)loadDataList:(NSInteger)currentPageNumber {
     NSLog(@"发送API请求数据");
     
+    [DMApiModel getCourseListData:[DMAccount getUserIdentity] sort:@"" page:@"1" condition:@"0" block:^(BOOL result, NSArray *array, BOOL nextPage) {
+        if (result && array.count > 0) {
+            //请求到了列表数据
+        }
+    }];
+    
     NSInteger nextPageNum = currentPageNumber + 1;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 //        if (!kResponseCode(200)) {

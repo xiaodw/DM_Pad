@@ -10,4 +10,5 @@
 
 @interface DMHomeDataModel : DMBaseDataModel
 @property (nonatomic, strong) NSArray *list;
+@property (nonatomic, copy) NSString *page_next;
 @end

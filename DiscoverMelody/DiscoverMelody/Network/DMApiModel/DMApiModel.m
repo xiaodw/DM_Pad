@@ -56,11 +56,11 @@
 }
 
 //课程列表(老师／学生)
-+ (void)getHomeCourseData:(NSString *)type //身份类型
++ (void)getCourseListData:(NSString *)type //身份类型
                      sort:(NSString *)sort //DESC降序，ASC升序
-                     page:(NSInteger)page //页码，默认为1
+                     page:(NSString *)page //页码，默认为1
                 condition:(NSString *)condition //选择筛选条件
-                    block:(void(^)(BOOL result, NSArray *array))complectionBlock
+                    block:(void(^)(BOOL result, NSArray *array, BOOL nextPage))complectionBlock
 {
 
     NSString *url = DM_User_Scourse_List_Url;
@@ -71,9 +71,13 @@
     
     [[DMHttpClient sharedInstance] initWithUrl:url parameters:dic method:DMHttpRequestPost dataModelClass:[DMHomeDataModel class] isMustToken:YES success:^(id responseObject) {
         DMHomeDataModel *model = (DMHomeDataModel *)responseObject;
-        complectionBlock(YES, model.list);
+        BOOL isHave = YES;
+        if (model.page_next.intValue == 0) {
+            isHave = NO;
+        }
+        complectionBlock(YES, model.list, isHave);
     } failure:^(NSError *error) {
-        complectionBlock(NO, nil);
+        complectionBlock(NO, nil, NO);
     }];
 }
 

@@ -19,6 +19,11 @@
 
 @property (nonatomic, strong) NSIndexPath *selectedIndexPath;
 
+@property (strong, nonatomic) UIView *noCourseView;
+@property (nonatomic, strong) UIButton *reloadButton;
+@property (nonatomic, strong) UIImageView *iconImageView;
+@property (nonatomic, strong) UILabel *titleLabel;
+
 @end
 
 @implementation DMHomeView
@@ -44,6 +49,26 @@
     _courseLabel.text = obj.course_name;
     _nameLabel.text = obj.teacher_name;
     _timeLabel.text = @"上课时间：9月8日 18:00";
+}
+
+- (void)disPlayNoCourseView:(BOOL)display isError:(BOOL)error {
+    _noCourseView.hidden = !display;
+    if (display) {
+        if (error) {
+            //网络错误
+            self.iconImageView.image = [UIImage imageNamed:@"error_icon"];
+            self.titleLabel.text = @"数据加载失败";
+            self.reloadButton.hidden = NO;
+        } else {
+            //无课程
+            self.iconImageView.image = [UIImage imageNamed:@"icon_noCourse"];
+            self.titleLabel.text = @"您暂时还没有课程哦";
+            self.reloadButton.hidden = YES;
+        }
+    }
+    _topView.hidden = display;
+    _bTableView.hidden = display;
+
 }
 
 #pragma mark -
@@ -102,6 +127,7 @@
 - (void)configSubViews {
     [self addSubview:self.topView];
     [self addSubview:self.bTableView];
+    [self addSubview:self.noCourseView];
 }
 
 - (void)setupMakeLayoutSubviews {
@@ -115,6 +141,11 @@
         make.centerX.equalTo(self);
         make.bottom.equalTo(self.mas_bottom).offset(0);
         make.width.equalTo(self.frame.size.width);
+    }];
+    [_noCourseView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(0);
+        make.size.equalTo(self);
+        make.centerX.equalTo(self);
     }];
 }
 
@@ -243,6 +274,64 @@
         make.size.equalTo(CGSizeMake(70, 15));
     }];
 }
+- (UIView *)noCourseView {
+    if (!_noCourseView) {
+        _noCourseView = [UIView new];
+        _noCourseView.hidden = YES;
+        _noCourseView.backgroundColor = DMColorWithRGBA(246, 246, 246, 1);
+        
+        UIImageView *topImageView = [UIImageView new];
+        topImageView.image = [UIImage imageNamed:@"hp_no_course_icon"];
+        
+        _iconImageView = [UIImageView new];
+        _iconImageView.image = [UIImage imageNamed:@"icon_noCourse"];
+        
+        _titleLabel = [UILabel new];
+        _titleLabel.text = @"您暂时还没有课程哦";
+        _titleLabel.font = DMFontPingFang_Light(20);
+        _titleLabel.textColor = DMColorWithRGBA(204, 204, 204, 1);
+        
+        self.reloadButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.reloadButton.backgroundColor = DMColorWithRGBA(246, 246, 246, 1);
+        [self.reloadButton setTitle:@"刷新" forState:UIControlStateNormal];
+        [self.reloadButton addTarget:self action:@selector(clickReload:) forControlEvents:UIControlEventTouchUpInside];
+        [self.reloadButton setTitleColor:DMColorWithRGBA(204, 204, 204, 1) forState:UIControlStateNormal];
+        self.reloadButton.titleLabel.font = DMFontPingFang_Light(16);
+        _reloadButton.layer.cornerRadius = 5;
+        _reloadButton.layer.borderColor = DMColorWithRGBA(204, 204, 204, 1).CGColor;//[UIColor colorWithWhite:1 alpha:0.5].CGColor;
+        _reloadButton.layer.borderWidth = 1;
+        
+        [_noCourseView addSubview:topImageView];
+        [_noCourseView addSubview:_iconImageView];
+        [_noCourseView addSubview:_titleLabel];
+        [_noCourseView addSubview:self.reloadButton];
+        
+        [topImageView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.left.right.equalTo(_noCourseView).offset(0);
+            make.height.equalTo(64);
+        }];
+        
+        [_iconImageView makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(_noCourseView);
+            make.centerY.equalTo(_noCourseView);
+            make.size.equalTo(CGSizeMake(134, 118));
+        }];
+        
+        [_titleLabel makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_iconImageView.mas_bottom).offset(5);
+            make.centerX.equalTo(_iconImageView);
+        }];
+        
+        [_reloadButton makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_titleLabel.mas_bottom).offset(10);
+            make.centerX.equalTo(_iconImageView);
+            make.size.equalTo(CGSizeMake(70, 35));
+        }];
+    }
+    
+    return _noCourseView;
+}
+
 
 - (void)clickCourseFileBtn:(id)sender {
     if ([self.delegate respondsToSelector:@selector(clickCourseFiles)]) {
@@ -253,6 +342,12 @@
 - (void)clickClassRoomBtn:(id)sender {
     if ([self.delegate respondsToSelector:@selector(clickClassRoom)]) {
         [self.delegate clickClassRoom];
+    }
+}
+
+- (void)clickReload:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(clickReload)]) {
+        [self.delegate clickReload];
     }
 }
 

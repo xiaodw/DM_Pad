@@ -11,11 +11,13 @@
 @protocol DMHomeVCDelegate <NSObject>
 - (void)clickCourseFiles;
 - (void)clickClassRoom;
+- (void)clickReload;
 @end
 
 @interface DMHomeView : UIView
 @property (nonatomic, weak)id <DMHomeVCDelegate>delegate;
 @property (nonatomic, strong) NSArray *datas;
--(id)initWithFrame:(CGRect)frame delegate:(id<DMHomeVCDelegate>) delegate;
+- (id)initWithFrame:(CGRect)frame delegate:(id<DMHomeVCDelegate>) delegate;
 - (void)reloadHomeTableView;
+- (void)disPlayNoCourseView:(BOOL)display isError:(BOOL)error;
 @end

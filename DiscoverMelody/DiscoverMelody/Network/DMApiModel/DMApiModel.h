@@ -20,10 +20,10 @@
 + (void)getHomeCourseData:(NSString *)type block:(void(^)(BOOL result, NSArray *array))complectionBlock;
 
 //课程列表(老师／学生)
-+ (void)getHomeCourseData:(NSString *)type //身份类型
++ (void)getCourseListData:(NSString *)type //身份类型
                      sort:(NSString *)sort //DESC降序，ASC升序
-                     page:(NSInteger)page //页码，默认为1
+                     page:(NSString *)page //页码，默认为1
                 condition:(NSString *)condition //选择筛选条件
-                    block:(void(^)(BOOL result, NSArray *array))complectionBlock;
+                    block:(void(^)(BOOL result, NSArray *array, BOOL nextPage))complectionBlock;
 
 @end
