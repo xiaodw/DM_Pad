@@ -10,7 +10,7 @@
 
 @interface DMBaseViewController ()
 @property (nonatomic, strong) UINavigationItem *navigationBar;
-@property (nonatomic, strong) UIButton *rightButton;
+
 @end
 
 @implementation DMBaseViewController
@@ -169,7 +169,12 @@
         [btn setImageEdgeInsets:UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)];
     }
     [btn addTarget:self action:@selector(rightOneAction:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
+    
+    UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    fixedSpace.width = -5;
+    
+    //self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
+    self.navigationItem.rightBarButtonItems = @[fixedSpace, [[UIBarButtonItem alloc] initWithCustomView:btn]];
     self.rightButton = btn;
 }
 

@@ -69,7 +69,13 @@
     }
     NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:condition, @"condition", page, @"page", sort, @"sort", nil];
     
-    [[DMHttpClient sharedInstance] initWithUrl:url parameters:dic method:DMHttpRequestPost dataModelClass:[DMHomeDataModel class] isMustToken:YES success:^(id responseObject) {
+    [[DMHttpClient sharedInstance] initWithUrl:url
+                                    parameters:dic
+                                        method:DMHttpRequestPost
+                                dataModelClass:[DMHomeDataModel class]
+                                   isMustToken:YES
+                                       success:^(id responseObject)
+    {
         DMHomeDataModel *model = (DMHomeDataModel *)responseObject;
         BOOL isHave = YES;
         if (model.page_next.intValue == 0) {

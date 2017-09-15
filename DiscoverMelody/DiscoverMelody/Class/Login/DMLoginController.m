@@ -120,6 +120,8 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
     NSLog(@"发送API{account: %@, pwd: %@}", accountString, pwdString);
     DMRootViewController *rootVC = APP_DELEGATE.dmrVC;
     [self presentViewController:rootVC animated:YES completion:nil];
+    //APP_DELEGATE.window.rootViewController = APP_DELEGATE.dmrVC;
+    
 }
 
 - (void)setupMakeAddSubviews {

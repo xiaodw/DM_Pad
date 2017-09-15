@@ -6,10 +6,10 @@
 #import "DMMoviePlayerViewController.h"
 #import "DMClassFilesViewController.h"
 #import "DMQuestionViewController.h"
-
+#import "DMPullDownMenu.h"
 #define kCellID @"course"
 
-@interface DMCourseListController () <UITableViewDelegate, UITableViewDataSource, DMCourseListCellDelegate>
+@interface DMCourseListController () <UITableViewDelegate, UITableViewDataSource, DMCourseListCellDelegate, DMPullDownMenuDelegate>
 
 #pragma mark - UI
 @property (strong, nonatomic) UIView *noCourseView;
@@ -21,12 +21,23 @@
 @property (strong, nonatomic) NSMutableArray *courses;
 @property (strong, nonatomic) NSArray *textArray;
 
+@property (strong, nonatomic) DMPullDownMenu *pullDownMenu;
+@property (nonatomic, strong) NSArray *selArray;
+
 @end
 
 @implementation DMCourseListController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self setRigthBtn:CGRectMake(0, 4.5, 135, 35)
+                title:@"全部课程"
+          titileColor:DMColorWithRGBA(246, 246, 246, 1)
+            imageName:@"btn_menu_arrow_bottom"
+                 font:DMFontPingFang_UltraLight(14)];
+    
+    self.selArray = @[@"全部课程",@"已上课程",@"未上课程"];
     
     NSMutableArray *array = [NSMutableArray array];
     for (int i = 0; i < 20; i++) {
@@ -112,6 +123,8 @@
     [self.view addSubview:self.tableViewHeaderView];
     [self.view addSubview:self.tableView];
     [self.view addSubview:self.noCourseView];
+    
+    [self.navigationController.view addSubview:self.pullDownMenu];
 }
 
 - (void)setupMakeLayoutSubviews {
@@ -132,6 +145,7 @@
         make.size.equalTo(CGSizeMake(134, 170));
         make.centerX.equalTo(_tableViewHeaderView);
     }];
+
 }
 
 #pragma mark - UITableViewDataSource;
@@ -147,6 +161,17 @@
     cell.model = [NSObject new];
     
     return cell;
+}
+
+- (void)pulldownMenu:(DMPullDownMenu *)menu selectedCellNumber:(NSInteger)number // 当选择某个选项时调用
+{
+    if (number < self.selArray.count) {
+      
+    }
+}
+
+- (void)rightOneAction:(id)sender {
+    [self.pullDownMenu clickMainBtn:(UIButton *)sender];
 }
 
 // 回看
@@ -227,6 +252,19 @@
     }
     
     return _noCourseView;
+}
+
+- (DMPullDownMenu *)pullDownMenu {
+    if (!_pullDownMenu) {
+        
+        //初始化下拉表
+        _pullDownMenu = [[DMPullDownMenu alloc] init];
+        _pullDownMenu.mainBtn = self.rightButton;
+        _pullDownMenu.frame = CGRectMake((self.view.frame.size.width-135-15), 64-self.rightButton.frame.origin.y-4.5, 135, 0);
+        [_pullDownMenu setMenuTitles:self.selArray rowHeight:35];
+        _pullDownMenu.delegate = self;
+    }
+    return _pullDownMenu;
 }
 
 @end

@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) UIImageView *headImageView;
 @property (nonatomic, strong) UILabel *userLabel;
+@property (nonatomic, strong) UIButton *rightButton;
 
 //导航透明
 - (void)setNavigationBarTransparence;
