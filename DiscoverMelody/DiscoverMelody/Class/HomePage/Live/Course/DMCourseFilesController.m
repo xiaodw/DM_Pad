@@ -12,7 +12,7 @@
 #import "DMTabBarView.h"
 #import "DMBottomBarView.h"
 #import "DMCourseModel.h"
-#import "DMBrowseCourseView.h"
+#import "DMBrowseCourseController.h"
 
 #define kCourseFileCellID @"Courseware"
 #define kLeftMargin 15
@@ -20,14 +20,13 @@
 #define kColumnSpacing 15
 #define kColumns 3
 
-@interface DMCourseFilesController () <DMBottomBarViewDelegate, DMTabBarViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, DMBrowseCourseViewDelegate>
+@interface DMCourseFilesController () <DMBottomBarViewDelegate, DMTabBarViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, DMBrowseCourseControllerDelegate>
 
 @property (strong, nonatomic) UIButton *rightBarButton;
 
 @property (strong, nonatomic) DMTabBarView *tabBarView;
 @property (strong, nonatomic) UICollectionView *collectionView;
 @property (strong, nonatomic) DMBottomBarView *bottomBar;
-@property (strong, nonatomic) DMBrowseCourseView *browseCourseView;
 
 @property (strong, nonatomic) NSArray *identifierCpirsesArray;
 @property (strong, nonatomic) NSMutableArray *currentCpirses;
@@ -52,6 +51,7 @@
     if (self.bottomBar.uploadButton.enabled) {
         // 处理
         [self reinstateSelectedCpirses];
+        self.rightBarButton.selected = NO;
     }
 }
 
@@ -112,7 +112,7 @@
     self.currentCpirses = self.identifierCpirsesArray[button.tag];
 }
 
-- (void)rowseCourseView:(DMBrowseCourseView *)rowseCourseView deleteIndexPath:(NSIndexPath *)indexPath {
+- (void)browseCourseController:(DMBrowseCourseController *)browseCourseController deleteIndexPath:(NSIndexPath *)indexPath {
     DMCourseModel *course = self.currentCpirses[indexPath.row];
     [self.currentCpirses removeObject:course];
     [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
@@ -128,6 +128,11 @@
 
 - (void)botoomBarViewDidTapDelete:(DMBottomBarView *)botoomBarView {
     DMLogFunc
+    
+    [self.currentCpirses removeObjectsInArray:self.selectedCpirses];
+    [self.collectionView reloadData];
+    
+    [self resetting];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -144,7 +149,17 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (!_editorMode){
-        
+        DMBrowseCourseController *browseCourseVC = [DMBrowseCourseController new];
+        CGFloat width = DMScreenWidth * 0.5 - 80;
+        CGFloat height = DMScreenHeight - 130;
+        browseCourseVC.itemSize = CGSizeMake(width, height);
+        browseCourseVC.courses = self.currentCpirses;
+        browseCourseVC.browseDelegate = self;
+        browseCourseVC.modalPresentationStyle = UIModalPresentationCustom;
+        self.animationHelper.coverBackgroundColor = [UIColor clearColor];
+        self.animationHelper.closeAnimate = NO;
+        browseCourseVC.transitioningDelegate = self.animationHelper;
+        [self presentViewController:browseCourseVC animated:NO completion:nil];
         return;
     }
     
@@ -175,11 +190,14 @@
         courseModel.selectedIndex = 0;
         courseModel.isSelected = NO;
     }
+    [self resetting];
+}
+
+- (void)resetting {
     _selectedCpirses = nil;
     _selectedIndexPath = nil;
     self.bottomBar.syncButton.enabled = NO;
     self.bottomBar.deleteButton.enabled = NO;
-    self.rightBarButton.selected = NO;
 }
 
 - (void)reSetSelectedCpirsesIndex {
@@ -257,17 +275,8 @@
     return _selectedIndexPath;
 }
 
-- (DMBrowseCourseView *)browseCourseView {
-    if (!_browseCourseView) {
-        _browseCourseView = [DMBrowseCourseView new];
-        _browseCourseView.delegate = self;
-    }
-    
-    return _browseCourseView;
-}
-
 - (void)setupData {
-    _identifierCpirsesArray = @[@[[DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+    _identifierCpirsesArray = @[[@[[DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
@@ -275,8 +284,8 @@
                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                  [DMCourseModel new]],
-                                @[[DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+                                  [DMCourseModel new]] mutableCopy],
+                                [@[[DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
@@ -288,7 +297,7 @@
                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                  [DMCourseModel new], [DMCourseModel new]]
+                                  [DMCourseModel new], [DMCourseModel new]] mutableCopy]
                                 ];
 }
 

@@ -11,6 +11,7 @@
 @interface DMPresentationController : UIPresentationController
 
 @property (assign, nonatomic) CGRect presentFrame;
+@property (assign, nonatomic, getter=isCloseAnimate) BOOL closeAnimate;
 @property (strong, nonatomic) UIColor *coverBackgroundColor;
 
 @end

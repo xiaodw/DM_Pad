@@ -106,6 +106,7 @@ static bool currentTurnPage = false;
         _collectionView.backgroundColor = [UIColor whiteColor];
         _collectionView.pagingEnabled = YES;
         _collectionView.bounces = NO;
+        _collectionView.showsVerticalScrollIndicator = NO;
 #warning iOS10 属性
         _collectionView.prefetchingEnabled = NO;
         [_collectionView registerClass:[DMLiveCoursewareCell class] forCellWithReuseIdentifier:kCoursewareCellID];
