@@ -19,9 +19,18 @@
 
 @property (nonatomic, strong) NSIndexPath *selectedIndexPath;
 
+@property (strong, nonatomic) UIView *noCourseView;
+@property (nonatomic, strong) UIButton *reloadButton;
+@property (nonatomic, strong) UIImageView *iconImageView;
+@property (nonatomic, strong) UILabel *titleLabel;
+
 @end
 
 @implementation DMHomeView
+
+- (void)reloadHomeTableView {
+    [self.bTableView reloadData];
+}
 
 - (id)initWithFrame:(CGRect)frame delegate:(id<DMHomeVCDelegate>) delegate {
     self = [super initWithFrame:frame];
@@ -30,16 +39,36 @@
         self.selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
         [self configSubViews];
         [self setupMakeLayoutSubviews];
-        [self updateTopViewInfo:nil];
+        //[self updateTopViewInfo:nil];
     }
     return self;
 }
 
-- (void)updateTopViewInfo:(id)obj {
-    [_headImageView sd_setImageWithURL:nil placeholderImage:[UIImage imageNamed:@"timg1.jpg"]];
-    _courseLabel.text = @"未来之星1v1--钢琴";
-    _nameLabel.text = @"郎郎";
+- (void)updateTopViewInfo:(DMCourseDatasModel *)obj {
+    [_headImageView sd_setImageWithURL:[NSURL URLWithString:obj.avatar] placeholderImage:[UIImage imageNamed:@"timg1.jpg"]];
+    _courseLabel.text = obj.course_name;
+    _nameLabel.text = obj.teacher_name;
     _timeLabel.text = @"上课时间：9月8日 18:00";
+}
+
+- (void)disPlayNoCourseView:(BOOL)display isError:(BOOL)error {
+    _noCourseView.hidden = !display;
+    if (display) {
+        if (error) {
+            //网络错误
+            self.iconImageView.image = [UIImage imageNamed:@"error_icon"];
+            self.titleLabel.text = @"数据加载失败";
+            self.reloadButton.hidden = NO;
+        } else {
+            //无课程
+            self.iconImageView.image = [UIImage imageNamed:@"icon_noCourse"];
+            self.titleLabel.text = @"您暂时还没有课程哦";
+            self.reloadButton.hidden = YES;
+        }
+    }
+    _topView.hidden = display;
+    _bTableView.hidden = display;
+
 }
 
 #pragma mark -
@@ -48,9 +77,6 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     self.selectedIndexPath = indexPath;
     [tableView reloadData];
-    
-    //更新topView数据
-    [self updateTopViewInfo:nil];
 }
 
 #pragma mark -
@@ -64,7 +90,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex {
-    return 3;
+    return self.datas.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -73,15 +99,27 @@
     if (!cell) {
         cell = [[DMHomeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:homeCell];
     }
-    
+    DMCourseDatasModel *data = [self.datas objectAtIndex:indexPath.row];
     if ([indexPath isEqual:self.selectedIndexPath]) {
         [cell isSelectedCell:YES];
+        [self updateTopViewInfo:data];
     } else {
         [cell isSelectedCell:NO];
     }
-    cell.nameLabel.text = @"未来之星1v1-钢琴";
+    cell.nameLabel.text = data.course_name;
     cell.timeLabel.text = @"上课时间：8月16日 10:00";
     cell.statusLabel.text = @"未开始";
+    if (data.live_status.intValue == 0) {
+        cell.statusLabel.text = @"未开始";
+    } else if (data.live_status.intValue == 1) {
+        cell.statusLabel.text = @"上课中";
+    } else if (data.live_status.intValue == 2) {
+        cell.statusLabel.text = @"上完课";
+    } else if (data.live_status.intValue == 3) {
+        cell.statusLabel.text = @"取消课程";
+    } else if (data.live_status.intValue == 4) {
+        cell.statusLabel.text = @"结束";
+    }
     
     return cell;
 }
@@ -89,6 +127,7 @@
 - (void)configSubViews {
     [self addSubview:self.topView];
     [self addSubview:self.bTableView];
+    [self addSubview:self.noCourseView];
 }
 
 - (void)setupMakeLayoutSubviews {
@@ -102,6 +141,11 @@
         make.centerX.equalTo(self);
         make.bottom.equalTo(self.mas_bottom).offset(0);
         make.width.equalTo(self.frame.size.width);
+    }];
+    [_noCourseView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(0);
+        make.size.equalTo(self);
+        make.centerX.equalTo(self);
     }];
 }
 
@@ -230,6 +274,64 @@
         make.size.equalTo(CGSizeMake(70, 15));
     }];
 }
+- (UIView *)noCourseView {
+    if (!_noCourseView) {
+        _noCourseView = [UIView new];
+        _noCourseView.hidden = YES;
+        _noCourseView.backgroundColor = DMColorWithRGBA(246, 246, 246, 1);
+        
+        UIImageView *topImageView = [UIImageView new];
+        topImageView.image = [UIImage imageNamed:@"hp_no_course_icon"];
+        
+        _iconImageView = [UIImageView new];
+        _iconImageView.image = [UIImage imageNamed:@"icon_noCourse"];
+        
+        _titleLabel = [UILabel new];
+        _titleLabel.text = @"您暂时还没有课程哦";
+        _titleLabel.font = DMFontPingFang_Light(20);
+        _titleLabel.textColor = DMColorWithRGBA(204, 204, 204, 1);
+        
+        self.reloadButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.reloadButton.backgroundColor = DMColorWithRGBA(246, 246, 246, 1);
+        [self.reloadButton setTitle:@"刷新" forState:UIControlStateNormal];
+        [self.reloadButton addTarget:self action:@selector(clickReload:) forControlEvents:UIControlEventTouchUpInside];
+        [self.reloadButton setTitleColor:DMColorWithRGBA(204, 204, 204, 1) forState:UIControlStateNormal];
+        self.reloadButton.titleLabel.font = DMFontPingFang_Light(16);
+        _reloadButton.layer.cornerRadius = 5;
+        _reloadButton.layer.borderColor = DMColorWithRGBA(204, 204, 204, 1).CGColor;//[UIColor colorWithWhite:1 alpha:0.5].CGColor;
+        _reloadButton.layer.borderWidth = 1;
+        
+        [_noCourseView addSubview:topImageView];
+        [_noCourseView addSubview:_iconImageView];
+        [_noCourseView addSubview:_titleLabel];
+        [_noCourseView addSubview:self.reloadButton];
+        
+        [topImageView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.left.right.equalTo(_noCourseView).offset(0);
+            make.height.equalTo(64);
+        }];
+        
+        [_iconImageView makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(_noCourseView);
+            make.centerY.equalTo(_noCourseView);
+            make.size.equalTo(CGSizeMake(134, 118));
+        }];
+        
+        [_titleLabel makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_iconImageView.mas_bottom).offset(5);
+            make.centerX.equalTo(_iconImageView);
+        }];
+        
+        [_reloadButton makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_titleLabel.mas_bottom).offset(10);
+            make.centerX.equalTo(_iconImageView);
+            make.size.equalTo(CGSizeMake(70, 35));
+        }];
+    }
+    
+    return _noCourseView;
+}
+
 
 - (void)clickCourseFileBtn:(id)sender {
     if ([self.delegate respondsToSelector:@selector(clickCourseFiles)]) {
@@ -240,6 +342,12 @@
 - (void)clickClassRoomBtn:(id)sender {
     if ([self.delegate respondsToSelector:@selector(clickClassRoom)]) {
         [self.delegate clickClassRoom];
+    }
+}
+
+- (void)clickReload:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(clickReload)]) {
+        [self.delegate clickReload];
     }
 }
 

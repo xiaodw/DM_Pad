@@ -10,8 +10,10 @@
 
 @implementation DMHomeDataModel
 
-+ (void)getHomeCourseData:(void(^)(BOOL result, NSMutableArray *array))complectionBlock {
-    complectionBlock(YES, nil);
++(NSDictionary *)mj_objectClassInArray
+{
+    return @{
+             @"list" : @"DMCourseDatasModel"
+             };
 }
-
 @end

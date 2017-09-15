@@ -20,6 +20,7 @@
 
 @property (nonatomic, strong) DMHomeView *homeView;
 
+
 @end
 
 @implementation DMHomeViewController
@@ -32,13 +33,40 @@
     
     self.view.backgroundColor = UIColorFromRGB(0xf6f6f6);
     [self.view addSubview:self.homeView];
-    [self getDataFromServer];
+    
+    //[self getDataFromServer];
+
+//    [DMApiModel loginSystem:@"admin" psd:@"123123" block:^(BOOL result) {
+//        if (result) {
+//            NSLog(@"读取姓名： ------   %@", [DMAccount getUserName]);
+//        } else {
+//            NSLog(@"登录失败了");
+//        }
+//    }];
+
 }
 
 //获取首页数据
 - (void)getDataFromServer {
-    [DMHomeDataModel getHomeCourseData:^(BOOL result, NSMutableArray *array) {
-        
+    WS(weakSelf);
+    
+    NSString *type = [DMAccount getUserIdentity];
+    
+    [DMApiModel getHomeCourseData:type block:^(BOOL result, NSArray *array) {
+        if (result) {
+            if (!OBJ_IS_NIL(array) && array.count > 0) {
+                [weakSelf.homeView disPlayNoCourseView:NO isError:NO];
+                weakSelf.homeView.datas = array;
+                [weakSelf.homeView reloadHomeTableView];
+            } else {
+                //显示空白页面
+                [weakSelf.homeView disPlayNoCourseView:YES isError:NO];
+            }
+            
+        } else {
+            //获取失败
+            [weakSelf.homeView disPlayNoCourseView:YES isError:YES];
+        }
     }];
 }
 
@@ -47,6 +75,10 @@
         _homeView = [[DMHomeView alloc] initWithFrame:self.view.bounds delegate:self];
     }
     return _homeView;
+}
+
+- (void)clickReload {
+    [self getDataFromServer];
 }
 
 //本课文件
@@ -71,6 +103,8 @@
     
     [self setNavigationBarTransparence];
 }
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
