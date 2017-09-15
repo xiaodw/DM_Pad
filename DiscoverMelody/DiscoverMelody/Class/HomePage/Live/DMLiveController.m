@@ -208,10 +208,10 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 // 课件
 - (void)liveButtonControlViewDidTapCourseFiles:(DMLiveButtonControlView *)liveButtonControlView {
     DMCourseFilesController *courseFilesVC = [DMCourseFilesController new];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:courseFilesVC];
-    nav.transitioningDelegate = self.animationHelper;
-    nav.modalPresentationStyle = UIModalPresentationCustom;
-    [self presentViewController:nav animated:YES completion:nil];
+    courseFilesVC.transitioningDelegate = self.animationHelper;
+    self.animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight);
+    courseFilesVC.modalPresentationStyle = UIModalPresentationCustom;
+    [self presentViewController:courseFilesVC animated:YES completion:nil];
     
 //    [self didTapCourseFiles];
  

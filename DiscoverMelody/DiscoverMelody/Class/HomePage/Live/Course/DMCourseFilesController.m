@@ -23,6 +23,9 @@
 @interface DMCourseFilesController () <DMBottomBarViewDelegate, DMTabBarViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, DMBrowseCourseControllerDelegate>
 
 @property (strong, nonatomic) UIButton *rightBarButton;
+@property (strong, nonatomic) UIView *navigationBar;
+@property (strong, nonatomic) UIView *backgroundView;
+@property (strong, nonatomic) UIView *closeBackgroundView;
 
 @property (strong, nonatomic) DMTabBarView *tabBarView;
 @property (strong, nonatomic) UICollectionView *collectionView;
@@ -57,35 +60,47 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self setupData];
+    self.view.backgroundColor = [UIColor clearColor];
     
-    self.title = @"本课文件";
-    [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName : [UIColor whiteColor]}];;
-    self.view.backgroundColor = UIColorFromRGB(0xf6f6f6);
-    self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
-    
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back_icon"] style:UIBarButtonItemStylePlain target:self action:@selector(didTapBack)];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightBarButton];
-    
+    [self.view addSubview:self.closeBackgroundView];
+    [self.view addSubview:self.navigationBar];
+    [self.view addSubview:self.backgroundView];
     [self.view addSubview:self.tabBarView];
     [self.view addSubview:self.collectionView];
     [self.view addSubview:self.bottomBar];
     
+    [_closeBackgroundView makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
+    
+    [_navigationBar makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.equalTo(self.view);
+        make.height.equalTo(64);
+        make.width.equalTo(DMScreenWidth*0.5);
+    }];
+    
+    [_backgroundView makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(_navigationBar);
+        make.top.equalTo(_navigationBar.mas_bottom);
+        make.bottom.equalTo(self.view);
+    }];
+    
     [_tabBarView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(self.view);
-        make.top.equalTo(64);
+        make.left.right.equalTo(_navigationBar);
+        make.top.equalTo(_navigationBar.mas_bottom);
         make.height.equalTo(50);
     }];
     
     [_bottomBar makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.left.right.equalTo(self.view);
+        make.bottom.left.equalTo(self.view);
+        make.width.equalTo(_tabBarView);
         make.height.equalTo(50);
     }];
     
     [_collectionView makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(15);
-        make.right.equalTo(self.view.mas_right).offset(-15);
+        make.right.equalTo(_tabBarView.mas_right).offset(-15);
         make.bottom.equalTo(_bottomBar.mas_top);
         make.top.equalTo(_tabBarView.mas_bottom).offset(15);
     }];
@@ -101,6 +116,10 @@
     sender.selected = !sender.selected;
     self.editorMode = sender.selected;
     [self.collectionView reloadData];
+}
+
+- (void)dismissController {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didTapBack {
@@ -149,27 +168,27 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (!_editorMode){
-        DMBrowseCourseController *browseCourseVC = [DMBrowseCourseController new];
-        CGFloat width = DMScreenWidth - 80;
-        CGFloat height = DMScreenHeight - 86;
-        browseCourseVC.itemSize = CGSizeMake(width, height);
-        browseCourseVC.courses = self.currentCpirses;
-        browseCourseVC.browseDelegate = self;
-        browseCourseVC.modalPresentationStyle = UIModalPresentationCustom;
-        self.animationHelper.closeAnimate = NO;
-        [self presentViewController:browseCourseVC animated:NO completion:nil];
-        
 //        DMBrowseCourseController *browseCourseVC = [DMBrowseCourseController new];
-//        CGFloat width = DMScreenWidth * 0.5 - 80;
-//        CGFloat height = DMScreenHeight - 130;
+//        CGFloat width = DMScreenWidth - 80;
+//        CGFloat height = DMScreenHeight - 86;
 //        browseCourseVC.itemSize = CGSizeMake(width, height);
 //        browseCourseVC.courses = self.currentCpirses;
 //        browseCourseVC.browseDelegate = self;
 //        browseCourseVC.modalPresentationStyle = UIModalPresentationCustom;
-//        self.animationHelper.coverBackgroundColor = [UIColor clearColor];
 //        self.animationHelper.closeAnimate = NO;
-//        browseCourseVC.transitioningDelegate = self.animationHelper;
 //        [self presentViewController:browseCourseVC animated:NO completion:nil];
+        
+        DMBrowseCourseController *browseCourseVC = [DMBrowseCourseController new];
+        CGFloat width = DMScreenWidth * 0.5 - 80;
+        CGFloat height = DMScreenHeight - 130;
+        browseCourseVC.itemSize = CGSizeMake(width, height);
+        browseCourseVC.courses = self.currentCpirses;
+        browseCourseVC.browseDelegate = self;
+        browseCourseVC.modalPresentationStyle = UIModalPresentationCustom;
+        self.animationHelper.coverBackgroundColor = [UIColor clearColor];
+        self.animationHelper.closeAnimate = NO;
+        browseCourseVC.transitioningDelegate = self.animationHelper;
+        [self presentViewController:browseCourseVC animated:NO completion:nil];
         return;
     }
     
@@ -217,6 +236,22 @@
     }
 }
 
+- (UIView *)navigationBar {
+    if (!_navigationBar) {
+        _navigationBar = [UIView new];
+        _navigationBar.backgroundColor = [UIColor blackColor];
+//        self.title = @"本课文件";
+        
+        
+        
+//        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back_icon"] style:UIBarButtonItemStylePlain target:self action:@selector(didTapBack)];
+//        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightBarButton];
+//        [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName : [UIColor whiteColor]}];;
+    }
+    
+    return _navigationBar;
+}
+
 - (UIButton *)rightBarButton {
     if (!_rightBarButton) {
         _rightBarButton = [UIButton new];
@@ -232,6 +267,26 @@
     return _rightBarButton;
 }
 
+- (UIView *)backgroundView {
+    if (!_backgroundView) {
+        _backgroundView = [UIView new];
+        _backgroundView.backgroundColor = UIColorFromRGB(0xf6f6f6);
+    }
+    
+    return _backgroundView;
+}
+
+- (UIView *)closeBackgroundView{
+    if (!_closeBackgroundView) {
+        _closeBackgroundView = [UIView new];
+        _closeBackgroundView.backgroundColor = [UIColor clearColor];
+        UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissController)];
+        [_closeBackgroundView addGestureRecognizer:tapGestureRecognizer];
+    }
+    
+    return _closeBackgroundView;
+}
+
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
@@ -242,7 +297,7 @@
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
-        _collectionView.backgroundColor = self.view.backgroundColor;
+        _collectionView.backgroundColor = UIColorFromRGB(0xf6f6f6);
         _collectionView.prefetchingEnabled = NO;
         
         [_collectionView registerClass:[DMCourseFileCell class] forCellWithReuseIdentifier:kCourseFileCellID];
