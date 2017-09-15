@@ -150,16 +150,26 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (!_editorMode){
         DMBrowseCourseController *browseCourseVC = [DMBrowseCourseController new];
-        CGFloat width = DMScreenWidth * 0.5 - 80;
-        CGFloat height = DMScreenHeight - 130;
+        CGFloat width = DMScreenWidth - 80;
+        CGFloat height = DMScreenHeight - 86;
         browseCourseVC.itemSize = CGSizeMake(width, height);
         browseCourseVC.courses = self.currentCpirses;
         browseCourseVC.browseDelegate = self;
         browseCourseVC.modalPresentationStyle = UIModalPresentationCustom;
-        self.animationHelper.coverBackgroundColor = [UIColor clearColor];
         self.animationHelper.closeAnimate = NO;
-        browseCourseVC.transitioningDelegate = self.animationHelper;
         [self presentViewController:browseCourseVC animated:NO completion:nil];
+        
+//        DMBrowseCourseController *browseCourseVC = [DMBrowseCourseController new];
+//        CGFloat width = DMScreenWidth * 0.5 - 80;
+//        CGFloat height = DMScreenHeight - 130;
+//        browseCourseVC.itemSize = CGSizeMake(width, height);
+//        browseCourseVC.courses = self.currentCpirses;
+//        browseCourseVC.browseDelegate = self;
+//        browseCourseVC.modalPresentationStyle = UIModalPresentationCustom;
+//        self.animationHelper.coverBackgroundColor = [UIColor clearColor];
+//        self.animationHelper.closeAnimate = NO;
+//        browseCourseVC.transitioningDelegate = self.animationHelper;
+//        [self presentViewController:browseCourseVC animated:NO completion:nil];
         return;
     }
     

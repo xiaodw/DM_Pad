@@ -14,4 +14,6 @@
 
 @property (strong, nonatomic) DMCourseModel *courseModel;
 
+@property (assign, nonatomic) BOOL isFullScreen;
+
 @end
