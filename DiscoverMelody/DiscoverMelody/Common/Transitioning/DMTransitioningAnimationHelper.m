@@ -49,8 +49,8 @@
         UIView *toView = [transitionContext viewForKey:UITransitionContextToViewKey];
 //        UIViewController *toViewVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
 //        toViewVC.delegate?.viewControllerShow(toViewVC)
-        toView.layer.anchorPoint = CGPointMake(0, 1);
-        toView.transform = CGAffineTransformMakeScale(0.01, 1);
+//        toView.layer.anchorPoint = CGPointMake(0, 1);
+        toView.transform = CGAffineTransformMakeTranslation(-DMScreenWidth*0.5, 0);
         UIView *containerView = transitionContext.containerView;
         [containerView addSubview:toView];
         
@@ -65,7 +65,7 @@
 //    UIViewController *fromViewVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
 //    fromViewVC.delegate?.viewControllerHide(fromViewVC)
     [UIView animateWithDuration:[self transitionDuration:nil] animations:^{
-        fromView.transform = CGAffineTransformMakeScale(0.01, 1);
+        fromView.transform = CGAffineTransformMakeTranslation(-DMScreenWidth*0.5, 0);
     } completion:^(BOOL finished) {
         [transitionContext completeTransition:YES];
     }];

@@ -94,7 +94,11 @@
 		515DCF031F66B63800AA9465 /* DMLiveWillStartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 515DCF021F66B63800AA9465 /* DMLiveWillStartView.m */; };
 		515DCF061F67A7D200AA9465 /* DMLiveCoursewareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 515DCF051F67A7D200AA9465 /* DMLiveCoursewareView.m */; };
 		515DCF091F67C5A500AA9465 /* DMLiveCoursewareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 515DCF081F67C5A500AA9465 /* DMLiveCoursewareCell.m */; };
-		5169FF1E1F6A8FF600396EFA /* DMBottomBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FF1D1F6A8FF600396EFA /* DMBottomBar.m */; };
+		5169FF1E1F6A8FF600396EFA /* DMBottomBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FF1D1F6A8FF600396EFA /* DMBottomBarView.m */; };
+		5169FF211F6A9E6600396EFA /* DMCourseFileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FF201F6A9E6600396EFA /* DMCourseFileCell.m */; };
+		5169FF241F6ABC3C00396EFA /* DMCourseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FF231F6ABC3C00396EFA /* DMCourseModel.m */; };
+		5169FF301F6B778600396EFA /* DMBaseMoreController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FF2F1F6B778600396EFA /* DMBaseMoreController.m */; };
+		5169FF331F6B824F00396EFA /* DMBrowseCourseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FF321F6B824F00396EFA /* DMBrowseCourseView.m */; };
 		519FA4E81F68CD890015A2B2 /* DMClassFilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF871021F67D74F0001E2D3 /* DMClassFilesViewController.m */; };
 		51B471391F62506D004FACC8 /* DMLiveController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B471381F62506D004FACC8 /* DMLiveController.m */; };
 		51B471481F62760E004FACC8 /* DMLiveButtonControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B471471F62760E004FACC8 /* DMLiveButtonControlView.m */; };
@@ -292,8 +296,16 @@
 		515DCF051F67A7D200AA9465 /* DMLiveCoursewareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMLiveCoursewareView.m; sourceTree = "<group>"; };
 		515DCF071F67C5A500AA9465 /* DMLiveCoursewareCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMLiveCoursewareCell.h; sourceTree = "<group>"; };
 		515DCF081F67C5A500AA9465 /* DMLiveCoursewareCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMLiveCoursewareCell.m; sourceTree = "<group>"; };
-		5169FF1C1F6A8FF600396EFA /* DMBottomBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMBottomBar.h; sourceTree = "<group>"; };
-		5169FF1D1F6A8FF600396EFA /* DMBottomBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMBottomBar.m; sourceTree = "<group>"; };
+		5169FF1C1F6A8FF600396EFA /* DMBottomBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMBottomBarView.h; sourceTree = "<group>"; };
+		5169FF1D1F6A8FF600396EFA /* DMBottomBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMBottomBarView.m; sourceTree = "<group>"; };
+		5169FF1F1F6A9E6600396EFA /* DMCourseFileCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCourseFileCell.h; sourceTree = "<group>"; };
+		5169FF201F6A9E6600396EFA /* DMCourseFileCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCourseFileCell.m; sourceTree = "<group>"; };
+		5169FF221F6ABC3C00396EFA /* DMCourseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCourseModel.h; sourceTree = "<group>"; };
+		5169FF231F6ABC3C00396EFA /* DMCourseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCourseModel.m; sourceTree = "<group>"; };
+		5169FF2E1F6B778600396EFA /* DMBaseMoreController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMBaseMoreController.h; sourceTree = "<group>"; };
+		5169FF2F1F6B778600396EFA /* DMBaseMoreController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMBaseMoreController.m; sourceTree = "<group>"; };
+		5169FF311F6B824F00396EFA /* DMBrowseCourseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMBrowseCourseView.h; sourceTree = "<group>"; };
+		5169FF321F6B824F00396EFA /* DMBrowseCourseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMBrowseCourseView.m; sourceTree = "<group>"; };
 		51B471371F62506D004FACC8 /* DMLiveController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMLiveController.h; sourceTree = "<group>"; };
 		51B471381F62506D004FACC8 /* DMLiveController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMLiveController.m; sourceTree = "<group>"; };
 		51B471431F62717A004FACC8 /* DMConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMConfig.h; sourceTree = "<group>"; };
@@ -604,6 +616,8 @@
 				2A5F86C51F5CEDDF00773ADD /* DMBaseViewController.m */,
 				2AF695271F6149070078DC71 /* DMBaseDataModel.h */,
 				2AF695281F6149070078DC71 /* DMBaseDataModel.m */,
+				5169FF2E1F6B778600396EFA /* DMBaseMoreController.h */,
+				5169FF2F1F6B778600396EFA /* DMBaseMoreController.m */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -699,10 +713,16 @@
 			children = (
 				5100E42C1F6A4C1A000AB506 /* DMCourseFilesController.h */,
 				5100E42D1F6A4C1A000AB506 /* DMCourseFilesController.m */,
+				5169FF1F1F6A9E6600396EFA /* DMCourseFileCell.h */,
+				5169FF201F6A9E6600396EFA /* DMCourseFileCell.m */,
+				5169FF221F6ABC3C00396EFA /* DMCourseModel.h */,
+				5169FF231F6ABC3C00396EFA /* DMCourseModel.m */,
 				5100E46E1F6A7662000AB506 /* DMTabBarView.h */,
 				5100E46F1F6A7662000AB506 /* DMTabBarView.m */,
-				5169FF1C1F6A8FF600396EFA /* DMBottomBar.h */,
-				5169FF1D1F6A8FF600396EFA /* DMBottomBar.m */,
+				5169FF1C1F6A8FF600396EFA /* DMBottomBarView.h */,
+				5169FF1D1F6A8FF600396EFA /* DMBottomBarView.m */,
+				5169FF311F6B824F00396EFA /* DMBrowseCourseView.h */,
+				5169FF321F6B824F00396EFA /* DMBrowseCourseView.m */,
 			);
 			path = Course;
 			sourceTree = "<group>";
@@ -1023,8 +1043,9 @@
 				2A2273E31F6A38340029D8CA /* DMTitleView.m in Sources */,
 				519FA4E81F68CD890015A2B2 /* DMClassFilesViewController.m in Sources */,
 				515DCF091F67C5A500AA9465 /* DMLiveCoursewareCell.m in Sources */,
+				5169FF331F6B824F00396EFA /* DMBrowseCourseView.m in Sources */,
 				51D2D5651F5EC00B00764130 /* DMLoginTextField.m in Sources */,
-				5169FF1E1F6A8FF600396EFA /* DMBottomBar.m in Sources */,
+				5169FF1E1F6A8FF600396EFA /* DMBottomBarView.m in Sources */,
 				2A3D1D281F692A44005671B2 /* ZFBrightnessView.m in Sources */,
 				2A4143901F600D6F00E6B4E1 /* DMHomeCell.m in Sources */,
 				2A05C4631F5D545D00FC4D9A /* DMRootContainerViewController.m in Sources */,
@@ -1041,6 +1062,7 @@
 				2A3D1D201F692A44005671B2 /* UIAlertController+ZFPlayerRotation.m in Sources */,
 				2A3D1D231F692A44005671B2 /* UITabBarController+ZFPlayerRotation.m in Sources */,
 				2A03AF4A1F555FA80088DBF4 /* AppDelegate.m in Sources */,
+				5169FF301F6B778600396EFA /* DMBaseMoreController.m in Sources */,
 				2A3D1D241F692A44005671B2 /* UIView+CustomControlView.m in Sources */,
 				51D2D62E1F613B0900764130 /* DMButton.m in Sources */,
 				2A3D1D261F692A44005671B2 /* UIWindow+CurrentViewController.m in Sources */,
@@ -1068,6 +1090,7 @@
 				2AD2AB3F1F5D47FD00EDA962 /* DMCustomerServiceViewController.m in Sources */,
 				2AC478151F67B3E500D42F79 /* DMCoursewareFallsCell.m in Sources */,
 				2A8782541F61438E004F9184 /* DMRequestModel.m in Sources */,
+				5169FF211F6A9E6600396EFA /* DMCourseFileCell.m in Sources */,
 				2A4E96A11F66AA57000C4DFD /* DMPopCodeView.m in Sources */,
 				2A3D1D271F692A44005671B2 /* MMMaterialDesignSpinner.m in Sources */,
 				5100E4641F6A6358000AB506 /* DMPresentationController.m in Sources */,
@@ -1085,6 +1108,7 @@
 				2A3D1D1F1F692A44005671B2 /* ASValueTrackingSlider.m in Sources */,
 				2A3D1D2A1F692A44005671B2 /* ZFPlayerControlView.m in Sources */,
 				2A3D1D2C1F692A44005671B2 /* ZFPlayerView.m in Sources */,
+				5169FF241F6ABC3C00396EFA /* DMCourseModel.m in Sources */,
 				2AD2AB431F5D492700EDA962 /* DMMenuViewController.m in Sources */,
 				51B471481F62760E004FACC8 /* DMLiveButtonControlView.m in Sources */,
 				2A03AF471F555FA80088DBF4 /* main.m in Sources */,

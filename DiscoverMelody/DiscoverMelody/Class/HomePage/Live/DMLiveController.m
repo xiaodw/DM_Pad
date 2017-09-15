@@ -8,8 +8,6 @@
 #import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
 #import "DMPhotoController.h"
 #import "DMCourseFilesController.h"
-#import "DMTransitioningAnimationHelper.h"
-
 
 #define kSmallSize CGSizeMake(DMScaleWidth(240), DMScaleHeight(180))
 #define kColor31 DMColorWithRGBA(33, 33, 33, 1)
@@ -60,7 +58,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 @property (assign, nonatomic) NSInteger tapLayoutCount; // 点击布局按钮次数
 @property (assign, nonatomic) BOOL isCoursewareMode; // 是否是课件布局模式
 @property (assign, nonatomic) DMLayoutMode beforeLayoutMode; // 课件布局模式之前的模式
-@property (strong, nonatomic) DMTransitioningAnimationHelper *animationHelper;
 
 #pragma mark - 临时变量做测试用
 @property (strong, nonatomic) NSDate *startDate;
@@ -670,16 +667,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     }
     
     return _coursewareView;
-}
-
-- (DMTransitioningAnimationHelper *)animationHelper {
-    if (!_animationHelper) {
-        _animationHelper = [DMTransitioningAnimationHelper new];
-        _animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth * 0.5, DMScreenHeight);
-        _animationHelper.coverBackgroundColor = [UIColor clearColor];
-    }
-    
-    return _animationHelper;
 }
 
 - (void)dealloc {

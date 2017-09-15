@@ -6,9 +6,9 @@
 //  Copyright © 2017年 Discover Melody. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "DMBaseMoreController.h"
 
-@interface DMCourseFilesController : UIViewController
+@interface DMCourseFilesController : DMBaseMoreController
 
 @property (strong, nonatomic) NSString *classroomID;
 
