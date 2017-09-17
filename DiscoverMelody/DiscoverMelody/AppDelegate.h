@@ -14,6 +14,6 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) DMRootViewController *dmrVC;
-
+- (void)toggleRootView:(BOOL)isLogin;
 @end
 

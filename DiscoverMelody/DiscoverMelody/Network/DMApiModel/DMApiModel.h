@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+#import "DMClassDataModel.h"
+#import "DMClassFileDataModel.h"
+
 @interface DMApiModel : NSObject
 
 //登录
@@ -22,8 +25,19 @@
 //课程列表(老师／学生)
 + (void)getCourseListData:(NSString *)type //身份类型
                      sort:(NSString *)sort //DESC降序，ASC升序
-                     page:(NSString *)page //页码，默认为1
+                     page:(NSInteger)page //页码，默认为1
                 condition:(NSString *)condition //选择筛选条件
                     block:(void(^)(BOOL result, NSArray *array, BOOL nextPage))complectionBlock;
+
+//获取课件列表
++ (void)getLessonList:(NSString *)lessonId //课节ID
+                 block:(void(^)(BOOL result, NSArray *teachers, NSArray *students))complectionBlock;
+
+//进入课堂(学生／老师)
++ (void)joinClaseeRoom:(NSString *)lessonId //课节ID
+            accessTime:(NSString *)accessTime //访问时间
+                 block:(void(^)(BOOL result, DMClassDataModel *obj))complectionBlock;
+
+
 
 @end

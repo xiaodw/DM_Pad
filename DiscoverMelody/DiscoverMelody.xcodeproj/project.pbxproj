@@ -22,6 +22,7 @@
 		2A27E0CF1F5E46EC00865644 /* DMTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A27E0CE1F5E46EC00865644 /* DMTools.m */; };
 		2A27E0D41F5E95C600865644 /* DMHttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A27E0D31F5E95C600865644 /* DMHttpClient.m */; };
 		2A27E0D91F5EA65300865644 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2A27E0DB1F5EA65300865644 /* InfoPlist.strings */; };
+		2A32BC901F6E766F001F6264 /* DMSecretKeyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A32BC8F1F6E766F001F6264 /* DMSecretKeyManager.m */; };
 		2A3D1CFA1F690AD1005671B2 /* DMMoviePlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A3D1CF91F690AD1005671B2 /* DMMoviePlayerViewController.m */; };
 		2A3D1CFC1F690F41005671B2 /* loading_bgView1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A3D1CFB1F690F41005671B2 /* loading_bgView1.png */; };
 		2A3D1D1E1F692A44005671B2 /* ASValuePopUpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A3D1CFF1F692A44005671B2 /* ASValuePopUpView.m */; };
@@ -44,6 +45,9 @@
 		2A4143891F5FF5F300E6B4E1 /* DMHomeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A4143881F5FF5F300E6B4E1 /* DMHomeView.m */; };
 		2A41438D1F6007DD00E6B4E1 /* timg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2A41438C1F6007DD00E6B4E1 /* timg.jpg */; };
 		2A4143901F600D6F00E6B4E1 /* DMHomeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A41438F1F600D6F00E6B4E1 /* DMHomeCell.m */; };
+		2A44FC071F6BD19D00A1D574 /* DMAlertMananger.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A44FC061F6BD19D00A1D574 /* DMAlertMananger.m */; };
+		2A44FC0A1F6BF22A00A1D574 /* DMClassDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A44FC091F6BF22A00A1D574 /* DMClassDataModel.m */; };
+		2A44FC0D1F6BF72500A1D574 /* DMClassFileDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A44FC0C1F6BF72500A1D574 /* DMClassFileDataModel.m */; };
 		2A45F9701F60F6D50077CBA5 /* DMHomeDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A45F96F1F60F6D50077CBA5 /* DMHomeDataModel.m */; };
 		2A47AFBB1F626A14003A90DA /* DMMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A47AFBA1F626A14003A90DA /* DMMenuCell.m */; };
 		2A4E96A11F66AA57000C4DFD /* DMPopCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A4E96A01F66AA57000C4DFD /* DMPopCodeView.m */; };
@@ -183,6 +187,9 @@
 		2A27E0D61F5E9E8900865644 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		2A27E0DA1F5EA65300865644 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2A27E0DC1F5EA65D00865644 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		2A32BC8D1F6E6B36001F6264 /* DMEnums.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMEnums.h; sourceTree = "<group>"; };
+		2A32BC8E1F6E766F001F6264 /* DMSecretKeyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMSecretKeyManager.h; sourceTree = "<group>"; };
+		2A32BC8F1F6E766F001F6264 /* DMSecretKeyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMSecretKeyManager.m; sourceTree = "<group>"; };
 		2A3D1CF81F690AD1005671B2 /* DMMoviePlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMMoviePlayerViewController.h; sourceTree = "<group>"; };
 		2A3D1CF91F690AD1005671B2 /* DMMoviePlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMMoviePlayerViewController.m; sourceTree = "<group>"; };
 		2A3D1CFB1F690F41005671B2 /* loading_bgView1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loading_bgView1.png; sourceTree = "<group>"; };
@@ -226,6 +233,12 @@
 		2A41438C1F6007DD00E6B4E1 /* timg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = timg.jpg; sourceTree = "<group>"; };
 		2A41438E1F600D6F00E6B4E1 /* DMHomeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMHomeCell.h; sourceTree = "<group>"; };
 		2A41438F1F600D6F00E6B4E1 /* DMHomeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMHomeCell.m; sourceTree = "<group>"; };
+		2A44FC051F6BD19D00A1D574 /* DMAlertMananger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMAlertMananger.h; sourceTree = "<group>"; };
+		2A44FC061F6BD19D00A1D574 /* DMAlertMananger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMAlertMananger.m; sourceTree = "<group>"; };
+		2A44FC081F6BF22A00A1D574 /* DMClassDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMClassDataModel.h; sourceTree = "<group>"; };
+		2A44FC091F6BF22A00A1D574 /* DMClassDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMClassDataModel.m; sourceTree = "<group>"; };
+		2A44FC0B1F6BF72500A1D574 /* DMClassFileDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMClassFileDataModel.h; sourceTree = "<group>"; };
+		2A44FC0C1F6BF72500A1D574 /* DMClassFileDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMClassFileDataModel.m; sourceTree = "<group>"; };
 		2A45F96E1F60F6D50077CBA5 /* DMHomeDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMHomeDataModel.h; sourceTree = "<group>"; };
 		2A45F96F1F60F6D50077CBA5 /* DMHomeDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMHomeDataModel.m; sourceTree = "<group>"; };
 		2A47AFB91F626A14003A90DA /* DMMenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMMenuCell.h; sourceTree = "<group>"; };
@@ -637,6 +650,7 @@
 				2A27E0CD1F5E46EC00865644 /* DMTools.h */,
 				2A27E0CE1F5E46EC00865644 /* DMTools.m */,
 				2A68AF061F6624B300EECEF3 /* DMServerApiConfig.h */,
+				2A32BC8D1F6E6B36001F6264 /* DMEnums.h */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -700,6 +714,8 @@
 			children = (
 				2A84269B1F6A63D8005BA6EC /* DMAccount.h */,
 				2A84269C1F6A63D8005BA6EC /* DMAccount.m */,
+				2A32BC8E1F6E766F001F6264 /* DMSecretKeyManager.h */,
+				2A32BC8F1F6E766F001F6264 /* DMSecretKeyManager.m */,
 			);
 			path = DMAccount;
 			sourceTree = "<group>";
@@ -711,6 +727,15 @@
 				2A8426A01F6A6468005BA6EC /* DMUserDefaults.m */,
 			);
 			path = DMUserDefaults;
+			sourceTree = "<group>";
+		};
+		2A87F8881F6BC8FF00DCC412 /* BlockAlertView */ = {
+			isa = PBXGroup;
+			children = (
+				2A44FC051F6BD19D00A1D574 /* DMAlertMananger.h */,
+				2A44FC061F6BD19D00A1D574 /* DMAlertMananger.m */,
+			);
+			path = BlockAlertView;
 			sourceTree = "<group>";
 		};
 		2AB095B41F5D43D600E3644B /* HomePage */ = {
@@ -727,6 +752,8 @@
 				2A45F96E1F60F6D50077CBA5 /* DMHomeDataModel.h */,
 				2A45F96F1F60F6D50077CBA5 /* DMHomeDataModel.m */,
 				51B471361F625052004FACC8 /* Live */,
+				2A44FC081F6BF22A00A1D574 /* DMClassDataModel.h */,
+				2A44FC091F6BF22A00A1D574 /* DMClassDataModel.m */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -797,6 +824,8 @@
 			children = (
 				2AF871011F67D74F0001E2D3 /* DMClassFilesViewController.h */,
 				2AF871021F67D74F0001E2D3 /* DMClassFilesViewController.m */,
+				2A44FC0B1F6BF72500A1D574 /* DMClassFileDataModel.h */,
+				2A44FC0C1F6BF72500A1D574 /* DMClassFileDataModel.m */,
 			);
 			path = ClassFiles;
 			sourceTree = "<group>";
@@ -913,6 +942,7 @@
 		51D2D62B1F613ACA00764130 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				2A87F8881F6BC8FF00DCC412 /* BlockAlertView */,
 				2A34E7FC1F6B68C0002B4B15 /* PullDownMenu */,
 				2A84269E1F6A644F005BA6EC /* DMUserDefaults */,
 				5100E45E1F6A634F000AB506 /* Transitioning */,
@@ -1139,6 +1169,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-DiscoverMelody/Pods-DiscoverMelody-resources.sh",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
+				"${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -1207,6 +1238,7 @@
 				2A8426A71F6A757D005BA6EC /* DMLoginDataModel.m in Sources */,
 				2A27E0CF1F5E46EC00865644 /* DMTools.m in Sources */,
 				51D2D5D81F60E2B700764130 /* DMCourseListCell.m in Sources */,
+				2A32BC901F6E766F001F6264 /* DMSecretKeyManager.m in Sources */,
 				2A05C4601F5D544100FC4D9A /* UIViewController+DMRootViewController.m in Sources */,
 				2A3D1D2B1F692A44005671B2 /* ZFPlayerModel.m in Sources */,
 				51D2D6311F613E0800764130 /* DMCourseListHeaderView.m in Sources */,
@@ -1231,6 +1263,7 @@
 				2A84269D1F6A63D8005BA6EC /* DMAccount.m in Sources */,
 				2A23C9741F665F110097F91B /* DMCustomerPhoneCell.m in Sources */,
 				2A27E0D41F5E95C600865644 /* DMHttpClient.m in Sources */,
+				2A44FC071F6BD19D00A1D574 /* DMAlertMananger.m in Sources */,
 				51D2D55E1F5EBFE300764130 /* UIColor+Hex.m in Sources */,
 				51D2D5681F5F999D00764130 /* UIView+Frame.m in Sources */,
 				2AF695291F6149070078DC71 /* DMBaseDataModel.m in Sources */,

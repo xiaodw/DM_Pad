@@ -14,12 +14,13 @@
 #import "DMHomeDataModel.h"
 #import "DMTestViewController.h"
 
+#import "DMClassDataModel.h"
 #import "DMClassFilesViewController.h"
 
 @interface DMHomeViewController () <DMHomeVCDelegate>
 
 @property (nonatomic, strong) DMHomeView *homeView;
-
+@property (nonatomic, copy) NSString *courseID;
 
 @end
 
@@ -34,16 +35,7 @@
     self.view.backgroundColor = UIColorFromRGB(0xf6f6f6);
     [self.view addSubview:self.homeView];
     
-    //[self getDataFromServer];
-
-//    [DMApiModel loginSystem:@"admin" psd:@"123123" block:^(BOOL result) {
-//        if (result) {
-//            NSLog(@"读取姓名： ------   %@", [DMAccount getUserName]);
-//        } else {
-//            NSLog(@"登录失败了");
-//        }
-//    }];
-
+    [self getDataFromServer];
 }
 
 //获取首页数据
@@ -57,6 +49,8 @@
             if (!OBJ_IS_NIL(array) && array.count > 0) {
                 [weakSelf.homeView disPlayNoCourseView:NO isError:NO];
                 weakSelf.homeView.datas = array;
+                DMCourseDatasModel *data = [array firstObject];
+                weakSelf.courseID = data.course_id;
                 [weakSelf.homeView reloadHomeTableView];
             } else {
                 //显示空白页面
@@ -81,6 +75,9 @@
     [self getDataFromServer];
 }
 
+- (void)selectedCourse:(NSString *)lessonID {
+    self.courseID = lessonID;
+}
 //本课文件
 - (void)clickCourseFiles {
     
@@ -90,8 +87,51 @@
 }
 //进入课堂
 - (void)clickClassRoom {
-    
+    WS(weakSelf)
+    AVAuthorizationStatus authStatus =  [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+    if (authStatus == AVAuthorizationStatusRestricted || authStatus ==AVAuthorizationStatusDenied) {
+        //无权限-摄像头
+        DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"" message:Capture_Msg preferredStyle:UIAlertControllerStyleAlert cancelTitle:@"取消" otherTitle:@"去设置", nil];
+        [alert showWithViewController:self IndexBlock:^(NSInteger index) {
+            NSLog(@"%ld",index);
+            if (index == 1) {
+                NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+                if ([[UIApplication sharedApplication]canOpenURL:url]) {
+                    [[UIApplication sharedApplication]openURL:url];
+                }
+            }
+        }];
+        return;
+    }
+    AVAuthorizationStatus authStatusAudio =  [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeAudio];
+     if (authStatusAudio == AVAuthorizationStatusRestricted || authStatusAudio ==AVAuthorizationStatusDenied) {
+        //无权限-麦克风
+        DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"" message:Audio_Msg preferredStyle:UIAlertControllerStyleAlert cancelTitle:@"取消" otherTitle:@"去设置", nil];
+        [alert showWithViewController:self IndexBlock:^(NSInteger index) {
+            NSLog(@"%ld",index);
+            if (index == 1) {
+                NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+                if ([[UIApplication sharedApplication]canOpenURL:url]) {
+                    [[UIApplication sharedApplication]openURL:url];
+                }
+            }
+        }];
+        return;
+    }
+    [weakSelf goToClassRoom];
+}
+
+- (void)goToClassRoom {
     NSLog(@"进入课堂");
+    WS(weakSelf);
+    [DMApiModel joinClaseeRoom:self.courseID accessTime:[DMTools getCurrentTimestamp] block:^(BOOL result, DMClassDataModel *obj) {
+        if (result) {
+            [weakSelf joinClassRoom];
+        }
+    }];
+}
+
+- (void)joinClassRoom {
     DMLiveController *liveVC = [DMLiveController new];
     liveVC.navigationVC = self.navigationController;
     [self.navigationController pushViewController:liveVC animated:YES];
@@ -99,8 +139,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    
     [self setNavigationBarTransparence];
 }
 

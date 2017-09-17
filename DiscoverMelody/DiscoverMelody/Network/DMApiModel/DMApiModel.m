@@ -8,7 +8,7 @@
 
 #import "DMApiModel.h"
 #import "DMLoginDataModel.h"
-
+#import "DMSecretKeyManager.h"
 @implementation DMApiModel
 
 //登录
@@ -58,7 +58,7 @@
 //课程列表(老师／学生)
 + (void)getCourseListData:(NSString *)type //身份类型
                      sort:(NSString *)sort //DESC降序，ASC升序
-                     page:(NSString *)page //页码，默认为1
+                     page:(NSInteger)page //页码，默认为1
                 condition:(NSString *)condition //选择筛选条件
                     block:(void(^)(BOOL result, NSArray *array, BOOL nextPage))complectionBlock
 {
@@ -67,7 +67,7 @@
     if (type.intValue == 1) {
         url = DM_User_Tcourse_List_Url;
     }
-    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:condition, @"condition", page, @"page", sort, @"sort", nil];
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:condition, @"condition", [NSString stringWithFormat:@"%ld",page], @"page", sort, @"sort", nil];
     
     [[DMHttpClient sharedInstance] initWithUrl:url
                                     parameters:dic
@@ -85,6 +85,53 @@
     } failure:^(NSError *error) {
         complectionBlock(NO, nil, NO);
     }];
+}
+
+//获取课件列表
++ (void)getLessonList:(NSString *)lessonId //课节ID
+                block:(void(^)(BOOL result, NSArray *teachers, NSArray *students))complectionBlock
+{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:lessonId, @"lesson_id", nil];
+    
+    [[DMHttpClient sharedInstance] initWithUrl:DM_Upload_FileList_Url
+                                    parameters:dic
+                                        method:DMHttpRequestPost
+                                dataModelClass:[DMClassFilesDataModel class]
+                                   isMustToken:YES
+                                       success:^(id responseObject)
+     {
+         DMClassFilesDataModel *model = (DMClassFilesDataModel *)responseObject;
+         complectionBlock(YES, model.teacher_list, model.student_list);
+     } failure:^(NSError *error) {
+         complectionBlock(NO, nil, nil);
+     }];
+}
+
+//进入课堂(学生／老师)
++ (void)joinClaseeRoom:(NSString *)lessonId //课节ID
+            accessTime:(NSString *)accessTime //访问时间
+                 block:(void(^)(BOOL result, DMClassDataModel *obj))complectionBlock
+{
+    NSString *type = [DMAccount getUserIdentity];
+    NSString *url = DM_Student_Access_Url;
+    if (type.intValue == 1) {
+        url = DM_Teacher_Access_Url;
+    }
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:lessonId, @"lesson_id", accessTime, @"access_time", nil];
+    
+    [[DMHttpClient sharedInstance] initWithUrl:url
+                                    parameters:dic
+                                        method:DMHttpRequestPost
+                                dataModelClass:[DMClassDataModel class]
+                                   isMustToken:YES
+                                       success:^(id responseObject)
+     {
+         DMClassDataModel *model = (DMClassDataModel *)responseObject;
+         [[DMSecretKeyManager shareManager] updateDMSKeys:model];
+         complectionBlock(YES, model);
+     } failure:^(NSError *error) {
+         complectionBlock(NO, nil);
+     }];
 }
 
 @end

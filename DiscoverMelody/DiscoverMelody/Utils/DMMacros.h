@@ -48,6 +48,7 @@ blue:(((rgbValue) & 0xFF))/255.f alpha:1.0]
 
 #pragma mark - Other
 #define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
+
 #define DMNotificationCenter [NSNotificationCenter defaultCenter]
 
 #define APP_DELEGATE ((AppDelegate *)[[UIApplication sharedApplication] delegate])

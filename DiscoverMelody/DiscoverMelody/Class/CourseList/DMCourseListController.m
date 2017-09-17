@@ -19,10 +19,10 @@
 #pragma mark - 数据
 @property (assign, nonatomic) NSInteger currentPageNumber;
 @property (strong, nonatomic) NSMutableArray *courses;
-@property (strong, nonatomic) NSArray *textArray;
-
 @property (strong, nonatomic) DMPullDownMenu *pullDownMenu;
 @property (nonatomic, strong) NSArray *selArray;
+
+@property (nonatomic, assign) DMCourseListCondition clCondition;
 
 @end
 
@@ -31,23 +31,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.title = @"课程列表";
+    self.view.backgroundColor = DMColorWithRGBA(246, 246, 246, 1);
+    self.selArray = @[@"全部课程",@"已上课程",@"未上课程"];
+    
     [self setRigthBtn:CGRectMake(0, 4.5, 135, 35)
-                title:@"全部课程"
+                title:[self.selArray lastObject]
           titileColor:DMColorWithRGBA(246, 246, 246, 1)
             imageName:@"btn_menu_arrow_bottom"
                  font:DMFontPingFang_UltraLight(14)];
-    
-    self.selArray = @[@"全部课程",@"已上课程",@"未上课程"];
-    
-    NSMutableArray *array = [NSMutableArray array];
-    for (int i = 0; i < 20; i++) {
-        [array addObject:@1];
-    }
-    _textArray = array;
-    
-    self.title = @"课程列表";
-    self.view.backgroundColor = DMColorWithRGBA(246, 246, 246, 1);
-    
+    self.clCondition = DMCourseListCondition_WillStart;
     [self setupMakeAddSubviews];
     [self setupMakeLayoutSubviews];
     [self setupMJRefresh];
@@ -62,7 +55,7 @@
 - (void)setupMJRefresh {
     WS(weakSelf)
      MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        weakSelf.currentPageNumber = 0;
+        weakSelf.currentPageNumber = 1;
         [weakSelf loadDataList:weakSelf.currentPageNumber];
     }];
     self.tableView.mj_header = header;
@@ -84,39 +77,40 @@
 
 - (void)loadDataList:(NSInteger)currentPageNumber {
     NSLog(@"发送API请求数据");
-    
-    [DMApiModel getCourseListData:[DMAccount getUserIdentity] sort:@"" page:@"1" condition:@"0" block:^(BOOL result, NSArray *array, BOOL nextPage) {
+    WS(weakSelf);
+    [DMApiModel getCourseListData:[DMAccount getUserIdentity] sort:@"" page:currentPageNumber condition:[NSString stringWithFormat:@"%ld",self.clCondition] block:^(BOOL result, NSArray *array, BOOL nextPage) {
         if (result && array.count > 0) {
             //请求到了列表数据
+            
+            NSInteger nextPageNum = currentPageNumber + 1;
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                //        if (!kResponseCode(200)) {
+                //            [self endRefreshing];
+                //            return;
+                //        }
+                
+                if (currentPageNumber == 1) {
+                    [weakSelf.courses removeAllObjects];
+                    weakSelf.tableView.mj_footer.hidden = NO;
+                }
+                
+                //        NSArray *data = [responseObject objectForKey:@"data"];
+                //        NSArray *moreData = [BDArticleListModel mj_objectArrayWithKeyValuesArray:data];
+                [weakSelf.courses addObjectsFromArray:array];
+                
+                weakSelf.currentPageNumber = nextPageNum;
+                [weakSelf endRefreshing];
+                if (array) {
+                    [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
+                    weakSelf.tableView.mj_footer.hidden = YES;
+                }
+                weakSelf.noCourseView.hidden = weakSelf.courses.count;
+                
+                [weakSelf.tableView reloadData];
+            });
         }
     }];
-    
-    NSInteger nextPageNum = currentPageNumber + 1;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        if (!kResponseCode(200)) {
-//            [self endRefreshing];
-//            return;
-//        }
-        
-        if (currentPageNumber == 0) {
-            self.courses = nil;
-            self.tableView.mj_footer.hidden = NO;
-        }
-        
-//        NSArray *data = [responseObject objectForKey:@"data"];
-//        NSArray *moreData = [BDArticleListModel mj_objectArrayWithKeyValuesArray:data];
-        [self.courses addObjectsFromArray:self.textArray];
-        
-        self.currentPageNumber = nextPageNum;
-        [self endRefreshing];
-        if (self.textArray) {
-            [self.tableView.mj_footer endRefreshingWithNoMoreData];
-            self.tableView.mj_footer.hidden = YES;
-        }
-        self.noCourseView.hidden = self.courses.count;
-        
-        [self.tableView reloadData];
-    });
+ 
 }
 
 - (void)setupMakeAddSubviews {
@@ -158,15 +152,24 @@
     DMCourseListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellID];
     cell.delegate = self;
     cell.contentView.backgroundColor = indexPath.row%2 ? self.view.backgroundColor : [UIColor whiteColor];
-    cell.model = [NSObject new];
-    
+    if (indexPath.row < self.courses.count) {
+        cell.model = [self.courses objectAtIndex:indexPath.row];
+    }
     return cell;
 }
 
 - (void)pulldownMenu:(DMPullDownMenu *)menu selectedCellNumber:(NSInteger)number // 当选择某个选项时调用
 {
     if (number < self.selArray.count) {
-      
+        self.currentPageNumber = 1;
+        if (number == 0) {
+            self.clCondition = DMCourseListCondition_All;
+        } else if (number == 1) {
+            self.clCondition = DMCourseListCondition_Finish;
+        } else {
+            self.clCondition = DMCourseListCondition_WillStart;
+        }
+        [self.tableView.mj_header beginRefreshing];
     }
 }
 

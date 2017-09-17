@@ -48,7 +48,14 @@
     [_headImageView sd_setImageWithURL:[NSURL URLWithString:obj.avatar] placeholderImage:[UIImage imageNamed:@"timg1.jpg"]];
     _courseLabel.text = obj.course_name;
     _nameLabel.text = obj.teacher_name;
-    _timeLabel.text = @"上课时间：9月8日 18:00";
+    _timeLabel.text = [@"上课时间：" stringByAppendingString:
+                       [DMTools timeFormatterYMDFromTs:obj.start_time format:@"MM月dd日 HH:mm"]];//@"上课时间：9月8日 18:00";
+    if (_timeLabel.layer.cornerRadius == 0) {
+        _timeLabel.layer.cornerRadius = 5;
+        _timeLabel.layer.borderColor = [UIColor colorWithWhite:1 alpha:0.5].CGColor;
+        _timeLabel.layer.borderWidth = 1;
+    }
+
 }
 
 - (void)disPlayNoCourseView:(BOOL)display isError:(BOOL)error {
@@ -76,6 +83,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     self.selectedIndexPath = indexPath;
+    if ([_delegate respondsToSelector:@selector(selectedCourse:)]) {
+        if (indexPath.row < self.datas.count) {
+            DMCourseDatasModel *data = [self.datas objectAtIndex:indexPath.row];
+            [_delegate selectedCourse:data.course_id];
+        }
+    }
     [tableView reloadData];
 }
 
@@ -107,19 +120,21 @@
         [cell isSelectedCell:NO];
     }
     cell.nameLabel.text = data.course_name;
-    cell.timeLabel.text = @"上课时间：8月16日 10:00";
+    cell.timeLabel.text = [@"上课时间：" stringByAppendingString:
+                           [DMTools timeFormatterYMDFromTs:data.start_time format:@"MM月dd日 HH:mm"]];//@"上课时间：8月16日 10:00";
     cell.statusLabel.text = @"未开始";
     if (data.live_status.intValue == 0) {
         cell.statusLabel.text = @"未开始";
     } else if (data.live_status.intValue == 1) {
         cell.statusLabel.text = @"上课中";
     } else if (data.live_status.intValue == 2) {
-        cell.statusLabel.text = @"上完课";
+        cell.statusLabel.text = @"课程结束";
     } else if (data.live_status.intValue == 3) {
         cell.statusLabel.text = @"取消课程";
-    } else if (data.live_status.intValue == 4) {
-        cell.statusLabel.text = @"结束";
     }
+//    else if (data.live_status.intValue == 4) {
+//        cell.statusLabel.text = @"结束";
+//    }
     
     return cell;
 }
@@ -411,11 +426,6 @@
         _timeLabel.textAlignment = NSTextAlignmentCenter;
         _timeLabel.textColor = [UIColor whiteColor];
         _timeLabel.font = DMFontPingFang_Medium(20);
-        
-        _timeLabel.layer.cornerRadius = 5;
-        //_timeLabel.layer.borderColor = [UIColor whiteColor].CGColor;
-        _timeLabel.layer.borderColor = [UIColor colorWithWhite:1 alpha:0.5].CGColor;
-        _timeLabel.layer.borderWidth = 1;
     }
     return _timeLabel;
 }

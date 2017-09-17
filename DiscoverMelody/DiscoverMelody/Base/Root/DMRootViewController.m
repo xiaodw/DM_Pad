@@ -83,6 +83,7 @@
     self.selectedIndex = selected;
     [self setContentViewController:[_contentVCs objectAtIndex:selected]];
 }
+
 #pragma mark -
 #pragma mark Setters
 

@@ -13,5 +13,5 @@ target 'DiscoverMelody' do
   pod 'Reachability', '~> 3.1.1'
   pod 'AgoraRtcEngine_iOS', '~> 1.13'
   #pod 'ZFPlayer'
-  
+  pod 'SVProgressHUD'
 end
