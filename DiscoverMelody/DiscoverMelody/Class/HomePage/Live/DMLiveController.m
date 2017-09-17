@@ -8,6 +8,7 @@
 #import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
 #import "DMPhotoController.h"
 #import "DMCourseFilesController.h"
+#import "DMMicrophoneView.h"
 
 #define kSmallSize CGSizeMake(DMScaleWidth(240), DMScaleHeight(180))
 #define kColor31 DMColorWithRGBA(33, 33, 33, 1)
@@ -31,13 +32,13 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 @property (strong, nonatomic) DMLiveVideoManager *liveVideoManager; // 声网SDK Manager
 @property (strong, nonatomic) UIView *remoteView; // 远端窗口
 @property (strong, nonatomic) UIView *remoteBackgroundView; // 远端窗口
-@property (strong, nonatomic) UIImageView *remoteVoiceImageView; // 远端声音的view
+@property (strong, nonatomic) DMMicrophoneView *remoteMicrophoneView; // 远端麦克风音量
 @property (strong, nonatomic) UIImageView *remotePlaceholderView; // 远端没有人占位图
 @property (strong, nonatomic) UILabel *remotePlaceholderTitleLabel; // 远端没有人占位图远端说明
 @property (strong, nonatomic) DMLiveCoursewareView *coursewareView; // 课件视图
 
 @property (strong, nonatomic) UIView *localView; // 本地窗口
-@property (strong, nonatomic) UIImageView *localVoiceImageView; // 本地声音的view
+@property (strong, nonatomic) DMMicrophoneView *localMicrophoneView; // 本地麦克风音量
 @property (strong, nonatomic) UIImageView *localPlaceholderView; // 本地没有人占位图
 @property (strong, nonatomic) UILabel *localPlaceholderTitleLabel; // 本地没有人占位图远端说明
 
@@ -54,7 +55,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 #pragma mark - Other
 @property (assign, nonatomic) BOOL isRemoteUserOnline; // 远端是否上线
 @property (nonatomic, strong) dispatch_source_t timer; // 1秒中更新一次时间UI
-@property (strong, nonatomic) NSArray *animationImages; // 声音动画所有的图片
 @property (assign, nonatomic) NSInteger tapLayoutCount; // 点击布局按钮次数
 @property (assign, nonatomic) BOOL isCoursewareMode; // 是否是课件布局模式
 @property (assign, nonatomic) DMLayoutMode beforeLayoutMode; // 课件布局模式之前的模式
@@ -103,7 +103,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self setupMakeLiveCallback];
     
     
-    [self.liveVideoManager switchSound:NO block:nil];
+//    [self.liveVideoManager switchSound:NO block:nil];
     
 #warning 移动到API 返回之后启动
     //[self timer];
@@ -159,12 +159,12 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
             if (volumeInfo.uid == 0) {
                 if (volumeInfo.volume <= 0) return;
                 // self make animation
-                [weakSelf.localVoiceImageView startAnimating];
+                weakSelf.localMicrophoneView.voiceValue = volumeInfo.volume / 255.0;
                 return;
             }
             
             if (volumeInfo.volume > 0) {
-                [weakSelf.remoteVoiceImageView startAnimating];
+                weakSelf.remoteMicrophoneView.voiceValue = volumeInfo.volume / 255.0;
             }
         }
     } blockTapVideoEvent:^(DMLiveVideoViewType type) {
@@ -257,8 +257,8 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self.view addSubview:self.shadowImageView];
     [self.view addSubview:self.controlView];
     [self.view addSubview:self.timeView];
-    [self.view addSubview:self.remoteVoiceImageView];
-    [self.view addSubview:self.localVoiceImageView];
+    [self.view addSubview:self.remoteMicrophoneView];
+    [self.view addSubview:self.localMicrophoneView];
     
     [self.localView addSubview:self.localPlaceholderView];
     [self.localView addSubview:self.localPlaceholderTitleLabel];
@@ -301,13 +301,13 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         make.top.right.equalTo(self.view);
     }];
     
-    [_remoteVoiceImageView makeConstraints:^(MASConstraintMaker *make) {
+    [_remoteMicrophoneView makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(_remoteView.mas_right).offset(-15);
         make.size.equalTo(CGSizeMake(16, 25));
         make.bottom.equalTo(_remoteView.mas_bottom).offset(-20);
     }];
     
-    [_localVoiceImageView makeConstraints:^(MASConstraintMaker *make) {
+    [_localMicrophoneView makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(_localView.mas_right).offset(-15);
         make.size.equalTo(CGSizeMake(16, 25));
         make.bottom.equalTo(_localView.mas_bottom).offset(-20);
@@ -456,22 +456,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     _timer = nil;
 }
 
-- (NSArray *)animationImages {
-    if (!_animationImages) {
-        NSMutableArray *images = [NSMutableArray array];
-        NSString *iconName = @"icon_microphone_%d.png";
-        for (int i = 0; i < 5; i++) {
-            NSString *resource = [NSString stringWithFormat:iconName,i];
-            UIImage *image = [UIImage imageNamed:resource];
-            [images addObject:image];
-        }
-        
-        _animationImages = images;
-    }
-    
-    return _animationImages;
-}
-
 - (UIImageView *)remotePlaceholderView {
     if (!_remotePlaceholderView) {
         _remotePlaceholderView = [UIImageView new];
@@ -511,30 +495,20 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     return _localPlaceholderTitleLabel;
 }
 
-- (UIImageView *)setupVoiceImageView {
-    UIImageView *imageView = [UIImageView new];
-    imageView.image = self.animationImages.firstObject;
-    imageView.animationRepeatCount = 1;
-    imageView.animationDuration = 0.35;
-    imageView.animationImages = self.animationImages;
-    
-    return imageView;
-}
-
-- (UIImageView *)remoteVoiceImageView {
-    if (!_remoteVoiceImageView) {
-        _remoteVoiceImageView = [self setupVoiceImageView];
+- (DMMicrophoneView *)remoteMicrophoneView {
+    if (!_remoteMicrophoneView) {
+        _remoteMicrophoneView = [DMMicrophoneView new];
     }
     
-    return _remoteVoiceImageView;
+    return _remoteMicrophoneView;
 }
 
-- (UIImageView *)localVoiceImageView {
-    if (!_localVoiceImageView) {
-        _localVoiceImageView = [self setupVoiceImageView];
+- (DMMicrophoneView *)localMicrophoneView {
+    if (!_localMicrophoneView) {
+        _localMicrophoneView = [DMMicrophoneView new];
     }
     
-    return _localVoiceImageView;
+    return _localMicrophoneView;
 }
 
 - (UIView *)remoteBackgroundView {
@@ -791,13 +765,13 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         _remoteView.userInteractionEnabled = _remoteBackgroundView.userInteractionEnabled;
     }
     
-    [_remoteVoiceImageView remakeConstraints:^(MASConstraintMaker *make) {
+    [_remoteMicrophoneView remakeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(_remoteBackgroundView.mas_right).offset(-15);
         make.size.equalTo(CGSizeMake(16, 25));
         make.bottom.equalTo(_remoteBackgroundView.mas_bottom).offset(-20);
     }];
     
-    [_localVoiceImageView remakeConstraints:^(MASConstraintMaker *make) {
+    [_localMicrophoneView remakeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(_localView.mas_right).offset(-15);
         make.size.equalTo(CGSizeMake(16, 25));
         make.bottom.equalTo(_localView.mas_bottom).offset(-20);

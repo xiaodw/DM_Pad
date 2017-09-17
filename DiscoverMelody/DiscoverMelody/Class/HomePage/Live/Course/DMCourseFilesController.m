@@ -1,18 +1,10 @@
-
-//
-//  DMCourseFilesController.m
-//  DiscoverMelody
-//
-//  Created by My mac on 2017/9/14.
-//  Copyright © 2017年 Discover Melody. All rights reserved.
-//
-
 #import "DMCourseFilesController.h"
 #import "DMCourseFileCell.h"
 #import "DMTabBarView.h"
 #import "DMBottomBarView.h"
 #import "DMCourseModel.h"
 #import "DMBrowseCourseController.h"
+#import "DMSyncBrowseView.h"
 
 #define kCourseFileCellID @"Courseware"
 #define kLeftMargin 15
@@ -20,13 +12,14 @@
 #define kColumnSpacing 15
 #define kColumns 3
 
-@interface DMCourseFilesController () <DMBottomBarViewDelegate, DMTabBarViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, DMBrowseCourseControllerDelegate>
+@interface DMCourseFilesController () <DMBottomBarViewDelegate, DMTabBarViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, DMBrowseCourseControllerDelegate, DMSyncBrowseViewDelegate>
 
 @property (strong, nonatomic) UIButton *rightBarButton;
 @property (strong, nonatomic) UIView *navigationBar;
 @property (strong, nonatomic) UIView *backgroundView;
 @property (strong, nonatomic) UIView *closeBackgroundView;
 
+@property (strong, nonatomic) DMSyncBrowseView *syncBrowseView;
 @property (strong, nonatomic) DMTabBarView *tabBarView;
 @property (strong, nonatomic) UICollectionView *collectionView;
 @property (strong, nonatomic) DMBottomBarView *bottomBar;
@@ -37,6 +30,7 @@
 @property (strong, nonatomic) NSMutableArray *selectedIndexPath;
 
 @property (assign, nonatomic, getter=isEditorMode) BOOL editorMode;
+@property (assign, nonatomic) BOOL isSyncBrowsing;
 
 @end
 
@@ -52,7 +46,7 @@
     _editorMode = editorMode;
     self.bottomBar.uploadButton.enabled = !self.isEditorMode;
     if (self.bottomBar.uploadButton.enabled) {
-        // 处理
+        // 复原处理
         [self reinstateSelectedCpirses];
         self.rightBarButton.selected = NO;
     }
@@ -63,49 +57,10 @@
     [self setupData];
     self.view.backgroundColor = [UIColor clearColor];
     
-    [self.view addSubview:self.closeBackgroundView];
-    [self.view addSubview:self.navigationBar];
-    [self.view addSubview:self.backgroundView];
-    [self.view addSubview:self.tabBarView];
-    [self.view addSubview:self.collectionView];
-    [self.view addSubview:self.bottomBar];
+    [self setupMakeAddSubviews];
+    [self setupMakeLayoutSubviews];
     
-    [_closeBackgroundView makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
-    }];
-    
-    [_navigationBar makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.equalTo(self.view);
-        make.height.equalTo(64);
-        make.width.equalTo(DMScreenWidth*0.5);
-    }];
-    
-    [_backgroundView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(_navigationBar);
-        make.top.equalTo(_navigationBar.mas_bottom);
-        make.bottom.equalTo(self.view);
-    }];
-    
-    [_tabBarView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(_navigationBar);
-        make.top.equalTo(_navigationBar.mas_bottom);
-        make.height.equalTo(50);
-    }];
-    
-    [_bottomBar makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.left.equalTo(self.view);
-        make.width.equalTo(_tabBarView);
-        make.height.equalTo(50);
-    }];
-    
-    [_collectionView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(15);
-        make.right.equalTo(_tabBarView.mas_right).offset(-15);
-        make.bottom.equalTo(_bottomBar.mas_top);
-        make.top.equalTo(_tabBarView.mas_bottom).offset(15);
-    }];
-    
-#warning 数据请求回来做完判断之后在赋值
+    #warning 数据请求回来做完判断之后在赋值
     NSString *identifier = [NSString stringWithFormat:@"%@上传的文件", arc4random_uniform(2)%2 ? @"学生" : @"老师"];
     self.tabBarView.titles = @[@"我上传的文件",identifier];
     
@@ -114,6 +69,16 @@
 
 - (void)didTapSelect:(UIButton *)sender {
     sender.selected = !sender.selected;
+    if (_isSyncBrowsing) {
+        [self.syncBrowseView remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.top.width.equalTo(_navigationBar);
+            make.bottom.equalTo(_bottomBar);
+        }];
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            [self.view layoutSubviews];
+        }];
+    }
     self.editorMode = sender.selected;
     [self.collectionView reloadData];
 }
@@ -123,6 +88,19 @@
 }
 
 - (void)didTapBack {
+    if (_isSyncBrowsing) {
+        [self.syncBrowseView remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.top.width.equalTo(_navigationBar);
+            make.bottom.equalTo(_bottomBar);
+        }];
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            [self.view layoutSubviews];
+        } completion:^(BOOL finished) {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }];
+        return;
+    }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -137,14 +115,34 @@
     [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
 }
 
+// 上传
 - (void)botoomBarViewDidTapUpload:(DMBottomBarView *)botoomBarView {
     DMLogFunc
 }
 
+// 同步
 - (void)botoomBarViewDidTapSync:(DMBottomBarView *)botoomBarView {
+    DMLogFunc
+    self.isSyncBrowsing = YES;
+    
+    [self.syncBrowseView remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.tabBarView.mas_right);
+        make.right.top.bottom.equalTo(self.view);
+    }];
+    
+    [UIView animateWithDuration:0.15 animations:^{
+        [self.view layoutSubviews];
+    }];
+    
+    self.syncBrowseView.syncCourses = self.selectedCpirses;
+}
+
+// 同步接口
+- (void)syncBrowseViewDidTapSync:(DMSyncBrowseView *)syncBrowseView{
     DMLogFunc
 }
 
+// 删除
 - (void)botoomBarViewDidTapDelete:(DMBottomBarView *)botoomBarView {
     DMLogFunc
     
@@ -211,6 +209,7 @@
     
     cell.courseModel = cell.courseModel;
     [self.collectionView reloadData];
+    self.syncBrowseView.syncCourses = self.selectedCpirses;
 }
 
 - (void)reinstateSelectedCpirses {
@@ -236,27 +235,109 @@
     }
 }
 
+- (void)setupMakeAddSubviews {
+    [self.view addSubview:self.closeBackgroundView];
+    [self.view addSubview:self.syncBrowseView];
+    [self.view addSubview:self.navigationBar];
+    [self.view addSubview:self.backgroundView];
+    [self.view addSubview:self.tabBarView];
+    [self.view addSubview:self.collectionView];
+    [self.view addSubview:self.bottomBar];
+}
+
+- (void)setupMakeLayoutSubviews {
+    [_closeBackgroundView makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
+    
+    [_navigationBar makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.equalTo(self.view);
+        make.height.equalTo(64);
+        make.width.equalTo(DMScreenWidth*0.5);
+    }];
+    
+    [_backgroundView makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(_navigationBar);
+        make.top.equalTo(_navigationBar.mas_bottom);
+        make.bottom.equalTo(self.view);
+    }];
+    
+    [_tabBarView makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(_navigationBar);
+        make.top.equalTo(_navigationBar.mas_bottom);
+        make.height.equalTo(50);
+    }];
+    
+    [_bottomBar makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.left.equalTo(self.view);
+        make.width.equalTo(_tabBarView);
+        make.height.equalTo(50);
+    }];
+    
+    [_collectionView makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(15);
+        make.right.equalTo(_tabBarView.mas_right).offset(-15);
+        make.bottom.equalTo(_bottomBar.mas_top);
+        make.top.equalTo(_tabBarView.mas_bottom).offset(15);
+    }];
+    
+    [_syncBrowseView makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.width.equalTo(_navigationBar);
+        make.bottom.equalTo(_bottomBar);
+    }];
+}
+
 - (UIView *)navigationBar {
     if (!_navigationBar) {
         _navigationBar = [UIView new];
         _navigationBar.backgroundColor = [UIColor blackColor];
-//        self.title = @"本课文件";
         
+        UIButton *leftBarButton = [UIButton new];
+        [leftBarButton setImage:[UIImage imageNamed:@"back_icon"] forState:UIControlStateNormal];
+        [leftBarButton addTarget:self action:@selector(didTapBack) forControlEvents:UIControlEventTouchUpInside];
+     
+        UILabel *titleLabel = [UILabel new];
+        titleLabel.text = @"本课文件";
+        titleLabel.textColor = [UIColor whiteColor];
+        titleLabel.font = DMFontPingFang_Medium(20);
         
+        [_navigationBar addSubview:leftBarButton];
+        [_navigationBar addSubview:self.rightBarButton];
+        [_navigationBar addSubview:titleLabel];
         
-//        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back_icon"] style:UIBarButtonItemStylePlain target:self action:@selector(didTapBack)];
-//        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightBarButton];
-//        [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName : [UIColor whiteColor]}];;
+        [leftBarButton makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(10);
+            make.size.equalTo(CGSizeMake(34, 30));
+            make.bottom.equalTo(_navigationBar.mas_bottom).offset(-10);
+        }];
+        
+        [_rightBarButton makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(_navigationBar.mas_right).offset(-10);
+            make.bottom.width.height.equalTo(leftBarButton);
+        }];
+        
+        [titleLabel makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(leftBarButton);
+            make.centerX.equalTo(_navigationBar);
+        }];
     }
     
     return _navigationBar;
 }
 
+- (DMSyncBrowseView *)syncBrowseView {
+    if (!_syncBrowseView) {
+        _syncBrowseView = [DMSyncBrowseView new];
+        _syncBrowseView.delegate = self;
+    }
+    
+    return _syncBrowseView;
+}
+
 - (UIButton *)rightBarButton {
     if (!_rightBarButton) {
         _rightBarButton = [UIButton new];
-        _rightBarButton.titleLabel.font = DMFontPingFang_Thin(16);
-        _rightBarButton.frame = CGRectMake(0, 0, 34, 30);
+        _rightBarButton.titleLabel.font = DMFontPingFang_Medium(16);
         _rightBarButton.selected = YES;
         [_rightBarButton setTitle:@"选择" forState:UIControlStateNormal];
         [_rightBarButton setTitle:@"取消" forState:UIControlStateSelected];
@@ -341,29 +422,35 @@
 }
 
 - (void)setupData {
-    _identifierCpirsesArray = @[[@[[DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                  [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                  [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                  [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                  [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                  [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                  [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                  [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                  [DMCourseModel new]] mutableCopy],
+    _identifierCpirsesArray = @[[
+                                 
+                                 @[[DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+                                   [DMCourseModel new]] mutableCopy],
                                 [@[[DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                  [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                  [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                  [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                  [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                  [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                  [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                  [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                  [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                  [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                  [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                  [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                  [DMCourseModel new], [DMCourseModel new]] mutableCopy]
+                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+                                   [DMCourseModel new], [DMCourseModel new]] mutableCopy]
                                 ];
+}
+
+- (void)dealloc {
+    DMLogFunc
 }
 
 @end

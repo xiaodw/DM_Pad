@@ -1,11 +1,3 @@
-//
-//  DMCourseFileCell.m
-//  DiscoverMelody
-//
-//  Created by My mac on 2017/9/14.
-//  Copyright © 2017年 Discover Melody. All rights reserved.
-//
-
 #import "DMCourseFileCell.h"
 #import "DMCourseModel.h"
 
@@ -19,6 +11,16 @@
 @end
 
 @implementation DMCourseFileCell
+
+- (void)setShowBorder:(BOOL)showBorder {
+    _showBorder = showBorder;
+    
+    NSInteger borderWidth = _showBorder ? 2 : 0;
+    if (_showBorder) {
+        _imageView.layer.borderColor = DMColorBaseMeiRed.CGColor;
+    }
+    _imageView.layer.borderWidth = borderWidth;
+}
 
 - (void)setEditorMode:(BOOL)editorMode {
     _editorMode = editorMode;

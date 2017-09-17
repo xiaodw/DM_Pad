@@ -41,11 +41,14 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     DMBrowseCourseCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kBrowseCourseCellID forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor redColor];
     cell.courseModel = self.courses[indexPath.row];
 
     self.currentIndexPath = indexPath;
     return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void)setupMakeAddSubviews {
