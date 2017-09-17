@@ -46,8 +46,6 @@
 		2A41438D1F6007DD00E6B4E1 /* timg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2A41438C1F6007DD00E6B4E1 /* timg.jpg */; };
 		2A4143901F600D6F00E6B4E1 /* DMHomeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A41438F1F600D6F00E6B4E1 /* DMHomeCell.m */; };
 		2A44FC071F6BD19D00A1D574 /* DMAlertMananger.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A44FC061F6BD19D00A1D574 /* DMAlertMananger.m */; };
-		2A44FC0A1F6BF22A00A1D574 /* DMClassDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A44FC091F6BF22A00A1D574 /* DMClassDataModel.m */; };
-		2A44FC0D1F6BF72500A1D574 /* DMClassFileDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A44FC0C1F6BF72500A1D574 /* DMClassFileDataModel.m */; };
 		2A45F9701F60F6D50077CBA5 /* DMHomeDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A45F96F1F60F6D50077CBA5 /* DMHomeDataModel.m */; };
 		2A47AFBB1F626A14003A90DA /* DMMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A47AFBA1F626A14003A90DA /* DMMenuCell.m */; };
 		2A4E96A11F66AA57000C4DFD /* DMPopCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A4E96A01F66AA57000C4DFD /* DMPopCodeView.m */; };
@@ -120,6 +118,8 @@
 		5169FFDA1F6E912100396EFA /* DMAssetExif.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FFCF1F6E912100396EFA /* DMAssetExif.m */; };
 		5169FFDB1F6E912100396EFA /* DMAssetTIFF.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FFD11F6E912100396EFA /* DMAssetTIFF.m */; };
 		5169FFDE1F6E91E300396EFA /* DMPHAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FFDD1F6E91E300396EFA /* DMPHAsset.m */; };
+		5169FFE21F6E9A9A00396EFA /* DMClassFileDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A44FC0C1F6BF72500A1D574 /* DMClassFileDataModel.m */; };
+		5169FFE41F6E9ACB00396EFA /* DMClassDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A44FC091F6BF22A00A1D574 /* DMClassDataModel.m */; };
 		519FA4E81F68CD890015A2B2 /* DMClassFilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF871021F67D74F0001E2D3 /* DMClassFilesViewController.m */; };
 		51B471391F62506D004FACC8 /* DMLiveController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B471381F62506D004FACC8 /* DMLiveController.m */; };
 		51B471481F62760E004FACC8 /* DMLiveButtonControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B471471F62760E004FACC8 /* DMLiveButtonControlView.m */; };
@@ -1053,6 +1053,7 @@
 				TargetAttributes = {
 					2A03AF411F555FA80088DBF4 = {
 						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 7RXJBWS48Q;
 						ProvisioningStyle = Automatic;
 					};
 					2A03AF5A1F555FA80088DBF4 = {
@@ -1187,6 +1188,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5169FFE41F6E9ACB00396EFA /* DMClassDataModel.m in Sources */,
+				5169FFE21F6E9A9A00396EFA /* DMClassFileDataModel.m in Sources */,
 				2A2273E31F6A38340029D8CA /* DMTitleView.m in Sources */,
 				2A87F8871F6B873600DCC412 /* DMPullDownCell.m in Sources */,
 				519FA4E81F68CD890015A2B2 /* DMClassFilesViewController.m in Sources */,
@@ -1443,7 +1446,7 @@
 			baseConfigurationReference = 1E620A6E158816600EA0CFFE /* Pods-DiscoverMelody.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 7RXJBWS48Q;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = DiscoverMelody/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1463,7 +1466,7 @@
 			baseConfigurationReference = 2BF41B440646DC59DC6A7EC6 /* Pods-DiscoverMelody.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 7RXJBWS48Q;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = DiscoverMelody/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
