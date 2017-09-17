@@ -15,6 +15,10 @@
 
 @implementation DMBaseViewController
 
+- (void)updateUserInfo:(NSNotification *)notification {
+    [self updateUserInfo];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -34,6 +38,7 @@
          [self setLeftBtn:CGRectMake(0, 0, 44, 44) title:@"" titileColor:nil imageName:@"back_icon" font:nil];
      } else {
          [self setupMenuButton];
+         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserInfo:) name:DMNotification_Login_Success_Key object:nil];
      }
 }
 
@@ -71,10 +76,10 @@
 
 - (void)updateUserInfo {
     
-    [self.headImageView sd_setImageWithURL:nil placeholderImage:DMPlaceholderImageDefault];
-    
-    NSString *identityString = [self getIdentityType:@"学生"];
-    NSString *userString = [NSString stringWithFormat:@"%@%@", @"用户名", identityString];
+    NSString *headUrl = [DMAccount getUserHeadUrl];
+    [self.headImageView sd_setImageWithURL:[NSURL URLWithString:headUrl] placeholderImage:DMPlaceholderImageDefault];
+    NSString *identityString = [self getIdentityType:([DMAccount getUserIdentity].intValue ==0 ? @"学生" : @"老师")];
+    NSString *userString = [NSString stringWithFormat:@"%@%@", [DMAccount getUserName], identityString];
     NSRange idRange = [userString rangeOfString:identityString];
     NSMutableAttributedString *attributeString = [[NSMutableAttributedString alloc] initWithString:userString];
     [attributeString setAttributes:@{NSFontAttributeName: DMFontPingFang_UltraLight(12), NSForegroundColorAttributeName: [UIColor whiteColor] } range:idRange];

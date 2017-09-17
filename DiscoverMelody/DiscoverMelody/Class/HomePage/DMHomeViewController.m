@@ -14,6 +14,7 @@
 #import "DMHomeDataModel.h"
 #import "DMTestViewController.h"
 
+#import "DMClassDataModel.h"
 #import "DMClassFilesViewController.h"
 
 @interface DMHomeViewController () <DMHomeVCDelegate>
@@ -34,16 +35,7 @@
     self.view.backgroundColor = UIColorFromRGB(0xf6f6f6);
     [self.view addSubview:self.homeView];
     
-    //[self getDataFromServer];
-
-//    [DMApiModel loginSystem:@"admin" psd:@"123123" block:^(BOOL result) {
-//        if (result) {
-//            NSLog(@"读取姓名： ------   %@", [DMAccount getUserName]);
-//        } else {
-//            NSLog(@"登录失败了");
-//        }
-//    }];
-
+    [self getDataFromServer];
 }
 
 //获取首页数据
@@ -90,11 +82,51 @@
 }
 //进入课堂
 - (void)clickClassRoom {
-    
+    WS(weakSelf)
+    AVAuthorizationStatus authStatus =  [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+    if (authStatus == AVAuthorizationStatusRestricted || authStatus ==AVAuthorizationStatusDenied) {
+        //无权限-摄像头
+        DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"" message:Capture_Msg preferredStyle:UIAlertControllerStyleAlert cancelTitle:@"取消" otherTitle:@"去设置", nil];
+        [alert showWithViewController:self IndexBlock:^(NSInteger index) {
+            NSLog(@"%ld",index);
+            if (index == 1) {
+                NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+                if ([[UIApplication sharedApplication]canOpenURL:url]) {
+                    [[UIApplication sharedApplication]openURL:url];
+                }
+            }
+        }];
+        return;
+    }
+    AVAuthorizationStatus authStatusAudio =  [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeAudio];
+     if (authStatusAudio == AVAuthorizationStatusRestricted || authStatusAudio ==AVAuthorizationStatusDenied) {
+        //无权限-麦克风
+        DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"" message:Audio_Msg preferredStyle:UIAlertControllerStyleAlert cancelTitle:@"取消" otherTitle:@"去设置", nil];
+        [alert showWithViewController:self IndexBlock:^(NSInteger index) {
+            NSLog(@"%ld",index);
+            if (index == 1) {
+                NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+                if ([[UIApplication sharedApplication]canOpenURL:url]) {
+                    [[UIApplication sharedApplication]openURL:url];
+                }
+            }
+        }];
+        return;
+    }
+    [weakSelf goToClassRoom];
+}
+
+- (void)goToClassRoom {
     NSLog(@"进入课堂");
     DMLiveController *liveVC = [DMLiveController new];
     liveVC.navigationVC = self.navigationController;
     [self.navigationController pushViewController:liveVC animated:YES];
+}
+
+- (void)joinClassRoom {
+    [DMApiModel joinClaseeRoom:@"1" accessTime:@"" block:^(BOOL result, DMClassDataModel *obj) {
+        
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

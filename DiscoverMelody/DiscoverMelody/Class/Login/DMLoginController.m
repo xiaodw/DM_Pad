@@ -1,3 +1,4 @@
+
 #import "DMLoginController.h"
 
 #import "DMLoginTextField.h"
@@ -107,20 +108,30 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
     NSString *accountString = _accountTextField.text;
     if (accountString.length == 0) {
         NSLog(@"账号怎么可能是空的?");
+        
         return;
     }
     
     NSString *pwdString = _passwordTextField.text;
     if (pwdString.length == 0) {
         NSLog(@"密码空的?");
+        
         return;
     }
     
     [self touchesBegan:[NSSet set] withEvent:nil];
     NSLog(@"发送API{account: %@, pwd: %@}", accountString, pwdString);
-    DMRootViewController *rootVC = APP_DELEGATE.dmrVC;
-    [self presentViewController:rootVC animated:YES completion:nil];
-    //APP_DELEGATE.window.rootViewController = APP_DELEGATE.dmrVC;
+    
+    //请求登录
+    [DMApiModel loginSystem:accountString psd:pwdString block:^(BOOL result) {
+        if (result) {
+            //登录成功
+            [[NSNotificationCenter defaultCenter] postNotificationName:DMNotification_Login_Success_Key object:nil userInfo:nil];
+            [APP_DELEGATE toggleRootView:NO];
+        } else {
+            //登录失败
+        }
+    }];
     
 }
 
@@ -214,7 +225,7 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
         _loginButton.clipsToBounds = YES;
         _loginButton.titleLabel.font = DMFontPingFang_Light(20);
         [_loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [_loginButton setTitle:@"登陆" forState:UIControlStateNormal];
+        [_loginButton setTitle:@"登录" forState:UIControlStateNormal];
         [_loginButton addTarget:self action:@selector(didTapLogin) forControlEvents:UIControlEventTouchUpInside];
     }
     

@@ -39,35 +39,51 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
 
 @implementation DMCourseListCell
 
-- (void)setModel:(NSObject *)model {
-    NSInteger random = arc4random_uniform(5);
+- (void)setModel:(DMCourseDatasModel *)model {
     
-    _numberLabel.text = [NSString stringWithFormat:@"    %@", @"1234567"];
-    _nameLabel.text = @"未来之星1V1--钢琴";
-    _studentNameLabel.text = @"frank";
-    _dateLabel.text = @"2017/2/22";
-    _detailDateLabel.text = @"09:00-10:00";
-    _periodLabel.text = @"1hr";
-    _statusLabel.hidden = random == DMCourseStatusRelook;
+    //课程状态
+    NSInteger live_status = [model.live_status intValue];//arc4random_uniform(5);
+    
+    _numberLabel.text = model.course_id; //[NSString stringWithFormat:@"    %@", @"1234567"];
+    _nameLabel.text = model.course_name;//@"未来之星1V1--钢琴";
+    _studentNameLabel.text = model.teacher_name;//@"frank";
+    _dateLabel.text = [DMTools timeFormatterYMDFromTs:model.start_time format:@"yyyy/MM/dd"]; //@"2017/2/22";
+    _detailDateLabel.text = [DMTools computationsPeriodOfTime:model.start_time duration:model.duration];//@"09:00-10:00";
+    _periodLabel.text = [[DMTools secondsConvertMinutes:model.duration] stringByAppendingString:@"分钟"];//@"1hr";
+    _statusLabel.hidden = NO;
+    _filesButton.enabled = YES;
+    _questionnaireButton.enabled = YES;
+    
+    if (live_status == DMCourseStatusEnd && !STR_IS_NIL(model.video_id)) {
+        //课程结束，并且 回顾id有值，则显示回顾按钮
+        _statusLabel.hidden = YES;
+    }
     _statusButton.hidden = !_statusLabel.hidden;
-    if(random < DMCourseStatusRelook) {
-        NSDictionary *statusDict = self.courseStatus[random];
+    
+    if(_statusButton.hidden) { //回顾按钮隐藏
+        NSDictionary *statusDict = self.courseStatus[live_status];
         NSString *text = statusDict[kStatusTextKey];
         UIColor *textColor = statusDict[kStatusColorKey];
         _statusLabel.text = text;
         _statusLabel.textColor = textColor;
     }
     
-    _filesButton.enabled = random;
+    NSInteger survey = [model.survey intValue];
     
     UIImage *normalImage = [UIImage imageNamed:@"icon_questionnaire_normal"];
-    if(random == 1) {
+    if(survey == 1) {
         normalImage = [UIImage imageNamed:@"icon_questionnaire_selected"];
     }
-    if(random == 2) {
+    if(survey == 2) {
         normalImage = [UIImage imageNamed:@"icon_questionnaire_disabled"];
     }
     [_questionnaireButton setImage:normalImage forState:UIControlStateNormal];
+    
+    if (live_status == DMCourseStatusCanceled) { //课程取消，文件和调查问卷 不可点
+        _filesButton.enabled = NO;
+        _questionnaireButton.enabled = NO;
+    }
+    
 }
 
 - (void)didTapRelook {

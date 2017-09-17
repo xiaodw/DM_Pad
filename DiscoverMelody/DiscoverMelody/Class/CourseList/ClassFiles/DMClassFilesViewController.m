@@ -43,6 +43,10 @@
     _cfView.datas = self.dataArray;
     [_cfView.collectionView reloadData];
     
+    [DMApiModel getLessonList:@"1" block:^(BOOL result, NSArray *teachers, NSArray *students) {
+        
+    }];
+    
     [_cfView didSelectItemAtIndexPath:^(NSIndexPath *indexPath, DMItemsOperation iOt, DMCoursewareFallsCellEventType type) {
         if (type == DMCoursewareFallsCellEventType_Preview) {
             //预览

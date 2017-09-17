@@ -48,7 +48,8 @@
     [_headImageView sd_setImageWithURL:[NSURL URLWithString:obj.avatar] placeholderImage:[UIImage imageNamed:@"timg1.jpg"]];
     _courseLabel.text = obj.course_name;
     _nameLabel.text = obj.teacher_name;
-    _timeLabel.text = @"上课时间：9月8日 18:00";
+    _timeLabel.text = [@"上课时间：" stringByAppendingString:
+                       [DMTools timeFormatterYMDFromTs:obj.start_time format:@"MM月dd日 HH:mm"]];//@"上课时间：9月8日 18:00";
 }
 
 - (void)disPlayNoCourseView:(BOOL)display isError:(BOOL)error {
@@ -107,7 +108,8 @@
         [cell isSelectedCell:NO];
     }
     cell.nameLabel.text = data.course_name;
-    cell.timeLabel.text = @"上课时间：8月16日 10:00";
+    cell.timeLabel.text = [@"上课时间：" stringByAppendingString:
+                           [DMTools timeFormatterYMDFromTs:data.start_time format:@"MM月dd日 HH:mm"]];//@"上课时间：8月16日 10:00";
     cell.statusLabel.text = @"未开始";
     if (data.live_status.intValue == 0) {
         cell.statusLabel.text = @"未开始";

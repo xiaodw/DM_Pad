@@ -21,11 +21,30 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
-    self.dmrVC = [[DMRootViewController alloc] init];
-    self.window.rootViewController = self.dmrVC; //[[DMLiveController alloc] init];
-    [self.window makeKeyAndVisible];
+    
+    [SVProgressHUD dismissWithDelay:2.0f];
+    if (STR_IS_NIL([DMAccount getToken])) {
+        [self toggleRootView:YES];
+    } else {
+        [self toggleRootView:NO];
+    }
+
     return YES;
+}
+
+- (void)toggleRootView:(BOOL)isLogin {
+    [self.window.rootViewController removeFromParentViewController];
+    if (isLogin) {
+        DMLoginController *loginVC = [[DMLoginController alloc] init];
+        self.window.rootViewController = loginVC;
+    } else {
+        [DMTools requestAccessForMediaVideoAndAudio];
+        self.dmrVC = [[DMRootViewController alloc] init];
+        self.window.rootViewController = self.dmrVC;
+    }
+    [self.window makeKeyAndVisible];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

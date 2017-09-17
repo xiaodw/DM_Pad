@@ -24,30 +24,30 @@
 
 //登录
 #define DM_User_Loing_Url               [DM_Url stringByAppendingFormat:@"user/login"]
-
 //退出登录
 #define DM_User_Logout_Url              [DM_Url stringByAppendingFormat:@"user/logout"]
 
 //老师课程列表
-#define DM_User_Tcourse_List_Url         [DM_Url stringByAppendingFormat:@"lesson/tcourseList"]
-
+#define DM_User_Tcourse_List_Url        [DM_Url stringByAppendingFormat:@"lesson/tcourseList"]
 //个人课程列表
-#define DM_User_Scourse_List_Url         [DM_Url stringByAppendingFormat:@"lesson/scourseList"]
+#define DM_User_Scourse_List_Url        [DM_Url stringByAppendingFormat:@"lesson/scourseList"]
 
 //个人主页学生
-#define DM_User_Scourse_Index_Url         [DM_Url stringByAppendingFormat:@"lesson/scourseIndex"]
-
+#define DM_User_Scourse_Index_Url       [DM_Url stringByAppendingFormat:@"lesson/scourseIndex"]
 //个人主页老师
-#define DM_User_Tcourse_Index_Url         [DM_Url stringByAppendingFormat:@"lesson/tcourseIndex"]
+#define DM_User_Tcourse_Index_Url       [DM_Url stringByAppendingFormat:@"lesson/tcourseIndex"]
 
-//本课课件列表
-#define DM_User_Attachment_List_Url     [DM_Url stringByAppendingFormat:@"attachment/list"]
+//学生进入课堂
+#define DM_Student_Access_Url           [DM_Url stringByAppendingFormat:@"lesson/studentAccess"]
+//老师进入课堂
+#define DM_Teacher_Access_Url           [DM_Url stringByAppendingFormat:@"lesson/teacherAccess"]
 
+//获取课件列表
+#define DM_Upload_FileList_Url          [DM_Url stringByAppendingFormat:@"upload/fileList"]
 //课件上传
 #define DM_User_Attachment_Upload_Url   [DM_Url stringByAppendingFormat:@"attachment/upload"]
-
 //删除课件
-#define DM_User_Attachment_Del_Url      [DM_Url stringByAppendingFormat:@"attachment/del"]
+#define DM_Upload_fileMove_Url      [DM_Url stringByAppendingFormat:@"upload/fileMove"]
 
 
 #endif /* DMServerApiConfig_h */

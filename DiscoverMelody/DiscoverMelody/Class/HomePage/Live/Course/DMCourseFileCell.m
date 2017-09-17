@@ -60,6 +60,7 @@
 - (UIImageView *)imageView {
     if (!_imageView) {
         _imageView = [UIImageView new];
+        
     }
     
     return _imageView;

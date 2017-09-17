@@ -28,16 +28,39 @@
     self.imageItems = [NSArray arrayWithObjects:@"home_icon", @"course_icon", @"customer_icon", nil];
     self.selImageItems = [NSArray arrayWithObjects:@"home_icon_sel", @"course_icon_sel", @"customer_icon_sel", nil];
     [self loadUI];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [self updateUserInfo];
 }
 
 - (void)updateUserInfo {
-    [self.headView.headImageView sd_setImageWithURL:nil placeholderImage:DMPlaceholderImageDefault];
-    self.headView.nameLabel.text = @"用户姓名";
+    NSString *headUrl = [DMAccount getUserHeadUrl];
+    [self.headView.headImageView sd_setImageWithURL:[NSURL URLWithString:headUrl] placeholderImage:DMPlaceholderImageDefault];
+    self.headView.nameLabel.text = [DMAccount getUserName];
 }
 
 - (void)clickLoginOut:(id)sender {
+    WS(weakSelf)
+    DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"" message:Logout_Msg preferredStyle:UIAlertControllerStyleAlert cancelTitle:@"取消" otherTitle:@"确定", nil];
+    [alert showWithViewController:self IndexBlock:^(NSInteger index) {
+        NSLog(@"%ld",index);
+        if (index == 1) {
+            [weakSelf logoutSystem];
+        }
+    }];
 
+}
+
+- (void)logoutSystem {
+    
+    [DMApiModel logoutSystem:^(BOOL result) {
+        if (result) {
+            [DMAccount removeUserAllInfo];
+            [APP_DELEGATE toggleRootView:YES];
+        }
+    }];
 }
 
 #pragma mark -
@@ -45,8 +68,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self.dmRootViewController togglePage:indexPath.row]; //0 主页 ，1 课表，2 客服
-    //DMMenuCell *cell = (DMMenuCell *)[tableView cellForRowAtIndexPath:indexPath];
-    //[cell configObj:[_items objectAtIndex:indexPath.row] imageName:[_selImageItems objectAtIndex:indexPath.row]];
     [tableView reloadData];
 }
 
@@ -72,8 +93,10 @@
         cell = [[DMMenuCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
+    cell.redView.hidden = YES;
     if (APP_DELEGATE.dmrVC.selectedIndex == indexPath.row) {
         [cell configObj:[_items objectAtIndex:indexPath.row] imageName:[_selImageItems objectAtIndex:indexPath.row]];
+        cell.redView.hidden = NO;
     } else {
         [cell configObj:[_items objectAtIndex:indexPath.row] imageName:[_imageItems objectAtIndex:indexPath.row]];
     }
