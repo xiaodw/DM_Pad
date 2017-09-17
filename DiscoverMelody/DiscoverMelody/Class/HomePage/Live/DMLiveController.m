@@ -6,7 +6,6 @@
 #import "DMLiveCoursewareView.h"
 #import "NSString+Extension.h"
 #import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
-#import "DMPhotoController.h"
 #import "DMCourseFilesController.h"
 #import "DMMicrophoneView.h"
 

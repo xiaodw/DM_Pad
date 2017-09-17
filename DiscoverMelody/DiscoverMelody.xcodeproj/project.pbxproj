@@ -85,10 +85,6 @@
 		5100E4631F6A6358000AB506 /* DMTransitioningAnimationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5100E4601F6A6358000AB506 /* DMTransitioningAnimationHelper.m */; };
 		5100E4641F6A6358000AB506 /* DMPresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5100E4621F6A6358000AB506 /* DMPresentationController.m */; };
 		5100E4701F6A7662000AB506 /* DMTabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5100E46F1F6A7662000AB506 /* DMTabBarView.m */; };
-		5117331B1F69543A004E0CD1 /* DMPhotoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5117331A1F69543A004E0CD1 /* DMPhotoController.m */; };
-		5117331E1F695488004E0CD1 /* DMCollectionListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5117331D1F695488004E0CD1 /* DMCollectionListController.m */; };
-		511733231F695543004E0CD1 /* DMPHCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 511733201F695543004E0CD1 /* DMPHCollection.m */; };
-		511733241F695543004E0CD1 /* DMPHAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 511733221F695543004E0CD1 /* DMPHAsset.m */; };
 		515DCEC41F62980000AA9465 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 515DCEC31F62980000AA9465 /* libc++.tbd */; };
 		515DCEC61F62980800AA9465 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 515DCEC51F62980800AA9465 /* libresolv.tbd */; };
 		515DCEC81F62980F00AA9465 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 515DCEC71F62980F00AA9465 /* CoreTelephony.framework */; };
@@ -109,6 +105,17 @@
 		5169FF3C1F6BAEF700396EFA /* DMBrowseCourseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FF3B1F6BAEF700396EFA /* DMBrowseCourseCell.m */; };
 		5169FF3F1F6BD34C00396EFA /* DMSyncBrowseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FF3E1F6BD34C00396EFA /* DMSyncBrowseView.m */; };
 		5169FF6B1F6E0B3900396EFA /* DMMicrophoneView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FF6A1F6E0B3900396EFA /* DMMicrophoneView.m */; };
+		5169FFD21F6E912100396EFA /* DMAlbumAssetHelp.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FFBF1F6E912100396EFA /* DMAlbumAssetHelp.m */; };
+		5169FFD31F6E912100396EFA /* DMUploadController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FFC11F6E912100396EFA /* DMUploadController.m */; };
+		5169FFD41F6E912100396EFA /* DMAlbrmsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FFC31F6E912100396EFA /* DMAlbrmsTableView.m */; };
+		5169FFD51F6E912100396EFA /* DMAssetsCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FFC51F6E912100396EFA /* DMAssetsCollectionView.m */; };
+		5169FFD61F6E912100396EFA /* DMNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FFC71F6E912100396EFA /* DMNavigationBar.m */; };
+		5169FFD71F6E912100396EFA /* DMAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FFC91F6E912100396EFA /* DMAlbum.m */; };
+		5169FFD81F6E912100396EFA /* DMAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FFCB1F6E912100396EFA /* DMAsset.m */; };
+		5169FFD91F6E912100396EFA /* DMAssetInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FFCD1F6E912100396EFA /* DMAssetInfo.m */; };
+		5169FFDA1F6E912100396EFA /* DMAssetExif.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FFCF1F6E912100396EFA /* DMAssetExif.m */; };
+		5169FFDB1F6E912100396EFA /* DMAssetTIFF.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FFD11F6E912100396EFA /* DMAssetTIFF.m */; };
+		5169FFDE1F6E91E300396EFA /* DMPHAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FFDD1F6E91E300396EFA /* DMPHAsset.m */; };
 		519FA4E81F68CD890015A2B2 /* DMClassFilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF871021F67D74F0001E2D3 /* DMClassFilesViewController.m */; };
 		51B471391F62506D004FACC8 /* DMLiveController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B471381F62506D004FACC8 /* DMLiveController.m */; };
 		51B471481F62760E004FACC8 /* DMLiveButtonControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B471471F62760E004FACC8 /* DMLiveButtonControlView.m */; };
@@ -297,14 +304,6 @@
 		5100E4621F6A6358000AB506 /* DMPresentationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMPresentationController.m; sourceTree = "<group>"; };
 		5100E46E1F6A7662000AB506 /* DMTabBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMTabBarView.h; sourceTree = "<group>"; };
 		5100E46F1F6A7662000AB506 /* DMTabBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMTabBarView.m; sourceTree = "<group>"; };
-		511733191F69543A004E0CD1 /* DMPhotoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMPhotoController.h; sourceTree = "<group>"; };
-		5117331A1F69543A004E0CD1 /* DMPhotoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMPhotoController.m; sourceTree = "<group>"; };
-		5117331C1F695488004E0CD1 /* DMCollectionListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCollectionListController.h; sourceTree = "<group>"; };
-		5117331D1F695488004E0CD1 /* DMCollectionListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCollectionListController.m; sourceTree = "<group>"; };
-		5117331F1F695543004E0CD1 /* DMPHCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMPHCollection.h; sourceTree = "<group>"; };
-		511733201F695543004E0CD1 /* DMPHCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMPHCollection.m; sourceTree = "<group>"; };
-		511733211F695543004E0CD1 /* DMPHAsset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMPHAsset.h; sourceTree = "<group>"; };
-		511733221F695543004E0CD1 /* DMPHAsset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMPHAsset.m; sourceTree = "<group>"; };
 		515DCEC31F62980000AA9465 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		515DCEC51F62980800AA9465 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
 		515DCEC71F62980F00AA9465 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -336,6 +335,28 @@
 		5169FF3E1F6BD34C00396EFA /* DMSyncBrowseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMSyncBrowseView.m; sourceTree = "<group>"; };
 		5169FF691F6E0B3900396EFA /* DMMicrophoneView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMMicrophoneView.h; sourceTree = "<group>"; };
 		5169FF6A1F6E0B3900396EFA /* DMMicrophoneView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMMicrophoneView.m; sourceTree = "<group>"; };
+		5169FFBE1F6E912100396EFA /* DMAlbumAssetHelp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMAlbumAssetHelp.h; sourceTree = "<group>"; };
+		5169FFBF1F6E912100396EFA /* DMAlbumAssetHelp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMAlbumAssetHelp.m; sourceTree = "<group>"; };
+		5169FFC01F6E912100396EFA /* DMUploadController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMUploadController.h; sourceTree = "<group>"; };
+		5169FFC11F6E912100396EFA /* DMUploadController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMUploadController.m; sourceTree = "<group>"; };
+		5169FFC21F6E912100396EFA /* DMAlbrmsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMAlbrmsTableView.h; sourceTree = "<group>"; };
+		5169FFC31F6E912100396EFA /* DMAlbrmsTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMAlbrmsTableView.m; sourceTree = "<group>"; };
+		5169FFC41F6E912100396EFA /* DMAssetsCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMAssetsCollectionView.h; sourceTree = "<group>"; };
+		5169FFC51F6E912100396EFA /* DMAssetsCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMAssetsCollectionView.m; sourceTree = "<group>"; };
+		5169FFC61F6E912100396EFA /* DMNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMNavigationBar.h; sourceTree = "<group>"; };
+		5169FFC71F6E912100396EFA /* DMNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMNavigationBar.m; sourceTree = "<group>"; };
+		5169FFC81F6E912100396EFA /* DMAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMAlbum.h; sourceTree = "<group>"; };
+		5169FFC91F6E912100396EFA /* DMAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMAlbum.m; sourceTree = "<group>"; };
+		5169FFCA1F6E912100396EFA /* DMAsset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMAsset.h; sourceTree = "<group>"; };
+		5169FFCB1F6E912100396EFA /* DMAsset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMAsset.m; sourceTree = "<group>"; };
+		5169FFCC1F6E912100396EFA /* DMAssetInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMAssetInfo.h; sourceTree = "<group>"; };
+		5169FFCD1F6E912100396EFA /* DMAssetInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMAssetInfo.m; sourceTree = "<group>"; };
+		5169FFCE1F6E912100396EFA /* DMAssetExif.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMAssetExif.h; sourceTree = "<group>"; };
+		5169FFCF1F6E912100396EFA /* DMAssetExif.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMAssetExif.m; sourceTree = "<group>"; };
+		5169FFD01F6E912100396EFA /* DMAssetTIFF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMAssetTIFF.h; sourceTree = "<group>"; };
+		5169FFD11F6E912100396EFA /* DMAssetTIFF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMAssetTIFF.m; sourceTree = "<group>"; };
+		5169FFDC1F6E91E300396EFA /* DMPHAsset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMPHAsset.h; sourceTree = "<group>"; };
+		5169FFDD1F6E91E300396EFA /* DMPHAsset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMPHAsset.m; sourceTree = "<group>"; };
 		51B471371F62506D004FACC8 /* DMLiveController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMLiveController.h; sourceTree = "<group>"; };
 		51B471381F62506D004FACC8 /* DMLiveController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMLiveController.m; sourceTree = "<group>"; };
 		51B471431F62717A004FACC8 /* DMConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMConfig.h; sourceTree = "<group>"; };
@@ -817,14 +838,28 @@
 		511733181F69539F004E0CD1 /* Photo */ = {
 			isa = PBXGroup;
 			children = (
-				511733191F69543A004E0CD1 /* DMPhotoController.h */,
-				5117331A1F69543A004E0CD1 /* DMPhotoController.m */,
-				5117331C1F695488004E0CD1 /* DMCollectionListController.h */,
-				5117331D1F695488004E0CD1 /* DMCollectionListController.m */,
-				5117331F1F695543004E0CD1 /* DMPHCollection.h */,
-				511733201F695543004E0CD1 /* DMPHCollection.m */,
-				511733211F695543004E0CD1 /* DMPHAsset.h */,
-				511733221F695543004E0CD1 /* DMPHAsset.m */,
+				5169FFDC1F6E91E300396EFA /* DMPHAsset.h */,
+				5169FFDD1F6E91E300396EFA /* DMPHAsset.m */,
+				5169FFBE1F6E912100396EFA /* DMAlbumAssetHelp.h */,
+				5169FFBF1F6E912100396EFA /* DMAlbumAssetHelp.m */,
+				5169FFC01F6E912100396EFA /* DMUploadController.h */,
+				5169FFC11F6E912100396EFA /* DMUploadController.m */,
+				5169FFC21F6E912100396EFA /* DMAlbrmsTableView.h */,
+				5169FFC31F6E912100396EFA /* DMAlbrmsTableView.m */,
+				5169FFC41F6E912100396EFA /* DMAssetsCollectionView.h */,
+				5169FFC51F6E912100396EFA /* DMAssetsCollectionView.m */,
+				5169FFC61F6E912100396EFA /* DMNavigationBar.h */,
+				5169FFC71F6E912100396EFA /* DMNavigationBar.m */,
+				5169FFC81F6E912100396EFA /* DMAlbum.h */,
+				5169FFC91F6E912100396EFA /* DMAlbum.m */,
+				5169FFCA1F6E912100396EFA /* DMAsset.h */,
+				5169FFCB1F6E912100396EFA /* DMAsset.m */,
+				5169FFCC1F6E912100396EFA /* DMAssetInfo.h */,
+				5169FFCD1F6E912100396EFA /* DMAssetInfo.m */,
+				5169FFCE1F6E912100396EFA /* DMAssetExif.h */,
+				5169FFCF1F6E912100396EFA /* DMAssetExif.m */,
+				5169FFD01F6E912100396EFA /* DMAssetTIFF.h */,
+				5169FFD11F6E912100396EFA /* DMAssetTIFF.m */,
 			);
 			path = Photo;
 			sourceTree = "<group>";
@@ -1121,15 +1156,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				511733241F695543004E0CD1 /* DMPHAsset.m in Sources */,
 				2A2273E31F6A38340029D8CA /* DMTitleView.m in Sources */,
 				2A87F8871F6B873600DCC412 /* DMPullDownCell.m in Sources */,
 				519FA4E81F68CD890015A2B2 /* DMClassFilesViewController.m in Sources */,
 				515DCF091F67C5A500AA9465 /* DMLiveCoursewareCell.m in Sources */,
 				51D2D5651F5EC00B00764130 /* DMLoginTextField.m in Sources */,
 				5169FF1E1F6A8FF600396EFA /* DMBottomBarView.m in Sources */,
+				5169FFD21F6E912100396EFA /* DMAlbumAssetHelp.m in Sources */,
 				5169FF3C1F6BAEF700396EFA /* DMBrowseCourseCell.m in Sources */,
 				2A3D1D281F692A44005671B2 /* ZFBrightnessView.m in Sources */,
+				5169FFDA1F6E912100396EFA /* DMAssetExif.m in Sources */,
+				5169FFD91F6E912100396EFA /* DMAssetInfo.m in Sources */,
 				2A4143901F600D6F00E6B4E1 /* DMHomeCell.m in Sources */,
 				2A05C4631F5D545D00FC4D9A /* DMRootContainerViewController.m in Sources */,
 				51D2D54D1F5EA73C00764130 /* DMConst.m in Sources */,
@@ -1147,6 +1184,7 @@
 				2A3D1D201F692A44005671B2 /* UIAlertController+ZFPlayerRotation.m in Sources */,
 				2A3D1D231F692A44005671B2 /* UITabBarController+ZFPlayerRotation.m in Sources */,
 				2A03AF4A1F555FA80088DBF4 /* AppDelegate.m in Sources */,
+				5169FFD41F6E912100396EFA /* DMAlbrmsTableView.m in Sources */,
 				5169FF301F6B778600396EFA /* DMBaseMoreController.m in Sources */,
 				2A3D1D241F692A44005671B2 /* UIView+CustomControlView.m in Sources */,
 				51D2D62E1F613B0900764130 /* DMButton.m in Sources */,
@@ -1155,15 +1193,15 @@
 				2A3D1D251F692A44005671B2 /* UIViewController+ZFPlayerRotation.m in Sources */,
 				5100E4701F6A7662000AB506 /* DMTabBarView.m in Sources */,
 				2A40302A1F677CBA00663C72 /* DMSignalingKey.m in Sources */,
-				511733231F695543004E0CD1 /* DMPHCollection.m in Sources */,
 				515DCF031F66B63800AA9465 /* DMLiveWillStartView.m in Sources */,
 				2A3D1D221F692A44005671B2 /* UINavigationController+ZFPlayerRotation.m in Sources */,
 				2A3D1D301F695C5F005671B2 /* DMQuestionViewController.m in Sources */,
+				5169FFDB1F6E912100396EFA /* DMAssetTIFF.m in Sources */,
+				5169FFD31F6E912100396EFA /* DMUploadController.m in Sources */,
 				2A8426AA1F6A7E06005BA6EC /* DMCourseDatasModel.m in Sources */,
 				2A05C45F1F5D544100FC4D9A /* DMRootViewController.m in Sources */,
 				2A8426991F6A5966005BA6EC /* DMApiModel.m in Sources */,
 				51D2D5D21F60DDED00764130 /* UIColor+Extension.m in Sources */,
-				5117331E1F695488004E0CD1 /* DMCollectionListController.m in Sources */,
 				515DCF061F67A7D200AA9465 /* DMLiveCoursewareView.m in Sources */,
 				2AB7DD711F6A37DA00270C03 /* DMRadioView.m in Sources */,
 				2A8426A71F6A757D005BA6EC /* DMLoginDataModel.m in Sources */,
@@ -1175,10 +1213,12 @@
 				51D2D5641F5EC00B00764130 /* DMLoginController.m in Sources */,
 				2A3D1D211F692A44005671B2 /* UIImageView+ZFCache.m in Sources */,
 				2A3D1CFA1F690AD1005671B2 /* DMMoviePlayerViewController.m in Sources */,
+				5169FFD51F6E912100396EFA /* DMAssetsCollectionView.m in Sources */,
 				2AD2AB3F1F5D47FD00EDA962 /* DMCustomerServiceViewController.m in Sources */,
 				2AC478151F67B3E500D42F79 /* DMCoursewareFallsCell.m in Sources */,
 				2A8782541F61438E004F9184 /* DMRequestModel.m in Sources */,
 				5169FF211F6A9E6600396EFA /* DMCourseFileCell.m in Sources */,
+				5169FFD81F6E912100396EFA /* DMAsset.m in Sources */,
 				5169FF361F6BA38C00396EFA /* DMBrowseCourseController.m in Sources */,
 				2A4E96A11F66AA57000C4DFD /* DMPopCodeView.m in Sources */,
 				2A87F8841F6B68EC00DCC412 /* DMPullDownMenu.m in Sources */,
@@ -1186,6 +1226,7 @@
 				5100E4641F6A6358000AB506 /* DMPresentationController.m in Sources */,
 				2AD2AB371F5D441D00EDA962 /* DMHomeViewController.m in Sources */,
 				2A45F9701F60F6D50077CBA5 /* DMHomeDataModel.m in Sources */,
+				5169FFD71F6E912100396EFA /* DMAlbum.m in Sources */,
 				2A7A64C61F629F0800D1E62C /* DMLiveVideoManager.m in Sources */,
 				2A84269D1F6A63D8005BA6EC /* DMAccount.m in Sources */,
 				2A23C9741F665F110097F91B /* DMCustomerPhoneCell.m in Sources */,
@@ -1193,17 +1234,18 @@
 				51D2D55E1F5EBFE300764130 /* UIColor+Hex.m in Sources */,
 				51D2D5681F5F999D00764130 /* UIView+Frame.m in Sources */,
 				2AF695291F6149070078DC71 /* DMBaseDataModel.m in Sources */,
-				5117331B1F69543A004E0CD1 /* DMPhotoController.m in Sources */,
 				51D2D5D51F60E06800764130 /* DMCourseListController.m in Sources */,
 				2A47AFBB1F626A14003A90DA /* DMMenuCell.m in Sources */,
 				2A3D1D1F1F692A44005671B2 /* ASValueTrackingSlider.m in Sources */,
 				2A3D1D2A1F692A44005671B2 /* ZFPlayerControlView.m in Sources */,
 				5169FF3F1F6BD34C00396EFA /* DMSyncBrowseView.m in Sources */,
+				5169FFD61F6E912100396EFA /* DMNavigationBar.m in Sources */,
 				2A3D1D2C1F692A44005671B2 /* ZFPlayerView.m in Sources */,
 				5169FF241F6ABC3C00396EFA /* DMCourseModel.m in Sources */,
 				2AD2AB431F5D492700EDA962 /* DMMenuViewController.m in Sources */,
 				51B471481F62760E004FACC8 /* DMLiveButtonControlView.m in Sources */,
 				2A03AF471F555FA80088DBF4 /* main.m in Sources */,
+				5169FFDE1F6E91E300396EFA /* DMPHAsset.m in Sources */,
 				2AB7DD741F6A37F000270C03 /* DMTextView.m in Sources */,
 				2AC06F071F6247AA009F9BFA /* DMMenuHeadView.m in Sources */,
 				5100E42E1F6A4C1A000AB506 /* DMCourseFilesController.m in Sources */,

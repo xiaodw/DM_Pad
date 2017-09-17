@@ -1,5 +1,6 @@
 #import "DMCourseFileCell.h"
 #import "DMCourseModel.h"
+#import "DMAsset.h"
 
 #define kLndexLabelWH 20
 
@@ -11,6 +12,11 @@
 @end
 
 @implementation DMCourseFileCell
+
+- (void)setAsset:(DMAsset *)asset {
+    _asset = asset;
+    self.imageView.image = asset.thumbnail;
+}
 
 - (void)setShowBorder:(BOOL)showBorder {
     _showBorder = showBorder;

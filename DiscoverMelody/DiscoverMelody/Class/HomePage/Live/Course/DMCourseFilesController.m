@@ -5,6 +5,7 @@
 #import "DMCourseModel.h"
 #import "DMBrowseCourseController.h"
 #import "DMSyncBrowseView.h"
+#import "DMUploadController.h"
 
 #define kCourseFileCellID @"Courseware"
 #define kLeftMargin 15
@@ -118,6 +119,14 @@
 // 上传
 - (void)botoomBarViewDidTapUpload:(DMBottomBarView *)botoomBarView {
     DMLogFunc
+    
+    DMUploadController *assetsVC = [DMUploadController new];
+    UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:assetsVC];
+    [assetsVC view];
+    self.animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight);
+    nvc.transitioningDelegate = self.animationHelper;
+    nvc.modalPresentationStyle = UIModalPresentationCustom;
+    [self presentViewController:nvc animated:YES completion:nil];
 }
 
 // 同步
