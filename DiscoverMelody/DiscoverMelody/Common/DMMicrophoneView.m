@@ -48,11 +48,11 @@
     
     // 椭圆
     CGContextBeginPath(ref); // 开始绘画
-    CGContextMoveToPoint(ref, x-r, y+r);
-    CGContextAddLineToPoint(ref, x-r, height+y-r);
-    CGContextAddArc(ref, x, height+y-r, r, M_PI, 0, YES);
-    CGContextAddLineToPoint(ref, x+r, y+r);
-    CGContextAddArc(ref, x, y+r, r, 0, M_PI, YES);
+    CGContextMoveToPoint(ref, x-r-0.5, y+r); // 0.5为了让底层裁剪部分扩充这样周围没有虚线
+    CGContextAddLineToPoint(ref, x-r-0.5, height+y-r);
+    CGContextAddArc(ref, x, height+y-r, r+0.5, M_PI, 0, YES);
+    CGContextAddLineToPoint(ref, x+r+0.5, y+r);
+    CGContextAddArc(ref, x, y+r, r+0.5, 0, M_PI, YES);
     CGContextClosePath(ref);
     CGContextClip(ref); // 加上就不显示
     CGContextFillPath(ref);
