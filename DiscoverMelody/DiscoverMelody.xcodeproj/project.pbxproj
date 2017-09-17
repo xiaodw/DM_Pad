@@ -22,6 +22,7 @@
 		2A27E0CF1F5E46EC00865644 /* DMTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A27E0CE1F5E46EC00865644 /* DMTools.m */; };
 		2A27E0D41F5E95C600865644 /* DMHttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A27E0D31F5E95C600865644 /* DMHttpClient.m */; };
 		2A27E0D91F5EA65300865644 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2A27E0DB1F5EA65300865644 /* InfoPlist.strings */; };
+		2A32BC901F6E766F001F6264 /* DMSecretKeyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A32BC8F1F6E766F001F6264 /* DMSecretKeyManager.m */; };
 		2A3D1CFA1F690AD1005671B2 /* DMMoviePlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A3D1CF91F690AD1005671B2 /* DMMoviePlayerViewController.m */; };
 		2A3D1CFC1F690F41005671B2 /* loading_bgView1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A3D1CFB1F690F41005671B2 /* loading_bgView1.png */; };
 		2A3D1D1E1F692A44005671B2 /* ASValuePopUpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A3D1CFF1F692A44005671B2 /* ASValuePopUpView.m */; };
@@ -180,6 +181,8 @@
 		2A27E0DA1F5EA65300865644 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2A27E0DC1F5EA65D00865644 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		2A32BC8D1F6E6B36001F6264 /* DMEnums.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMEnums.h; sourceTree = "<group>"; };
+		2A32BC8E1F6E766F001F6264 /* DMSecretKeyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMSecretKeyManager.h; sourceTree = "<group>"; };
+		2A32BC8F1F6E766F001F6264 /* DMSecretKeyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMSecretKeyManager.m; sourceTree = "<group>"; };
 		2A3D1CF81F690AD1005671B2 /* DMMoviePlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMMoviePlayerViewController.h; sourceTree = "<group>"; };
 		2A3D1CF91F690AD1005671B2 /* DMMoviePlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMMoviePlayerViewController.m; sourceTree = "<group>"; };
 		2A3D1CFB1F690F41005671B2 /* loading_bgView1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loading_bgView1.png; sourceTree = "<group>"; };
@@ -690,6 +693,8 @@
 			children = (
 				2A84269B1F6A63D8005BA6EC /* DMAccount.h */,
 				2A84269C1F6A63D8005BA6EC /* DMAccount.m */,
+				2A32BC8E1F6E766F001F6264 /* DMSecretKeyManager.h */,
+				2A32BC8F1F6E766F001F6264 /* DMSecretKeyManager.m */,
 			);
 			path = DMAccount;
 			sourceTree = "<group>";
@@ -1013,6 +1018,7 @@
 				TargetAttributes = {
 					2A03AF411F555FA80088DBF4 = {
 						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = BR9B47C6A9;
 						ProvisioningStyle = Automatic;
 					};
 					2A03AF5A1F555FA80088DBF4 = {
@@ -1197,6 +1203,7 @@
 				2A8426A71F6A757D005BA6EC /* DMLoginDataModel.m in Sources */,
 				2A27E0CF1F5E46EC00865644 /* DMTools.m in Sources */,
 				51D2D5D81F60E2B700764130 /* DMCourseListCell.m in Sources */,
+				2A32BC901F6E766F001F6264 /* DMSecretKeyManager.m in Sources */,
 				2A05C4601F5D544100FC4D9A /* UIViewController+DMRootViewController.m in Sources */,
 				2A3D1D2B1F692A44005671B2 /* ZFPlayerModel.m in Sources */,
 				51D2D6311F613E0800764130 /* DMCourseListHeaderView.m in Sources */,
@@ -1397,7 +1404,7 @@
 			baseConfigurationReference = 1E620A6E158816600EA0CFFE /* Pods-DiscoverMelody.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = BR9B47C6A9;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = DiscoverMelody/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1417,7 +1424,7 @@
 			baseConfigurationReference = 2BF41B440646DC59DC6A7EC6 /* Pods-DiscoverMelody.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = BR9B47C6A9;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = DiscoverMelody/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

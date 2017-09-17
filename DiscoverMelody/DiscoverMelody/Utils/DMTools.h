@@ -14,6 +14,10 @@
  */
 + (BOOL)isHaveFont:(NSString *)postScriptName;
 
+/**
+ * 获取当前时间戳
+ */
++ (NSString *)getCurrentTimestamp;
 /*
  * 时间戳 转 时间
  */

@@ -20,7 +20,7 @@
 @interface DMHomeViewController () <DMHomeVCDelegate>
 
 @property (nonatomic, strong) DMHomeView *homeView;
-
+@property (nonatomic, copy) NSString *courseID;
 
 @end
 
@@ -49,6 +49,8 @@
             if (!OBJ_IS_NIL(array) && array.count > 0) {
                 [weakSelf.homeView disPlayNoCourseView:NO isError:NO];
                 weakSelf.homeView.datas = array;
+                DMCourseDatasModel *data = [array firstObject];
+                weakSelf.courseID = data.course_id;
                 [weakSelf.homeView reloadHomeTableView];
             } else {
                 //显示空白页面
@@ -73,6 +75,9 @@
     [self getDataFromServer];
 }
 
+- (void)selectedCourse:(NSString *)lessonID {
+    self.courseID = lessonID;
+}
 //本课文件
 - (void)clickCourseFiles {
     
@@ -118,21 +123,22 @@
 
 - (void)goToClassRoom {
     NSLog(@"进入课堂");
+    WS(weakSelf);
+    [DMApiModel joinClaseeRoom:self.courseID accessTime:[DMTools getCurrentTimestamp] block:^(BOOL result, DMClassDataModel *obj) {
+        if (result) {
+            [weakSelf joinClassRoom];
+        }
+    }];
+}
+
+- (void)joinClassRoom {
     DMLiveController *liveVC = [DMLiveController new];
     liveVC.navigationVC = self.navigationController;
     [self.navigationController pushViewController:liveVC animated:YES];
 }
 
-- (void)joinClassRoom {
-    [DMApiModel joinClaseeRoom:@"1" accessTime:@"" block:^(BOOL result, DMClassDataModel *obj) {
-        
-    }];
-}
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    
     [self setNavigationBarTransparence];
 }
 

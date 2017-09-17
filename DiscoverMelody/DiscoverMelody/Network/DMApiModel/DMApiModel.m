@@ -8,7 +8,7 @@
 
 #import "DMApiModel.h"
 #import "DMLoginDataModel.h"
-
+#import "DMSecretKeyManager.h"
 @implementation DMApiModel
 
 //登录
@@ -127,6 +127,7 @@
                                        success:^(id responseObject)
      {
          DMClassDataModel *model = (DMClassDataModel *)responseObject;
+         [[DMSecretKeyManager shareManager] updateDMSKeys:model];
          complectionBlock(YES, model);
      } failure:^(NSError *error) {
          complectionBlock(NO, nil);

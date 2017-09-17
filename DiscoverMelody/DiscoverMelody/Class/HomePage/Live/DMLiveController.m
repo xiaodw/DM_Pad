@@ -9,6 +9,7 @@
 #import "DMPhotoController.h"
 #import "DMCourseFilesController.h"
 #import "DMMicrophoneView.h"
+#import "DMSecretKeyManager.h"
 
 #define kSmallSize CGSizeMake(DMScaleWidth(240), DMScaleHeight(180))
 #define kColor31 DMColorWithRGBA(33, 33, 33, 1)
