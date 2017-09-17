@@ -12,5 +12,6 @@
 
 @property (assign, nonatomic) CGRect presentFrame;
 @property (strong, nonatomic) UIColor *coverBackgroundColor;
+@property (assign, nonatomic, getter=isCloseAnimate) BOOL closeAnimate;
 
 @end

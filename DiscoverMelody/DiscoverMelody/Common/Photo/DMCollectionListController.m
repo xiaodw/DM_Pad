@@ -14,7 +14,7 @@
 
 - (void)setAssetCollections:(NSArray *)assetCollections {
     
-    DMPhotoController *photosVC = [DMPhotoController new];
+//    DMPhotoController *photosVC = [DMPhotoController new];
 //    photosVC.
 //    self.navigationController pushViewController:<#(nonnull UIViewController *)#> animated:<#(BOOL)#>
 }

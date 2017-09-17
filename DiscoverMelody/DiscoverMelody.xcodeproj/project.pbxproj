@@ -108,7 +108,10 @@
 		5169FF211F6A9E6600396EFA /* DMCourseFileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FF201F6A9E6600396EFA /* DMCourseFileCell.m */; };
 		5169FF241F6ABC3C00396EFA /* DMCourseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FF231F6ABC3C00396EFA /* DMCourseModel.m */; };
 		5169FF301F6B778600396EFA /* DMBaseMoreController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FF2F1F6B778600396EFA /* DMBaseMoreController.m */; };
-		5169FF331F6B824F00396EFA /* DMBrowseCourseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FF321F6B824F00396EFA /* DMBrowseCourseView.m */; };
+		5169FF361F6BA38C00396EFA /* DMBrowseCourseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FF351F6BA38C00396EFA /* DMBrowseCourseController.m */; };
+		5169FF3C1F6BAEF700396EFA /* DMBrowseCourseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FF3B1F6BAEF700396EFA /* DMBrowseCourseCell.m */; };
+		5169FF3F1F6BD34C00396EFA /* DMSyncBrowseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FF3E1F6BD34C00396EFA /* DMSyncBrowseView.m */; };
+		5169FF6B1F6E0B3900396EFA /* DMMicrophoneView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FF6A1F6E0B3900396EFA /* DMMicrophoneView.m */; };
 		519FA4E81F68CD890015A2B2 /* DMClassFilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF871021F67D74F0001E2D3 /* DMClassFilesViewController.m */; };
 		51B471391F62506D004FACC8 /* DMLiveController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B471381F62506D004FACC8 /* DMLiveController.m */; };
 		51B471481F62760E004FACC8 /* DMLiveButtonControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B471471F62760E004FACC8 /* DMLiveButtonControlView.m */; };
@@ -335,8 +338,14 @@
 		5169FF231F6ABC3C00396EFA /* DMCourseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCourseModel.m; sourceTree = "<group>"; };
 		5169FF2E1F6B778600396EFA /* DMBaseMoreController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMBaseMoreController.h; sourceTree = "<group>"; };
 		5169FF2F1F6B778600396EFA /* DMBaseMoreController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMBaseMoreController.m; sourceTree = "<group>"; };
-		5169FF311F6B824F00396EFA /* DMBrowseCourseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMBrowseCourseView.h; sourceTree = "<group>"; };
-		5169FF321F6B824F00396EFA /* DMBrowseCourseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMBrowseCourseView.m; sourceTree = "<group>"; };
+		5169FF341F6BA38C00396EFA /* DMBrowseCourseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMBrowseCourseController.h; sourceTree = "<group>"; };
+		5169FF351F6BA38C00396EFA /* DMBrowseCourseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMBrowseCourseController.m; sourceTree = "<group>"; };
+		5169FF3A1F6BAEF700396EFA /* DMBrowseCourseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMBrowseCourseCell.h; sourceTree = "<group>"; };
+		5169FF3B1F6BAEF700396EFA /* DMBrowseCourseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMBrowseCourseCell.m; sourceTree = "<group>"; };
+		5169FF3D1F6BD34C00396EFA /* DMSyncBrowseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMSyncBrowseView.h; sourceTree = "<group>"; };
+		5169FF3E1F6BD34C00396EFA /* DMSyncBrowseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMSyncBrowseView.m; sourceTree = "<group>"; };
+		5169FF691F6E0B3900396EFA /* DMMicrophoneView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMMicrophoneView.h; sourceTree = "<group>"; };
+		5169FF6A1F6E0B3900396EFA /* DMMicrophoneView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMMicrophoneView.m; sourceTree = "<group>"; };
 		51B471371F62506D004FACC8 /* DMLiveController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMLiveController.h; sourceTree = "<group>"; };
 		51B471381F62506D004FACC8 /* DMLiveController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMLiveController.m; sourceTree = "<group>"; };
 		51B471431F62717A004FACC8 /* DMConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMConfig.h; sourceTree = "<group>"; };
@@ -800,6 +809,8 @@
 			children = (
 				5100E42C1F6A4C1A000AB506 /* DMCourseFilesController.h */,
 				5100E42D1F6A4C1A000AB506 /* DMCourseFilesController.m */,
+				5169FF3D1F6BD34C00396EFA /* DMSyncBrowseView.h */,
+				5169FF3E1F6BD34C00396EFA /* DMSyncBrowseView.m */,
 				5169FF1F1F6A9E6600396EFA /* DMCourseFileCell.h */,
 				5169FF201F6A9E6600396EFA /* DMCourseFileCell.m */,
 				5169FF221F6ABC3C00396EFA /* DMCourseModel.h */,
@@ -808,8 +819,10 @@
 				5100E46F1F6A7662000AB506 /* DMTabBarView.m */,
 				5169FF1C1F6A8FF600396EFA /* DMBottomBarView.h */,
 				5169FF1D1F6A8FF600396EFA /* DMBottomBarView.m */,
-				5169FF311F6B824F00396EFA /* DMBrowseCourseView.h */,
-				5169FF321F6B824F00396EFA /* DMBrowseCourseView.m */,
+				5169FF341F6BA38C00396EFA /* DMBrowseCourseController.h */,
+				5169FF351F6BA38C00396EFA /* DMBrowseCourseController.m */,
+				5169FF3A1F6BAEF700396EFA /* DMBrowseCourseCell.h */,
+				5169FF3B1F6BAEF700396EFA /* DMBrowseCourseCell.m */,
 			);
 			path = Course;
 			sourceTree = "<group>";
@@ -897,6 +910,8 @@
 				2AC478121F67B39F00D42F79 /* CoursewareFalls */,
 				51D2D62D1F613B0900764130 /* DMButton.h */,
 				51D2D62C1F613B0900764130 /* DMButton.m */,
+				5169FF691F6E0B3900396EFA /* DMMicrophoneView.h */,
+				5169FF6A1F6E0B3900396EFA /* DMMicrophoneView.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -998,7 +1013,6 @@
 				TargetAttributes = {
 					2A03AF411F555FA80088DBF4 = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = BR9B47C6A9;
 						ProvisioningStyle = Automatic;
 					};
 					2A03AF5A1F555FA80088DBF4 = {
@@ -1138,14 +1152,15 @@
 				2A87F8871F6B873600DCC412 /* DMPullDownCell.m in Sources */,
 				519FA4E81F68CD890015A2B2 /* DMClassFilesViewController.m in Sources */,
 				515DCF091F67C5A500AA9465 /* DMLiveCoursewareCell.m in Sources */,
-				5169FF331F6B824F00396EFA /* DMBrowseCourseView.m in Sources */,
 				51D2D5651F5EC00B00764130 /* DMLoginTextField.m in Sources */,
 				5169FF1E1F6A8FF600396EFA /* DMBottomBarView.m in Sources */,
+				5169FF3C1F6BAEF700396EFA /* DMBrowseCourseCell.m in Sources */,
 				2A3D1D281F692A44005671B2 /* ZFBrightnessView.m in Sources */,
 				2A4143901F600D6F00E6B4E1 /* DMHomeCell.m in Sources */,
 				2A05C4631F5D545D00FC4D9A /* DMRootContainerViewController.m in Sources */,
 				51D2D54D1F5EA73C00764130 /* DMConst.m in Sources */,
 				2AF871061F67FD9E0001E2D3 /* DMCoursewareBottom.m in Sources */,
+				5169FF6B1F6E0B3900396EFA /* DMMicrophoneView.m in Sources */,
 				2A5F86C61F5CEDDF00773ADD /* DMBaseViewController.m in Sources */,
 				2A8426A11F6A6468005BA6EC /* DMUserDefaults.m in Sources */,
 				2A3D1D1E1F692A44005671B2 /* ASValuePopUpView.m in Sources */,
@@ -1192,6 +1207,7 @@
 				2AC478151F67B3E500D42F79 /* DMCoursewareFallsCell.m in Sources */,
 				2A8782541F61438E004F9184 /* DMRequestModel.m in Sources */,
 				5169FF211F6A9E6600396EFA /* DMCourseFileCell.m in Sources */,
+				5169FF361F6BA38C00396EFA /* DMBrowseCourseController.m in Sources */,
 				2A4E96A11F66AA57000C4DFD /* DMPopCodeView.m in Sources */,
 				2A87F8841F6B68EC00DCC412 /* DMPullDownMenu.m in Sources */,
 				2A3D1D271F692A44005671B2 /* MMMaterialDesignSpinner.m in Sources */,
@@ -1211,6 +1227,7 @@
 				2A47AFBB1F626A14003A90DA /* DMMenuCell.m in Sources */,
 				2A3D1D1F1F692A44005671B2 /* ASValueTrackingSlider.m in Sources */,
 				2A3D1D2A1F692A44005671B2 /* ZFPlayerControlView.m in Sources */,
+				5169FF3F1F6BD34C00396EFA /* DMSyncBrowseView.m in Sources */,
 				2A3D1D2C1F692A44005671B2 /* ZFPlayerView.m in Sources */,
 				5169FF241F6ABC3C00396EFA /* DMCourseModel.m in Sources */,
 				2AD2AB431F5D492700EDA962 /* DMMenuViewController.m in Sources */,
@@ -1380,7 +1397,7 @@
 			baseConfigurationReference = 1E620A6E158816600EA0CFFE /* Pods-DiscoverMelody.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = BR9B47C6A9;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = DiscoverMelody/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1400,7 +1417,7 @@
 			baseConfigurationReference = 2BF41B440646DC59DC6A7EC6 /* Pods-DiscoverMelody.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = BR9B47C6A9;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = DiscoverMelody/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

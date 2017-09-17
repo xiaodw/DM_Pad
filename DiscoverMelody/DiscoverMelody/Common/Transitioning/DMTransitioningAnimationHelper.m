@@ -20,11 +20,20 @@
 
 @implementation DMTransitioningAnimationHelper
 
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        _closeAnimate = YES;
+    }
+    return self;
+}
+
 // 谁负责专场动画
 - (UIPresentationController *)presentationControllerForPresentedViewController:(UIViewController *)presented presentingViewController:(UIViewController *)presenting sourceViewController:(UIViewController *)source {
     DMPresentationController *presentationController = [[DMPresentationController alloc] initWithPresentedViewController:presented presentingViewController:presenting];
     presentationController.coverBackgroundColor = self.coverBackgroundColor;
     presentationController.presentFrame = self.presentFrame;
+    presentationController.closeAnimate = _closeAnimate;
     return presentationController;
 }
 

@@ -21,7 +21,7 @@
 }
 
 - (void)tapBackgroundView {
-    [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+    [self.presentedViewController dismissViewControllerAnimated:_closeAnimate completion:nil];
 }
 
 - (void)containerViewWillLayoutSubviews {

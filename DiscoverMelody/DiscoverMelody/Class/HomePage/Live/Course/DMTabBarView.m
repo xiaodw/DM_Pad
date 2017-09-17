@@ -77,7 +77,7 @@
     [self didTapButton:self.buttons.firstObject];
     [self addSubview:self.slippageView];
     [self addSubview:self.separaterView];
-    _separaterView.frame = CGRectMake(0, kSelfHeight-0.5, DMScreenWidth, 0.5);
+    _separaterView.frame = CGRectMake(0, kSelfHeight-0.5, DMScreenWidth*0.5, 0.5);
 }
 
 - (UIButton *)setupButtonWithTitle:(NSString *)title {
