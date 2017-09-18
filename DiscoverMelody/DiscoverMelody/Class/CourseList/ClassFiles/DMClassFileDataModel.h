@@ -10,7 +10,7 @@
 
 @class DMClassFilesDataModel;
 @interface DMClassFileDataModel : NSObject
-@property (nonatomic, copy) NSString *id;
+@property (nonatomic, copy) NSString *ID;
 @property (nonatomic, copy) NSString *img;
 @property (nonatomic, copy) NSString *img_thumb;
 @end

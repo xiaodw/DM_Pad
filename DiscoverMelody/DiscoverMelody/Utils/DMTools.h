@@ -33,7 +33,7 @@
 /**
  * 距离上课时间差
  */
-+ (NSString *)computationsClassTimeDifference:(NSString *)startTime accessTime:(NSString *)accessTime;
++ (NSTimeInterval)computationsClassTimeDifference:(NSString *)startTime accessTime:(NSString *)accessTime;
 /**
  * 摄像头，麦克风权限授权
  */

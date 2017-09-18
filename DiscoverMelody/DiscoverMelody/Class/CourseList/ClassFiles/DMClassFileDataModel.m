@@ -9,6 +9,9 @@
 #import "DMClassFileDataModel.h"
 
 @implementation DMClassFileDataModel
++ (NSDictionary *)mj_replacedKeyFromPropertyName {
+    return @{@"ID": @"id"};
+}
 @end
 
 @implementation DMClassFilesDataModel

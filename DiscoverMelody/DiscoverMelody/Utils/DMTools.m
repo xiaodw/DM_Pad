@@ -56,14 +56,11 @@
     return [[start stringByAppendingString:@"-"] stringByAppendingString:end];
 }
 /**
- * 计算距离上课时间差
+ * 计算距离上课时间差,提前为负，迟到为正
  */
-+ (NSString *)computationsClassTimeDifference:(NSString *)startTime accessTime:(NSString *)accessTime; {
-    NSTimeInterval interval = startTime.longLongValue - accessTime.longLongValue;
-    if (interval <= 0) {
-        return @"";
-    }
-    return @"";
++ (NSTimeInterval)computationsClassTimeDifference:(NSString *)startTime accessTime:(NSString *)accessTime; {
+    NSTimeInterval interval = accessTime.longLongValue - startTime.longLongValue;
+    return interval;
 }
 /**
  * 摄像头，麦克风权限授权

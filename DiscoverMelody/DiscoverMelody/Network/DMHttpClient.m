@@ -17,6 +17,7 @@
 #define Code_Key @"code"
 #define Msg_Key @"msg"
 #define Token_Key @"token"
+#define Time_Key @"time"
 
 + (DMHttpClient *)sharedInstance {
     static DMHttpClient *instance = nil;
@@ -59,6 +60,10 @@
         }
         
         if ([[responseObj objectForKey:@"code"] intValue] == 0) {
+            //进入课堂接口，单独取出访问时间
+            if (dataModelClass == [DMClassDataModel class]) {
+                [DMAccount saveUserJoinClassTime:[responseObj objectForKey:Time_Key]];
+            }
             id responseDataModel = [dataModelClass mj_objectWithKeyValues:[responseObj objectForKey:Data_Key]];
             success(responseDataModel);
         } else {
