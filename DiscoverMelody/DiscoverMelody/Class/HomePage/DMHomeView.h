@@ -12,7 +12,7 @@
 - (void)clickCourseFiles;
 - (void)clickClassRoom;
 - (void)clickReload;
-- (void)selectedCourse:(NSString *)lessonID;
+- (void)selectedCourse:(DMCourseDatasModel *)courseObj;
 @end
 
 @interface DMHomeView : UIView

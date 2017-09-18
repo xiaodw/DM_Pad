@@ -20,7 +20,7 @@
 @interface DMHomeViewController () <DMHomeVCDelegate>
 
 @property (nonatomic, strong) DMHomeView *homeView;
-@property (nonatomic, copy) NSString *courseID;
+@property (nonatomic, strong) DMCourseDatasModel *courseObj;
 
 @end
 
@@ -41,9 +41,7 @@
 //获取首页数据
 - (void)getDataFromServer {
     WS(weakSelf);
-    [self.homeView disPlayNoCourseView:NO isError:NO];
-    [self.homeView reloadHomeTableView];
-    return;
+    
     NSString *type = [DMAccount getUserIdentity];
     
     [DMApiModel getHomeCourseData:type block:^(BOOL result, NSArray *array) {
@@ -52,7 +50,7 @@
                 [weakSelf.homeView disPlayNoCourseView:NO isError:NO];
                 weakSelf.homeView.datas = array;
                 DMCourseDatasModel *data = [array firstObject];
-                weakSelf.courseID = data.course_id;
+                weakSelf.courseObj = data;
                 [weakSelf.homeView reloadHomeTableView];
             } else {
                 //显示空白页面
@@ -77,8 +75,8 @@
     [self getDataFromServer];
 }
 
-- (void)selectedCourse:(NSString *)lessonID {
-    self.courseID = lessonID;
+- (void)selectedCourse:(DMCourseDatasModel *)courseObj {
+    self.courseObj = courseObj;
 }
 //本课文件
 - (void)clickCourseFiles {
@@ -125,10 +123,8 @@
 
 - (void)goToClassRoom {
     NSLog(@"进入课堂");
-    [self joinClassRoom];
-    return;
     WS(weakSelf);
-    [DMApiModel joinClaseeRoom:self.courseID accessTime:[DMTools getCurrentTimestamp] block:^(BOOL result, DMClassDataModel *obj) {
+    [DMApiModel joinClaseeRoom:self.courseObj.course_id accessTime:[DMTools getCurrentTimestamp] block:^(BOOL result, DMClassDataModel *obj) {
         if (result) {
             [weakSelf joinClassRoom];
         }
@@ -138,6 +134,11 @@
 - (void)joinClassRoom {
     DMLiveController *liveVC = [DMLiveController new];
     liveVC.navigationVC = self.navigationController;
+    liveVC.lessonID = self.courseObj.course_id;
+    liveVC.totalTime = [self.courseObj.duration intValue];
+    liveVC.alreadyTime = [DMTools computationsClassTimeDifference:self.courseObj.start_time
+                                                       accessTime:[DMAccount getUserJoinClassTime]];
+    
     [self.navigationController pushViewController:liveVC animated:YES];
 }
 

@@ -236,7 +236,7 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
         
         [_accountTextField makeConstraints:^(MASConstraintMaker *make) {
             make.top.left.right.equalTo(_textfieldView);
-            make.height.equalTo(DMScaleWidth(kTextFieldHeight));
+            make.height.equalTo(kTextFieldHeight);
         }];
         
         [_passwordTextField makeConstraints:^(MASConstraintMaker *make) {

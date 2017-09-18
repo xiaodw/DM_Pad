@@ -15,6 +15,8 @@
 #define U_AVATAR @"avatar"
 #define U_TOKEN @"token"
 
+#define U_C_TIME @"ctime"
+
 //读取账号信息
 + (id)getAccountInfo {
 
@@ -81,4 +83,10 @@
     [DMAccount saveUserIdentity:@""];
 }
 
++ (void)saveUserJoinClassTime:(NSString *)time {
+    [DMUserDefaults setValue:time forKey:U_C_TIME];
+}
++ (NSString *)getUserJoinClassTime {
+    return [DMUserDefaults getValueWithKey:U_C_TIME];
+}
 @end

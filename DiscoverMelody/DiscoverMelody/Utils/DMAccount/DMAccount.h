@@ -44,5 +44,8 @@
 //清除用户所有信息
 + (void)removeUserAllInfo;
 
+//用户进入课堂的访问时间
++ (void)saveUserJoinClassTime:(NSString *)time;
++ (NSString *)getUserJoinClassTime;
 
 @end

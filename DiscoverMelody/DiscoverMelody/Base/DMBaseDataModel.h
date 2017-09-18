@@ -12,4 +12,5 @@
 @property (nonatomic, copy) NSString *msg;
 @property (nonatomic, assign) NSInteger code;
 @property (nonatomic, copy) NSString *time;
+@property (nonatomic, strong) NSString *data;
 @end

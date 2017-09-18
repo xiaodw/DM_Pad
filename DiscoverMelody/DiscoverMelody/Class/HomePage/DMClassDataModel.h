@@ -13,4 +13,7 @@
 @property (nonatomic, copy) NSString *channel_name;
 @property (nonatomic, copy) NSString *signaling_key;
 @property (nonatomic, copy) NSString *uid;
+
+@property (nonatomic, copy) NSString *time;//访问时间-服务器返回的
+
 @end

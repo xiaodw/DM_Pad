@@ -86,7 +86,7 @@
     if ([_delegate respondsToSelector:@selector(selectedCourse:)]) {
         if (indexPath.row < self.datas.count) {
             DMCourseDatasModel *data = [self.datas objectAtIndex:indexPath.row];
-            [_delegate selectedCourse:data.course_id];
+            [_delegate selectedCourse:data];
         }
     }
     [tableView reloadData];
