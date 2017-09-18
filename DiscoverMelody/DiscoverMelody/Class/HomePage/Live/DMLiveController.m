@@ -74,7 +74,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     _userIdentity = [[DMAccount getUserIdentity] integerValue];
     _warningTime = 5 * 60;
     _delayTime = 15 * 60;
-    _alreadyTime = _totalTime - _warningTime + _delayTime + _warningTime - 30;
+    _alreadyTime = _totalTime - _warningTime + _delayTime + _warningTime - 10;
     
     self.remotePlaceholderTitleLabel.text = _userIdentity == 1 ? @"学生尚未进入课堂" : @"老师尚未进入课堂";
 }
