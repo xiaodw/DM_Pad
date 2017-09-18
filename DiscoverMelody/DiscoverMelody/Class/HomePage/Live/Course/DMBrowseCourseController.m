@@ -1,6 +1,7 @@
 #import "DMBrowseCourseController.h"
 #import "DMButton.h"
 #import "DMBrowseCourseCell.h"
+#import "DMLiveController.h"
 
 #define kBrowseCourseCellID @"BrowseCourse"
 @interface DMBrowseCourseController () <UICollectionViewDataSource, UICollectionViewDelegate>
@@ -31,7 +32,12 @@
     if (![self.browseDelegate respondsToSelector:@selector(browseCourseController:deleteIndexPath:)]) return;
     
     [self.browseDelegate browseCourseController:self deleteIndexPath:self.currentIndexPath];
-    if (self.courses.count == 0) [self dismissViewControllerAnimated:NO completion:nil];
+    if (self.courses.count == 0) {
+        [self.liveVC.presentVCs removeObject:self];
+        self.liveVC = nil;
+        [self dismissViewControllerAnimated:NO completion:nil];
+        return;
+    }
     [self.collectionView reloadData];
 }
 
@@ -48,6 +54,8 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    [self.liveVC.presentVCs removeObject:self];
+    self.liveVC = nil;
     [self dismissViewControllerAnimated:NO completion:nil];
 }
 
@@ -112,6 +120,10 @@
     }
     
     return _deletedView;
+}
+
+- (void)dealloc {
+    DMLogFunc
 }
 
 @end

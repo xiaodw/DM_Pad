@@ -7,6 +7,7 @@
 @property (assign, nonatomic) NSInteger alreadyTime;
 @property (assign, nonatomic) NSInteger warningTime;
 @property (assign, nonatomic) NSInteger delayTime;
+@property (strong, nonatomic) NSMutableArray *presentVCs;
 
 @property (weak, nonatomic) UINavigationController *navigationVC;
 

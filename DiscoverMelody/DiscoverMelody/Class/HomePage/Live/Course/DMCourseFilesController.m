@@ -6,6 +6,7 @@
 #import "DMBrowseCourseController.h"
 #import "DMBrowseView.h"
 #import "DMUploadController.h"
+#import "DMLiveController.h"
 
 #define kCourseFileCellID @"Courseware"
 #define kLeftMargin 15
@@ -85,7 +86,10 @@
 }
 
 - (void)dismissController {
+    [self.liveVC.presentVCs removeObject:self];
+    self.liveVC = nil;
     [self dismissViewControllerAnimated:YES completion:nil];
+    
 }
 
 - (void)didTapBack {
@@ -98,11 +102,11 @@
         [UIView animateWithDuration:0.25 animations:^{
             [self.view layoutSubviews];
         } completion:^(BOOL finished) {
-            [self dismissViewControllerAnimated:YES completion:nil];
+            [self dismissController];
         }];
         return;
     }
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissController];
 }
 
 - (void)tabBarView:(DMTabBarView *)tabBarView didTapBarButton:(UIButton *)button{
@@ -127,6 +131,9 @@
     nvc.transitioningDelegate = self.animationHelper;
     nvc.modalPresentationStyle = UIModalPresentationCustom;
     [self presentViewController:nvc animated:YES completion:nil];
+    
+    assetsVC.liveVC = self.liveVC;
+    [self.liveVC.presentVCs addObject:assetsVC];
 }
 
 // 同步
@@ -197,6 +204,9 @@
         self.animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth * 0.5, DMScreenHeight);
         browseCourseVC.transitioningDelegate = self.animationHelper;
         [self presentViewController:browseCourseVC animated:NO completion:nil];
+        browseCourseVC.liveVC = self.liveVC;
+        [self.liveVC.presentVCs addObject:browseCourseVC];
+        
         return;
     }
     

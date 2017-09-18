@@ -54,9 +54,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 @property (assign, nonatomic) BOOL isCoursewareMode; // 是否是课件布局模式
 @property (assign, nonatomic) DMLayoutMode beforeLayoutMode; // 课件布局模式之前的模式
 
-#pragma mark - 临时变量做测试用
-//@property (strong, nonatomic) NSDate *startDate;
-
 @end
 
 @implementation DMLiveController
@@ -74,7 +71,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     _userIdentity = [[DMAccount getUserIdentity] integerValue];
     _warningTime = 5 * 60;
     _delayTime = 15 * 60;
-    _alreadyTime = _totalTime - _warningTime + _delayTime + _warningTime - 10;
+    _alreadyTime = _totalTime - _warningTime + _delayTime + _warningTime - 70;
     
     self.remotePlaceholderTitleLabel.text = _userIdentity == 1 ? @"学生尚未进入课堂" : @"老师尚未进入课堂";
 }
@@ -180,8 +177,22 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 // 离开
 - (void)liveButtonControlViewDidTapLeave:(DMLiveButtonControlView *)liveButtonControlView {
     WS(weakSelf)
+    
     [self.liveVideoManager quitLiveVideo:^(BOOL success) {
-        [weakSelf.navigationVC popViewControllerAnimated:YES];
+        if (weakSelf.presentVCs.count == 0) {
+            [weakSelf.navigationVC popViewControllerAnimated:YES];
+            return;
+        }
+        
+        for (int i = (int)weakSelf.presentVCs.count-1; i >= 0; i--) {
+            UIViewController *presentVC = weakSelf.presentVCs[i];
+            [weakSelf.presentVCs removeObject:presentVC];
+            [presentVC dismissViewControllerAnimated:NO completion:^{
+                if (i == 0) {
+                    [weakSelf.navigationVC popViewControllerAnimated:YES];
+                }
+            }];
+        }
     }];
 }
 
@@ -205,7 +216,8 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     courseFilesVC.transitioningDelegate = self.animationHelper;
     courseFilesVC.modalPresentationStyle = UIModalPresentationCustom;
     [self presentViewController:courseFilesVC animated:YES completion:nil];
-    
+    courseFilesVC.liveVC = self;
+    [self.presentVCs addObject:courseFilesVC];
 //    [self didTapCourseFiles];
  
 }
@@ -757,6 +769,14 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [UIView animateWithDuration:0.25 animations:^{
         [self.view layoutSubviews];
     }];
+}
+
+- (NSMutableArray *)presentVCs {
+    if (!_presentVCs) {
+        _presentVCs = [NSMutableArray array];
+    }
+    
+    return _presentVCs;
 }
 
 @end

@@ -17,6 +17,7 @@
 
 #import "DMAlbumsTableView.h"
 #import "DMAssetsCollectionView.h"
+#import "DMLiveController.h"
 
 @interface DMUploadController () <DMAlbumsTableViewDelegate, DMAssetsCollectionViewDelegate>
 
@@ -76,6 +77,8 @@
         }
         
         // 左侧
+        [self.liveVC.presentVCs removeObject:self];
+        self.liveVC = nil;
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }
@@ -104,6 +107,8 @@
 }
 
 - (void)albumsTableView:(DMAlbumsTableView *)albumsTableView didTapRightButton:(UIButton *)rightButton {
+    [self.liveVC.presentVCs removeObject:self];
+    self.liveVC = nil;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

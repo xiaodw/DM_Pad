@@ -1,7 +1,7 @@
 #import <UIKit/UIKit.h>
 #import "DMBaseMoreController.h"
 
-@class DMBrowseCourseController;
+@class DMBrowseCourseController, DMLiveController;
 
 @protocol DMBrowseCourseControllerDelegate <NSObject>
 
@@ -19,5 +19,6 @@
 @property (strong, nonatomic) NSMutableArray *courses;
 
 @property (assign, nonatomic) CGSize itemSize;
+@property (weak, nonatomic) DMLiveController *liveVC;
 
 @end
