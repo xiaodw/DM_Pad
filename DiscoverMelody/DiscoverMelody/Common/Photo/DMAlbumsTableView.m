@@ -19,6 +19,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+        self.backgroundColor = UIColorFromRGB(0xf6f6f6);
         [self setupMakeAddSubviews];
         [self setupMakeLayoutSubviews];
     }
@@ -32,7 +33,8 @@
 
 - (void)setupMakeLayoutSubviews {
     [_navigationBar makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.right.equalTo(self);
+        make.width.equalTo(DMScreenWidth*0.5);
+        make.left.top.equalTo(self);
         make.height.equalTo(64);
     }];
     

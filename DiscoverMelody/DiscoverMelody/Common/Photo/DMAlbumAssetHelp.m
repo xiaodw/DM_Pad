@@ -38,7 +38,7 @@
 - (void) refreshAlbumAssetWithType:(ALAssetsGroupType)type filter:(ALAssetsFilter *)filter completionBlock:(AlbumRestrictedCallback)callBack {
     if (self.authorizationStatus) {
         if (callBack)  {
-            callBack(NO, nil);
+            callBack(NO, nil, NO);
         }
         return;
     }
@@ -51,9 +51,9 @@
             [albums addObject:album];
             return;
         }
-        if (stop) callBack(YES, albums);
+        if (stop) callBack(YES, albums, NO);
     } failureBlock:^(NSError *error) {
-        callBack(NO, nil);
+        callBack(NO, nil, YES);
     }];
     
 }

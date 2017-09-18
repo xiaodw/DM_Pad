@@ -28,6 +28,8 @@
 @property (strong, nonatomic) NSMutableArray *albums;
 @property (assign, nonatomic) bool isUploaded;
 
+@property (assign, nonatomic) BOOL isPhotoSuccess;
+
 @end
 
 @implementation DMUploadController
@@ -38,13 +40,43 @@
     [self setupMakeAddSubviews];
     [self setupMakeLayoutSubviews];
     [self.navigationController setNavigationBarHidden:YES];
-    
-    _imagePickerHelp = [DMAlbumAssetHelp albumAssetHelpWithType:ALAssetsGroupAll filter:[ALAssetsFilter allPhotos] completionBlock:^(BOOL success, NSMutableArray *albums) {
+    _isPhotoSuccess = YES;
+    _imagePickerHelp = [DMAlbumAssetHelp albumAssetHelpWithType:ALAssetsGroupAll filter:[ALAssetsFilter allPhotos] completionBlock:^(BOOL success, NSMutableArray *albums, BOOL first) {
+        
+        if(!success) {
+            _isPhotoSuccess = NO;
+            
+            if (first) {
+                [self viewWillAppear:YES];
+            }
+            return;
+        }
+        
         self.albums = albums;
         self.albumsView.albums = albums;
         DMAlbum *album = albums.lastObject;
         self.albumsView.albums = albums;
         self.assetsView.assets = album.assets;
+    }];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    if (_isPhotoSuccess) return;
+    
+    DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"“寻律”要访问您的相册, 是否允许?" message:Capture_Msg preferredStyle:UIAlertControllerStyleAlert cancelTitle:@"不允许" otherTitle:@"允许", nil];
+    [alert showWithViewController:self IndexBlock:^(NSInteger index) {
+        if (index == 1) { // 右侧
+            NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+            if ([[UIApplication sharedApplication]canOpenURL:url]) {
+                [[UIApplication sharedApplication]openURL:url];
+            }
+            return ;
+        }
+        
+        // 左侧
+        [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }
 
@@ -61,12 +93,13 @@
 
 - (void)setupMakeLayoutSubviews {
     [_albumsView makeConstraints:^(MASConstraintMaker *make) {
-        make.width.equalTo(DMScreenWidth*0.5);
         make.left.top.bottom.equalTo(self.view);
+        make.width.equalTo(DMScreenWidth*0.5);
     }];
     
     [_assetsView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.bottom.width.equalTo(_albumsView);
+        make.top.left.bottom.equalTo(_albumsView);
+        make.width.equalTo(DMScreenWidth);
     }];
 }
 
@@ -109,13 +142,13 @@
 
 - (void)albrmsCollectionView:(DMAssetsCollectionView *)albrmsCollectionView didTapUploadButton:(UIButton *)uploadButton {
     NSLog(@"%s", __func__);
+    
 }
 
 - (DMAlbumsTableView *)albumsView {
     if (!_albumsView) {
         _albumsView = [DMAlbumsTableView new];
         _albumsView.delegate = self;
-        _albumsView.backgroundColor = [UIColor randomColor];
     }
     
     return _albumsView;
@@ -125,7 +158,6 @@
     if (!_assetsView) {
         _assetsView = [DMAssetsCollectionView new];
         _assetsView.delegate = self;
-        _assetsView.backgroundColor = [UIColor randomColor];
     }
     
     return _assetsView;

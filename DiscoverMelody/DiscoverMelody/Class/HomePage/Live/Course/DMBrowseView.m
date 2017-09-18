@@ -1,25 +1,39 @@
-#import "DMSyncBrowseView.h"
+#import "DMBrowseView.h"
 #import "DMBrowseCourseController.h"
 #import "DMCourseFileCell.h"
 #import "DMBrowseCourseCell.h"
 #import "DMButton.h"
+#import "DMAsset.h"
 
 #define kBrowseCourseCellID @"BrowseCourse" // 大ID
 #define kcourseCellID @"Course2" // 小ID
 
-@interface DMSyncBrowseView() <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface DMBrowseView() <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (strong, nonatomic) DMButton *syncButton;
+@property (strong, nonatomic) UIView *colBackgroundView;
 @property (strong, nonatomic) UICollectionView *browsecollectionView; // 大图
 @property (strong, nonatomic) UICollectionView *collectionView; // 小图
 @property (strong, nonatomic) NSIndexPath *currentIndexPath;
 
 @end
 
-@implementation DMSyncBrowseView
+@implementation DMBrowseView
 
-- (void)setSyncCourses:(NSArray *)syncCourses {
-    _syncCourses = syncCourses;
+- (void)setBrowseType:(DMBrowseViewType)browseType {
+    _browseType = browseType;
+    
+    if (self.browseType == DMBrowseViewTypeUpload) {
+        _syncButton.hidden = YES;
+        [_syncButton remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.bottom.equalTo(self);
+            make.height.equalTo(0.01);
+        }];
+    }
+}
+
+- (void)setCourses:(NSArray *)courses {
+    _courses = courses;
     [self.browsecollectionView reloadData];
     [self.collectionView reloadData];
 }
@@ -36,12 +50,12 @@
 
 - (void)setupMakeAddSubviews {
     [self addSubview:self.browsecollectionView];
+    [self addSubview:self.colBackgroundView];
     [self addSubview:self.collectionView];
     [self addSubview:self.syncButton];
 }
 
 - (void)setupMakeLayoutSubviews {
-    
     [_syncButton makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.bottom.equalTo(self);
         make.height.equalTo(50);
@@ -60,30 +74,46 @@
         make.left.equalTo(40);
         make.right.equalTo(self.mas_right).offset(-40);
     }];
+    
+    [_colBackgroundView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_collectionView.mas_top).offset(-15);
+        make.bottom.equalTo(_syncButton.mas_top);
+        make.left.right.equalTo(_collectionView);
+    }];
 }
 
 - (void)didTapSync {
-    if (![self.delegate respondsToSelector:@selector(syncBrowseViewDidTapSync:)]) return;
+    if (![self.delegate respondsToSelector:@selector(browseViewDidTapSync:)]) return;
     
-    [self.delegate syncBrowseViewDidTapSync:self];
+    [self.delegate browseViewDidTapSync:self];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.syncCourses.count;
+    return self.courses.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     // 大
     if (collectionView == self.browsecollectionView) {
         DMBrowseCourseCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kBrowseCourseCellID forIndexPath:indexPath];
-        cell.courseModel = self.syncCourses[indexPath.row];
+        if (self.browseType == DMBrowseViewTypeUpload) {
+            cell.asset = self.courses[indexPath.row];
+        }
+        else if (self.browseType == DMBrowseViewTypeSync) {
+            cell.courseModel = self.courses[indexPath.row];
+        }
         return cell;
     }
     
     // 小
     DMCourseFileCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kcourseCellID forIndexPath:indexPath];
     cell.editorMode = YES;
-    cell.courseModel = self.syncCourses[indexPath.row];
+    if (self.browseType == DMBrowseViewTypeUpload) {
+        cell.asset = self.courses[indexPath.row];
+    }
+    else if (self.browseType == DMBrowseViewTypeSync) {
+        cell.courseModel = self.courses[indexPath.row];
+    }
     
     if (!_currentIndexPath) _currentIndexPath = indexPath;
     cell.showBorder = _currentIndexPath == indexPath;
@@ -186,6 +216,15 @@
     }
     
     return _collectionView;
+}
+
+- (UIView *)colBackgroundView {
+    if (!_colBackgroundView) {
+        _colBackgroundView = [UIView new];
+        _colBackgroundView.backgroundColor = [DMColorWithHexString(@"#212121") colorWithAlphaComponent:0.8];
+    }
+    
+    return _colBackgroundView;
 }
 
 @end
