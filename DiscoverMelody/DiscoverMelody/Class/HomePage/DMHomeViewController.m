@@ -40,6 +40,11 @@
 
 //获取首页数据
 - (void)getDataFromServer {
+    
+    [self.homeView disPlayNoCourseView:NO isError:NO];
+    [self.homeView reloadHomeTableView];
+    return;
+    
     WS(weakSelf);
     
     NSString *type = [DMAccount getUserIdentity];
@@ -122,6 +127,9 @@
 }
 
 - (void)goToClassRoom {
+    [self joinClassRoom];
+    return;
+    
     NSLog(@"进入课堂");
     WS(weakSelf);
     [DMApiModel joinClaseeRoom:self.courseID accessTime:[DMTools getCurrentTimestamp] block:^(BOOL result, DMClassDataModel *obj) {
