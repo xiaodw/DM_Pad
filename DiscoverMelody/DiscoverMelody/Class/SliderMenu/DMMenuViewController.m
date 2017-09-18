@@ -57,7 +57,7 @@
     
     [DMApiModel logoutSystem:^(BOOL result) {
         if (result) {
-            [DMAccount removeUserAllInfo];
+            [DMCommonModel removeUserAllDataAndOperation];
             [APP_DELEGATE toggleRootView:YES];
         }
     }];

@@ -56,6 +56,16 @@
     return [[start stringByAppendingString:@"-"] stringByAppendingString:end];
 }
 /**
+ * 计算距离上课时间差
+ */
++ (NSString *)computationsClassTimeDifference:(NSString *)startTime accessTime:(NSString *)accessTime; {
+    NSTimeInterval interval = startTime.longLongValue - accessTime.longLongValue;
+    if (interval <= 0) {
+        return @"";
+    }
+    return @"";
+}
+/**
  * 摄像头，麦克风权限授权
  */
 + (void)requestAccessForMediaVideoAndAudio {
@@ -83,6 +93,13 @@
             
         }];
     }
+}
+
+/**
+ * 自定义SVProgressHUD提示框
+ */
++ (void)showMessageToast:(NSString *)msg duration:(NSTimeInterval)duration position:(id)style {
+    [APP_DELEGATE.window makeToast:msg duration:duration position:style];
 }
 
 @end

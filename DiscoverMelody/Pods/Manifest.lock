@@ -23,6 +23,7 @@ PODS:
     - SDWebImage/Core (= 4.1.0)
   - SDWebImage/Core (4.1.0)
   - SVProgressHUD (2.2.1)
+  - Toast (3.1.0)
 
 DEPENDENCIES:
   - AFNetworking (~> 3.0)
@@ -33,6 +34,7 @@ DEPENDENCIES:
   - Reachability (~> 3.1.1)
   - SDWebImage (~> 4.0)
   - SVProgressHUD
+  - Toast (~> 3.1.0)
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
@@ -43,7 +45,8 @@ SPEC CHECKSUMS:
   Reachability: dd9aa4fb6667b9f787690a74f53cb7634ce99893
   SDWebImage: 0e435c14e402a6730315a0fb79f95e68654d55a4
   SVProgressHUD: db27c54e6e18bc903341661fc9feb55e04905cc4
+  Toast: 14a93686d6c8bfe2727afd342414e35660a8a1f3
 
-PODFILE CHECKSUM: c8a4a5c1a48e2917f12d8e18c6a284d625f064e0
+PODFILE CHECKSUM: 408b849ad05bd3e7e69f5cc7432231602b29746d
 
 COCOAPODS: 1.3.1

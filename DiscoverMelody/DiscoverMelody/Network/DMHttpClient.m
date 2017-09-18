@@ -14,6 +14,9 @@
 @implementation DMHttpClient
 
 #define Data_Key @"data"
+#define Code_Key @"code"
+#define Msg_Key @"msg"
+#define Token_Key @"token"
 
 + (DMHttpClient *)sharedInstance {
     static DMHttpClient *instance = nil;
@@ -50,11 +53,21 @@
             responseObj = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
         }
         NSLog(@"返回的数据 = %@",responseObj);
-        id responseDataModel = [dataModelClass mj_objectWithKeyValues:[responseObj objectForKey:Data_Key]];
-        success(responseDataModel);
-    
+        
+        if (!STR_IS_NIL([responseObj objectForKey:Token_Key])) {
+            [self updateTokenToLatest:[responseObj objectForKey:Token_Key]];
+        }
+        
+        if ([[responseObj objectForKey:@"code"] intValue] == 0) {
+            id responseDataModel = [dataModelClass mj_objectWithKeyValues:[responseObj objectForKey:Data_Key]];
+            success(responseDataModel);
+        } else {
+            [self responseStatusCodeException:[[responseObj objectForKey:Code_Key] intValue]
+                                          msg:[responseObj objectForKey:Msg_Key]];
+        }
     } failure:^(NSError *error) {
         NSLog(@"网络请求错误信息 = %@", error);
+        [DMTools showMessageToast:@"网络出错了" duration:2 position:CSToastPositionCenter];
         failure(error);
     }];
 }
@@ -64,6 +77,31 @@
     [source setObject:App_Type forKey:@"app"];
     [source setObject:STR_IS_NIL([DMAccount getToken]) ? @"": [DMAccount getToken] forKey:@"token"];
     return source;
+}
+
+- (void)responseStatusCodeException:(NSInteger)code msg:(NSString *)message {
+    switch (code) {
+        case DMHttpResponseCodeType_NotLogin: //未登录，需要重新登录
+            //to-do 1，取消所有网络请求，2，清除用户所有信息，3，退到登录界面
+            [DMCommonModel removeUserAllDataAndOperation];
+            [APP_DELEGATE toggleRootView:YES];
+            break;
+        case DMHttpResponseCodeType_RefusedToEnter:
+            //[SVProgressHUD showWithStatus:message];
+            [DMTools showMessageToast:message duration:2 position:CSToastPositionCenter];
+            break;
+        default:
+            [DMTools showMessageToast:message duration:2 position:CSToastPositionCenter];
+            break;
+    }
+}
+
+- (void)cancleAllHttpRequestOperations {
+    [[DMRequestModel sharedInstance] cancleAllHttpRequestOperations];
+}
+
+- (void)updateTokenToLatest:(NSString *)token {
+    [DMCommonModel updateFailureToken:token];
 }
 
 //请求合法性校验

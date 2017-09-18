@@ -51,6 +51,7 @@
 		2A4E96A11F66AA57000C4DFD /* DMPopCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A4E96A01F66AA57000C4DFD /* DMPopCodeView.m */; };
 		2A4FB8881F629C7900CD670D /* libagora_fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A4FB8871F629C7900CD670D /* libagora_fat.a */; };
 		2A5F86C61F5CEDDF00773ADD /* DMBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A5F86C51F5CEDDF00773ADD /* DMBaseViewController.m */; };
+		2A691A791F6F9DA3007293C5 /* DMCommonModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A691A781F6F9DA3007293C5 /* DMCommonModel.m */; };
 		2A7A64C61F629F0800D1E62C /* DMLiveVideoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A7A64C51F629F0800D1E62C /* DMLiveVideoManager.m */; };
 		2A8426991F6A5966005BA6EC /* DMApiModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A8426981F6A5966005BA6EC /* DMApiModel.m */; };
 		2A84269D1F6A63D8005BA6EC /* DMAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A84269C1F6A63D8005BA6EC /* DMAccount.m */; };
@@ -251,6 +252,8 @@
 		2A5F86C51F5CEDDF00773ADD /* DMBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMBaseViewController.m; sourceTree = "<group>"; };
 		2A5F86C71F5D260E00773ADD /* DiscoverMelody-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DiscoverMelody-Prefix.pch"; sourceTree = "<group>"; };
 		2A68AF061F6624B300EECEF3 /* DMServerApiConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DMServerApiConfig.h; sourceTree = "<group>"; };
+		2A691A771F6F9DA3007293C5 /* DMCommonModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCommonModel.h; sourceTree = "<group>"; };
+		2A691A781F6F9DA3007293C5 /* DMCommonModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCommonModel.m; sourceTree = "<group>"; };
 		2A7A64C41F629F0800D1E62C /* DMLiveVideoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMLiveVideoManager.h; sourceTree = "<group>"; };
 		2A7A64C51F629F0800D1E62C /* DMLiveVideoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMLiveVideoManager.m; sourceTree = "<group>"; };
 		2A8426971F6A5966005BA6EC /* DMApiModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMApiModel.h; sourceTree = "<group>"; };
@@ -952,6 +955,8 @@
 				51D2D62C1F613B0900764130 /* DMButton.m */,
 				5169FF691F6E0B3900396EFA /* DMMicrophoneView.h */,
 				5169FF6A1F6E0B3900396EFA /* DMMicrophoneView.m */,
+				2A691A771F6F9DA3007293C5 /* DMCommonModel.h */,
+				2A691A781F6F9DA3007293C5 /* DMCommonModel.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1196,6 +1201,7 @@
 				51D2D5651F5EC00B00764130 /* DMLoginTextField.m in Sources */,
 				5169FF1E1F6A8FF600396EFA /* DMBottomBarView.m in Sources */,
 				5169FFD21F6E912100396EFA /* DMAlbumAssetHelp.m in Sources */,
+				2A691A791F6F9DA3007293C5 /* DMCommonModel.m in Sources */,
 				5169FF3C1F6BAEF700396EFA /* DMBrowseCourseCell.m in Sources */,
 				2A3D1D281F692A44005671B2 /* ZFBrightnessView.m in Sources */,
 				5169FFDA1F6E912100396EFA /* DMAssetExif.m in Sources */,

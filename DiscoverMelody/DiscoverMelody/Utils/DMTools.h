@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "UIView+Toast.h"
 @interface DMTools : NSObject
 /*
  * 是否包含某个字体
@@ -31,8 +31,17 @@
  */
 + (NSString *)computationsPeriodOfTime:(NSString *)startTime duration:(NSString *)duration;
 /**
+ * 距离上课时间差
+ */
++ (NSString *)computationsClassTimeDifference:(NSString *)startTime accessTime:(NSString *)accessTime;
+/**
  * 摄像头，麦克风权限授权
  */
 + (void)requestAccessForMediaVideoAndAudio;
+
+/**
+ * 显示提示框
+ */
++ (void)showMessageToast:(NSString *)msg duration:(NSTimeInterval)duration position:(id)style;
 
 @end
