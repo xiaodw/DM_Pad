@@ -27,6 +27,7 @@
     [fullString appendString:self];
     return fullString;
 }
+
 - (instancetype)stringByPaddingRightWithString:(NSString *)padString total:(NSInteger)total {
     if (self.length >= total) return self;
     NSMutableString *fullString = [NSMutableString stringWithString:self];
@@ -34,6 +35,21 @@
         [fullString appendString:padString];
     }
     return fullString;
+}
+
++ (instancetype)stringWithTimeToHHmmss:(NSInteger)second {
+    NSInteger s = second % 60;
+    NSInteger m = second / 60;
+    NSInteger h = 0;
+    if (m >= 60) {
+        h = m / 60;
+        m = m % 60;
+    }
+
+    NSString *hourString = [[NSString stringWithFormat:@"%zd", h] stringByPaddingLeftWithString:@"0" total:2];
+    NSString *minuteString = [[NSString stringWithFormat:@"%zd", m] stringByPaddingLeftWithString:@"0" total:2];
+    NSString *secondString = [[NSString stringWithFormat:@"%zd", s] stringByPaddingLeftWithString:@"0" total:2];
+    return [NSString stringWithFormat:@"%@:%@:%@", hourString, minuteString, secondString];
 }
 
 @end
