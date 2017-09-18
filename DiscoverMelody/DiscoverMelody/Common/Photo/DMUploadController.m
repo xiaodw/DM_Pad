@@ -15,14 +15,14 @@
 
 #define kCoursewareCellID @"Courseware"
 
-#import "DMAlbrmsTableView.h"
+#import "DMAlbumsTableView.h"
 #import "DMAssetsCollectionView.h"
 
-@interface DMUploadController () <DMAlbrmsTableViewDelegate, DMAssetsCollectionViewDelegate>
+@interface DMUploadController () <DMAlbumsTableViewDelegate, DMAssetsCollectionViewDelegate>
 
-@property (strong, nonatomic) DMAlbrmsTableView *albumsView;
+@property (strong, nonatomic) DMAlbumsTableView *albumsView;
 @property (strong, nonatomic) DMAssetsCollectionView *assetsView;
-@property (strong, nonatomic) UIButton *button;
+
 
 @property (strong, nonatomic) DMAlbumAssetHelp *imagePickerHelp;
 @property (strong, nonatomic) NSMutableArray *albums;
@@ -36,7 +36,6 @@
     [super viewDidLoad];
     
     [self setupMakeAddSubviews];
-    [self.view addSubview:self.button];
     [self setupMakeLayoutSubviews];
     [self.navigationController setNavigationBarHidden:YES];
     
@@ -46,12 +45,6 @@
         DMAlbum *album = albums.lastObject;
         self.albumsView.albums = albums;
         self.assetsView.assets = album.assets;
-        
-        for (int i = 0; i < albums.count; i++) {
-            DMAlbum *album = albums[i];
-            
-            NSLog(@"assets: %zd", album.assets.count);
-        }
     }];
 }
 
@@ -77,8 +70,22 @@
     }];
 }
 
-- (void)albrmsTableView:(DMAlbrmsTableView *)albrmsTableView didTapRightButton:(UIButton *)rightButton {
+- (void)albumsTableView:(DMAlbumsTableView *)albumsTableView didTapRightButton:(UIButton *)rightButton {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)albumsTableView:(DMAlbumsTableView *)albumsTableView didTapSelectedIndexPath:(NSIndexPath *)indexPath {
+    DMAlbum *album = self.albums[indexPath.row];
+    self.assetsView.assets = album.assets;
+    
+    [_assetsView remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.width.equalTo(_albumsView);
+        make.right.equalTo(_albumsView);
+    }];
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        [self.view layoutSubviews];
+    }];
 }
 
 - (void)albrmsCollectionView:(DMAssetsCollectionView *)albrmsCollectionView didTapLeftButton:(UIButton *)leftButton {
@@ -104,9 +111,9 @@
     NSLog(@"%s", __func__);
 }
 
-- (DMAlbrmsTableView *)albumsView {
+- (DMAlbumsTableView *)albumsView {
     if (!_albumsView) {
-        _albumsView = [DMAlbrmsTableView new];
+        _albumsView = [DMAlbumsTableView new];
         _albumsView.delegate = self;
         _albumsView.backgroundColor = [UIColor randomColor];
     }
@@ -126,18 +133,6 @@
 
 - (void)didTapTest {
     DMLogFunc
-}
-
-- (UIButton *)button {
-    if (!_button) {
-        _button = [UIButton new];
-        [_button setTitle:@"ghjghjgjg" forState:UIControlStateNormal];
-        _button.frame = CGRectMake(600, 100, 100, 100);
-        _button.backgroundColor = [UIColor whiteColor];
-        [_button addTarget:self action:@selector(didTapTest) forControlEvents:UIControlEventTouchUpInside];
-    }
-    
-    return _button;
 }
 
 @end

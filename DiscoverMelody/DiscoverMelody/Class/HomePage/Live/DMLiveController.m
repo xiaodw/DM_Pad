@@ -208,8 +208,8 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 // 课件
 - (void)liveButtonControlViewDidTapCourseFiles:(DMLiveButtonControlView *)liveButtonControlView {
     DMCourseFilesController *courseFilesVC = [DMCourseFilesController new];
-    courseFilesVC.transitioningDelegate = self.animationHelper;
     self.animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight);
+    courseFilesVC.transitioningDelegate = self.animationHelper;
     courseFilesVC.modalPresentationStyle = UIModalPresentationCustom;
     [self presentViewController:courseFilesVC animated:YES completion:nil];
     

@@ -194,6 +194,7 @@
         browseCourseVC.modalPresentationStyle = UIModalPresentationCustom;
         self.animationHelper.coverBackgroundColor = [UIColor clearColor];
         self.animationHelper.closeAnimate = NO;
+        self.animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth * 0.5, DMScreenHeight);
         browseCourseVC.transitioningDelegate = self.animationHelper;
         [self presentViewController:browseCourseVC animated:NO completion:nil];
         return;
