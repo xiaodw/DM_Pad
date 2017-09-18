@@ -1,31 +1,25 @@
-//
-//  DMAlbrmsTableView.m
-//  collectuonview
-//
-//  Created by My mac on 2017/9/17.
-//  Copyright © 2017年 My mac. All rights reserved.
-//
-
-#import "DMAlbrmsTableView.h"
+#import "DMAlbumsTableView.h"
 #import "DMAlbum.h"
 #import "DMNavigationBar.h"
 
-@interface DMAlbrmsTableView() <UITableViewDelegate, UITableViewDataSource>
+@interface DMAlbumsTableView() <UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) DMNavigationBar *navigationBar;
 @property (strong, nonatomic) UITableView *albumTableView;
 
 @end
 
-@implementation DMAlbrmsTableView
+@implementation DMAlbumsTableView
 
 - (void)setAlbums:(NSMutableArray *)albums {
     _albums = albums;
+    [self.albumTableView reloadData];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+        self.backgroundColor = UIColorFromRGB(0xf6f6f6);
         [self setupMakeAddSubviews];
         [self setupMakeLayoutSubviews];
     }
@@ -39,7 +33,8 @@
 
 - (void)setupMakeLayoutSubviews {
     [_navigationBar makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.right.equalTo(self);
+        make.width.equalTo(DMScreenWidth*0.5);
+        make.left.top.equalTo(self);
         make.height.equalTo(64);
     }];
     
@@ -51,9 +46,9 @@
 }
 
 - (void)didTapSelect:(UIButton *)sender  {
-    if (![self.delegate respondsToSelector:@selector(albrmsTableView:didTapRightButton:)]) return;
+    if (![self.delegate respondsToSelector:@selector(albumsTableView:didTapRightButton:)]) return;
     
-    [self.delegate albrmsTableView:self didTapRightButton:sender];
+    [self.delegate albumsTableView:self didTapRightButton:sender];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -68,9 +63,14 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     DMAlbum *album = self.albums[indexPath.row];
-//    cell.textLabel.text = collection.name;
     cell.textLabel.text = album.name;
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (![self.delegate respondsToSelector:@selector(albumsTableView:didTapSelectedIndexPath:)]) return;
+    
+    [self.delegate albumsTableView:self didTapSelectedIndexPath:indexPath];
 }
 
 - (UITableView *)albumTableView {
@@ -84,15 +84,11 @@
     return _albumTableView;
 }
 
-
 - (DMNavigationBar *)navigationBar {
     if (!_navigationBar) {
         _navigationBar = [DMNavigationBar new];
-        
         _navigationBar.leftBarButton.hidden = YES;
-        
         _navigationBar.titleLabel.text = @"所有照片";
-        
         [_navigationBar.rightBarButton setTitle:@"取消" forState:UIControlStateNormal];
         [_navigationBar.rightBarButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_navigationBar.rightBarButton addTarget:self action:@selector(didTapSelect:) forControlEvents:UIControlEventTouchUpInside];
@@ -100,6 +96,5 @@
     
     return _navigationBar;
 }
-
 
 @end

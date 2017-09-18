@@ -2,17 +2,24 @@
 #import "UIColor+Extension.h"
 #import "DMCourseFileCell.h"
 #import "DMNavigationBar.h"
+#import "DMAsset.h"
+#import "DMBrowseView.h"
 
 #define kCoursewareCellID @"Courseware"
 
 @interface DMAssetsCollectionView() <UICollectionViewDataSource, UICollectionViewDelegate>
 
+@property (strong, nonatomic) UIView *backgroundView;
 @property (strong, nonatomic) DMNavigationBar *navigationBar;
 @property (strong, nonatomic) UICollectionView *collectionView;
 @property (strong, nonatomic) UIView *bottomBar;
 @property (strong, nonatomic) UIButton *uploadButton;
+@property (strong, nonatomic) DMBrowseView *uploadBrowseView;
 
-@property (strong, nonatomic) NSMutableArray *selectedAssets;
+@property (strong, nonatomic) NSMutableArray *selectedAssets;;
+@property (strong, nonatomic) NSMutableArray *selectedIndexPath;
+
+@property (assign, nonatomic) BOOL editorMode;
 
 @end
 
@@ -24,13 +31,6 @@
     [self.collectionView reloadData];
 }
 
-//    self.uploadButton.enabled = selectedCount;
-//    self.uploadButton.layer.borderColor = selectedCount ?  [UIColor redColor].CGColor : [UIColor grayColor].CGColor;
-//    
-//    NSString *title = selectedCount > 0 ? [NSString stringWithFormat:@"传送(%zd)", selectedCount] : @"传送";
-//    [self.uploadButton setTitle:title forState:UIControlStateNormal];
-
-
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
@@ -41,14 +41,22 @@
 }
 
 - (void)setupMakeAddSubviews {
+    [self addSubview:self.backgroundView];
+    [self addSubview:self.uploadBrowseView];
     [self addSubview:self.navigationBar];
     [self addSubview:self.bottomBar];
     [self addSubview:self.collectionView];
 }
 
 - (void)setupMakeLayoutSubviews {
+    [_backgroundView makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.bottom.equalTo(self);
+        make.width.equalTo(DMScreenWidth*0.5);
+    }];
+    
     [_navigationBar makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.right.equalTo(self);
+        make.left.top.equalTo(self);
+        make.width.equalTo(DMScreenWidth*0.5);
         make.height.equalTo(64);
     }];
     
@@ -59,24 +67,76 @@
     }];
     
     [_collectionView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_navigationBar.mas_bottom);
-        make.left.right.equalTo(_navigationBar);
+        make.top.equalTo(_navigationBar.mas_bottom).offset(15);
+        make.left.equalTo(15);
+        make.right.equalTo(_navigationBar.mas_right).offset(-15);
         make.bottom.equalTo(_bottomBar.mas_top);
+    }];
+    [_uploadBrowseView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.bottom.equalTo(self);
+        make.width.equalTo(DMScreenWidth*0.5);
     }];
 }
 
 - (void)didTapUpload:(UIButton *)sender {
+#warning 发送API 然后通知控制器就可以了
     if (![self.delegate respondsToSelector:@selector(albrmsCollectionView:didTapUploadButton:)]) return;
     
     [self.delegate albrmsCollectionView:self didTapUploadButton:sender];
 }
 
 - (void)didTapBack:(UIButton *)sender {
-    if (![self.delegate respondsToSelector:@selector(albrmsCollectionView:didTapLeftButton:)]) return;
-    [self.delegate albrmsCollectionView:self didTapLeftButton:sender];
+    
+    [self reinstateSelectedCpirses];
+    [self.uploadBrowseView remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.bottom.equalTo(self);
+        make.width.equalTo(DMScreenWidth*0.5);
+    }];
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        [self layoutSubviews];
+    } completion:^(BOOL finished) {
+        if (![self.delegate respondsToSelector:@selector(albrmsCollectionView:didTapLeftButton:)]) return;
+        [self.delegate albrmsCollectionView:self didTapLeftButton:sender];
+    }];
+}
+
+- (void)reinstateSelectedCpirses {
+    for (int i = 0; i < self.selectedAssets.count; i++) {
+        DMAsset *asset = self.selectedAssets[i];
+        asset.selectedIndex = 0;
+        asset.isSelected = NO;
+    }
+    _selectedAssets = nil;
+    _selectedIndexPath = nil;
+    self.uploadButton.selected = NO;
+}
+
+- (void)reSetSelectedCpirsesIndex {
+    for (int i = 0; i < self.selectedAssets.count; i++) {
+        DMAsset *asset = self.selectedAssets[i];
+        asset.selectedIndex = i+1;
+    }
 }
 
 - (void)didTapSelect:(UIButton *)sender {
+    sender.selected = !sender.selected;
+    self.editorMode = sender.selected;
+    
+    if (!sender.selected) {
+        [self reinstateSelectedCpirses];
+        [self.uploadBrowseView remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.left.bottom.equalTo(self);
+            make.width.equalTo(DMScreenWidth*0.5);
+        }];
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            [self layoutSubviews];
+        }];
+    }
+    
+    [self.collectionView reloadData];
+    
     if (![self.delegate respondsToSelector:@selector(albrmsCollectionView:didTapRightButton:)]) return;
     
     [self.delegate albrmsCollectionView:self didTapRightButton:sender];
@@ -89,10 +149,8 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     DMCourseFileCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCoursewareCellID forIndexPath:indexPath];
     
+    cell.editorMode = self.editorMode;
     cell.asset = self.assets[indexPath.row];
-    cell.backgroundColor = [UIColor randomColor];
-    NSLog(@"indexPath.row: %zd", indexPath.row);
-    
     return cell;
 }
 
@@ -104,6 +162,56 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (!_editorMode){ return;}
+    
+    DMCourseFileCell *cell = (DMCourseFileCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    if ([self.selectedAssets containsObject:cell.asset]) {
+        [self.selectedAssets removeObject:cell.asset];
+        [self.selectedIndexPath removeObject:indexPath];
+        cell.asset.selectedIndex = 0;
+        cell.asset.isSelected = NO;
+        [self reSetSelectedCpirsesIndex];
+    } else {
+        [self.selectedAssets addObject:cell.asset];
+        [self.selectedIndexPath addObject:indexPath];
+        cell.asset.selectedIndex = self.selectedAssets.count;
+        cell.asset.isSelected = YES;
+    }
+    
+    cell.asset = cell.asset;
+    [self.collectionView reloadData];
+    
+    NSInteger selectedCount = self.selectedAssets.count;
+    self.uploadButton.enabled = selectedCount;
+    self.uploadButton.layer.borderColor = selectedCount ?  DMColorBaseMeiRed.CGColor : DMColorWithRGBA(204, 204, 204, 1) .CGColor;
+    
+    NSString *title = selectedCount > 0 ? [NSString stringWithFormat:@"传送(%zd)", selectedCount] : @"传送";
+    [self.uploadButton setTitle:title forState:UIControlStateNormal];
+    
+    self.uploadBrowseView.courses = self.selectedAssets;
+    if (selectedCount == 1) {
+        [self.uploadBrowseView remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.navigationBar.mas_right);
+            make.top.bottom.equalTo(self);
+            make.width.equalTo(DMScreenWidth*0.5);
+        }];
+         
+        [UIView animateWithDuration:0.15 animations:^{
+            [self layoutSubviews];
+        }];
+        return;
+    }
+    
+    if (selectedCount == 0) {
+        [self.uploadBrowseView remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.left.bottom.equalTo(self);
+            make.width.equalTo(DMScreenWidth*0.5);
+        }];
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            [self layoutSubviews];
+        }];
+    }
     
 }
 
@@ -112,11 +220,10 @@
         _navigationBar = [DMNavigationBar new];
         
         [_navigationBar.leftBarButton addTarget:self action:@selector(didTapBack:) forControlEvents:UIControlEventTouchUpInside];
-        
         _navigationBar.titleLabel.text = @"所有照片";
-        
-        [_navigationBar.rightBarButton setTitle:@"取消" forState:UIControlStateNormal];
-        [_navigationBar.rightBarButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+        [_navigationBar.rightBarButton setTitle:@"选择" forState:UIControlStateNormal];
+        [_navigationBar.rightBarButton setTitle:@"取消" forState:UIControlStateSelected];
+        [_navigationBar.rightBarButton setTitleColor:DMColorBaseMeiRed forState:UIControlStateNormal];
         [_navigationBar.rightBarButton addTarget:self action:@selector(didTapSelect:) forControlEvents:UIControlEventTouchUpInside];
     }
     
@@ -162,6 +269,7 @@
         _uploadButton.layer.borderWidth = 1;
         _uploadButton.layer.cornerRadius = 5;
         _uploadButton.enabled = NO;
+        _uploadButton.titleLabel.font = DMFontPingFang_Regular(14);
         [_uploadButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
         [_uploadButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         
@@ -170,6 +278,40 @@
     }
     
     return _uploadButton;
+}
+
+- (DMBrowseView *)uploadBrowseView {
+    if (!_uploadBrowseView) {
+        _uploadBrowseView = [DMBrowseView new];
+        _uploadBrowseView.browseType = DMBrowseViewTypeUpload;
+    }
+    
+    return _uploadBrowseView;
+}
+
+- (NSMutableArray *)selectedAssets {
+    if (!_selectedAssets) {
+        _selectedAssets = [NSMutableArray array];
+    }
+    
+    return _selectedAssets;
+}
+
+- (NSMutableArray *)selectedIndexPath {
+    if (!_selectedIndexPath) {
+        _selectedIndexPath = [NSMutableArray array];
+    }
+    
+    return _selectedIndexPath;
+}
+
+- (UIView *)backgroundView {
+    if (!_backgroundView) {
+        _backgroundView = [UIView new];
+        _backgroundView.backgroundColor = UIColorFromRGB(0xf6f6f6);
+    }
+    
+    return _backgroundView;
 }
 
 @end

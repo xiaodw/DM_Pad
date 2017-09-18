@@ -4,7 +4,7 @@
 #import "DMBottomBarView.h"
 #import "DMCourseModel.h"
 #import "DMBrowseCourseController.h"
-#import "DMSyncBrowseView.h"
+#import "DMBrowseView.h"
 #import "DMUploadController.h"
 
 #define kCourseFileCellID @"Courseware"
@@ -13,14 +13,14 @@
 #define kColumnSpacing 15
 #define kColumns 3
 
-@interface DMCourseFilesController () <DMBottomBarViewDelegate, DMTabBarViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, DMBrowseCourseControllerDelegate, DMSyncBrowseViewDelegate>
+@interface DMCourseFilesController () <DMBottomBarViewDelegate, DMTabBarViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, DMBrowseCourseControllerDelegate, DMBrowseViewDelegate>
 
 @property (strong, nonatomic) UIButton *rightBarButton;
 @property (strong, nonatomic) UIView *navigationBar;
 @property (strong, nonatomic) UIView *backgroundView;
 @property (strong, nonatomic) UIView *closeBackgroundView;
 
-@property (strong, nonatomic) DMSyncBrowseView *syncBrowseView;
+@property (strong, nonatomic) DMBrowseView *browseView;
 @property (strong, nonatomic) DMTabBarView *tabBarView;
 @property (strong, nonatomic) UICollectionView *collectionView;
 @property (strong, nonatomic) DMBottomBarView *bottomBar;
@@ -71,7 +71,7 @@
 - (void)didTapSelect:(UIButton *)sender {
     sender.selected = !sender.selected;
     if (_isSyncBrowsing) {
-        [self.syncBrowseView remakeConstraints:^(MASConstraintMaker *make) {
+        [self.browseView remakeConstraints:^(MASConstraintMaker *make) {
             make.left.top.width.equalTo(_navigationBar);
             make.bottom.equalTo(_bottomBar);
         }];
@@ -90,7 +90,7 @@
 
 - (void)didTapBack {
     if (_isSyncBrowsing) {
-        [self.syncBrowseView remakeConstraints:^(MASConstraintMaker *make) {
+        [self.browseView remakeConstraints:^(MASConstraintMaker *make) {
             make.left.top.width.equalTo(_navigationBar);
             make.bottom.equalTo(_bottomBar);
         }];
@@ -134,7 +134,7 @@
     DMLogFunc
     self.isSyncBrowsing = YES;
     
-    [self.syncBrowseView remakeConstraints:^(MASConstraintMaker *make) {
+    [self.browseView remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.tabBarView.mas_right);
         make.right.top.bottom.equalTo(self.view);
     }];
@@ -143,11 +143,11 @@
         [self.view layoutSubviews];
     }];
     
-    self.syncBrowseView.syncCourses = self.selectedCpirses;
+    self.browseView.courses = self.selectedCpirses;
 }
 
 // 同步接口
-- (void)syncBrowseViewDidTapSync:(DMSyncBrowseView *)syncBrowseView{
+- (void)browseViewDidTapSync:(DMBrowseView *)browseView{
     DMLogFunc
 }
 
@@ -194,6 +194,7 @@
         browseCourseVC.modalPresentationStyle = UIModalPresentationCustom;
         self.animationHelper.coverBackgroundColor = [UIColor clearColor];
         self.animationHelper.closeAnimate = NO;
+        self.animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth * 0.5, DMScreenHeight);
         browseCourseVC.transitioningDelegate = self.animationHelper;
         [self presentViewController:browseCourseVC animated:NO completion:nil];
         return;
@@ -218,7 +219,7 @@
     
     cell.courseModel = cell.courseModel;
     [self.collectionView reloadData];
-    self.syncBrowseView.syncCourses = self.selectedCpirses;
+    self.browseView.courses = self.selectedCpirses;
 }
 
 - (void)reinstateSelectedCpirses {
@@ -246,7 +247,7 @@
 
 - (void)setupMakeAddSubviews {
     [self.view addSubview:self.closeBackgroundView];
-    [self.view addSubview:self.syncBrowseView];
+    [self.view addSubview:self.browseView];
     [self.view addSubview:self.navigationBar];
     [self.view addSubview:self.backgroundView];
     [self.view addSubview:self.tabBarView];
@@ -290,7 +291,7 @@
         make.top.equalTo(_tabBarView.mas_bottom).offset(15);
     }];
     
-    [_syncBrowseView makeConstraints:^(MASConstraintMaker *make) {
+    [_browseView makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.width.equalTo(_navigationBar);
         make.bottom.equalTo(_bottomBar);
     }];
@@ -334,13 +335,13 @@
     return _navigationBar;
 }
 
-- (DMSyncBrowseView *)syncBrowseView {
-    if (!_syncBrowseView) {
-        _syncBrowseView = [DMSyncBrowseView new];
-        _syncBrowseView.delegate = self;
+- (DMBrowseView *)browseView {
+    if (!_browseView) {
+        _browseView = [DMBrowseView new];
+        _browseView.delegate = self;
     }
     
-    return _syncBrowseView;
+    return _browseView;
 }
 
 - (UIButton *)rightBarButton {

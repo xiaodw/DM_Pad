@@ -16,6 +16,25 @@
 - (void)setAsset:(DMAsset *)asset {
     _asset = asset;
     self.imageView.image = asset.thumbnail;
+    
+    NSString *indexString = asset.selectedIndex == 0 ? @"" : [NSString stringWithFormat:@"%zd", asset.selectedIndex];
+    if (!_editorMode) return;
+    
+    self.indexLabel.layer.borderColor = asset.isSelected ? DMColorBaseMeiRed.CGColor : [[UIColor blackColor] colorWithAlphaComponent:0.4].CGColor;
+    _indexLabel.backgroundColor = asset.isSelected ? DMColorBaseMeiRed : [[UIColor blackColor] colorWithAlphaComponent:0.25];
+    _indexLabel.text = [NSString stringWithFormat:@"%@", indexString];
+}
+
+- (void)setCourseModel:(DMCourseModel *)courseModel{
+    _courseModel = courseModel;
+    
+    [self.imageView sd_setImageWithURL:[NSURL URLWithString:courseModel.url]];
+    NSString *indexString = courseModel.selectedIndex == 0 ? @"" : [NSString stringWithFormat:@"%zd", courseModel.selectedIndex];
+    if (!_editorMode) return;
+    
+    self.indexLabel.layer.borderColor = courseModel.isSelected ? DMColorBaseMeiRed.CGColor : [[UIColor blackColor] colorWithAlphaComponent:0.4].CGColor;
+    _indexLabel.backgroundColor = courseModel.isSelected ? DMColorBaseMeiRed : [[UIColor blackColor] colorWithAlphaComponent:0.25];
+    _indexLabel.text = [NSString stringWithFormat:@"%@", indexString];
 }
 
 - (void)setShowBorder:(BOOL)showBorder {
@@ -32,18 +51,7 @@
     _editorMode = editorMode;
     
     self.indexLabel.hidden = !_editorMode;
-}
-
-- (void)setCourseModel:(DMCourseModel *)courseModel{
-    _courseModel = courseModel;
     
-    [self.imageView sd_setImageWithURL:[NSURL URLWithString:courseModel.url]];
-    NSString *indexString = courseModel.selectedIndex == 0 ? @"" : [NSString stringWithFormat:@"%zd", courseModel.selectedIndex];
-    if (!_editorMode) return;
-    
-    self.indexLabel.layer.borderColor = courseModel.isSelected ? DMColorBaseMeiRed.CGColor : [[UIColor blackColor] colorWithAlphaComponent:0.4].CGColor;
-    _indexLabel.backgroundColor = courseModel.isSelected ? DMColorBaseMeiRed : [[UIColor blackColor] colorWithAlphaComponent:0.25];
-    _indexLabel.text = [NSString stringWithFormat:@"%@", indexString];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {

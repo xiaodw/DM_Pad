@@ -8,5 +8,6 @@
 @property (strong, nonatomic, readonly) NSString *text;
 
 - (void)becomeFirstResponder;
+- (void)addTarget:(nullable id)target action:(SEL _Nullable )action forControlEvents:(UIControlEvents)controlEvents;
 
 @end

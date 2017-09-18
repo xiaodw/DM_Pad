@@ -13,11 +13,6 @@
 #define kSmallSize CGSizeMake(DMScaleWidth(240), DMScaleHeight(180))
 #define kColor31 DMColorWithRGBA(33, 33, 33, 1)
 
-#define kBeforeClassTimeMinute 5 // 5分钟
-#define kBeforeClassTimeSecond (kBeforeClassTimeMinute*60) // 5分钟
-#define kAfterClassMaxTimeMinute 15 // 15分钟
-#define kAfterClassMaxTimeSecond (kAfterClassMaxTimeMinute*60) // 15分钟
-
 // 布局模式
 typedef NS_ENUM(NSInteger, DMLayoutMode) {
     DMLayoutModeRemoteAndSmall, // 远端大, 本地小模式
@@ -51,8 +46,8 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 @property (strong, nonatomic) UILabel *describeTimeLabel; // 底部时间条: 提示
 @property (strong, nonatomic) DMLiveWillStartView *willStartView; // 即将开始的View
 
-
 #pragma mark - Other
+@property (assign, nonatomic) NSInteger userIdentity; // 0: 学生, 1: 老师
 @property (assign, nonatomic) BOOL isRemoteUserOnline; // 远端是否上线
 @property (nonatomic, strong) dispatch_source_t timer; // 1秒中更新一次时间UI
 @property (assign, nonatomic) NSInteger tapLayoutCount; // 点击布局按钮次数
@@ -60,9 +55,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 @property (assign, nonatomic) DMLayoutMode beforeLayoutMode; // 课件布局模式之前的模式
 
 #pragma mark - 临时变量做测试用
-@property (strong, nonatomic) NSDate *startDate;
-@property (assign, nonatomic) NSInteger lectureTotalSecond;
-@property (assign, nonatomic) NSInteger userIdentity; // 0: 学生, 1: 老师
+//@property (strong, nonatomic) NSDate *startDate;
 
 @end
 
@@ -77,11 +70,11 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 }
 
 - (void)setupServerData {
-    NSDateFormatter *formater = [[NSDateFormatter alloc] init];
-    [formater setDateFormat:@"yyyy-MM-dd HH:mm:ss "];
-    _startDate = [formater dateFromString:@"2017-09-13 09:40:00"];
-    _lectureTotalSecond = 45 * 60;
-    _userIdentity = 0;
+    _totalTime = 45 * 60;
+    _userIdentity = [[DMAccount getUserIdentity] integerValue];
+    _warningTime = 5 * 60;
+    _delayTime = 15 * 60;
+    _alreadyTime = _totalTime - _warningTime + _delayTime + _warningTime - 30;
     
     self.remotePlaceholderTitleLabel.text = _userIdentity == 1 ? @"学生尚未进入课堂" : @"老师尚未进入课堂";
 }
@@ -106,7 +99,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 //    [self.liveVideoManager switchSound:NO block:nil];
     
 #warning 移动到API 返回之后启动
-    //[self timer];
+    [self timer];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -208,8 +201,8 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 // 课件
 - (void)liveButtonControlViewDidTapCourseFiles:(DMLiveButtonControlView *)liveButtonControlView {
     DMCourseFilesController *courseFilesVC = [DMCourseFilesController new];
-    courseFilesVC.transitioningDelegate = self.animationHelper;
     self.animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight);
+    courseFilesVC.transitioningDelegate = self.animationHelper;
     courseFilesVC.modalPresentationStyle = UIModalPresentationCustom;
     [self presentViewController:courseFilesVC animated:YES completion:nil];
     
@@ -360,27 +353,13 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 }
 
 - (void)computTime {
-    NSDate *currentDate = [NSDate date];
-    
-    NSDateFormatter *formater = [[NSDateFormatter alloc] init];
-    [formater setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    NSString *currentDateStr = [formater stringFromDate:currentDate];
-    // 截止时间data格式
-    currentDate = [formater dateFromString:currentDateStr];
-    // 当前日历
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    // 需要对比的时间数据
-    NSCalendarUnit unit = NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
-    // 对比时间差
-    NSDateComponents *dateCom = [calendar components:unit fromDate:self.startDate toDate:currentDate options:0];
-    // 2个时间的时间差
-    NSInteger timeDifference = [currentDate timeIntervalSinceDate:_startDate];
-    self.remotePlaceholderView.hidden = timeDifference < 0 || _isRemoteUserOnline;
+    self.alreadyTime += 1;
+    self.remotePlaceholderView.hidden = self.alreadyTime < 0 || _isRemoteUserOnline;
     self.remotePlaceholderTitleLabel.hidden = self.remotePlaceholderView.hidden;
     
     // 做几分钟开课操作
-    if (timeDifference < 0) {
-        self.willStartView.willStartDescribeLabel.text = [NSString stringWithFormat:@"距离上课时间还有%zd分钟", -dateCom.minute + 1];
+    if (self.alreadyTime < 0) {
+        self.willStartView.willStartDescribeLabel.text = [NSString stringWithFormat:@"距离上课时间还有%zd分钟", -_alreadyTime/60 + 1];
         return;
     }
     if (_willStartView != nil) {
@@ -389,32 +368,30 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         _timeView.hidden = NO;
     }
     
-    NSString *hour = [[NSString stringWithFormat:@"%zd",dateCom.hour] stringByPaddingLeftWithString:@"0" total:2];
-    NSString *minute = [[NSString stringWithFormat:@"%zd",dateCom.minute] stringByPaddingLeftWithString:@"0" total:2];
-    NSString *second = [[NSString stringWithFormat:@"%zd",dateCom.second] stringByPaddingLeftWithString:@"0" total:2];
-    NSString *alreadyTime = [NSString stringWithFormat:@"%@:%@:%@", hour, minute, second];
-    self.alreadyTimeLabel.text = alreadyTime;
+    self.alreadyTimeLabel.text = [NSString stringWithTimeToHHmmss:_alreadyTime];
     
-    if (0 < timeDifference && timeDifference < _lectureTotalSecond - kBeforeClassTimeSecond) {
+    if (0 < _alreadyTime && _alreadyTime < self.totalTime - _warningTime) {
         return;
     }
     
     /* 一节课按t=45分钟算 */
     // 40 < t < 45
-    if (timeDifference > _lectureTotalSecond - kBeforeClassTimeSecond && timeDifference < _lectureTotalSecond) {
+    if (_alreadyTime > self.totalTime - _warningTime && _alreadyTime < self.totalTime) {
         _timeButton.selected = YES;
         _alreadyTimeLabel.textColor = DMColorBaseMeiRed;
         return;
     }
     
     // 45 < t < 60
-    if (timeDifference > _lectureTotalSecond && timeDifference/60 < _lectureTotalSecond/60 + kAfterClassMaxTimeMinute) {
-        _describeTimeLabel.text = [NSString stringWithFormat:@"本课堂将于%zd分钟后自动关闭", (kAfterClassMaxTimeMinute-(timeDifference/60-_lectureTotalSecond/60))];
+    if (_alreadyTime > self.totalTime && _alreadyTime/60 < self.totalTime/60 + _delayTime/60) {
+        _timeButton.selected = YES;
+        _alreadyTimeLabel.textColor = DMColorBaseMeiRed;
+        _describeTimeLabel.text = [NSString stringWithFormat:@"本课堂将于%zd分钟后自动关闭", (_delayTime/60 - (_alreadyTime/60-self.totalTime/60))];
         return;
     }
     
     //  t >= 60，视频聊天强制退出
-    if (timeDifference >= _lectureTotalSecond + kAfterClassMaxTimeSecond) {
+    if (_alreadyTime >= self.totalTime + _delayTime) {
         [self invalidate];
         [self liveButtonControlViewDidTapLeave:nil];
         return;

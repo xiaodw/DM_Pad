@@ -10,6 +10,10 @@
 
 @implementation DMLoginTextField
 
+- (void)addTarget:(nullable id)target action:(SEL _Nullable )action forControlEvents:(UIControlEvents)controlEvents{
+    [self.textField addTarget:target action:action forControlEvents:controlEvents];
+}
+
 - (void)setDelegate:(id<UITextFieldDelegate>)delegate {
     _delegate = delegate;
     _textField.delegate = _delegate;

@@ -13,8 +13,8 @@
 
 @interface DMAsset : NSObject
 
-@property (assign, nonatomic) BOOL *isSelected;
-@property (assign, nonatomic) NSInteger *selectedIndex;
+@property (assign, nonatomic) BOOL isSelected;
+@property (assign, nonatomic) NSInteger selectedIndex;
 
 @property (strong, nonatomic, readonly) ALAsset *asset;
 

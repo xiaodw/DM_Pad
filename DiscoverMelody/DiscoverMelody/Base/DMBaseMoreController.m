@@ -21,7 +21,6 @@
 - (DMTransitioningAnimationHelper *)animationHelper {
     if (!_animationHelper) {
         _animationHelper = [DMTransitioningAnimationHelper new];
-        _animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth * 0.5, DMScreenHeight);
         _animationHelper.coverBackgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
     }
     

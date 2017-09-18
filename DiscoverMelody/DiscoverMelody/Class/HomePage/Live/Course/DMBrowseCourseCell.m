@@ -1,5 +1,6 @@
 #import "DMBrowseCourseCell.h"
 #import "DMCourseModel.h"
+#import "DMAsset.h"
 
 @interface DMBrowseCourseCell()
 
@@ -8,6 +9,11 @@
 @end
 
 @implementation DMBrowseCourseCell
+
+- (void)setAsset:(DMAsset *)asset {
+    _asset = asset;
+    self.imageView.image = asset.thumbnail;
+}
 
 - (void)setCourseModel:(DMCourseModel *)courseModel{
     _courseModel = courseModel;

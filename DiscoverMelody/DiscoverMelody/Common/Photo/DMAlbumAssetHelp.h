@@ -2,7 +2,7 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <Photos/Photos.h>
 
-typedef void (^AlbumRestrictedCallback)(BOOL success, NSMutableArray *albums); //cell的点击回调
+typedef void (^AlbumRestrictedCallback)(BOOL success, NSMutableArray *albums, BOOL isFirst); //cell的点击回调
 
 @interface DMAlbumAssetHelp : NSObject
 
