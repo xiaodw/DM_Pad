@@ -30,7 +30,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     //[self setNavTitle:@"个人主页"];
-    self.title = @"个人主页";
+    self.title = @"首页";
     
     self.view.backgroundColor = UIColorFromRGB(0xf6f6f6);
     [self.view addSubview:self.homeView];
@@ -40,13 +40,10 @@
 
 //获取首页数据
 - (void)getDataFromServer {
-    
+    WS(weakSelf);
     [self.homeView disPlayNoCourseView:NO isError:NO];
     [self.homeView reloadHomeTableView];
     return;
-    
-    WS(weakSelf);
-    
     NSString *type = [DMAccount getUserIdentity];
     
     [DMApiModel getHomeCourseData:type block:^(BOOL result, NSArray *array) {
@@ -127,10 +124,9 @@
 }
 
 - (void)goToClassRoom {
+    NSLog(@"进入课堂");
     [self joinClassRoom];
     return;
-    
-    NSLog(@"进入课堂");
     WS(weakSelf);
     [DMApiModel joinClaseeRoom:self.courseID accessTime:[DMTools getCurrentTimestamp] block:^(BOOL result, DMClassDataModel *obj) {
         if (result) {

@@ -32,5 +32,5 @@
 
 //请求合法性校验
 -(BOOL)isRequestValid;
-
+- (void)cancleAllHttpRequestOperations;
 @end

@@ -107,6 +107,7 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
         [self.fastView addSubview:self.fastImageView];
         [self.fastView addSubview:self.fastTimeLabel];
         [self.fastView addSubview:self.fastProgressView];
+        self.fastView.hidden = YES;
 
         [self.topImageView addSubview:self.titleLabel];
         [self addSubview:self.bottomProgressView];
@@ -387,11 +388,12 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
         _videoSlider.popUpViewColor = RGBA(19, 19, 9, 1);
         _videoSlider.popUpViewArrowLength = 8;
 
-        [_videoSlider setThumbImage:ZFPlayerImage(@"ZFPlayer_slider") forState:UIControlStateNormal];
+        //[_videoSlider setThumbImage:ZFPlayerImage(@"ZFPlayer_slider") forState:UIControlStateNormal];
+        [_videoSlider setThumbImage:[UIImage imageNamed:@"slider_thumb_point"] forState:UIControlStateNormal];
         _videoSlider.maximumValue          = 1;
-        _videoSlider.minimumTrackTintColor = [UIColor whiteColor];
+        _videoSlider.minimumTrackTintColor = DMColorBaseMeiRed;//[UIColor redColor];
         _videoSlider.maximumTrackTintColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.5];
-        
+        //_videoSlider.thumbTintColor = DMColorBaseMeiRed;
         // slider开始滑动事件
         [_videoSlider addTarget:self action:@selector(progressSliderTouchBegan:) forControlEvents:UIControlEventTouchDown];
         // slider滑动中事件
@@ -511,7 +513,7 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
 - (UIProgressView *)bottomProgressView {
     if (!_bottomProgressView) {
         _bottomProgressView                   = [[UIProgressView alloc] init];
-        _bottomProgressView.progressTintColor = [UIColor whiteColor];
+        _bottomProgressView.progressTintColor = DMColorBaseMeiRed;//[UIColor whiteColor];
         _bottomProgressView.trackTintColor    = [UIColor clearColor];
     }
     return _bottomProgressView;
@@ -683,14 +685,17 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     // 正在拖动控制播放进度
     self.dragged = YES;
     
-    if (forawrd) {
-        self.fastImageView.image = ZFPlayerImage(@"ZFPlayer_fast_forward");
-    } else {
-        self.fastImageView.image = ZFPlayerImage(@"ZFPlayer_fast_backward");
-    }
-    self.fastView.hidden           = preview;
-    self.fastTimeLabel.text        = timeStr;
-    self.fastProgressView.progress = draggedValue;
+    
+    //设计需求不需要显示fastView，所以注释掉了
+    self.fastView.hidden = YES;//preview
+//    if (forawrd) {
+//        self.fastImageView.image = ZFPlayerImage(@"ZFPlayer_fast_forward");
+//    } else {
+//        self.fastImageView.image = ZFPlayerImage(@"ZFPlayer_fast_backward");
+//    }
+//    self.fastView.hidden           = preview;
+//    self.fastTimeLabel.text        = timeStr;
+//    self.fastProgressView.progress = draggedValue;
 
 }
 

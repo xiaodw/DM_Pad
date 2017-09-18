@@ -17,6 +17,7 @@
 
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+#import "DMCommonModel.h"
 #import "DMTools.h"
 #import "DMLoginDataModel.h"
 #import "DMHomeDataModel.h"
@@ -53,6 +54,8 @@
 #import <AVFoundation/AVAudioSession.h>
 
 #import "DMEnums.h"
+
+#import "UIView+Toast.h"
 
 #endif /* DiscoverMelody_Prefix_pch */
 

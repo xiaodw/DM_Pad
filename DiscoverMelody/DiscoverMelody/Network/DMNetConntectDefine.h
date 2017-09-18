@@ -17,5 +17,11 @@ typedef NS_ENUM(NSInteger, DMHttpRequestType) {
     DMHttpRequestPut,
 };
 
+typedef NS_ENUM(NSInteger, DMHttpResponseCodeType) {
+    DMHttpResponseCodeType_Success              = 0, //api成功
+    DMHttpResponseCodeType_RefusedToEnter       = 1,//不能进入
+    DMHttpResponseCodeType_NotLogin             = 2, //未登录，需要到登录界面
+};
+
 
 #endif /* DMNetConntectDefine_h */
