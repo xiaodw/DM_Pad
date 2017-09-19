@@ -34,7 +34,7 @@
     return [DMUserDefaults getValueWithKey:U_NAME];
 }
 
-//读取用户身份
+//读取用户身份 0: 学生, 1: 老师
 + (NSString *)getUserIdentity {
     return [DMUserDefaults getValueWithKey:U_TYPE];
 }

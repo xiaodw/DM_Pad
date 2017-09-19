@@ -220,9 +220,9 @@
         _navigationBar = [DMNavigationBar new];
         
         [_navigationBar.leftBarButton addTarget:self action:@selector(didTapBack:) forControlEvents:UIControlEventTouchUpInside];
-        _navigationBar.titleLabel.text = @"所有照片";
-        [_navigationBar.rightBarButton setTitle:@"选择" forState:UIControlStateNormal];
-        [_navigationBar.rightBarButton setTitle:@"取消" forState:UIControlStateSelected];
+        _navigationBar.titleLabel.text = DMTitleAllPhotos;
+        [_navigationBar.rightBarButton setTitle:DMTitleSelected forState:UIControlStateNormal];
+        [_navigationBar.rightBarButton setTitle:DMTitleCancel forState:UIControlStateSelected];
         [_navigationBar.rightBarButton setTitleColor:DMColorBaseMeiRed forState:UIControlStateNormal];
         [_navigationBar.rightBarButton addTarget:self action:@selector(didTapSelect:) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -273,7 +273,7 @@
         [_uploadButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
         [_uploadButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         
-        [_uploadButton setTitle:@"传送" forState:UIControlStateNormal];
+        [_uploadButton setTitle:DMTitlePhotoUpload forState:UIControlStateNormal];
         [_uploadButton addTarget:self action:@selector(didTapUpload:) forControlEvents:UIControlEventTouchUpInside];
     }
     

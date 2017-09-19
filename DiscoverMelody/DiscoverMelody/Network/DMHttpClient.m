@@ -72,7 +72,7 @@
         }
     } failure:^(NSError *error) {
         NSLog(@"网络请求错误信息 = %@", error);
-        [DMTools showMessageToast:@"网络出错了" duration:2 position:CSToastPositionCenter];
+        [DMTools showMessageToast:DMTitleNetworkError duration:2 position:CSToastPositionCenter];
         failure(error);
     }];
 }

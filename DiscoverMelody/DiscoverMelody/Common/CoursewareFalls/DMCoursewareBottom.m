@@ -31,7 +31,7 @@
     self.synBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.bounds.size.width/2-44/2, 0, 44, self.bounds.size.height)];
     //    [self.uploadBtn setImage:[UIImage imageNamed:@"c_upload_normal"] forState:UIControlStateNormal];
     [self.synBtn setImage:[UIImage imageNamed:@"c_synchronizing_selected"] forState:UIControlStateNormal];
-    [self.synBtn setTitle:@"同步" forState:UIControlStateNormal];
+    [self.synBtn setTitle:DMTitleSync forState:UIControlStateNormal];
     [self.synBtn.titleLabel setFont:DMFontPingFang_Light(12)];
     [self.synBtn setTitleColor:DMColorBaseMeiRed forState:UIControlStateNormal];
     [self.synBtn addTarget:self action:@selector(clickSynBtn:) forControlEvents:UIControlEventTouchUpInside];
@@ -40,7 +40,7 @@
     self.delBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.bounds.size.width-30-44, 0, 44, self.bounds.size.height)];
     //    [self.uploadBtn setImage:[UIImage imageNamed:@"c_upload_normal"] forState:UIControlStateNormal];
     [self.delBtn setImage:[UIImage imageNamed:@"c_delete_selected"] forState:UIControlStateNormal];
-    [self.delBtn setTitle:@"删除" forState:UIControlStateNormal];
+    [self.delBtn setTitle:DMTitleDeleted forState:UIControlStateNormal];
     [self.delBtn.titleLabel setFont:DMFontPingFang_Light(12)];
     [self.delBtn setTitleColor:DMColorBaseMeiRed forState:UIControlStateNormal];
     [self.delBtn addTarget:self action:@selector(clickDelBtn:) forControlEvents:UIControlEventTouchUpInside];

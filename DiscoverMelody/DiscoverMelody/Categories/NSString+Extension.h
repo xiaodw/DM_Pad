@@ -2,6 +2,7 @@
 
 @interface NSString (Extension)
 
+- (instancetype)trim;
 - (CGFloat)stringHeightWithFont:(UIFont *)font maxWidth:(CGFloat)width;
 - (CGFloat)stringWidthWithFont:(UIFont *)font maxHeight:(CGFloat)height;
 - (instancetype)stringByPaddingLeftWithString:(NSString *)padString total:(NSInteger)total;

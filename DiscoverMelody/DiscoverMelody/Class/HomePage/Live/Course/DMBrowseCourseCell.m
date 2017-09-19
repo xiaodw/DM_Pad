@@ -1,6 +1,7 @@
 #import "DMBrowseCourseCell.h"
-#import "DMCourseModel.h"
+#import "DMClassFileDataModel.h"
 #import "DMAsset.h"
+#import "NSString+Extension.h"
 
 @interface DMBrowseCourseCell()
 
@@ -15,11 +16,11 @@
     self.imageView.image = asset.thumbnail;
 }
 
-- (void)setCourseModel:(DMCourseModel *)courseModel{
+- (void)setCourseModel:(DMClassFileDataModel *)courseModel{
     _courseModel = courseModel;
     
     if (!_isFullScreen) {
-        [self.imageView sd_setImageWithURL:[NSURL URLWithString:courseModel.url]];
+        [self.imageView sd_setImageWithURL:[NSURL URLWithString:[courseModel.img_thumb trim]] placeholderImage:[UIImage imageNamed:@"image_placeholder_280"]];
         return;
     }
 }

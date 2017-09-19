@@ -79,7 +79,7 @@
 - (UIButton *)uploadButton {
     if (!_uploadButton) {
         _uploadButton = [self setupButton];
-        [_uploadButton setTitle:@"上传" forState:UIControlStateNormal];
+        [_uploadButton setTitle:DMTitleUpload forState:UIControlStateNormal];
         [_uploadButton setImage:[UIImage imageNamed:@"c_upload_normal"] forState:UIControlStateDisabled];
         [_uploadButton setImage:[UIImage imageNamed:@"c_upload_selected"] forState:UIControlStateNormal];
         [_uploadButton addTarget:self action:@selector(didTapUpload:) forControlEvents:UIControlEventTouchUpInside];
@@ -92,7 +92,7 @@
     if (!_syncButton) {
         _syncButton = [self setupButton];
         _syncButton.enabled = NO;
-        [_syncButton setTitle:@"同步" forState:UIControlStateNormal];
+        [_syncButton setTitle:DMTitleSync forState:UIControlStateNormal];
         [_syncButton addTarget:self action:@selector(didTapSync:) forControlEvents:UIControlEventTouchUpInside];
         [_syncButton setImage:[UIImage imageNamed:@"c_synchronizing_normal"] forState:UIControlStateDisabled];
         [_syncButton setImage:[UIImage imageNamed:@"c_synchronizing_selected"] forState:UIControlStateNormal];
@@ -106,7 +106,7 @@
     if (!_deleteButton) {
         _deleteButton = [self setupButton];
         _deleteButton.enabled = NO;
-        [_deleteButton setTitle:@"删除" forState:UIControlStateNormal];
+        [_deleteButton setTitle:DMTitleDeleted forState:UIControlStateNormal];
         [_deleteButton setImage:[UIImage imageNamed:@"c_delete_normal"] forState:UIControlStateDisabled];
         [_deleteButton setImage:[UIImage imageNamed:@"c_delete_selected"] forState:UIControlStateNormal];
         [_deleteButton addTarget:self action:@selector(didTapDelete:) forControlEvents:UIControlEventTouchUpInside];

@@ -21,7 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"调查问卷";
+    self.title = DMTextQuestionnaire;
     self.view.backgroundColor = [UIColor whiteColor];
     [self setNavigationBarTransparence];
     

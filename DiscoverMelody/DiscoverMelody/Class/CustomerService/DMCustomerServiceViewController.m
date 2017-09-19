@@ -26,9 +26,9 @@
 @implementation DMCustomerServiceViewController
 
 - (void)initDataInfo {
-    self.phoneArray = [NSArray arrayWithObjects:@"咨询电话（中国）", @"咨询电话（北美）", nil];
+    self.phoneArray = [NSArray arrayWithObjects:DMStringConsultationTelephoneChina, DMStringConsultationTelephoneUSA, nil];
     
-    self.customerArray = [NSArray arrayWithObjects:@"寻律微信客服（中国）", nil];
+    self.customerArray = [NSArray arrayWithObjects:DMStringDiscoverMelodyWeChat, nil];
     
     self.statusDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"1", @"1", nil]; //key为section
     
@@ -42,7 +42,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self setTitle:@"联系客服"];
+    [self setTitle:DMTitleContactCustomerService];
     self.view.backgroundColor = DMColorWithRGBA(246, 246, 246, 1);//[UIColor whiteColor];
     _isFruled = YES;
     [self initDataInfo];
@@ -58,7 +58,7 @@
     [self.view addSubview:self.tableView];
     
     UILabel *bottomLabel = [[UILabel alloc] init];
-    bottomLabel.text = @"如需修改上课时间，了解更多详情，请联系以上任意客服";
+    bottomLabel.text = DMTextCustomerServiceDescribe;
     bottomLabel.font = DMFontPingFang_UltraLight(13);
     bottomLabel.textColor = DMColorWithRGBA(153, 153, 153, 1);
     bottomLabel.textAlignment = NSTextAlignmentCenter;

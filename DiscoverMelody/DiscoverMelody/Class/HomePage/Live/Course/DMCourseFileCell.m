@@ -1,6 +1,7 @@
 #import "DMCourseFileCell.h"
-#import "DMCourseModel.h"
+#import "DMClassFileDataModel.h"
 #import "DMAsset.h"
+#import "NSString+Extension.h"
 
 #define kLndexLabelWH 20
 
@@ -25,10 +26,10 @@
     _indexLabel.text = [NSString stringWithFormat:@"%@", indexString];
 }
 
-- (void)setCourseModel:(DMCourseModel *)courseModel{
+- (void)setCourseModel:(DMClassFileDataModel *)courseModel{
     _courseModel = courseModel;
     
-    [self.imageView sd_setImageWithURL:[NSURL URLWithString:courseModel.url]];
+    [self.imageView sd_setImageWithURL:[NSURL URLWithString:[courseModel.img_thumb trim]] placeholderImage:[UIImage imageNamed:@"image_placeholder_280"]];
     NSString *indexString = courseModel.selectedIndex == 0 ? @"" : [NSString stringWithFormat:@"%zd", courseModel.selectedIndex];
     if (!_editorMode) return;
     
@@ -51,7 +52,6 @@
     _editorMode = editorMode;
     
     self.indexLabel.hidden = !_editorMode;
-    
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -76,7 +76,6 @@
 - (UIImageView *)imageView {
     if (!_imageView) {
         _imageView = [UIImageView new];
-        
     }
     
     return _imageView;

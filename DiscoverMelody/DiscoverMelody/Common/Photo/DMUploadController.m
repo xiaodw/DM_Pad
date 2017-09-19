@@ -66,7 +66,7 @@
     
     if (_isPhotoSuccess) return;
     
-    DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"“寻律”要访问您的相册, 是否允许?" message:Capture_Msg preferredStyle:UIAlertControllerStyleAlert cancelTitle:@"不允许" otherTitle:@"允许", nil];
+    DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:Photo_Msg message:Capture_Msg preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleDonAllow otherTitle:DMTitleAllow, nil];
     [alert showWithViewController:self IndexBlock:^(NSInteger index) {
         if (index == 1) { // 右侧
             NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
