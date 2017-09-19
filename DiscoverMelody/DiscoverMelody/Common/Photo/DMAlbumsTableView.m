@@ -1,6 +1,7 @@
 #import "DMAlbumsTableView.h"
 #import "DMAlbum.h"
 #import "DMNavigationBar.h"
+#import "DMAlbumCell.h"
 
 @interface DMAlbumsTableView() <UITableViewDelegate, UITableViewDataSource>
 
@@ -57,13 +58,12 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"123"];
+    DMAlbumCell *cell = [tableView dequeueReusableCellWithIdentifier:@"album"];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"123"];
+        cell = [[DMAlbumCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"album"];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
-    DMAlbum *album = self.albums[indexPath.row];
-    cell.textLabel.text = album.name;
+    cell.album = self.albums[indexPath.row];
     return cell;
 }
 
@@ -79,6 +79,7 @@
         _albumTableView.delegate = self;
         _albumTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _albumTableView.dataSource = self;
+        _albumTableView.rowHeight = 60;
     }
     
     return _albumTableView;

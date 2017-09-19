@@ -3,6 +3,7 @@
 #import "DMCourseFileCell.h"
 #import "DMNavigationBar.h"
 #import "DMAsset.h"
+#import "DMAlbum.h"
 #import "DMBrowseView.h"
 
 #define kCoursewareCellID @"Courseware"
@@ -18,17 +19,17 @@
 
 @property (strong, nonatomic) NSMutableArray *selectedAssets;;
 @property (strong, nonatomic) NSMutableArray *selectedIndexPath;
-
-@property (assign, nonatomic) BOOL editorMode;
+@property (strong, nonatomic) NSArray *assets;
 
 @end
 
 @implementation DMAssetsCollectionView
 
-- (void)setAssets:(NSArray *)assets {
-    _assets = assets;
+- (void)setAlbum:(DMAlbum *)album {
+    _assets = album.assets;
     
     [self.collectionView reloadData];
+    self.navigationBar.titleLabel.text = album.name;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -120,11 +121,7 @@
 }
 
 - (void)didTapSelect:(UIButton *)sender {
-    sender.selected = !sender.selected;
-    self.editorMode = sender.selected;
-    
-    if (!sender.selected) {
-        [self reinstateSelectedCpirses];
+    if (self.selectedAssets.count) {
         [self.uploadBrowseView remakeConstraints:^(MASConstraintMaker *make) {
             make.top.left.bottom.equalTo(self);
             make.width.equalTo(DMScreenWidth*0.5);
@@ -132,13 +129,15 @@
         
         [UIView animateWithDuration:0.25 animations:^{
             [self layoutSubviews];
+        } completion:^(BOOL finished) {
+            if (![self.delegate respondsToSelector:@selector(albrmsCollectionView:didTapRightButton:)]) return;
+            [self.delegate albrmsCollectionView:self didTapRightButton:sender];
         }];
+        return;
     }
     
-    [self.collectionView reloadData];
     
     if (![self.delegate respondsToSelector:@selector(albrmsCollectionView:didTapRightButton:)]) return;
-    
     [self.delegate albrmsCollectionView:self didTapRightButton:sender];
 }
 
@@ -149,7 +148,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     DMCourseFileCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCoursewareCellID forIndexPath:indexPath];
     
-    cell.editorMode = self.editorMode;
+    cell.editorMode = YES;
     cell.asset = self.assets[indexPath.row];
     return cell;
 }
@@ -162,8 +161,6 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (!_editorMode){ return;}
-    
     DMCourseFileCell *cell = (DMCourseFileCell *)[collectionView cellForItemAtIndexPath:indexPath];
     if ([self.selectedAssets containsObject:cell.asset]) {
         [self.selectedAssets removeObject:cell.asset];
@@ -183,7 +180,7 @@
     
     NSInteger selectedCount = self.selectedAssets.count;
     self.uploadButton.enabled = selectedCount;
-    self.uploadButton.layer.borderColor = selectedCount ?  DMColorBaseMeiRed.CGColor : DMColorWithRGBA(204, 204, 204, 1) .CGColor;
+    self.uploadButton.layer.borderColor = selectedCount ?  DMColorBaseMeiRed.CGColor : DMColorWithRGBA(221, 221, 221, 1) .CGColor;
     
     NSString *title = selectedCount > 0 ? [NSString stringWithFormat:@"传送(%zd)", selectedCount] : @"传送";
     [self.uploadButton setTitle:title forState:UIControlStateNormal];
@@ -212,7 +209,6 @@
             [self layoutSubviews];
         }];
     }
-    
 }
 
 - (DMNavigationBar *)navigationBar {
@@ -220,9 +216,7 @@
         _navigationBar = [DMNavigationBar new];
         
         [_navigationBar.leftBarButton addTarget:self action:@selector(didTapBack:) forControlEvents:UIControlEventTouchUpInside];
-        _navigationBar.titleLabel.text = DMTitleAllPhotos;
-        [_navigationBar.rightBarButton setTitle:DMTitleSelected forState:UIControlStateNormal];
-        [_navigationBar.rightBarButton setTitle:DMTitleCancel forState:UIControlStateSelected];
+        [_navigationBar.rightBarButton setTitle:DMTitleCancel forState:UIControlStateNormal];
         [_navigationBar.rightBarButton setTitleColor:DMColorBaseMeiRed forState:UIControlStateNormal];
         [_navigationBar.rightBarButton addTarget:self action:@selector(didTapSelect:) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -268,10 +262,11 @@
         _uploadButton = [UIButton new];
         _uploadButton.layer.borderWidth = 1;
         _uploadButton.layer.cornerRadius = 5;
+        _uploadButton.layer.borderColor = DMColorWithRGBA(221, 221, 221, 1) .CGColor;
         _uploadButton.enabled = NO;
         _uploadButton.titleLabel.font = DMFontPingFang_Regular(14);
-        [_uploadButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
-        [_uploadButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+        [_uploadButton setTitleColor:DMColorWithRGBA(204, 204, 204, 204) forState:UIControlStateDisabled];
+        [_uploadButton setTitleColor:DMColorBaseMeiRed forState:UIControlStateNormal];
         
         [_uploadButton setTitle:DMTitlePhotoUpload forState:UIControlStateNormal];
         [_uploadButton addTarget:self action:@selector(didTapUpload:) forControlEvents:UIControlEventTouchUpInside];

@@ -61,7 +61,7 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
     _statusButton.hidden = !_statusLabel.hidden;
     
     if(_statusButton.hidden) { //回顾按钮隐藏
-        NSDictionary *statusDict = self.courseStatus[live_status];
+        NSDictionary *statusDict = self.courseStatus[live_status%4];
         NSString *text = statusDict[kStatusTextKey];
         UIColor *textColor = statusDict[kStatusColorKey];
         _statusLabel.text = text;

@@ -55,9 +55,7 @@
         
         self.albums = albums;
         self.albumsView.albums = albums;
-        DMAlbum *album = albums.lastObject;
-        self.albumsView.albums = albums;
-        self.assetsView.assets = album.assets;
+        self.assetsView.album = albums.lastObject;;
     }];
 }
 
@@ -95,14 +93,16 @@
 }
 
 - (void)setupMakeLayoutSubviews {
-    [_albumsView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.bottom.equalTo(self.view);
-        make.width.equalTo(DMScreenWidth*0.5);
+    
+    [_assetsView remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.bottom.equalTo(self.view);
+        make.width.equalTo(DMScreenWidth);
     }];
     
-    [_assetsView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.bottom.equalTo(_albumsView);
-        make.width.equalTo(DMScreenWidth);
+    [_albumsView remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.equalTo(self.view);
+        make.left.equalTo(-DMScreenWidth*0.5);
+        make.width.equalTo(DMScreenWidth*0.5);
     }];
 }
 
@@ -114,12 +114,9 @@
 
 - (void)albumsTableView:(DMAlbumsTableView *)albumsTableView didTapSelectedIndexPath:(NSIndexPath *)indexPath {
     DMAlbum *album = self.albums[indexPath.row];
-    self.assetsView.assets = album.assets;
+    self.assetsView.album = album;
     
-    [_assetsView remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.width.equalTo(_albumsView);
-        make.right.equalTo(_albumsView);
-    }];
+    [self setupMakeLayoutSubviews];
     
     [UIView animateWithDuration:0.25 animations:^{
         [self.view layoutSubviews];
@@ -129,6 +126,11 @@
 - (void)albrmsCollectionView:(DMAssetsCollectionView *)albrmsCollectionView didTapLeftButton:(UIButton *)leftButton {
     NSLog(@"%s", __func__);
     if (_isUploaded) return;
+    
+    [_albumsView remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.bottom.equalTo(self.view);
+        make.width.equalTo(DMScreenWidth*0.5);
+    }];
     
     [_assetsView remakeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.width.equalTo(_albumsView);
@@ -141,8 +143,9 @@
 }
 
 - (void)albrmsCollectionView:(DMAssetsCollectionView *)albrmsCollectionView didTapRightButton:(UIButton *)rightButton {
-    NSLog(@"%s", __func__);
-    
+    [self.liveVC.presentVCs removeObject:self];
+    self.liveVC = nil;
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)albrmsCollectionView:(DMAssetsCollectionView *)albrmsCollectionView didTapUploadButton:(UIButton *)uploadButton {
