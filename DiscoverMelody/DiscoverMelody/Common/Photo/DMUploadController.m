@@ -21,6 +21,7 @@
 
 @interface DMUploadController () <DMAlbumsTableViewDelegate, DMAssetsCollectionViewDelegate>
 
+@property (strong, nonatomic) UIView *albumBackgroundView;
 @property (strong, nonatomic) DMAlbumsTableView *albumsView;
 @property (strong, nonatomic) DMAssetsCollectionView *assetsView;
 
@@ -88,20 +89,17 @@
 }
 
 - (void)setupMakeAddSubviews {
-    [self.view addSubview:self.albumsView];
+    [self.view addSubview:self.albumBackgroundView];
     [self.view addSubview:self.assetsView];
 }
 
 - (void)setupMakeLayoutSubviews {
-    
     [_assetsView remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.bottom.equalTo(self.view);
-        make.width.equalTo(DMScreenWidth);
+        make.top.width.left.bottom.equalTo(self.view);
     }];
     
-    [_albumsView remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.equalTo(self.view);
-        make.left.equalTo(-DMScreenWidth*0.5);
+    [_albumBackgroundView remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.bottom.equalTo(self.view);
         make.width.equalTo(DMScreenWidth*0.5);
     }];
 }
@@ -116,7 +114,18 @@
     DMAlbum *album = self.albums[indexPath.row];
     self.assetsView.album = album;
     
-    [self setupMakeLayoutSubviews];
+    [_albumsView remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.width.bottom.equalTo(_albumBackgroundView);
+        make.left.equalTo(DMScreenWidth*0.5*0.3);
+    }];
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        [_albumBackgroundView layoutSubviews];
+    }];
+    
+    [_assetsView remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.width.left.bottom.equalTo(self.view);
+    }];
     
     [UIView animateWithDuration:0.25 animations:^{
         [self.view layoutSubviews];
@@ -128,13 +137,17 @@
     if (_isUploaded) return;
     
     [_albumsView remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.bottom.equalTo(self.view);
-        make.width.equalTo(DMScreenWidth*0.5);
+        make.top.width.bottom.equalTo(_albumBackgroundView);
+        make.left.equalTo(_albumBackgroundView);
+    }];
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        [_albumBackgroundView layoutSubviews];
     }];
     
     [_assetsView remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.width.equalTo(_albumsView);
-        make.right.equalTo(_albumsView.mas_left);
+        make.top.bottom.width.equalTo(_albumBackgroundView);
+        make.right.equalTo(_albumBackgroundView.mas_left);
     }];
     
     [UIView animateWithDuration:0.25 animations:^{
@@ -169,6 +182,22 @@
     }
     
     return _assetsView;
+}
+
+- (UIView *)albumBackgroundView {
+    if (!_albumBackgroundView) {
+        _albumBackgroundView = [UIView new];
+        _albumBackgroundView.backgroundColor = [UIColor clearColor];
+        [_albumBackgroundView addSubview:self.albumsView];
+        _albumBackgroundView.clipsToBounds = YES;
+        
+        [_albumsView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.width.bottom.equalTo(_albumBackgroundView);
+            make.left.equalTo(DMScreenWidth*0.5*0.3);
+        }];
+    }
+    
+    return _albumBackgroundView;
 }
 
 - (void)didTapTest {
