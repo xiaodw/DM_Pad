@@ -52,6 +52,18 @@
         [self reinstateSelectedCpirses];
         self.rightBarButton.selected = NO;
     }
+    
+    if (_isSyncBrowsing) {
+        _isSyncBrowsing = NO;
+        [self.browseView remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.top.width.equalTo(_navigationBar);
+            make.bottom.equalTo(_bottomBar);
+        }];
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            [self.view layoutSubviews];
+        }];
+    }
 }
 
 - (void)viewDidLoad {
@@ -62,8 +74,8 @@
     [self setupMakeLayoutSubviews];
     
     NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
-    NSString *identifier = userIdentity ? @"学生上传的文件" : @"老师上传的文件";
-    self.tabBarView.titles = @[@"我上传的文件",identifier];
+    NSString *identifier = userIdentity ? DMTitleStudentUploadFild : DMTitleTeacherUploadFild;
+    self.tabBarView.titles = @[DMTitleMyUploadFild,identifier];
     WS(weakSelf)
     [DMApiModel getLessonList:self.lessonID block:^(BOOL result, NSArray *teachers, NSArray *students) {
         weakSelf.identifierCpirsesArray = userIdentity ? @[teachers, students] : @[teachers, students];
@@ -92,7 +104,6 @@
     [self.liveVC.presentVCs removeObject:self];
     self.liveVC = nil;
     [self dismissViewControllerAnimated:YES completion:nil];
-    
 }
 
 - (void)didTapBack {
@@ -329,7 +340,7 @@
         [leftBarButton addTarget:self action:@selector(didTapBack) forControlEvents:UIControlEventTouchUpInside];
      
         UILabel *titleLabel = [UILabel new];
-        titleLabel.text = @"本课文件";
+        titleLabel.text = DMTextThisClassFile;
         titleLabel.textColor = [UIColor whiteColor];
         titleLabel.font = DMFontPingFang_Medium(20);
         
@@ -371,8 +382,8 @@
         _rightBarButton = [UIButton new];
         _rightBarButton.titleLabel.font = DMFontPingFang_Medium(16);
         _rightBarButton.selected = YES;
-        [_rightBarButton setTitle:@"选择" forState:UIControlStateNormal];
-        [_rightBarButton setTitle:@"取消" forState:UIControlStateSelected];
+        [_rightBarButton setTitle:DMTitleSelected forState:UIControlStateNormal];
+        [_rightBarButton setTitle:DMTitleCancel forState:UIControlStateSelected];
         [_rightBarButton setTitleColor:DMColorBaseMeiRed forState:UIControlStateNormal];
         [_rightBarButton addTarget:self action:@selector(didTapSelect:) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -452,35 +463,6 @@
     
     return _selectedIndexPath;
 }
-
-
-//- (void)setupData {
-//    _identifierCpirsesArray = @[[
-//                                 
-//                                 @[[DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-//                                   [DMCourseModel new]] mutableCopy],
-//                                [@[[DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-//                                   [DMCourseModel new], [DMCourseModel new]] mutableCopy]
-//                                ];
-//}
 
 - (void)dealloc {
     DMLogFunc

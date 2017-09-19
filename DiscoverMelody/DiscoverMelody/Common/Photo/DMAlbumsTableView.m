@@ -88,8 +88,8 @@
     if (!_navigationBar) {
         _navigationBar = [DMNavigationBar new];
         _navigationBar.leftBarButton.hidden = YES;
-        _navigationBar.titleLabel.text = @"所有照片";
-        [_navigationBar.rightBarButton setTitle:@"取消" forState:UIControlStateNormal];
+        _navigationBar.titleLabel.text = DMTitleAllPhotos;
+        [_navigationBar.rightBarButton setTitle:DMTitleCancel forState:UIControlStateNormal];
         [_navigationBar.rightBarButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_navigationBar.rightBarButton addTarget:self action:@selector(didTapSelect:) forControlEvents:UIControlEventTouchUpInside];
     }

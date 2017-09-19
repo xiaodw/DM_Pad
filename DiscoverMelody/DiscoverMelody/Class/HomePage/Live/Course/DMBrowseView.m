@@ -154,7 +154,7 @@
         _syncButton.titleLabel.font = DMFontPingFang_Regular(16);
         _syncButton.layer.borderColor = DMColorWithRGBA(239, 239, 239, 1).CGColor;
         _syncButton.layer.borderWidth = 0.5;
-        [_syncButton setTitle:@"立即同步" forState:UIControlStateNormal];
+        [_syncButton setTitle:DMTitleImmediatelySync forState:UIControlStateNormal];
         [_syncButton setImage:[UIImage imageNamed:@"btn_arrow_right_red"] forState:UIControlStateNormal];
         [_syncButton addTarget:self action:@selector(didTapSync) forControlEvents:UIControlEventTouchUpInside];
     }

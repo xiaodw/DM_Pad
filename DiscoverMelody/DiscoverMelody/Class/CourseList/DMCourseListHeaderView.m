@@ -107,7 +107,7 @@
 - (UILabel *)numberLabel {
     if (!_numberLabel) {
         _numberLabel = [self setupLabel];
-        _numberLabel.text = @"   课程编号";
+        _numberLabel.text = [NSString stringWithFormat:@"   %@", DMTextClassNumber];
     }
     
     return _numberLabel;
@@ -116,7 +116,7 @@
 - (UILabel *)nameLabel {
     if (!_nameLabel) {
         _nameLabel = [self setupLabel];
-        _nameLabel.text = @"课程名称";
+        _nameLabel.text = DMTextClassName;
     }
     
     return _nameLabel;
@@ -125,7 +125,7 @@
 - (UILabel *)studentNameLabel {
     if (!_studentNameLabel) {
         _studentNameLabel = [self setupLabel];
-        _studentNameLabel.text = @"学生姓名";
+        _studentNameLabel.text = DMTextStudentName;
     }
     
     return _studentNameLabel;
@@ -134,7 +134,7 @@
 - (UILabel *)dateLabel {
     if (!_dateLabel) {
         _dateLabel = [self setupLabel];
-        _dateLabel.text = @"日期";
+        _dateLabel.text = DMTextDate;
         _dateLabel.textAlignment = NSTextAlignmentCenter;
     }
     
@@ -144,7 +144,7 @@
 - (UILabel *)detailDateLabel {
     if (!_detailDateLabel) {
         _detailDateLabel = [self setupLabel];
-        _detailDateLabel.text = @"时间";
+        _detailDateLabel.text = DMTextDetailDate;
         _detailDateLabel.textAlignment = NSTextAlignmentCenter;
     }
     
@@ -154,7 +154,7 @@
 - (UILabel *)periodLabel {
     if (!_periodLabel) {
         _periodLabel = [self setupLabel];
-        _periodLabel.text = @"课时";
+        _periodLabel.text = DMTextPeriod;
         _periodLabel.textAlignment = NSTextAlignmentCenter;
     }
     
@@ -164,7 +164,7 @@
 - (UILabel *)statusLabel {
     if (!_statusLabel) {
         _statusLabel = [self setupLabel];
-        _statusLabel.text = @"状态";
+        _statusLabel.text = DMTextStauts;
         _statusLabel.textAlignment = NSTextAlignmentCenter;
     }
     
@@ -174,7 +174,7 @@
 - (UILabel *)filesLabel {
     if (!_filesLabel) {
         _filesLabel = [self setupLabel];
-        _filesLabel.text = @"课程文件";
+        _filesLabel.text = DMTextFiles;
         _filesLabel.textAlignment = NSTextAlignmentCenter;
     }
     
@@ -184,7 +184,7 @@
 - (UILabel *)questionnaireLabel {
     if (!_questionnaireLabel) {
         _questionnaireLabel = [self setupLabel];
-        _questionnaireLabel.text = @"调查问卷";
+        _questionnaireLabel.text = DMTextQuestionnaire;
         _questionnaireLabel.textAlignment = NSTextAlignmentCenter;
     }
     

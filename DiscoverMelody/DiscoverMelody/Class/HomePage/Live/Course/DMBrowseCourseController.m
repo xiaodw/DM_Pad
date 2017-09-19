@@ -115,7 +115,7 @@
         _deletedButton.titleAlignment = DMTitleButtonTypeBottom;
         [_deletedButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _deletedButton.titleLabel.font = DMFontPingFang_Light(12);
-        [_deletedButton setTitle:@"删除" forState:UIControlStateNormal];
+        [_deletedButton setTitle:DMTitleDeleted forState:UIControlStateNormal];
         [_deletedButton setImage:[UIImage imageNamed:@"c_delete_normal"] forState:UIControlStateNormal];
         [_deletedButton addTarget:self action:@selector(didTapDeleted) forControlEvents:UIControlEventTouchUpInside];
         [_deletedView addSubview:_deletedButton];

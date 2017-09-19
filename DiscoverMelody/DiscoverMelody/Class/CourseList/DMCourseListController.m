@@ -31,9 +31,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"课程列表";
+    self.title = DMTitleCourseList;
     self.view.backgroundColor = DMColorWithRGBA(246, 246, 246, 1);
-    self.selArray = @[@"全部课程",@"已上课程",@"未上课程"];
+    self.selArray = @[DMTitleAllCourse,DMTitleAlreadyCourse,DMTitleNotStartCourse];
     
     [self setRigthBtn:CGRectMake(0, 4.5, 135, 35)
                 title:[self.selArray lastObject]
@@ -236,7 +236,7 @@
         iconImageView.image = [UIImage imageNamed:@"icon_noCourse"];
         
         UILabel *titleLabel = [UILabel new];
-        titleLabel.text = @"暂无课程";
+        titleLabel.text = DMTextNotClass;
         titleLabel.font = DMFontPingFang_Light(20);
         titleLabel.textColor = DMColorWithRGBA(204, 204, 204, 1);
         

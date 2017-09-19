@@ -54,7 +54,7 @@ static DMLiveVideoManager* _instance = nil;
     } else {
         //开发调试使用
         self.channelKey = @"";
-        self.channelName = @"110";
+        self.channelName = @"111";
         self.uId = 0;
         self.signalingKey = @"";
         self.app_ID = AgoraAppID;

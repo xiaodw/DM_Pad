@@ -258,7 +258,7 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
         _loginButton.titleLabel.font = DMFontPingFang_Regular(20);
         [_loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_loginButton setTitleColor:DMColorWithHexString(@"#999999") forState:UIControlStateDisabled];
-        [_loginButton setTitle:@"登录" forState:UIControlStateNormal];
+        [_loginButton setTitle:DMTitleLogin forState:UIControlStateNormal];
         [_loginButton addTarget:self action:@selector(didTapLogin) forControlEvents:UIControlEventTouchUpInside];
     }
     
@@ -272,7 +272,7 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
         _descriptionLabel.textColor = [UIColor colorWithHexString:@"#FFFFFF" ];
         
         NSString *urlString = @"www.DiscoverMelody.com";
-        NSString *textString = [NSString stringWithFormat:@"此APP目前只提供给已购课的用户体验.未购课的用户请访问 %@ 了解更多信息", urlString];
+        NSString *textString = [NSString stringWithFormat:DMTextLoginDescribe, urlString];
         NSRange urlRange = [textString rangeOfString:urlString];
         NSMutableAttributedString *attributeString = [[NSMutableAttributedString alloc] initWithString:textString];
         [attributeString setAttributes:@{NSFontAttributeName: DMFontPingFang_Light(12), NSForegroundColorAttributeName: [UIColor colorWithHexString:@"#F6087A"] } range:urlRange];

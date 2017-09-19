@@ -78,7 +78,7 @@
     
     NSString *headUrl = [DMAccount getUserHeadUrl];
     [self.headImageView sd_setImageWithURL:[NSURL URLWithString:headUrl] placeholderImage:DMPlaceholderImageDefault];
-    NSString *identityString = [self getIdentityType:([DMAccount getUserIdentity].intValue ==0 ? @"学生" : @"老师")];
+    NSString *identityString = [self getIdentityType:([DMAccount getUserIdentity].intValue ==0 ? DMStringIDStudent : DMStringIDTeacher)];
     NSString *userString = [NSString stringWithFormat:@"%@%@", [DMAccount getUserName], identityString];
     NSRange idRange = [userString rangeOfString:identityString];
     NSMutableAttributedString *attributeString = [[NSMutableAttributedString alloc] initWithString:userString];

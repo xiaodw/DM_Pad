@@ -17,7 +17,3 @@
 
 #pragma mark -
 #pragma mark - 文案信息
-
-#define Logout_Msg @"确定退出登录吗？"
-#define Capture_Msg @"请允许访问相机"
-#define Audio_Msg @"请允许访问麦克风"

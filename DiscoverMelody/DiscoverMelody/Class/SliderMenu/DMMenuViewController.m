@@ -24,7 +24,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.items = [NSArray arrayWithObjects:@"个人主页", @"课程列表", @"联系客服", nil];
+    self.items = [NSArray arrayWithObjects:DMTitleSelfHome, DMTitleCourseList, DMTitleContactCustomerService, nil];
     self.imageItems = [NSArray arrayWithObjects:@"home_icon", @"course_icon", @"customer_icon", nil];
     self.selImageItems = [NSArray arrayWithObjects:@"home_icon_sel", @"course_icon_sel", @"customer_icon_sel", nil];
     [self loadUI];
@@ -43,7 +43,7 @@
 
 - (void)clickLoginOut:(id)sender {
     WS(weakSelf)
-    DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"" message:Logout_Msg preferredStyle:UIAlertControllerStyleAlert cancelTitle:@"取消" otherTitle:@"确定", nil];
+    DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"" message:Logout_Msg preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
     [alert showWithViewController:self IndexBlock:^(NSInteger index) {
         NSLog(@"%ld",index);
         if (index == 1) {
@@ -133,7 +133,7 @@
 
 - (UIButton *)loadLoginOutView {
     UIButton *loginOut = [UIButton buttonWithType:UIButtonTypeCustom];
-    [loginOut setTitle:@"退出登录" forState:UIControlStateNormal];
+    [loginOut setTitle:DMTitleExitLogin forState:UIControlStateNormal];
     [loginOut setImage:[UIImage imageNamed:@"logout_icon"] forState:UIControlStateNormal];
     [loginOut setTitleColor:DMColorWithRGBA(51, 51, 51, 1) forState:UIControlStateNormal];
     [loginOut.titleLabel setFont:DMFontPingFang_Light(14)];
