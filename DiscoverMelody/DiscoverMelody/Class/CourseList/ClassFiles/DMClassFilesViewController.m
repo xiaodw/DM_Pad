@@ -25,7 +25,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
     self.title = DMTextThisClassFile;
     self.view.backgroundColor = [UIColor redColor];//DMColorWithRGBA(240, 240, 240, 1);
     [self setNavigationBarNoTransparence];
@@ -72,7 +72,6 @@
 }
 
 - (void)loadUI {
-
     _cfView = [[DMCoursewareFallsView alloc]
                initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-50)
                columns:6

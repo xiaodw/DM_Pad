@@ -8,6 +8,8 @@
 #import "DMQuestionViewController.h"
 #import "DMPullDownMenu.h"
 #define kCellID @"course"
+#import "DMCourseFilesController.h"
+#import "DMTransitioningAnimationHelper.h"
 
 @interface DMCourseListController () <UITableViewDelegate, UITableViewDataSource, DMCourseListCellDelegate, DMPullDownMenuDelegate>
 
@@ -23,6 +25,7 @@
 @property (nonatomic, strong) NSArray *selArray;
 
 @property (nonatomic, assign) DMCourseListCondition clCondition;
+@property (strong, nonatomic) DMTransitioningAnimationHelper *animationHelper;
 
 @end
 
@@ -186,9 +189,20 @@
 
 // 课件
 - (void)courseListCellDidTapCoursesFiles:(DMCourseListCell *)courseListCell {
-    DMClassFilesViewController *cf = [[DMClassFilesViewController alloc] init];
-    cf.courseID = @"";
-    [self.navigationController pushViewController:cf animated:YES];
+    DMCourseFilesController *courseFilesVC = [DMCourseFilesController new];
+    courseFilesVC.columns = 6;
+    courseFilesVC.leftMargin = 15;
+    courseFilesVC.rightMargin = 15;
+    courseFilesVC.columnSpacing = 15;
+    courseFilesVC.isFullScreen = YES;
+    DMTransitioningAnimationHelper *animationHelper = [DMTransitioningAnimationHelper new];
+    self.animationHelper = animationHelper;
+    animationHelper.animationType = DMTransitioningAnimationRight;
+    animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight);
+    courseFilesVC.transitioningDelegate = animationHelper;
+    courseFilesVC.modalPresentationStyle = UIModalPresentationCustom;
+    courseFilesVC.lessonID = @"1";
+    [self presentViewController:courseFilesVC animated:YES completion:nil];
 }
 
 // 调查问卷

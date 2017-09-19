@@ -54,12 +54,34 @@
 }
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
+    
+    if (self.animationType == DMTransitioningAnimationRight) {
+        if(_isShowPopView) {
+            UIView *toView = [transitionContext viewForKey:UITransitionContextToViewKey];
+            toView.transform = CGAffineTransformMakeTranslation(self.presentFrame.size.width, 0);
+            UIView *containerView = transitionContext.containerView;
+            [containerView addSubview:toView];
+            
+            [UIView animateWithDuration:[self transitionDuration:nil] animations:^{
+                toView.transform = CGAffineTransformIdentity;
+            } completion:^(BOOL finished) {
+                [transitionContext completeTransition:YES];
+            }];
+            return;
+        }
+        UIView *fromView = [transitionContext viewForKey:UITransitionContextFromViewKey];
+        [UIView animateWithDuration:[self transitionDuration:nil] animations:^{
+            fromView.transform = CGAffineTransformMakeTranslation(self.presentFrame.size.width, 0);
+        } completion:^(BOOL finished) {
+            [transitionContext completeTransition:YES];
+        }];
+        return;
+    }
+    
+    
     if(_isShowPopView) {
         UIView *toView = [transitionContext viewForKey:UITransitionContextToViewKey];
-//        UIViewController *toViewVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-//        toViewVC.delegate?.viewControllerShow(toViewVC)
-//        toView.layer.anchorPoint = CGPointMake(0, 1);
-        toView.transform = CGAffineTransformMakeTranslation(-DMScreenWidth*0.5, 0);
+        toView.transform = CGAffineTransformMakeTranslation(-self.presentFrame.size.width, 0);
         UIView *containerView = transitionContext.containerView;
         [containerView addSubview:toView];
         
@@ -71,10 +93,8 @@
         return;
     }
     UIView *fromView = [transitionContext viewForKey:UITransitionContextFromViewKey];
-//    UIViewController *fromViewVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-//    fromViewVC.delegate?.viewControllerHide(fromViewVC)
     [UIView animateWithDuration:[self transitionDuration:nil] animations:^{
-        fromView.transform = CGAffineTransformMakeTranslation(-DMScreenWidth*0.5, 0);
+        fromView.transform = CGAffineTransformMakeTranslation(-self.presentFrame.size.width, 0);
     } completion:^(BOOL finished) {
         [transitionContext completeTransition:YES];
     }];

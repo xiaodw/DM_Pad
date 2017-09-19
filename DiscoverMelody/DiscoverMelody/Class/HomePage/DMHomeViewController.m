@@ -16,11 +16,14 @@
 
 #import "DMClassDataModel.h"
 #import "DMClassFilesViewController.h"
+#import "DMCourseFilesController.h"
+#import "DMTransitioningAnimationHelper.h"
 
 @interface DMHomeViewController () <DMHomeVCDelegate>
 
 @property (nonatomic, strong) DMHomeView *homeView;
 @property (nonatomic, strong) DMCourseDatasModel *courseObj;
+@property (strong, nonatomic) DMTransitioningAnimationHelper *animationHelper;
 
 @end
 
@@ -80,10 +83,22 @@
 }
 //本课文件
 - (void)clickCourseFiles {
-    
     NSLog(@"本课文件");
-    DMClassFilesViewController *cf = [[DMClassFilesViewController alloc] init];
-    [self.navigationController pushViewController:cf animated:YES];
+    
+    DMCourseFilesController *courseFilesVC = [DMCourseFilesController new];
+    courseFilesVC.columns = 6;
+    courseFilesVC.leftMargin = 15;
+    courseFilesVC.rightMargin = 15;
+    courseFilesVC.columnSpacing = 15;
+    courseFilesVC.isFullScreen = YES;
+    DMTransitioningAnimationHelper *animationHelper = [DMTransitioningAnimationHelper new];
+    self.animationHelper = animationHelper;
+    animationHelper.animationType = DMTransitioningAnimationRight;
+    animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight);
+    courseFilesVC.transitioningDelegate = animationHelper;
+    courseFilesVC.modalPresentationStyle = UIModalPresentationCustom;
+    courseFilesVC.lessonID = @"1";
+    [self presentViewController:courseFilesVC animated:YES completion:nil];
 }
 //进入课堂
 - (void)clickClassRoom {

@@ -55,7 +55,8 @@
 - (void)setupMakeAddSubviewsAndLayout {
     CGFloat x = 0;
     CGFloat y = 0;
-    CGFloat width = (DMScreenWidth * 0.5 - (self.titles.count - 1) * kSeparaterWidth) / self.titles.count;
+    CGFloat selfWidth = _isFullScreen ? DMScreenWidth : DMScreenWidth * 0.5;
+    CGFloat width = (selfWidth - (self.titles.count - 1) * kSeparaterWidth) / self.titles.count;
     CGFloat height = kSelfHeight;
     self.buttons = [NSMutableArray array];
     

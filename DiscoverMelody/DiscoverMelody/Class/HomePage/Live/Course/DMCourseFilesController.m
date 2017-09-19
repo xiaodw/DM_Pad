@@ -9,10 +9,6 @@
 #import "DMLiveController.h"
 
 #define kCourseFileCellID @"Courseware"
-#define kLeftMargin 15
-#define kRightMargin 15
-#define kColumnSpacing 15
-#define kColumns 3
 
 @interface DMCourseFilesController () <DMBottomBarViewDelegate, DMTabBarViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, DMBrowseCourseControllerDelegate, DMBrowseViewDelegate>
 
@@ -72,6 +68,7 @@
     
     [self setupMakeAddSubviews];
     [self setupMakeLayoutSubviews];
+    self.bottomBar.syncButton.hidden = _isFullScreen;
     
     NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
     NSString *identifier = userIdentity ? DMTitleStudentUploadFild : DMTitleTeacherUploadFild;
@@ -199,15 +196,18 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (!_editorMode){
-//        DMBrowseCourseController *browseCourseVC = [DMBrowseCourseController new];
-//        CGFloat width = DMScreenWidth - 80;
-//        CGFloat height = DMScreenHeight - 86;
-//        browseCourseVC.itemSize = CGSizeMake(width, height);
-//        browseCourseVC.courses = self.currentCpirses;
-//        browseCourseVC.browseDelegate = self;
-//        browseCourseVC.modalPresentationStyle = UIModalPresentationCustom;
-//        self.animationHelper.closeAnimate = NO;
-//        [self presentViewController:browseCourseVC animated:NO completion:nil];
+        if(_isFullScreen) {
+            DMBrowseCourseController *browseCourseVC = [DMBrowseCourseController new];
+            CGFloat width = DMScreenWidth - 80;
+            CGFloat height = DMScreenHeight - 86;
+            browseCourseVC.itemSize = CGSizeMake(width, height);
+            browseCourseVC.courses = self.currentCpirses;
+            browseCourseVC.browseDelegate = self;
+            browseCourseVC.modalPresentationStyle = UIModalPresentationCustom;
+            self.animationHelper.closeAnimate = NO;
+            [self presentViewController:browseCourseVC animated:NO completion:nil];
+            return;
+        }
         
         DMBrowseCourseController *browseCourseVC = [DMBrowseCourseController new];
         CGFloat width = DMScreenWidth * 0.5 - 80;
@@ -296,7 +296,9 @@
     [_navigationBar makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.equalTo(self.view);
         make.height.equalTo(64);
-        make.width.equalTo(DMScreenWidth*0.5);
+        CGFloat width = DMScreenWidth*0.5;
+        if (_isFullScreen) width = DMScreenWidth;
+        make.width.equalTo(width);
     }];
     
     [_backgroundView makeConstraints:^(MASConstraintMaker *make) {
@@ -416,7 +418,9 @@
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         layout.minimumInteritemSpacing = 15;
         layout.minimumLineSpacing = 15;
-        CGFloat itemWH = (DMScreenWidth * 0.5 - (kColumns-1) * kColumnSpacing - kLeftMargin - kRightMargin) / kColumns;
+        CGFloat width = DMScreenWidth * 0.5;
+        if (self.isFullScreen) width = DMScreenWidth;
+        CGFloat itemWH = (width - (_columns-1) * _columnSpacing - _leftMargin - _rightMargin) / _columns;
         layout.itemSize = CGSizeMake(itemWH, itemWH);
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
         _collectionView.dataSource = self;
@@ -434,6 +438,7 @@
     if (!_tabBarView) {
         _tabBarView = [DMTabBarView new];
         _tabBarView.delegate = self;
+        _tabBarView.isFullScreen = self.isFullScreen;
     }
     
     return _tabBarView;
