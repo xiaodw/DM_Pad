@@ -124,20 +124,29 @@
 - (void)goToClassRoom {
     NSLog(@"进入课堂");
     WS(weakSelf);
-    [DMApiModel joinClaseeRoom:self.courseObj.course_id accessTime:[DMTools getCurrentTimestamp] block:^(BOOL result, DMClassDataModel *obj) {
-        if (result) {
+//    [DMApiModel joinClaseeRoom:self.courseObj.course_id accessTime:[DMTools getCurrentTimestamp] block:^(BOOL result, DMClassDataModel *obj) {
+//        if (result) {
             [weakSelf joinClassRoom];
-        }
-    }];
+//        }
+//    }];
 }
 
 - (void)joinClassRoom {
+//    DMLiveController *liveVC = [DMLiveController new];
+//    liveVC.navigationVC = self.navigationController;
+//    liveVC.lessonID = self.courseObj.course_id;
+//    liveVC.totalTime = [self.courseObj.duration intValue];
+//    liveVC.alreadyTime = [DMTools computationsClassTimeDifference:self.courseObj.start_time
+//                                                       accessTime:[DMAccount getUserJoinClassTime]];
+//    
+//    [self.navigationController pushViewController:liveVC animated:YES];
     DMLiveController *liveVC = [DMLiveController new];
     liveVC.navigationVC = self.navigationController;
-    liveVC.lessonID = self.courseObj.course_id;
-    liveVC.totalTime = [self.courseObj.duration intValue];
-    liveVC.alreadyTime = [DMTools computationsClassTimeDifference:self.courseObj.start_time
-                                                       accessTime:[DMAccount getUserJoinClassTime]];
+    liveVC.lessonID = @"1";
+    liveVC.totalTime = 45 * 60;
+    liveVC.alreadyTime = -400;
+    liveVC.warningTime = 5*60;
+    liveVC.delayTime = 15*60;
     
     [self.navigationController pushViewController:liveVC animated:YES];
 }

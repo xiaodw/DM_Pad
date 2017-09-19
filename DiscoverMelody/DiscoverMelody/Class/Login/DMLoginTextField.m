@@ -69,15 +69,15 @@
     }];
     
     [_imageView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(29);
+        make.left.equalTo(20);
         make.centerY.equalTo(self);
-        make.size.equalTo(CGSizeMake(15, 20));
+        make.size.equalTo(CGSizeMake(17, 20));
     }];
     
     [_textField makeConstraints:^(MASConstraintMaker *make) {
         make.height.top.equalTo(self);
-        make.left.equalTo(71);
-        make.right.equalTo(self.mas_right);
+        make.left.equalTo(60);
+        make.right.equalTo(self.mas_right).offset(-5);
     }];
 }
 
@@ -101,7 +101,7 @@
 - (UITextField *)textField {
     if (!_textField) {
         _textField = [UITextField new];
-        _textField.font = DMFontPingFang_Light(14);
+        _textField.font = DMFontPingFang_Light(16);
         _textField.textColor = [UIColor colorWithHexString:@"#FFFFFF" alpha:0.6];
         _textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         _textField.clearButtonMode = UITextFieldViewModeWhileEditing;

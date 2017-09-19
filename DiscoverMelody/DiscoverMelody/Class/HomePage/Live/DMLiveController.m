@@ -47,7 +47,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 @property (strong, nonatomic) DMLiveWillStartView *willStartView; // 即将开始的View
 
 #pragma mark - Other
-@property (assign, nonatomic) NSInteger userIdentity; // 0: 学生, 1: 老师
 @property (assign, nonatomic) BOOL isRemoteUserOnline; // 远端是否上线
 @property (nonatomic, strong) dispatch_source_t timer; // 1秒中更新一次时间UI
 @property (assign, nonatomic) NSInteger tapLayoutCount; // 点击布局按钮次数
@@ -66,20 +65,13 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     }];
 }
 
-- (void)setupServerData {
-    _totalTime = 45 * 60;
-    _userIdentity = [[DMAccount getUserIdentity] integerValue];
-    _warningTime = 5 * 60;
-    _delayTime = 15 * 60;
-    _alreadyTime = _totalTime - _warningTime + _delayTime + _warningTime - 70;
-    
-    self.remotePlaceholderTitleLabel.text = _userIdentity == 1 ? @"学生尚未进入课堂" : @"老师尚未进入课堂";
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setupServerData];
+    [self computTime];
+    
+    NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
+    self.remotePlaceholderTitleLabel.text = userIdentity ? @"学生尚未进入课堂" : @"老师尚未进入课堂";
     
     self.view.backgroundColor = kColor31;
     [self.navigationController setNavigationBarHidden:YES];
@@ -183,14 +175,12 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
             [weakSelf.navigationVC popViewControllerAnimated:YES];
             return;
         }
-        
+     
         for (int i = (int)weakSelf.presentVCs.count-1; i >= 0; i--) {
             UIViewController *presentVC = weakSelf.presentVCs[i];
             [weakSelf.presentVCs removeObject:presentVC];
             [presentVC dismissViewControllerAnimated:NO completion:^{
-                if (i == 0) {
-                    [weakSelf.navigationVC popViewControllerAnimated:YES];
-                }
+                [weakSelf.navigationVC popViewControllerAnimated:YES];
             }];
         }
     }];
@@ -215,6 +205,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     self.animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight);
     courseFilesVC.transitioningDelegate = self.animationHelper;
     courseFilesVC.modalPresentationStyle = UIModalPresentationCustom;
+    courseFilesVC.lessonID = self.lessonID;
     [self presentViewController:courseFilesVC animated:YES completion:nil];
     courseFilesVC.liveVC = self;
     [self.presentVCs addObject:courseFilesVC];

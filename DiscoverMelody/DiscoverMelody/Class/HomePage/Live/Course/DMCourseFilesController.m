@@ -2,7 +2,7 @@
 #import "DMCourseFileCell.h"
 #import "DMTabBarView.h"
 #import "DMBottomBarView.h"
-#import "DMCourseModel.h"
+#import "DMClassFileDataModel.h"
 #import "DMBrowseCourseController.h"
 #import "DMBrowseView.h"
 #import "DMUploadController.h"
@@ -56,22 +56,25 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setupData];
     self.view.backgroundColor = [UIColor clearColor];
     
     [self setupMakeAddSubviews];
     [self setupMakeLayoutSubviews];
     
-    #warning 数据请求回来做完判断之后在赋值
-    NSString *identifier = [NSString stringWithFormat:@"%@上传的文件", arc4random_uniform(2)%2 ? @"学生" : @"老师"];
+    NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
+    NSString *identifier = userIdentity ? @"学生上传的文件" : @"老师上传的文件";
     self.tabBarView.titles = @[@"我上传的文件",identifier];
-    
-    self.currentCpirses = self.identifierCpirsesArray.firstObject;
+    WS(weakSelf)
+    [DMApiModel getLessonList:self.lessonID block:^(BOOL result, NSArray *teachers, NSArray *students) {
+        weakSelf.identifierCpirsesArray = userIdentity ? @[teachers, students] : @[teachers, students];
+        weakSelf.currentCpirses = weakSelf.identifierCpirsesArray.firstObject;
+    }];
 }
 
 - (void)didTapSelect:(UIButton *)sender {
     sender.selected = !sender.selected;
     if (_isSyncBrowsing) {
+        _isSyncBrowsing = NO;
         [self.browseView remakeConstraints:^(MASConstraintMaker *make) {
             make.left.top.width.equalTo(_navigationBar);
             make.bottom.equalTo(_bottomBar);
@@ -115,7 +118,7 @@
 }
 
 - (void)browseCourseController:(DMBrowseCourseController *)browseCourseController deleteIndexPath:(NSIndexPath *)indexPath {
-    DMCourseModel *course = self.currentCpirses[indexPath.row];
+    DMClassFileDataModel *course = self.currentCpirses[indexPath.row];
     [self.currentCpirses removeObject:course];
     [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
 }
@@ -150,12 +153,15 @@
         [self.view layoutSubviews];
     }];
     
+    self.bottomBar.syncButton.enabled = NO;
+    self.bottomBar.deleteButton.enabled = NO;
     self.browseView.courses = self.selectedCpirses;
 }
 
 // 同步接口
 - (void)browseViewDidTapSync:(DMBrowseView *)browseView{
     DMLogFunc
+//    self.selectedCpirses
 }
 
 // 删除
@@ -196,17 +202,19 @@
         CGFloat width = DMScreenWidth * 0.5 - 80;
         CGFloat height = DMScreenHeight - 130;
         browseCourseVC.itemSize = CGSizeMake(width, height);
-        browseCourseVC.courses = self.currentCpirses;
         browseCourseVC.browseDelegate = self;
+        browseCourseVC.currentIndexPath = indexPath;
         browseCourseVC.modalPresentationStyle = UIModalPresentationCustom;
+        browseCourseVC.courses = self.currentCpirses;
+        
         self.animationHelper.coverBackgroundColor = [UIColor clearColor];
         self.animationHelper.closeAnimate = NO;
         self.animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth * 0.5, DMScreenHeight);
         browseCourseVC.transitioningDelegate = self.animationHelper;
-        [self presentViewController:browseCourseVC animated:NO completion:nil];
+        
         browseCourseVC.liveVC = self.liveVC;
         [self.liveVC.presentVCs addObject:browseCourseVC];
-        
+        [self presentViewController:browseCourseVC animated:NO completion:nil];
         return;
     }
     
@@ -230,11 +238,15 @@
     cell.courseModel = cell.courseModel;
     [self.collectionView reloadData];
     self.browseView.courses = self.selectedCpirses;
+    
+    if (self.selectedCpirses.count == 0) {
+        [self didTapSelect:self.rightBarButton];
+    }
 }
 
 - (void)reinstateSelectedCpirses {
     for (int i = 0; i < self.selectedCpirses.count; i++) {
-        DMCourseModel *courseModel = self.selectedCpirses[i];
+        DMClassFileDataModel *courseModel = self.selectedCpirses[i];
         courseModel.selectedIndex = 0;
         courseModel.isSelected = NO;
     }
@@ -250,7 +262,7 @@
 
 - (void)reSetSelectedCpirsesIndex {
     for (int i = 0; i < self.selectedCpirses.count; i++) {
-        DMCourseModel *courseModel = self.selectedCpirses[i];
+        DMClassFileDataModel *courseModel = self.selectedCpirses[i];
         courseModel.selectedIndex = i+1;
     }
 }
@@ -441,33 +453,34 @@
     return _selectedIndexPath;
 }
 
-- (void)setupData {
-    _identifierCpirsesArray = @[[
-                                 
-                                 @[[DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                   [DMCourseModel new]] mutableCopy],
-                                [@[[DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
-                                   [DMCourseModel new], [DMCourseModel new]] mutableCopy]
-                                ];
-}
+
+//- (void)setupData {
+//    _identifierCpirsesArray = @[[
+//                                 
+//                                 @[[DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+//                                   [DMCourseModel new]] mutableCopy],
+//                                [@[[DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+//                                   [DMCourseModel new], [DMCourseModel new], [DMCourseModel new], [DMCourseModel new],
+//                                   [DMCourseModel new], [DMCourseModel new]] mutableCopy]
+//                                ];
+//}
 
 - (void)dealloc {
     DMLogFunc

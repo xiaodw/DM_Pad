@@ -2,6 +2,10 @@
 
 @implementation NSString (Extension)
 
+- (instancetype)trim {
+    return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+}
+
 - (CGFloat)stringWidthWithFont:(UIFont *)font maxHeight:(CGFloat)height {
     CGSize stringMaxSize = CGSizeMake(MAXFLOAT, height);
     return [self stringSizeWithFont:font maxSize:stringMaxSize].width;

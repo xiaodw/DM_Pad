@@ -67,7 +67,7 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
     CGFloat loginButtonFrameBottom = DMScreenHeight - _loginButton.dm_height - _loginButton.dm_y;
     
     if (loginButtonFrameBottom < kbSize.height) {
-        CGFloat  offsetTop = kAccountTop - (kbSize.height - loginButtonFrameBottom + 10);
+        CGFloat  offsetTop = kAccountTop - (kbSize.height - loginButtonFrameBottom + 25);
         
         [_textfieldView updateConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(offsetTop);
@@ -255,7 +255,7 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
         _loginButton.layer.cornerRadius = 8;
         _loginButton.clipsToBounds = YES;
         _loginButton.backgroundColor = [UIColor colorWithHexString:@"#666666"];
-        _loginButton.titleLabel.font = DMFontPingFang_Light(20);
+        _loginButton.titleLabel.font = DMFontPingFang_Regular(20);
         [_loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_loginButton setTitleColor:DMColorWithHexString(@"#999999") forState:UIControlStateDisabled];
         [_loginButton setTitle:@"登录" forState:UIControlStateNormal];

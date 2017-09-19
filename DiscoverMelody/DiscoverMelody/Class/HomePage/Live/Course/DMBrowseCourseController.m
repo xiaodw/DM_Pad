@@ -1,4 +1,5 @@
 #import "DMBrowseCourseController.h"
+#import "DMBrowseCourseFlowLayout.h"
 #import "DMButton.h"
 #import "DMBrowseCourseCell.h"
 #import "DMLiveController.h"
@@ -48,8 +49,6 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     DMBrowseCourseCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kBrowseCourseCellID forIndexPath:indexPath];
     cell.courseModel = self.courses[indexPath.row];
-
-    self.currentIndexPath = indexPath;
     return cell;
 }
 
@@ -57,6 +56,12 @@
     [self.liveVC.presentVCs removeObject:self];
     self.liveVC = nil;
     [self dismissViewControllerAnimated:NO completion:nil];
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    NSInteger index = (scrollView.contentOffset.x / self.collectionView.dm_width + 0.5); // 约等于
+    self.currentIndexPath = [NSIndexPath indexPathForRow:index inSection:0];
+    NSLog(@"%@", self.currentIndexPath);
 }
 
 - (void)setupMakeAddSubviews {
@@ -79,15 +84,16 @@
 
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
-        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+        DMBrowseCourseFlowLayout *layout = [[DMBrowseCourseFlowLayout alloc] init];
+        layout.contentOffset = CGPointMake(self.itemSize.width * self.currentIndexPath.row, 0);
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         layout.itemSize = self.itemSize;
         layout.minimumInteritemSpacing = 0;
         layout.minimumLineSpacing = 0;
         
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-         _collectionView.dataSource = self;
-         _collectionView.delegate = self;
+        _collectionView.dataSource = self;
+        _collectionView.delegate = self;
         _collectionView.pagingEnabled = YES;
         _collectionView.backgroundColor = [UIColor whiteColor];
         _collectionView.showsVerticalScrollIndicator = NO;
