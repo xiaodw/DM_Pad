@@ -9,7 +9,7 @@
 #import "DMCourseFilesController.h"
 #import "DMMicrophoneView.h"
 #import "DMSecretKeyManager.h"
-
+#import "DMSignalingMsgData.h"
 #define kSmallSize CGSizeMake(DMScaleWidth(240), DMScaleHeight(180))
 #define kColor33 DMColorWithRGBA(33, 33, 33, 1)
 #define kColor06 DMColorWithRGBA(06, 06, 06, 1)
@@ -164,6 +164,13 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     //接收信令同步的消息，完成同步功能
     [self.liveVideoManager onSignalingMessageReceive:^(NSString *account, NSString *msg) {
         NSLog(@"接收到来自 %@，的超级好消息 %@", account , msg);
+        if (!STR_IS_NIL(msg)) {
+            DMSignalingMsgData *responseDataModel = [DMSignalingMsgData mj_objectWithKeyValues:msg];
+            NSLog(@"xioxixixixii = %@", responseDataModel.data.list);
+            
+            
+        }
+        
     }];
 }
 

@@ -54,35 +54,35 @@
     [backButton addTarget:self action:@selector(clickMenuBtn:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     fixedSpace.width = -5;
-    
+/*
     UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 38, 38)];
     //headImageView.image = [UIImage imageNamed:@"timg.jpg"];
     headImageView.layer.cornerRadius = 38/2;
     headImageView.layer.masksToBounds = YES;
     headImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.headImageView = headImageView;
-    
+*/
     UILabel *userLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 38)];
     userLabel.textColor = [UIColor whiteColor];
     userLabel.textAlignment = NSTextAlignmentLeft;
     userLabel.backgroundColor = [UIColor clearColor];
-    userLabel.font = DMFontPingFang_Light(12);
+    userLabel.font = DMFontPingFang_Light(14);
     self.userLabel = userLabel;
     
-    self.navigationItem.leftBarButtonItems = @[fixedSpace, [[UIBarButtonItem alloc] initWithCustomView:backButton], [[UIBarButtonItem alloc] initWithCustomView:headImageView], [[UIBarButtonItem alloc] initWithCustomView:userLabel]];
-
+//    self.navigationItem.leftBarButtonItems = @[fixedSpace, [[UIBarButtonItem alloc] initWithCustomView:backButton], [[UIBarButtonItem alloc] initWithCustomView:headImageView], [[UIBarButtonItem alloc] initWithCustomView:userLabel]];
+    self.navigationItem.leftBarButtonItems = @[fixedSpace, [[UIBarButtonItem alloc] initWithCustomView:backButton], [[UIBarButtonItem alloc] initWithCustomView:userLabel]];
     [self updateUserInfo];
 }
 
 - (void)updateUserInfo {
     
-    NSString *headUrl = [DMAccount getUserHeadUrl];
-    [self.headImageView sd_setImageWithURL:[NSURL URLWithString:headUrl] placeholderImage:DMPlaceholderImageDefault];
+//    NSString *headUrl = [DMAccount getUserHeadUrl];
+//    [self.headImageView sd_setImageWithURL:[NSURL URLWithString:headUrl] placeholderImage:DMPlaceholderImageDefault];
     NSString *identityString = [self getIdentityType:([DMAccount getUserIdentity].intValue ==0 ? DMStringIDStudent : DMStringIDTeacher)];
     NSString *userString = [NSString stringWithFormat:@"%@%@", [DMAccount getUserName], identityString];
     NSRange idRange = [userString rangeOfString:identityString];
     NSMutableAttributedString *attributeString = [[NSMutableAttributedString alloc] initWithString:userString];
-    [attributeString setAttributes:@{NSFontAttributeName: DMFontPingFang_UltraLight(12), NSForegroundColorAttributeName: [UIColor whiteColor] } range:idRange];
+    [attributeString setAttributes:@{NSFontAttributeName: DMFontPingFang_UltraLight(14), NSForegroundColorAttributeName: [UIColor whiteColor] } range:idRange];
     self.userLabel.attributedText = attributeString;
 }
 

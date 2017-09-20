@@ -54,6 +54,17 @@ static DMLiveVideoManager* _instance = nil;
     } else {
         //开发调试使用
         self.channelKey = @"";
+//        self.channelName = @"1110";
+//        self.uId = 54321;
+//        self.app_ID = AgoraSAppID;//AgoraAppID;
+//        
+//        NSString *name = [NSString stringWithFormat:@"%ld", self.uId];//@"222222";
+//        unsigned expiredTime =  (unsigned)[[NSDate date] timeIntervalSince1970] + 3600;
+//        NSString * token =  [DMSignalingKey calcToken:AgoraSAppID certificate:certificate1 account:name expiredTime:expiredTime];
+//        
+//        self.signalingKey = token;//@"";
+        
+        
         self.channelName = @"1111";
         self.uId = 0;
         self.signalingKey = @"";
@@ -92,7 +103,8 @@ static DMLiveVideoManager* _instance = nil;
     
     [self addTapEvent];
     
-    [self bindingAccountInfo:nil];
+//    [self bindingAccountInfo:nil];
+    [self bindingAccountInfo:[DMSecretKeyManager shareManager].obj];
     [self initializeAgoraEngine];
     [self initializeSignaling];
 }
@@ -233,6 +245,8 @@ static DMLiveVideoManager* _instance = nil;
     if (self.blockFirstRemoteVideoDecodedOfUid) {
         self.blockFirstRemoteVideoDecodedOfUid(uid, size);
     }
+    //存储远端用户ID
+    [[DMSecretKeyManager shareManager] updteRemoteUserId:[NSString stringWithFormat:@"%ld", uid]];
     [self setupRemoteVideoDisplay:uid];
 }
 
@@ -337,10 +351,8 @@ static DMLiveVideoManager* _instance = nil;
 - (void)initializeSignaling {
     self.inst = [AgoraAPI getInstanceWithoutMedia:self.app_ID];
     AgoraAPI * __weak weak_inst = _inst;
-//    NSString *name = @"222222";
-//    unsigned expiredTime =  (unsigned)[[NSDate date] timeIntervalSince1970] + 3600;
-//    NSString * token =  [DMSignalingKey calcToken:AgoraSAppID certificate:certificate1 account:name expiredTime:expiredTime];
-//    
+
+//
     WS(weakSelf)
     [self.inst login2:self.app_ID
               account:[NSString stringWithFormat:@"%ld", self.uId]
@@ -401,7 +413,9 @@ static DMLiveVideoManager* _instance = nil;
                       faile:(void(^)(NSString *messageID, AgoraEcode ecode))faile {
     
     
-    [_inst messageInstantSend:name uid:0 msg:msg msgID:msgID];
+    NSString *account = @"12345";//STR_IS_NIL(name) ? [DMSecretKeyManager shareManager].remoteUserID : name;
+    
+    [_inst messageInstantSend:account uid:0 msg:msg msgID:msgID];
     
     //发送成功
     _inst.onMessageSendSuccess = ^(NSString *messageID) {

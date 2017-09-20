@@ -7,7 +7,8 @@
 #import "DMBrowseView.h"
 #import "DMUploadController.h"
 #import "DMLiveController.h"
-
+#import "DMLiveVideoManager.h"
+#import "DMSendSignalingMsg.h"
 #define kCourseFileCellID @"Courseware"
 
 @interface DMCourseFilesController () <DMBottomBarViewDelegate, DMTabBarViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, DMBrowseCourseControllerDelegate, DMBrowseViewDelegate>
@@ -194,6 +195,12 @@
 - (void)browseViewDidTapSync:(DMBrowseView *)browseView{
     DMLogFunc
 //    self.selectedCpirses
+    NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_Start_Syn sourceData:self.selectedCpirses index:0];
+    [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) {
+        
+    } faile:^(NSString *messageID, AgoraEcode ecode) {
+        
+    }];
 }
 
 // 删除
