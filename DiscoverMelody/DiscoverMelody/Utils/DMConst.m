@@ -5,11 +5,13 @@
 
 #import "DMConst.h"
 
-#pragma NSString
+#pragma NSString - 文案信息
 NSString * const Logout_Msg = @"确定退出登录吗？";
 NSString * const Capture_Msg = @"请允许访问相机";
 NSString * const Audio_Msg = @"请允许访问麦克风";
 NSString * const Photo_Msg = @"“寻律”要访问您的相册, 是否允许?";
+NSString * const DMTitleExitLiveRoom = @"请问您确定要结束课程吗?";
+NSString * const DMTitleLiveAutoClose = @"确定后视频将自动关闭, 并结束课程";
 NSString * const DMTitleAllPhotos = @"所有照片";
 NSString * const DMTitlePhotoUpload = @"传送";
 NSString * const DMTitleDonAllow = @"不允许";
@@ -28,6 +30,7 @@ NSString * const DMTitleGoSetting = @"去设置";
 NSString * const DMTitleHome = @"首页";
 NSString * const DMTitleSync = @"同步";
 NSString * const DMTitleUpload = @"上传";
+NSString * const DMTitleUploadCount = @"最多上传%d张图片";
 NSString * const DMTitleDeleted = @"删除";
 NSString * const DMTitleImmediatelySync = @"立即同步";
 NSString * const DMTitleMyUploadFild = @"我上传的文件";

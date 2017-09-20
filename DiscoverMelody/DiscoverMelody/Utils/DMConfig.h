@@ -16,4 +16,5 @@
 
 
 #pragma mark -
-#pragma mark - 文案信息
+
+#define kMaxUploadPhotoCount 9

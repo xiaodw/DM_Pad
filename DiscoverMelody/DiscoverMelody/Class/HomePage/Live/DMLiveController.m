@@ -179,6 +179,18 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 - (void)liveButtonControlViewDidTapLeave:(DMLiveButtonControlView *)liveButtonControlView {
     WS(weakSelf)
     
+    if(self.alreadyTime < self.totalTime) {
+        DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:DMTitleExitLiveRoom message:DMTitleLiveAutoClose preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleOK otherTitle:DMTitleCancel, nil];
+        [alert showWithViewController:self IndexBlock:^(NSInteger index) {
+            if (index == 0) { // 右侧
+                return;
+            }
+            [weakSelf.liveVideoManager quitLiveVideo:^(BOOL success) {
+                [weakSelf.navigationVC popViewControllerAnimated:YES];
+            }];
+        }];
+    }
+    
     [self.liveVideoManager quitLiveVideo:^(BOOL success) {
         if (weakSelf.presentVCs.count == 0) {
             [weakSelf.navigationVC popViewControllerAnimated:YES];

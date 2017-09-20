@@ -130,7 +130,6 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
     NSString *accountString = _accountTextField.text;
     NSString *pwdString = _passwordTextField.text;
     [self touchesBegan:[NSSet set] withEvent:nil];
-    NSLog(@"发送API{account: %@, pwd: %@}", accountString, pwdString);
     
     //请求登录
     [DMApiModel loginSystem:accountString psd:pwdString block:^(BOOL result) {

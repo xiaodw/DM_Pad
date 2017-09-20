@@ -137,10 +137,6 @@
     [self.collectionView reloadData];
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    NSLog(@"%f", scrollView.contentOffset.x / self.collectionView.dm_width );
-}
-
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     if (scrollView == self.collectionView) return;
     

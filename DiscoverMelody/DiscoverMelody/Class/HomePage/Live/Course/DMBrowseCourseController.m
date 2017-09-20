@@ -62,7 +62,6 @@
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     NSInteger index = (scrollView.contentOffset.x / self.collectionView.dm_width + 0.5); // 约等于
     self.currentIndexPath = [NSIndexPath indexPathForRow:index inSection:0];
-    NSLog(@"%@", self.currentIndexPath);
 }
 
 - (void)setupMakeAddSubviews {
