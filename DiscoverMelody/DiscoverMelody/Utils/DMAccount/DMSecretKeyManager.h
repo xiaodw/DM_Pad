@@ -15,9 +15,9 @@
 @property (nonatomic, copy) NSString *uid;
 @property (nonatomic, copy) NSString *appId;
 @property (nonatomic, strong) DMClassDataModel *obj;
-@property (nonatomic, copy) NSString *remoteUserID;
+@property (nonatomic, copy) NSString *other_uid;
 
 + (DMSecretKeyManager *)shareManager;
 - (void)updateDMSKeys:(DMClassDataModel *)obj;
-- (void)updteRemoteUserId:(NSString *)remoteID;
+
 @end

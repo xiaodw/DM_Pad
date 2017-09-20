@@ -39,5 +39,7 @@
                  block:(void(^)(BOOL result, DMClassDataModel *obj))complectionBlock;
 
 
+//客服接口
++ (void)getCustomerInfo:(void(^)(BOOL result, DMClassDataModel *obj))complectionBlock;;
 
 @end

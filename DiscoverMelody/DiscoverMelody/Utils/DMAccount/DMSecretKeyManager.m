@@ -24,11 +24,9 @@
     self.signalingkey = obj.signaling_key;
     self.uid = obj.uid;
     self.appId = AgoraSAppID;//AgoraAppID;
+    self.other_uid = obj.other_uid;
     self.obj = obj;
-}
-
-- (void)updteRemoteUserId:(NSString *)remoteID {
-    self.remoteUserID = remoteID;
+    
 }
 
 @end

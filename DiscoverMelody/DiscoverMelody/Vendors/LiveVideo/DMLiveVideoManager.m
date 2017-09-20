@@ -250,8 +250,6 @@ static DMLiveVideoManager* _instance = nil;
     if (self.blockFirstRemoteVideoDecodedOfUid) {
         self.blockFirstRemoteVideoDecodedOfUid(uid, size);
     }
-    //存储远端用户ID
-    [[DMSecretKeyManager shareManager] updteRemoteUserId:[NSString stringWithFormat:@"%ld", uid]];
     [self setupRemoteVideoDisplay:uid];
 }
 
@@ -418,7 +416,7 @@ static DMLiveVideoManager* _instance = nil;
                       faile:(void(^)(NSString *messageID, AgoraEcode ecode))faile {
     
     
-    NSString *account = STR_IS_NIL(name) ? [DMSecretKeyManager shareManager].remoteUserID : name;
+    NSString *account = STR_IS_NIL(name) ? [DMSecretKeyManager shareManager].other_uid : name;
     NSLog(@"发送信令消息的 account = %@", account);
     [_inst messageInstantSend:account uid:0 msg:msg msgID:msgID];
     

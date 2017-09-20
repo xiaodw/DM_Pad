@@ -155,7 +155,6 @@
 //    }];
 
     btn.userInteractionEnabled = YES;
-
     [weakSelf joinClassRoom];
     
 }

@@ -131,7 +131,7 @@
     cell.nameLabel.text = data.course_name;
     cell.timeLabel.text = [@"上课时间：" stringByAppendingString:
                            [DMTools timeFormatterYMDFromTs:data.start_time format:@"MM月dd日 HH:mm"]];//@"上课时间：8月16日 10:00";
-    cell.statusLabel.text = @"未开始";
+    cell.statusLabel.text = @"";
     if (data.live_status.intValue == 0) {
         cell.statusLabel.text = @"未开始";
     } else if (data.live_status.intValue == 1) {
