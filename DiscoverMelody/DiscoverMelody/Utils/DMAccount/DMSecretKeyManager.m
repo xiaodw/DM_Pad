@@ -23,12 +23,10 @@
     self.channelName = obj.channel_name;
     self.signalingkey = obj.signaling_key;
     self.uid = obj.uid;
-    self.appId = AgoraAppID;
+    self.appId = AgoraSAppID;//AgoraAppID;
+    self.other_uid = obj.other_uid;
     self.obj = obj;
-}
-
-- (void)updteRemoteUserId:(NSString *)remoteID {
-    self.remoteUserID = remoteID;
+    
 }
 
 @end

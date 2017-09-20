@@ -74,7 +74,7 @@
     return _homeView;
 }
 
-- (void)clickReload {
+- (void)clickReload:(id)sender {
     [self getDataFromServer];
 }
 
@@ -82,9 +82,10 @@
     self.courseObj = courseObj;
 }
 //本课文件
-- (void)clickCourseFiles {
+- (void)clickCourseFiles:(id)sender {
     NSLog(@"本课文件");
-    
+    UIButton *btn = (UIButton *)sender;
+    btn.userInteractionEnabled = NO;//防止恶意极限快速点击
     DMCourseFilesController *courseFilesVC = [DMCourseFilesController new];
     courseFilesVC.columns = 6;
     courseFilesVC.leftMargin = 15;
@@ -99,9 +100,14 @@
     courseFilesVC.modalPresentationStyle = UIModalPresentationCustom;
     courseFilesVC.lessonID = @"1";
     [self presentViewController:courseFilesVC animated:YES completion:nil];
+    
+    btn.userInteractionEnabled = YES;//防止恶意极限快速点击
 }
 //进入课堂
-- (void)clickClassRoom {
+- (void)clickClassRoom:(id)sender {
+    UIButton *btn = (UIButton *)sender;
+    btn.userInteractionEnabled = NO;//防止恶意极限快速点击
+    
     WS(weakSelf)
     AVAuthorizationStatus authStatus =  [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
     if (authStatus == AVAuthorizationStatusRestricted || authStatus ==AVAuthorizationStatusDenied) {
@@ -116,6 +122,7 @@
                 }
             }
         }];
+        btn.userInteractionEnabled = YES;
         return;
     }
     AVAuthorizationStatus authStatusAudio =  [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeAudio];
@@ -131,19 +138,25 @@
                 }
             }
         }];
+        btn.userInteractionEnabled = YES;
         return;
     }
-    [weakSelf goToClassRoom];
+    [weakSelf goToClassRoom:btn];
 }
 
-- (void)goToClassRoom {
+- (void)goToClassRoom:(UIButton *)btn {
     NSLog(@"进入课堂");
     WS(weakSelf);
     [DMApiModel joinClaseeRoom:self.courseObj.course_id accessTime:[DMTools getCurrentTimestamp] block:^(BOOL result, DMClassDataModel *obj) {
+        btn.userInteractionEnabled = YES;
         if (result) {
             [weakSelf joinClassRoom];
         }
     }];
+
+//    btn.userInteractionEnabled = YES;
+//    [weakSelf joinClassRoom];
+    
 }
 
 - (void)joinClassRoom {
