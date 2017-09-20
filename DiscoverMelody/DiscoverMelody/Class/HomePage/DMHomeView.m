@@ -45,7 +45,16 @@
 }
 
 - (void)updateTopViewInfo:(DMCourseDatasModel *)obj {
-    [_headImageView sd_setImageWithURL:[NSURL URLWithString:obj.avatar] placeholderImage:[UIImage imageNamed:@"timg1.jpg"]];
+    
+    if ([[DMAccount getUserIdentity] intValue] == 0) {
+        //学生端
+        [_headImageView sd_setImageWithURL:[NSURL URLWithString:obj.avatar] placeholderImage:[UIImage imageNamed:@"timg1.jpg"]];
+    } else {
+        
+        
+    }
+    
+    
     _courseLabel.text = obj.course_name;
     _nameLabel.text = obj.teacher_name;
     _timeLabel.text = [@"上课时间：" stringByAppendingString:
@@ -181,48 +190,64 @@
 - (void)configCourseInfoView {
     
     UIView *headView1 = [[UIView alloc] init];
-    headView1.backgroundColor = [UIColor whiteColor];
-    headView1.layer.cornerRadius = 89/2;
-    headView1.layer.masksToBounds = YES;
-    headView1.alpha = 0.05;
-    
     UIView *headView2 = [[UIView alloc] init];
-    headView2.backgroundColor = [UIColor whiteColor];
-    headView2.alpha = 0.1;
-    headView2.layer.cornerRadius = 80/2;
-    headView2.layer.masksToBounds = YES;
-    
-    [_topView addSubview:headView1];
-    [_topView addSubview:headView2];
-    
-    [_topView addSubview:self.headImageView];
+    if ([[DMAccount getUserIdentity] intValue] == 0) {
+        //学生端
+        headView1.backgroundColor = [UIColor whiteColor];
+        headView1.layer.cornerRadius = 89/2;
+        headView1.layer.masksToBounds = YES;
+        headView1.alpha = 0.05;
+        
+        headView2.backgroundColor = [UIColor whiteColor];
+        headView2.alpha = 0.1;
+        headView2.layer.cornerRadius = 80/2;
+        headView2.layer.masksToBounds = YES;
+        
+        [_topView addSubview:headView1];
+        [_topView addSubview:headView2];
+        
+        [_topView addSubview:self.headImageView];
+        
+        [headView1 makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_topView.mas_top).offset(32+64);
+            make.centerX.equalTo(_topView);
+            make.size.equalTo(CGSizeMake(89, 89));
+        }];
+        
+        [headView2 makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(headView1.mas_top).offset(5);
+            make.centerX.equalTo(_topView);
+            make.size.equalTo(CGSizeMake(80, 80));
+        }];
+        
+        [_headImageView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(headView2.mas_top).offset(4);
+            make.centerX.equalTo(_topView);
+            make.size.equalTo(CGSizeMake(72, 72));
+        }];
+    } else {
+        headView1 = nil;
+        headView2 = nil;
+    }
+
     [_topView addSubview:self.courseLabel];
     [_topView addSubview:self.nameLabel];
     [_topView addSubview:self.timeLabel];
-    
-    [headView1 makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_topView.mas_top).offset(32+64);
-        make.centerX.equalTo(_topView);
-        make.size.equalTo(CGSizeMake(89, 89));
-    }];
-    
-    [headView2 makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(headView1.mas_top).offset(5);
-        make.centerX.equalTo(_topView);
-        make.size.equalTo(CGSizeMake(80, 80));
-    }];
-    
-    [_headImageView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(headView2.mas_top).offset(4);
-        make.centerX.equalTo(_topView);
-        make.size.equalTo(CGSizeMake(72, 72));
-    }];
-    
-    [_courseLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(headView1.mas_bottom).offset(30);
-        make.centerX.equalTo(_topView);
-        make.size.equalTo(CGSizeMake(330, 20));
-    }];
+
+    if (headView1 == nil) {
+        [_courseLabel makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_topView.mas_top).offset(100);
+            make.centerX.equalTo(_topView);
+            make.size.equalTo(CGSizeMake(330, 20));
+        }];
+    } else {
+        [_courseLabel makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(headView1.mas_bottom).offset(30);
+            make.centerX.equalTo(_topView);
+            make.size.equalTo(CGSizeMake(330, 20));
+        }];
+    }
+
     
     [_nameLabel makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_courseLabel.mas_bottom).offset(14);

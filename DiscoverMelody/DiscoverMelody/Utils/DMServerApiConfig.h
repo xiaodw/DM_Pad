@@ -9,6 +9,8 @@
 #ifndef DMServerApiConfig_h
 #define DMServerApiConfig_h
 
+#define App_Version [[NSBundle mainBundle].infoDictionary objectForKey:@"CFBundleShortVersionString"]
+#define App_Type @"cn_s" // @"cn_s"  @"cn_t" @"us_s"  @"us_t"
 
 //ENVIRONMENT  0开发，1测试，2正式， 默认为0
 #define ENVIRONMENT   [[[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"]] objectForKey:@"DMSeverCodeKey"] intValue]
@@ -18,9 +20,6 @@
 @"http://test.api.cn.discovermelody.com/" : ( (ENVIRONMENT == 2) ? \
 @"http://api.cn.discovermelody.com/" : \
 @"http://api.cn.discovermelody.com/"))
-
-#define App_Version [[NSBundle mainBundle].infoDictionary objectForKey:@"CFBundleShortVersionString"]
-#define App_Type @"iPad"
 
 //登录
 #define DM_User_Loing_Url               [DM_Url stringByAppendingFormat:@"user/login"]
