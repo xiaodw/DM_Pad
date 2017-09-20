@@ -7,7 +7,7 @@
 //
 
 #import "DMCustomerCell.h"
-
+#import "DMCustomerDataModel.h"
 @interface DMCustomerCell ()
 @property (nonatomic, strong) UILabel *teachLabel;
 @property (nonatomic, strong) UILabel *wecatAccountLabel;
@@ -90,10 +90,11 @@
 }
 
 - (void)configObj:(id)obj {
-    self.teachLabel.text = @"寻律课程顾问-A老师";
-    self.wecatAccountLabel.text = @"微信号：Discover-Melody-1";
+    DMCustomerTeacherInfo *infoObj = (DMCustomerTeacherInfo *)obj;
+    self.teachLabel.text = infoObj.name;
+    self.wecatAccountLabel.text = [NSString stringWithFormat:@"微信号：%@", infoObj.webchat];
     self.bgCodeImageView.image = [UIImage imageNamed:@"customer_code"];
-    [self.codeImageView sd_setImageWithURL:nil placeholderImage:[UIImage imageNamed:@"codeTest"]];
+    [self.codeImageView sd_setImageWithURL:[NSURL URLWithString:infoObj.img_url] placeholderImage:[UIImage imageNamed:@""]];
 }
 
 - (void)awakeFromNib {

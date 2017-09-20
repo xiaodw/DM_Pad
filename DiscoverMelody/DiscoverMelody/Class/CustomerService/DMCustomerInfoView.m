@@ -7,7 +7,7 @@
 //
 
 #import "DMCustomerInfoView.h"
-
+#import "DMCustomerDataModel.h"
 @interface DMCustomerInfoView ()
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIButton *infoButton;
@@ -84,17 +84,20 @@
 }
 
 - (void)updateSubViewsObj:(id)obj {
-    self.titleLabel.text = @"咨询电话";
+    
     if (self.isTap) {
+        
         [self.infoButton setImage:[UIImage imageNamed:@"customer_bottom_arrow"] forState:UIControlStateNormal];
     } else {
-        [self.infoButton setTitle:@"400-008-2899" forState:UIControlStateNormal];
+        DMCustomerTel *telObj = (DMCustomerTel *)obj;
+        self.titleLabel.text = telObj.name;
+        [self.infoButton setTitle:telObj.tel forState:UIControlStateNormal];
     }
 }
 
 
 - (void)updateSubViewsObj:(id)obj isFurled: (BOOL)isFurled {
-    self.titleLabel.text = @"寻律微信客服";
+    self.titleLabel.text = (NSString *)obj;//@"寻律微信客服";
     if (isFurled) {
         [self.infoButton setImage:[UIImage imageNamed:@"customer_bottom_arrow"] forState:UIControlStateNormal];
     } else {

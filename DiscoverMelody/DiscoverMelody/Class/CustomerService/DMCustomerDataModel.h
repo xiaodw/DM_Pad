@@ -22,6 +22,9 @@
 @interface DMCustomerTeacher : NSObject
 @property (nonatomic, copy) NSString *customer_region;
 @property (nonatomic, strong) NSArray *customer_list;
+
+@property (nonatomic, assign) BOOL isFurled;
+
 @end
 
 @interface DMCustomerDataModel : DMBaseDataModel

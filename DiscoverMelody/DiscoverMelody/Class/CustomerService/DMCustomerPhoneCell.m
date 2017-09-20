@@ -31,6 +31,7 @@
 }
 
 - (void)configObj:(id)obj {
+
     [self.infoView updateSubViewsObj:obj];
 }
 
