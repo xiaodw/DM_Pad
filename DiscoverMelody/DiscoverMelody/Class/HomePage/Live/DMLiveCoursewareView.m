@@ -25,6 +25,11 @@
     if (self) {
         [self setupMakeAddSubviews];
         [self setupMakeLayoutSubviews];
+        
+        NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
+        self.closeButton.hidden = userIdentity;
+        self.leftButton.hidden = userIdentity;
+        self.rightButton.hidden = userIdentity;
     }
     return self;
 }
