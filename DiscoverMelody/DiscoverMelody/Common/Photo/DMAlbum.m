@@ -36,7 +36,7 @@
         [album enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
             if (result == nil) return;
             DMAsset *asset = [[DMAsset alloc] initWithAsset:result];
-            [weakSelf.assets addObject:asset];
+            [weakSelf.assets insertObject:asset atIndex:0];
         }];
     }
     return self;

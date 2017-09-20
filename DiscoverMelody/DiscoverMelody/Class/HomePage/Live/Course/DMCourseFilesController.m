@@ -232,10 +232,14 @@
             CGFloat width = DMScreenWidth - 80;
             CGFloat height = DMScreenHeight - 86;
             browseCourseVC.itemSize = CGSizeMake(width, height);
-            browseCourseVC.courses = self.currentCpirses;
             browseCourseVC.browseDelegate = self;
+            browseCourseVC.currentIndexPath = indexPath;
+            browseCourseVC.courses = self.currentCpirses;
             browseCourseVC.modalPresentationStyle = UIModalPresentationCustom;
+            
+            self.animationHelper.coverBackgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
             self.animationHelper.closeAnimate = NO;
+            browseCourseVC.transitioningDelegate = self.animationHelper;
             [self presentViewController:browseCourseVC animated:NO completion:nil];
             return;
         }
@@ -246,10 +250,10 @@
         browseCourseVC.itemSize = CGSizeMake(width, height);
         browseCourseVC.browseDelegate = self;
         browseCourseVC.currentIndexPath = indexPath;
-        browseCourseVC.modalPresentationStyle = UIModalPresentationCustom;
         browseCourseVC.courses = self.currentCpirses;
+        browseCourseVC.modalPresentationStyle = UIModalPresentationCustom;
         
-        self.animationHelper.coverBackgroundColor = [UIColor clearColor];
+        self.animationHelper.coverBackgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
         self.animationHelper.closeAnimate = NO;
         self.animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth * 0.5, DMScreenHeight);
         browseCourseVC.transitioningDelegate = self.animationHelper;
@@ -458,6 +462,8 @@
         _collectionView.delegate = self;
         _collectionView.backgroundColor = UIColorFromRGB(0xf6f6f6);
         _collectionView.prefetchingEnabled = NO;
+        _collectionView.showsVerticalScrollIndicator = NO;
+        _collectionView.showsHorizontalScrollIndicator = NO;
         
         [_collectionView registerClass:[DMCourseFileCell class] forCellWithReuseIdentifier:kCourseFileCellID];
     }

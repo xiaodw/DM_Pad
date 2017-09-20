@@ -88,7 +88,7 @@
 - (DMNavigationBar *)navigationBar {
     if (!_navigationBar) {
         _navigationBar = [DMNavigationBar new];
-        _navigationBar.leftBarButton.hidden = YES;
+        [_navigationBar.leftBarButton addTarget:self action:@selector(didTapSelect:) forControlEvents:UIControlEventTouchUpInside];
         _navigationBar.titleLabel.text = DMTitleAllPhotos;
         [_navigationBar.rightBarButton setTitle:DMTitleCancel forState:UIControlStateNormal];
         [_navigationBar.rightBarButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];

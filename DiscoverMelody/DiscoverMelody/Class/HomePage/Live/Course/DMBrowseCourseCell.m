@@ -20,15 +20,17 @@
     _courseModel = courseModel;
     
     if (!_isFullScreen) {
-        [self.imageView sd_setImageWithURL:[NSURL URLWithString:[courseModel.img trim]] placeholderImage:[UIImage imageNamed:@"image_placeholder_280"]];
+        [self.imageView sd_setImageWithURL:[NSURL URLWithString:[courseModel.img trim]] placeholderImage:[UIImage imageNamed:@"image_placeholder_300"]];
         return;
     }
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        [self.contentView addSubview:self.imageView];
+        self.contentView.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor clearColor];
         
+        [self.contentView addSubview:self.imageView];
         [_imageView makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.contentView);
         }];

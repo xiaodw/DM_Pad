@@ -20,6 +20,7 @@ NSString * const DMTitleNetworkException = @"网络异常";
 NSString * const DMTitleLogin = @"登录";
 NSString * const DMTitleOK = @"确定";
 NSString * const DMTitleCancel = @"取消";
+NSString * const DMTitlePhoto = @"相册";
 NSString * const DMTitleContactCustomerService = @"联系客服";
 NSString * const DMTitleRefresh = @"刷新";
 NSString * const DMTitleSelected = @"选择";
