@@ -139,11 +139,11 @@
 - (void)goToClassRoom {
     NSLog(@"进入课堂");
     WS(weakSelf);
-//    [DMApiModel joinClaseeRoom:self.courseObj.course_id accessTime:[DMTools getCurrentTimestamp] block:^(BOOL result, DMClassDataModel *obj) {
-//        if (result) {
+    [DMApiModel joinClaseeRoom:self.courseObj.course_id accessTime:[DMTools getCurrentTimestamp] block:^(BOOL result, DMClassDataModel *obj) {
+        if (result) {
             [weakSelf joinClassRoom];
-//        }
-//    }];
+        }
+    }];
 }
 
 - (void)joinClassRoom {
@@ -155,6 +155,7 @@
 //                                                       accessTime:[DMAccount getUserJoinClassTime]];
 //    
 //    [self.navigationController pushViewController:liveVC animated:YES];
+    
     DMLiveController *liveVC = [DMLiveController new];
     liveVC.navigationVC = self.navigationController;
     liveVC.lessonID = @"1";

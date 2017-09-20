@@ -54,22 +54,21 @@ static DMLiveVideoManager* _instance = nil;
     } else {
         //开发调试使用
         self.channelKey = @"";
-<<<<<<< HEAD
-        self.channelName = @"1110";
-        self.uId = 54321;
-        self.app_ID = AgoraSAppID;//AgoraAppID;
+//        self.channelName = @"1110";
+//        self.uId = 54321;
+//        self.app_ID = AgoraSAppID;//AgoraAppID;
+//        
+//        NSString *name = [NSString stringWithFormat:@"%ld", self.uId];//@"222222";
+//        unsigned expiredTime =  (unsigned)[[NSDate date] timeIntervalSince1970] + 3600;
+//        NSString * token =  [DMSignalingKey calcToken:AgoraSAppID certificate:certificate1 account:name expiredTime:expiredTime];
+//        
+//        self.signalingKey = token;//@"";
         
-        NSString *name = [NSString stringWithFormat:@"%ld", self.uId];//@"222222";
-        unsigned expiredTime =  (unsigned)[[NSDate date] timeIntervalSince1970] + 3600;
-        NSString * token =  [DMSignalingKey calcToken:AgoraSAppID certificate:certificate1 account:name expiredTime:expiredTime];
         
-        self.signalingKey = token;//@"";
-=======
         self.channelName = @"1111";
         self.uId = 0;
         self.signalingKey = @"";
         self.app_ID = AgoraAppID;
->>>>>>> 5fd4df2c9b0a78cde6461121de10817ef5cf9112
     }
 }
 
@@ -104,7 +103,8 @@ static DMLiveVideoManager* _instance = nil;
     
     [self addTapEvent];
     
-    [self bindingAccountInfo:nil];
+//    [self bindingAccountInfo:nil];
+    [self bindingAccountInfo:[DMSecretKeyManager shareManager].obj];
     [self initializeAgoraEngine];
     [self initializeSignaling];
 }
