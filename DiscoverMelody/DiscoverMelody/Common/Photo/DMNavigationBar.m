@@ -59,7 +59,7 @@
     if (!_titleLabel) {
         _titleLabel = [UILabel new];
         _titleLabel.textColor = [UIColor whiteColor];
-        _titleLabel.font = DMFontPingFang_Medium(20);
+        _titleLabel.font = DMFontPingFang_Medium(16);
     }
     
     return _titleLabel;

@@ -83,6 +83,7 @@
 
 - (UIButton *)setupButtonWithTitle:(NSString *)title {
     UIButton *button = [DMNotHighlightedButton new];
+    button.titleLabel.font = DMFontPingFang_Light(16);
     [button setTitle:title forState:UIControlStateNormal];
     [button setTitleColor:DMColorWithRGBA(153, 153, 153, 1) forState:UIControlStateNormal];
     [button setTitleColor:DMColorBaseMeiRed forState:UIControlStateSelected];

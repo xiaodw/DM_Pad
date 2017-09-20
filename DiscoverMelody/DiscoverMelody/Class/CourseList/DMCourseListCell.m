@@ -44,7 +44,7 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
     //课程状态
     NSInteger live_status = [model.live_status intValue];//arc4random_uniform(5);
     
-    _numberLabel.text = model.course_id; //[NSString stringWithFormat:@"    %@", @"1234567"];
+    _numberLabel.text = [NSString stringWithFormat:@"    %@", model.course_id]; //[NSString stringWithFormat:@"    %@", @"1234567"];
     _nameLabel.text = model.course_name;//@"未来之星1V1--钢琴";
     _studentNameLabel.text = model.teacher_name;//@"frank";
     _dateLabel.text = [DMTools timeFormatterYMDFromTs:model.start_time format:@"yyyy/MM/dd"]; //@"2017/2/22";

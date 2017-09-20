@@ -344,7 +344,7 @@
         UILabel *titleLabel = [UILabel new];
         titleLabel.text = DMTextThisClassFile;
         titleLabel.textColor = [UIColor whiteColor];
-        titleLabel.font = DMFontPingFang_Medium(20);
+        titleLabel.font = DMFontPingFang_Medium(16);
         
         [_navigationBar addSubview:leftBarButton];
         [_navigationBar addSubview:self.rightBarButton];
