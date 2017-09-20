@@ -9,6 +9,8 @@ UIKIT_EXTERN NSString * const Logout_Msg;
 UIKIT_EXTERN NSString * const Capture_Msg;
 UIKIT_EXTERN NSString * const Audio_Msg;
 UIKIT_EXTERN NSString * const Photo_Msg;
+UIKIT_EXTERN NSString * const DMTitleExitLiveRoom;
+UIKIT_EXTERN NSString * const DMTitleLiveAutoClose;
 UIKIT_EXTERN NSString * const DMTitleAllPhotos;
 UIKIT_EXTERN NSString * const DMTitlePhotoUpload;
 UIKIT_EXTERN NSString * const DMTitleDonAllow;
