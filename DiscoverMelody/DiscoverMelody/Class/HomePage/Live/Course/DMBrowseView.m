@@ -131,28 +131,18 @@
     [self.collectionView reloadData];
 }
 
-///** 拖拽动画即将停止调用 */
-//- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
-//    if (scrollView == self.browsecollectionView) {
-//        NSLog(@"YES");
-//    }
-//    NSLog(@"NOk");
-//    NSLog(@"scrollView: %@, func: %s", scrollView, __func__)
-//}
-//
-/////** 结束拖拽调用 decelerate: 是否在减速*/
-//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-//    NSLog(@"scrollView: %@, func: %s, decelerate:%d", scrollView, __func__, decelerate)
-//}
-//
-//- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
-//    NSLog(@"scrollView: %@, func: %s", scrollView, __func__)
-//}
-//
-///** 拖拽动画即将停止调用 */
-//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-//    NSLog(@"scrollView: %@, func: %s", scrollView, __func__)
-//}
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    NSLog(@"%f", scrollView.contentOffset.x / self.collectionView.dm_width );
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    if (scrollView == self.collectionView) return;
+    
+    NSInteger index = (scrollView.contentOffset.x / self.browsecollectionView.dm_width + 0.5); // 约等于
+    self.currentIndexPath = [NSIndexPath indexPathForRow:index inSection:0];
+    [self.collectionView reloadData];
+    [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
+}
 
 - (DMButton *)syncButton {
     if (!_syncButton) {
@@ -164,7 +154,7 @@
         _syncButton.titleLabel.font = DMFontPingFang_Regular(16);
         _syncButton.layer.borderColor = DMColorWithRGBA(239, 239, 239, 1).CGColor;
         _syncButton.layer.borderWidth = 0.5;
-        [_syncButton setTitle:@"同步" forState:UIControlStateNormal];
+        [_syncButton setTitle:DMTitleImmediatelySync forState:UIControlStateNormal];
         [_syncButton setImage:[UIImage imageNamed:@"btn_arrow_right_red"] forState:UIControlStateNormal];
         [_syncButton addTarget:self action:@selector(didTapSync) forControlEvents:UIControlEventTouchUpInside];
     }

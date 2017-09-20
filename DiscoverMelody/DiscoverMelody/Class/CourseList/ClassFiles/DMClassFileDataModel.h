@@ -13,6 +13,10 @@
 @property (nonatomic, copy) NSString *ID;
 @property (nonatomic, copy) NSString *img;
 @property (nonatomic, copy) NSString *img_thumb;
+
+@property (assign, nonatomic) NSInteger isSelected;
+@property (assign, nonatomic) NSInteger selectedIndex;
+
 @end
 
 @interface DMClassFilesDataModel : DMBaseDataModel

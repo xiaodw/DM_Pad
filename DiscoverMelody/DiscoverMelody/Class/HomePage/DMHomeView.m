@@ -270,7 +270,7 @@
     [cfBtn addTarget:self action:@selector(clickCourseFileBtn:) forControlEvents:UIControlEventTouchUpInside];
     
     UILabel *cfLabel = [[UILabel alloc] init];
-    cfLabel.text = @"本课文件";
+    cfLabel.text = DMTextThisClassFile;
     cfLabel.textAlignment = NSTextAlignmentCenter;
     cfLabel.textColor = [UIColor whiteColor];
     cfLabel.font = DMFontPingFang_Medium(14);
@@ -280,7 +280,7 @@
     [crBtn addTarget:self action:@selector(clickClassRoomBtn:) forControlEvents:UIControlEventTouchUpInside];
     
     UILabel *crLabel = [[UILabel alloc] init];
-    crLabel.text = @"进入课堂";
+    crLabel.text = DMTextJoinClass;
     crLabel.textAlignment = NSTextAlignmentCenter;
     crLabel.textColor = [UIColor whiteColor];
     crLabel.font = DMFontPingFang_Medium(14);
@@ -327,13 +327,13 @@
         _iconImageView.image = [UIImage imageNamed:@"icon_noCourse"];
         
         _titleLabel = [UILabel new];
-        _titleLabel.text = @"您暂时还没有课程哦";
+        _titleLabel.text = DMTextRecentNotClass;
         _titleLabel.font = DMFontPingFang_Light(20);
         _titleLabel.textColor = DMColorWithRGBA(204, 204, 204, 1);
         
         self.reloadButton = [UIButton buttonWithType:UIButtonTypeCustom];
         self.reloadButton.backgroundColor = DMColorWithRGBA(246, 246, 246, 1);
-        [self.reloadButton setTitle:@"刷新" forState:UIControlStateNormal];
+        [self.reloadButton setTitle:DMTitleRefresh forState:UIControlStateNormal];
         [self.reloadButton addTarget:self action:@selector(clickReload:) forControlEvents:UIControlEventTouchUpInside];
         [self.reloadButton setTitleColor:DMColorWithRGBA(204, 204, 204, 1) forState:UIControlStateNormal];
         self.reloadButton.titleLabel.font = DMFontPingFang_Light(16);

@@ -1,10 +1,10 @@
 #import <UIKit/UIKit.h>
 
-@class DMCourseModel, DMAsset;
+@class DMClassFileDataModel, DMAsset;
 
 @interface DMBrowseCourseCell : UICollectionViewCell
 
-@property (strong, nonatomic) DMCourseModel *courseModel;
+@property (strong, nonatomic) DMClassFileDataModel *courseModel;
 @property (strong, nonatomic) DMAsset *asset;
 
 @property (assign, nonatomic) BOOL isFullScreen;

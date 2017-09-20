@@ -49,7 +49,7 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
     _studentNameLabel.text = model.teacher_name;//@"frank";
     _dateLabel.text = [DMTools timeFormatterYMDFromTs:model.start_time format:@"yyyy/MM/dd"]; //@"2017/2/22";
     _detailDateLabel.text = [DMTools computationsPeriodOfTime:model.start_time duration:model.duration];//@"09:00-10:00";
-    _periodLabel.text = [[DMTools secondsConvertMinutes:model.duration] stringByAppendingString:@"分钟"];//@"1hr";
+    _periodLabel.text = [[DMTools secondsConvertMinutes:model.duration] stringByAppendingString:DMTextMinutes];//@"1hr";
     _statusLabel.hidden = NO;
     _filesButton.enabled = YES;
     _questionnaireButton.enabled = YES;
@@ -61,7 +61,7 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
     _statusButton.hidden = !_statusLabel.hidden;
     
     if(_statusButton.hidden) { //回顾按钮隐藏
-        NSDictionary *statusDict = self.courseStatus[live_status];
+        NSDictionary *statusDict = self.courseStatus[live_status%4];
         NSString *text = statusDict[kStatusTextKey];
         UIColor *textColor = statusDict[kStatusColorKey];
         _statusLabel.text = text;
@@ -286,7 +286,7 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
         _statusButton.layer.borderWidth = 0.5;
         _statusButton.titleLabel.font = DMFontPingFang_Light(14);
         [_statusButton setTitleColor:DMColorBaseMeiRed forState:UIControlStateNormal];
-        [_statusButton setTitle:@"回顾" forState:UIControlStateNormal];
+        [_statusButton setTitle:DMTitleClassRelook forState:UIControlStateNormal];
         [_statusButton setImage:[UIImage imageNamed:@"btn_relook_arrow_right"] forState:UIControlStateNormal];
         [_statusButton addTarget:self action:@selector(didTapRelook) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -348,12 +348,11 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
 
 - (NSArray *)courseStatus {
     if (!_courseStatus) {
-        NSDictionary *willStartDict = @{kStatusTextKey: @"尚未开始", kStatusColorKey: kColor51};
-        NSDictionary *inClassDict = @{kStatusTextKey: @"上课中...", kStatusColorKey: kColorGreen};
-        NSDictionary *endDict = @{kStatusTextKey: @"课程结束", kStatusColorKey: kColor153};
-        NSDictionary *canceledDict = @{kStatusTextKey: @"本课取消", kStatusColorKey: kColor204};
-        NSDictionary *noDict = @{kStatusTextKey: @"", kStatusColorKey: kColor204};
-        _courseStatus = @[willStartDict, inClassDict, endDict, canceledDict, noDict];
+        NSDictionary *willStartDict = @{kStatusTextKey: DMKeyStatusNotStart, kStatusColorKey: kColor51};
+        NSDictionary *inClassDict = @{kStatusTextKey: DMKeyStatusInclass, kStatusColorKey: kColorGreen};
+        NSDictionary *endDict = @{kStatusTextKey: DMKeyStatusClassEnd, kStatusColorKey: kColor153};
+        NSDictionary *canceledDict = @{kStatusTextKey: DMKeyStatusClassCancel, kStatusColorKey: kColor204};
+        _courseStatus = @[willStartDict, inClassDict, endDict, canceledDict];
     }
     
     return _courseStatus;

@@ -126,7 +126,7 @@
 
 //弹出网络错误提示框
 - (void)showExceptionDialog {
-     [DMTools showMessageToast:@"网络异常" duration:2 position:CSToastPositionCenter];
+     [DMTools showMessageToast:DMTitleNetworkException duration:2 position:CSToastPositionCenter];
 }
 
 - (void)cancleAllHttpRequestOperations {

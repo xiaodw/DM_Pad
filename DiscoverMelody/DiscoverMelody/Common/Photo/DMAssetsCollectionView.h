@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class DMAssetsCollectionView;
+@class DMAssetsCollectionView, DMAlbum;
 
 @protocol DMAssetsCollectionViewDelegate <NSObject>
 
@@ -21,7 +21,8 @@
 
 @interface DMAssetsCollectionView : UIView
 
-@property (strong, nonatomic) NSArray *assets;
+@property (strong, nonatomic) DMAlbum *album;
+
 @property (weak, nonatomic) id<DMAssetsCollectionViewDelegate> delegate;
 
 @end

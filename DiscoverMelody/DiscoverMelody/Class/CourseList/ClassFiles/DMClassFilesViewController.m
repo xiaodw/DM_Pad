@@ -25,13 +25,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    self.title = @"本课文件";
+    
+    self.title = DMTextThisClassFile;
     self.view.backgroundColor = [UIColor redColor];//DMColorWithRGBA(240, 240, 240, 1);
     [self setNavigationBarNoTransparence];
     
     [self setRigthBtn:CGRectMake(0, 0, 44, 44)
-                title:@"选择"
+                title:DMTitleSelected
           titileColor:DMColorWithRGBA(246, 8, 122, 1)
             imageName:@""
                  font:DMFontPingFang_Light(16)];
@@ -72,7 +72,6 @@
 }
 
 - (void)loadUI {
-
     _cfView = [[DMCoursewareFallsView alloc]
                initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-50)
                columns:6
@@ -93,9 +92,9 @@
     //点击选择
     self.isEdit = !self.isEdit;
     if (self.isEdit) {
-        [self updateRightBtnTitle:@"取消"];
+        [self updateRightBtnTitle:DMTitleCancel];
     } else {
-        [self updateRightBtnTitle:@"选择"];
+        [self updateRightBtnTitle:DMTitleSelected];
     }
     
     [_cfView updateCollectionViewStatus:self.isEdit];

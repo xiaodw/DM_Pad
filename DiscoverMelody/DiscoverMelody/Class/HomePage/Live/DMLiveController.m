@@ -11,7 +11,7 @@
 #import "DMSecretKeyManager.h"
 
 #define kSmallSize CGSizeMake(DMScaleWidth(240), DMScaleHeight(180))
-#define kColor31 DMColorWithRGBA(33, 33, 33, 1)
+#define kColor33 DMColorWithRGBA(33, 33, 33, 1)
 
 // 布局模式
 typedef NS_ENUM(NSInteger, DMLayoutMode) {
@@ -47,15 +47,11 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 @property (strong, nonatomic) DMLiveWillStartView *willStartView; // 即将开始的View
 
 #pragma mark - Other
-@property (assign, nonatomic) NSInteger userIdentity; // 0: 学生, 1: 老师
 @property (assign, nonatomic) BOOL isRemoteUserOnline; // 远端是否上线
 @property (nonatomic, strong) dispatch_source_t timer; // 1秒中更新一次时间UI
 @property (assign, nonatomic) NSInteger tapLayoutCount; // 点击布局按钮次数
 @property (assign, nonatomic) BOOL isCoursewareMode; // 是否是课件布局模式
 @property (assign, nonatomic) DMLayoutMode beforeLayoutMode; // 课件布局模式之前的模式
-
-#pragma mark - 临时变量做测试用
-//@property (strong, nonatomic) NSDate *startDate;
 
 @end
 
@@ -69,22 +65,15 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     }];
 }
 
-- (void)setupServerData {
-    _totalTime = 45 * 60;
-    _userIdentity = [[DMAccount getUserIdentity] integerValue];
-    _warningTime = 5 * 60;
-    _delayTime = 15 * 60;
-    _alreadyTime = _totalTime - _warningTime + _delayTime + _warningTime - 30;
-    
-    self.remotePlaceholderTitleLabel.text = _userIdentity == 1 ? @"学生尚未进入课堂" : @"老师尚未进入课堂";
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setupServerData];
+    [self computTime];
     
-    self.view.backgroundColor = kColor31;
+    NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
+    self.remotePlaceholderTitleLabel.text = userIdentity ? DMTextLiveStudentNotEnter : DMTextLiveTeacherNotEnter;
+    
+    self.view.backgroundColor = kColor33;
     [self.navigationController setNavigationBarHidden:YES];
     
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(remoteVideoTapped)];
@@ -96,7 +85,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self setupMakeLiveCallback];
     
     
-//    [self.liveVideoManager switchSound:NO block:nil];
+    [self.liveVideoManager switchSound:NO block:nil];
     
 #warning 移动到API 返回之后启动
     [self timer];
@@ -180,8 +169,20 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 // 离开
 - (void)liveButtonControlViewDidTapLeave:(DMLiveButtonControlView *)liveButtonControlView {
     WS(weakSelf)
+    
     [self.liveVideoManager quitLiveVideo:^(BOOL success) {
-        [weakSelf.navigationVC popViewControllerAnimated:YES];
+        if (weakSelf.presentVCs.count == 0) {
+            [weakSelf.navigationVC popViewControllerAnimated:YES];
+            return;
+        }
+     
+        for (int i = (int)weakSelf.presentVCs.count-1; i >= 0; i--) {
+            UIViewController *presentVC = weakSelf.presentVCs[i];
+            [weakSelf.presentVCs removeObject:presentVC];
+            [presentVC dismissViewControllerAnimated:NO completion:^{
+                [weakSelf.navigationVC popViewControllerAnimated:YES];
+            }];
+        }
     }];
 }
 
@@ -201,11 +202,17 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 // 课件
 - (void)liveButtonControlViewDidTapCourseFiles:(DMLiveButtonControlView *)liveButtonControlView {
     DMCourseFilesController *courseFilesVC = [DMCourseFilesController new];
+    courseFilesVC.columns = 3;
+    courseFilesVC.leftMargin = 15;
+    courseFilesVC.rightMargin = 15;
+    courseFilesVC.columnSpacing = 15;
     self.animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight);
     courseFilesVC.transitioningDelegate = self.animationHelper;
     courseFilesVC.modalPresentationStyle = UIModalPresentationCustom;
+    courseFilesVC.lessonID = self.lessonID;
     [self presentViewController:courseFilesVC animated:YES completion:nil];
-    
+    courseFilesVC.liveVC = self;
+    [self.presentVCs addObject:courseFilesVC];
 //    [self didTapCourseFiles];
  
 }
@@ -359,7 +366,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     
     // 做几分钟开课操作
     if (self.alreadyTime < 0) {
-        self.willStartView.willStartDescribeLabel.text = [NSString stringWithFormat:@"距离上课时间还有%zd分钟", -_alreadyTime/60 + 1];
+        self.willStartView.willStartDescribeLabel.text = [NSString stringWithFormat:DMTextLiveStartTimeInterval, -_alreadyTime/60 + 1];
         return;
     }
     if (_willStartView != nil) {
@@ -386,7 +393,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     if (_alreadyTime > self.totalTime && _alreadyTime/60 < self.totalTime/60 + _delayTime/60) {
         _timeButton.selected = YES;
         _alreadyTimeLabel.textColor = DMColorBaseMeiRed;
-        _describeTimeLabel.text = [NSString stringWithFormat:@"本课堂将于%zd分钟后自动关闭", (_delayTime/60 - (_alreadyTime/60-self.totalTime/60))];
+        _describeTimeLabel.text = [NSString stringWithFormat:DMTextLiveDelayTime, (_delayTime/60 - (_alreadyTime/60-self.totalTime/60))];
         return;
     }
     
@@ -465,7 +472,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     if (!_localPlaceholderTitleLabel) {
         _localPlaceholderTitleLabel = [UILabel new];
         _localPlaceholderTitleLabel.textColor = DMColor102;
-        _localPlaceholderTitleLabel.text = @"您的摄像头未开启";
+        _localPlaceholderTitleLabel.text = DMAlertTitleCameraNotOpen;
         _localPlaceholderTitleLabel.font = DMFontPingFang_Light(16);
     }
     
@@ -491,7 +498,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 - (UIView *)remoteBackgroundView {
     if (!_remoteBackgroundView) {
         _remoteBackgroundView = [UIView new];
-        _remoteBackgroundView.backgroundColor = kColor31;
+        _remoteBackgroundView.backgroundColor = kColor33;
         _remoteBackgroundView.userInteractionEnabled = NO;
     }
     
@@ -501,7 +508,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 - (UIView *)remoteView {
     if (!_remoteView) {
         _remoteView = [UIView new];
-        _remoteView.backgroundColor = kColor31;
+        _remoteView.backgroundColor = kColor33;
         _remoteView.userInteractionEnabled = self.remoteBackgroundView.userInteractionEnabled;
     }
     
@@ -511,7 +518,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 - (UIView *)localView {
     if (!_localView) {
         _localView = [UIView new];
-        _localView.backgroundColor = kColor31;
+        _localView.backgroundColor = kColor33;
     }
     
     return _localView;
@@ -757,6 +764,14 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [UIView animateWithDuration:0.25 animations:^{
         [self.view layoutSubviews];
     }];
+}
+
+- (NSMutableArray *)presentVCs {
+    if (!_presentVCs) {
+        _presentVCs = [NSMutableArray array];
+    }
+    
+    return _presentVCs;
 }
 
 @end

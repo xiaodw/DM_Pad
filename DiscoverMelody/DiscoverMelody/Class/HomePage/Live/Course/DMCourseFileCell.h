@@ -1,11 +1,11 @@
 #import <UIKit/UIKit.h>
 
-@class DMCourseModel, DMAsset;
+@class DMClassFileDataModel, DMAsset;
 
 @interface DMCourseFileCell : UICollectionViewCell
 
 @property (assign, nonatomic, getter=isEditorMode) BOOL editorMode;
-@property (strong, nonatomic) DMCourseModel *courseModel;
+@property (strong, nonatomic) DMClassFileDataModel *courseModel;
 @property (assign, nonatomic) BOOL showBorder;
 
 @property (strong, nonatomic) DMAsset *asset;

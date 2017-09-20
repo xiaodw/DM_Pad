@@ -70,7 +70,6 @@
         _willStartDescribeLabel = [UILabel new];
         _willStartDescribeLabel.textColor = [UIColor whiteColor];
         _willStartDescribeLabel.font = DMFontPingFang_Thin(20);
-        _willStartDescribeLabel.text = @"距离上课时间还有5分钟";
     }
     
     return _willStartDescribeLabel;

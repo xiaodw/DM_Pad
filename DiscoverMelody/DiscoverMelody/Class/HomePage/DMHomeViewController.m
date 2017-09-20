@@ -16,11 +16,14 @@
 
 #import "DMClassDataModel.h"
 #import "DMClassFilesViewController.h"
+#import "DMCourseFilesController.h"
+#import "DMTransitioningAnimationHelper.h"
 
 @interface DMHomeViewController () <DMHomeVCDelegate>
 
 @property (nonatomic, strong) DMHomeView *homeView;
 @property (nonatomic, strong) DMCourseDatasModel *courseObj;
+@property (strong, nonatomic) DMTransitioningAnimationHelper *animationHelper;
 
 @end
 
@@ -30,7 +33,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     //[self setNavTitle:@"个人主页"];
-    self.title = @"首页";
+    self.title = DMTitleHome;
     
     self.view.backgroundColor = UIColorFromRGB(0xf6f6f6);
     [self.view addSubview:self.homeView];
@@ -80,10 +83,22 @@
 }
 //本课文件
 - (void)clickCourseFiles {
-    
     NSLog(@"本课文件");
-    DMClassFilesViewController *cf = [[DMClassFilesViewController alloc] init];
-    [self.navigationController pushViewController:cf animated:YES];
+    
+    DMCourseFilesController *courseFilesVC = [DMCourseFilesController new];
+    courseFilesVC.columns = 6;
+    courseFilesVC.leftMargin = 15;
+    courseFilesVC.rightMargin = 15;
+    courseFilesVC.columnSpacing = 15;
+    courseFilesVC.isFullScreen = YES;
+    DMTransitioningAnimationHelper *animationHelper = [DMTransitioningAnimationHelper new];
+    self.animationHelper = animationHelper;
+    animationHelper.animationType = DMTransitioningAnimationRight;
+    animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight);
+    courseFilesVC.transitioningDelegate = animationHelper;
+    courseFilesVC.modalPresentationStyle = UIModalPresentationCustom;
+    courseFilesVC.lessonID = @"1";
+    [self presentViewController:courseFilesVC animated:YES completion:nil];
 }
 //进入课堂
 - (void)clickClassRoom {
@@ -91,7 +106,7 @@
     AVAuthorizationStatus authStatus =  [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
     if (authStatus == AVAuthorizationStatusRestricted || authStatus ==AVAuthorizationStatusDenied) {
         //无权限-摄像头
-        DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"" message:Capture_Msg preferredStyle:UIAlertControllerStyleAlert cancelTitle:@"取消" otherTitle:@"去设置", nil];
+        DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"" message:Capture_Msg preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleGoSetting, nil];
         [alert showWithViewController:self IndexBlock:^(NSInteger index) {
             NSLog(@"%ld",index);
             if (index == 1) {
@@ -106,7 +121,7 @@
     AVAuthorizationStatus authStatusAudio =  [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeAudio];
      if (authStatusAudio == AVAuthorizationStatusRestricted || authStatusAudio ==AVAuthorizationStatusDenied) {
         //无权限-麦克风
-        DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"" message:Audio_Msg preferredStyle:UIAlertControllerStyleAlert cancelTitle:@"取消" otherTitle:@"去设置", nil];
+        DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"" message:Audio_Msg preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleGoSetting, nil];
         [alert showWithViewController:self IndexBlock:^(NSInteger index) {
             NSLog(@"%ld",index);
             if (index == 1) {
@@ -124,20 +139,29 @@
 - (void)goToClassRoom {
     NSLog(@"进入课堂");
     WS(weakSelf);
-    [DMApiModel joinClaseeRoom:self.courseObj.course_id accessTime:[DMTools getCurrentTimestamp] block:^(BOOL result, DMClassDataModel *obj) {
-        if (result) {
+//    [DMApiModel joinClaseeRoom:self.courseObj.course_id accessTime:[DMTools getCurrentTimestamp] block:^(BOOL result, DMClassDataModel *obj) {
+//        if (result) {
             [weakSelf joinClassRoom];
-        }
-    }];
+//        }
+//    }];
 }
 
 - (void)joinClassRoom {
+//    DMLiveController *liveVC = [DMLiveController new];
+//    liveVC.navigationVC = self.navigationController;
+//    liveVC.lessonID = self.courseObj.course_id;
+//    liveVC.totalTime = [self.courseObj.duration intValue];
+//    liveVC.alreadyTime = [DMTools computationsClassTimeDifference:self.courseObj.start_time
+//                                                       accessTime:[DMAccount getUserJoinClassTime]];
+//    
+//    [self.navigationController pushViewController:liveVC animated:YES];
     DMLiveController *liveVC = [DMLiveController new];
     liveVC.navigationVC = self.navigationController;
-    liveVC.lessonID = self.courseObj.course_id;
-    liveVC.totalTime = [self.courseObj.duration intValue];
-    liveVC.alreadyTime = [DMTools computationsClassTimeDifference:self.courseObj.start_time
-                                                       accessTime:[DMAccount getUserJoinClassTime]];
+    liveVC.lessonID = @"1";
+    liveVC.totalTime = 45 * 60;
+    liveVC.alreadyTime = -400;
+    liveVC.warningTime = 5*60;
+    liveVC.delayTime = 15*60;
     
     [self.navigationController pushViewController:liveVC animated:YES];
 }

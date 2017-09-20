@@ -67,7 +67,7 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
     CGFloat loginButtonFrameBottom = DMScreenHeight - _loginButton.dm_height - _loginButton.dm_y;
     
     if (loginButtonFrameBottom < kbSize.height) {
-        CGFloat  offsetTop = kAccountTop - (kbSize.height - loginButtonFrameBottom + 10);
+        CGFloat  offsetTop = kAccountTop - (kbSize.height - loginButtonFrameBottom + 25);
         
         [_textfieldView updateConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(offsetTop);
@@ -202,8 +202,10 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
 - (DMLoginTextField *)accountTextField {
     if (!_accountTextField) {
         _accountTextField = [DMLoginTextField new];
-        _accountTextField.image = [UIImage imageNamed:@"icon_email"];
+        _accountTextField.image = [UIImage imageNamed:@"icon_account"];
+        _accountTextField.placeholder = @"请输入用户名";
         _accountTextField.delegate = self;
+        _accountTextField.placeholderColor = [DMColorWithHexString(@"#FFFFFF") colorWithAlphaComponent:0.2];
         [_accountTextField addTarget:self action:@selector(didChangeValue:) forControlEvents:UIControlEventEditingChanged];
     }
     
@@ -214,7 +216,9 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
     if (!_passwordTextField) {
         _passwordTextField = [DMLoginTextField new];
         _passwordTextField.image = [UIImage imageNamed:@"icon_pwd"];
+        _passwordTextField.placeholder = @"请输入密码";
         _passwordTextField.secureTextEntry = YES;
+        _passwordTextField.placeholderColor = [DMColorWithHexString(@"#FFFFFF") colorWithAlphaComponent:0.2];
         _passwordTextField.delegate = self;
         [_passwordTextField addTarget:self action:@selector(didChangeValue:) forControlEvents:UIControlEventEditingChanged];
     }
@@ -251,10 +255,10 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
         _loginButton.layer.cornerRadius = 8;
         _loginButton.clipsToBounds = YES;
         _loginButton.backgroundColor = [UIColor colorWithHexString:@"#666666"];
-        _loginButton.titleLabel.font = DMFontPingFang_Light(20);
+        _loginButton.titleLabel.font = DMFontPingFang_Regular(20);
         [_loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_loginButton setTitleColor:DMColorWithHexString(@"#999999") forState:UIControlStateDisabled];
-        [_loginButton setTitle:@"登录" forState:UIControlStateNormal];
+        [_loginButton setTitle:DMTitleLogin forState:UIControlStateNormal];
         [_loginButton addTarget:self action:@selector(didTapLogin) forControlEvents:UIControlEventTouchUpInside];
     }
     
@@ -268,7 +272,7 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
         _descriptionLabel.textColor = [UIColor colorWithHexString:@"#FFFFFF" ];
         
         NSString *urlString = @"www.DiscoverMelody.com";
-        NSString *textString = [NSString stringWithFormat:@"此APP目前只提供给已购课的用户体验.未购课的用户请访问 %@ 了解更多信息", urlString];
+        NSString *textString = [NSString stringWithFormat:DMTextLoginDescribe, urlString];
         NSRange urlRange = [textString rangeOfString:urlString];
         NSMutableAttributedString *attributeString = [[NSMutableAttributedString alloc] initWithString:textString];
         [attributeString setAttributes:@{NSFontAttributeName: DMFontPingFang_Light(12), NSForegroundColorAttributeName: [UIColor colorWithHexString:@"#F6087A"] } range:urlRange];

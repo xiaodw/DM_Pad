@@ -8,6 +8,7 @@
 @property (assign, nonatomic) NSInteger warningTime;    //警告时间
 @property (assign, nonatomic) NSInteger delayTime;      //拖堂时间
 @property (strong, nonatomic) NSString *lessonID;       //当前上课的id
+@property (strong, nonatomic) NSMutableArray *presentVCs;
 
 @property (weak, nonatomic) UINavigationController *navigationVC;
 

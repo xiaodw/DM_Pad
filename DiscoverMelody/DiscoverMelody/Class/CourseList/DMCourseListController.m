@@ -8,6 +8,8 @@
 #import "DMQuestionViewController.h"
 #import "DMPullDownMenu.h"
 #define kCellID @"course"
+#import "DMCourseFilesController.h"
+#import "DMTransitioningAnimationHelper.h"
 
 @interface DMCourseListController () <UITableViewDelegate, UITableViewDataSource, DMCourseListCellDelegate, DMPullDownMenuDelegate>
 
@@ -23,6 +25,7 @@
 @property (nonatomic, strong) NSArray *selArray;
 
 @property (nonatomic, assign) DMCourseListCondition clCondition;
+@property (strong, nonatomic) DMTransitioningAnimationHelper *animationHelper;
 
 @end
 
@@ -31,9 +34,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"课程列表";
+    self.title = DMTitleCourseList;
     self.view.backgroundColor = DMColorWithRGBA(246, 246, 246, 1);
-    self.selArray = @[@"全部课程",@"已上课程",@"未上课程"];
+    self.selArray = @[DMTitleAllCourse,DMTitleAlreadyCourse,DMTitleNotStartCourse];
     
     [self setRigthBtn:CGRectMake(0, 4.5, 135, 35)
                 title:[self.selArray lastObject]
@@ -186,9 +189,20 @@
 
 // 课件
 - (void)courseListCellDidTapCoursesFiles:(DMCourseListCell *)courseListCell {
-    DMClassFilesViewController *cf = [[DMClassFilesViewController alloc] init];
-    cf.courseID = @"";
-    [self.navigationController pushViewController:cf animated:YES];
+    DMCourseFilesController *courseFilesVC = [DMCourseFilesController new];
+    courseFilesVC.columns = 6;
+    courseFilesVC.leftMargin = 15;
+    courseFilesVC.rightMargin = 15;
+    courseFilesVC.columnSpacing = 15;
+    courseFilesVC.isFullScreen = YES;
+    DMTransitioningAnimationHelper *animationHelper = [DMTransitioningAnimationHelper new];
+    self.animationHelper = animationHelper;
+    animationHelper.animationType = DMTransitioningAnimationRight;
+    animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight);
+    courseFilesVC.transitioningDelegate = animationHelper;
+    courseFilesVC.modalPresentationStyle = UIModalPresentationCustom;
+    courseFilesVC.lessonID = @"1";
+    [self presentViewController:courseFilesVC animated:YES completion:nil];
 }
 
 // 调查问卷
@@ -236,7 +250,7 @@
         iconImageView.image = [UIImage imageNamed:@"icon_noCourse"];
         
         UILabel *titleLabel = [UILabel new];
-        titleLabel.text = @"暂无课程";
+        titleLabel.text = DMTextNotClass;
         titleLabel.font = DMFontPingFang_Light(20);
         titleLabel.textColor = DMColorWithRGBA(204, 204, 204, 1);
         

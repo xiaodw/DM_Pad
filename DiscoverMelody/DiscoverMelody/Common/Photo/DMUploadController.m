@@ -17,9 +17,11 @@
 
 #import "DMAlbumsTableView.h"
 #import "DMAssetsCollectionView.h"
+#import "DMLiveController.h"
 
 @interface DMUploadController () <DMAlbumsTableViewDelegate, DMAssetsCollectionViewDelegate>
 
+@property (strong, nonatomic) UIView *albumBackgroundView;
 @property (strong, nonatomic) DMAlbumsTableView *albumsView;
 @property (strong, nonatomic) DMAssetsCollectionView *assetsView;
 
@@ -54,9 +56,7 @@
         
         self.albums = albums;
         self.albumsView.albums = albums;
-        DMAlbum *album = albums.lastObject;
-        self.albumsView.albums = albums;
-        self.assetsView.assets = album.assets;
+        self.assetsView.album = albums.lastObject;;
     }];
 }
 
@@ -65,7 +65,7 @@
     
     if (_isPhotoSuccess) return;
     
-    DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"“寻律”要访问您的相册, 是否允许?" message:Capture_Msg preferredStyle:UIAlertControllerStyleAlert cancelTitle:@"不允许" otherTitle:@"允许", nil];
+    DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:Photo_Msg message:Capture_Msg preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleDonAllow otherTitle:DMTitleAllow, nil];
     [alert showWithViewController:self IndexBlock:^(NSInteger index) {
         if (index == 1) { // 右侧
             NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
@@ -76,6 +76,8 @@
         }
         
         // 左侧
+        [self.liveVC.presentVCs removeObject:self];
+        self.liveVC = nil;
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }
@@ -87,33 +89,42 @@
 }
 
 - (void)setupMakeAddSubviews {
-    [self.view addSubview:self.albumsView];
+    [self.view addSubview:self.albumBackgroundView];
     [self.view addSubview:self.assetsView];
 }
 
 - (void)setupMakeLayoutSubviews {
-    [_albumsView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.bottom.equalTo(self.view);
-        make.width.equalTo(DMScreenWidth*0.5);
+    [_assetsView remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.width.left.bottom.equalTo(self.view);
     }];
     
-    [_assetsView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.bottom.equalTo(_albumsView);
-        make.width.equalTo(DMScreenWidth);
+    [_albumBackgroundView remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.bottom.equalTo(self.view);
+        make.width.equalTo(DMScreenWidth*0.5);
     }];
 }
 
 - (void)albumsTableView:(DMAlbumsTableView *)albumsTableView didTapRightButton:(UIButton *)rightButton {
+    [self.liveVC.presentVCs removeObject:self];
+    self.liveVC = nil;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)albumsTableView:(DMAlbumsTableView *)albumsTableView didTapSelectedIndexPath:(NSIndexPath *)indexPath {
     DMAlbum *album = self.albums[indexPath.row];
-    self.assetsView.assets = album.assets;
+    self.assetsView.album = album;
+    
+    [_albumsView remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.width.bottom.equalTo(_albumBackgroundView);
+        make.left.equalTo(DMScreenWidth*0.5*0.3);
+    }];
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        [_albumBackgroundView layoutSubviews];
+    }];
     
     [_assetsView remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.width.equalTo(_albumsView);
-        make.right.equalTo(_albumsView);
+        make.top.width.left.bottom.equalTo(self.view);
     }];
     
     [UIView animateWithDuration:0.25 animations:^{
@@ -125,9 +136,18 @@
     NSLog(@"%s", __func__);
     if (_isUploaded) return;
     
+    [_albumsView remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.width.bottom.equalTo(_albumBackgroundView);
+        make.left.equalTo(_albumBackgroundView);
+    }];
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        [_albumBackgroundView layoutSubviews];
+    }];
+    
     [_assetsView remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.width.equalTo(_albumsView);
-        make.right.equalTo(_albumsView.mas_left);
+        make.top.bottom.width.equalTo(_albumBackgroundView);
+        make.right.equalTo(_albumBackgroundView.mas_left);
     }];
     
     [UIView animateWithDuration:0.25 animations:^{
@@ -136,8 +156,9 @@
 }
 
 - (void)albrmsCollectionView:(DMAssetsCollectionView *)albrmsCollectionView didTapRightButton:(UIButton *)rightButton {
-    NSLog(@"%s", __func__);
-    
+    [self.liveVC.presentVCs removeObject:self];
+    self.liveVC = nil;
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)albrmsCollectionView:(DMAssetsCollectionView *)albrmsCollectionView didTapUploadButton:(UIButton *)uploadButton {
@@ -161,6 +182,22 @@
     }
     
     return _assetsView;
+}
+
+- (UIView *)albumBackgroundView {
+    if (!_albumBackgroundView) {
+        _albumBackgroundView = [UIView new];
+        _albumBackgroundView.backgroundColor = [UIColor clearColor];
+        [_albumBackgroundView addSubview:self.albumsView];
+        _albumBackgroundView.clipsToBounds = YES;
+        
+        [_albumsView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.width.bottom.equalTo(_albumBackgroundView);
+            make.left.equalTo(DMScreenWidth*0.5*0.3);
+        }];
+    }
+    
+    return _albumBackgroundView;
 }
 
 - (void)didTapTest {
