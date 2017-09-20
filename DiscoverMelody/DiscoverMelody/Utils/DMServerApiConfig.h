@@ -51,7 +51,8 @@
 //客服
 #define DM_Customer_Url                 [DM_Url stringByAppendingFormat:@"customer/index"]
 
-
+//点播视频
+#define DM_Video_Replay_Url             [DM_Url stringByAppendingFormat:@"video/replay"]
 
 
 #endif /* DMServerApiConfig_h */

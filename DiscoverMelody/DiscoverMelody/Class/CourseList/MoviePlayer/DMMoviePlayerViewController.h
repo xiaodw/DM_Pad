@@ -10,6 +10,7 @@
 
 @interface DMMoviePlayerViewController : UIViewController
 /** 视频URL */
-@property (nonatomic, strong) NSURL *videoURL;
+
+@property (nonatomic, strong) NSString *lessonID;
 
 @end

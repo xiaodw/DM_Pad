@@ -151,7 +151,23 @@
      }];
 }
 
-
+//获取点播视频
++ (void)getVideoReplay:(NSString *)lessionId block:(void(^)(BOOL result, DMVideoReplayData *obj))complectionBlock {
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:lessionId, @"lesson_id", nil];
+    
+    [[DMHttpClient sharedInstance] initWithUrl:DM_Video_Replay_Url
+                                    parameters:dic
+                                        method:DMHttpRequestPost
+                                dataModelClass:[DMVideoReplayData class]
+                                   isMustToken:YES
+                                       success:^(id responseObject)
+     {
+         DMVideoReplayData *model = (DMVideoReplayData *)responseObject;
+         complectionBlock(YES, model);
+     } failure:^(NSError *error) {
+         complectionBlock(NO, nil);
+     }];
+}
 
 
 @end

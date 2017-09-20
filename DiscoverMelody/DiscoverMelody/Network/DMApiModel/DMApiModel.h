@@ -11,6 +11,7 @@
 #import "DMClassDataModel.h"
 #import "DMClassFileDataModel.h"
 #import "DMCustomerDataModel.h"
+#import "DMVideoReplayData.h"
 @interface DMApiModel : NSObject
 
 //登录
@@ -41,5 +42,8 @@
 
 //客服接口
 + (void)getCustomerInfo:(void(^)(BOOL result, DMCustomerDataModel *obj))complectionBlock;
+
+//获取点播视频
++ (void)getVideoReplay:(NSString *)lessionId block:(void(^)(BOOL result, DMVideoReplayData *obj))complectionBlock;
 
 @end

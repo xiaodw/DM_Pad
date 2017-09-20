@@ -182,13 +182,26 @@
 
 // 回看
 - (void)courseListCellDidTapRelook:(DMCourseListCell *)courseListCell {
-    DMMoviePlayerViewController *movieVC = [[DMMoviePlayerViewController alloc] init];
-    movieVC.videoURL = [NSURL URLWithString:@"http://baobab.wdjcdn.com/1456316686552The.mp4"];
-    [self.navigationController pushViewController:movieVC animated:YES];
+    
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:courseListCell];
+    if (indexPath.row < self.courses.count) {
+        DMCourseDatasModel *model = [self.courses objectAtIndex:indexPath.row];
+        
+        DMMoviePlayerViewController *movieVC = [[DMMoviePlayerViewController alloc] init];
+        //movieVC.videoURL = [NSURL URLWithString:@"http://baobab.wdjcdn.com/1456316686552The.mp4"];
+        movieVC.lessonID = model.course_id;
+        [self.navigationController pushViewController:movieVC animated:YES];
+    }
+
 }
 
 // 课件
 - (void)courseListCellDidTapCoursesFiles:(DMCourseListCell *)courseListCell {
+    
+    [self courseListCellDidTapRelook:courseListCell];
+    
+    return;
+    
     DMCourseFilesController *courseFilesVC = [DMCourseFilesController new];
     courseFilesVC.columns = 6;
     courseFilesVC.leftMargin = 15;

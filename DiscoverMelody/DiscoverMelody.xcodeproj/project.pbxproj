@@ -69,6 +69,7 @@
 		2AB7DD711F6A37DA00270C03 /* DMRadioView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AB7DD701F6A37DA00270C03 /* DMRadioView.m */; };
 		2AB7DD741F6A37F000270C03 /* DMTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AB7DD731F6A37F000270C03 /* DMTextView.m */; };
 		2ABBAB781F726890004536DB /* DMCustomerDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ABBAB771F726890004536DB /* DMCustomerDataModel.m */; };
+		2ABBAB7B1F7284C3004536DB /* DMVideoReplayData.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ABBAB7A1F7284C3004536DB /* DMVideoReplayData.m */; };
 		2AC06F041F622DD2009F9BFA /* timg1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2AC06F031F622DD2009F9BFA /* timg1.jpg */; };
 		2AC06F071F6247AA009F9BFA /* DMMenuHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AC06F061F6247AA009F9BFA /* DMMenuHeadView.m */; };
 		2AC478151F67B3E500D42F79 /* DMCoursewareFallsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AC478141F67B3E500D42F79 /* DMCoursewareFallsCell.m */; };
@@ -293,6 +294,8 @@
 		2AB7DD731F6A37F000270C03 /* DMTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMTextView.m; sourceTree = "<group>"; };
 		2ABBAB761F726890004536DB /* DMCustomerDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCustomerDataModel.h; sourceTree = "<group>"; };
 		2ABBAB771F726890004536DB /* DMCustomerDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCustomerDataModel.m; sourceTree = "<group>"; };
+		2ABBAB791F7284C3004536DB /* DMVideoReplayData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMVideoReplayData.h; sourceTree = "<group>"; };
+		2ABBAB7A1F7284C3004536DB /* DMVideoReplayData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMVideoReplayData.m; sourceTree = "<group>"; };
 		2AC06F031F622DD2009F9BFA /* timg1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = timg1.jpg; sourceTree = "<group>"; };
 		2AC06F051F6247AA009F9BFA /* DMMenuHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMMenuHeadView.h; sourceTree = "<group>"; };
 		2AC06F061F6247AA009F9BFA /* DMMenuHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMMenuHeadView.m; sourceTree = "<group>"; };
@@ -587,6 +590,8 @@
 				2A3D1CFD1F692A44005671B2 /* ZFPlayer */,
 				2A3D1CF81F690AD1005671B2 /* DMMoviePlayerViewController.h */,
 				2A3D1CF91F690AD1005671B2 /* DMMoviePlayerViewController.m */,
+				2ABBAB791F7284C3004536DB /* DMVideoReplayData.h */,
+				2ABBAB7A1F7284C3004536DB /* DMVideoReplayData.m */,
 			);
 			path = MoviePlayer;
 			sourceTree = "<group>";
@@ -1078,6 +1083,7 @@
 				TargetAttributes = {
 					2A03AF411F555FA80088DBF4 = {
 						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = BR9B47C6A9;
 						ProvisioningStyle = Automatic;
 					};
 					2A03AF5A1F555FA80088DBF4 = {
@@ -1257,6 +1263,7 @@
 				2A3D1D221F692A44005671B2 /* UINavigationController+ZFPlayerRotation.m in Sources */,
 				2A3D1D301F695C5F005671B2 /* DMQuestionViewController.m in Sources */,
 				51CC243D1F70CB9900D951D9 /* DMBrowseCourseFlowLayout.m in Sources */,
+				2ABBAB7B1F7284C3004536DB /* DMVideoReplayData.m in Sources */,
 				5169FFDB1F6E912100396EFA /* DMAssetTIFF.m in Sources */,
 				5169FFD31F6E912100396EFA /* DMUploadController.m in Sources */,
 				2A8426AA1F6A7E06005BA6EC /* DMCourseDatasModel.m in Sources */,
@@ -1475,7 +1482,7 @@
 			baseConfigurationReference = 1E620A6E158816600EA0CFFE /* Pods-DiscoverMelody.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = BR9B47C6A9;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = DiscoverMelody/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1495,7 +1502,7 @@
 			baseConfigurationReference = 2BF41B440646DC59DC6A7EC6 /* Pods-DiscoverMelody.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = BR9B47C6A9;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = DiscoverMelody/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
