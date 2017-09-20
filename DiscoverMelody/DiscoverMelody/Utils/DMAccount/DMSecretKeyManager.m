@@ -27,4 +27,8 @@
     self.obj = obj;
 }
 
+- (void)updteRemoteUserId:(NSString *)remoteID {
+    self.remoteUserID = remoteID;
+}
+
 @end

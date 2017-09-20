@@ -58,6 +58,8 @@
 		2A8426A11F6A6468005BA6EC /* DMUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A8426A01F6A6468005BA6EC /* DMUserDefaults.m */; };
 		2A8426A71F6A757D005BA6EC /* DMLoginDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A8426A61F6A757D005BA6EC /* DMLoginDataModel.m */; };
 		2A8426AA1F6A7E06005BA6EC /* DMCourseDatasModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A8426A91F6A7E06005BA6EC /* DMCourseDatasModel.m */; };
+		2A870FAE1F72126A000975BE /* DMSignalingMsgData.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A870FAD1F72126A000975BE /* DMSignalingMsgData.m */; };
+		2A870FB11F722177000975BE /* DMSendSignalingMsg.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A870FB01F722177000975BE /* DMSendSignalingMsg.m */; };
 		2A8782541F61438E004F9184 /* DMRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A8782531F61438E004F9184 /* DMRequestModel.m */; };
 		2A87F8841F6B68EC00DCC412 /* DMPullDownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A87F8831F6B68EC00DCC412 /* DMPullDownMenu.m */; };
 		2A87F8871F6B873600DCC412 /* DMPullDownCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A87F8861F6B873600DCC412 /* DMPullDownCell.m */; };
@@ -267,6 +269,10 @@
 		2A8426A61F6A757D005BA6EC /* DMLoginDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMLoginDataModel.m; sourceTree = "<group>"; };
 		2A8426A81F6A7E06005BA6EC /* DMCourseDatasModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCourseDatasModel.h; sourceTree = "<group>"; };
 		2A8426A91F6A7E06005BA6EC /* DMCourseDatasModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCourseDatasModel.m; sourceTree = "<group>"; };
+		2A870FAC1F72126A000975BE /* DMSignalingMsgData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMSignalingMsgData.h; sourceTree = "<group>"; };
+		2A870FAD1F72126A000975BE /* DMSignalingMsgData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMSignalingMsgData.m; sourceTree = "<group>"; };
+		2A870FAF1F722177000975BE /* DMSendSignalingMsg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMSendSignalingMsg.h; sourceTree = "<group>"; };
+		2A870FB01F722177000975BE /* DMSendSignalingMsg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMSendSignalingMsg.m; sourceTree = "<group>"; };
 		2A87824C1F613006004F9184 /* DMNetConntectDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMNetConntectDefine.h; sourceTree = "<group>"; };
 		2A8782521F61438E004F9184 /* DMRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMRequestModel.h; sourceTree = "<group>"; };
 		2A8782531F61438E004F9184 /* DMRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMRequestModel.m; sourceTree = "<group>"; };
@@ -677,6 +683,10 @@
 				2A7A64C51F629F0800D1E62C /* DMLiveVideoManager.m */,
 				2A4030281F677CBA00663C72 /* DMSignalingKey.h */,
 				2A4030291F677CBA00663C72 /* DMSignalingKey.m */,
+				2A870FAC1F72126A000975BE /* DMSignalingMsgData.h */,
+				2A870FAD1F72126A000975BE /* DMSignalingMsgData.m */,
+				2A870FAF1F722177000975BE /* DMSendSignalingMsg.h */,
+				2A870FB01F722177000975BE /* DMSendSignalingMsg.m */,
 			);
 			path = LiveVideo;
 			sourceTree = "<group>";
@@ -1203,6 +1213,7 @@
 				2A2273E31F6A38340029D8CA /* DMTitleView.m in Sources */,
 				2A87F8871F6B873600DCC412 /* DMPullDownCell.m in Sources */,
 				519FA4E81F68CD890015A2B2 /* DMClassFilesViewController.m in Sources */,
+				2A870FB11F722177000975BE /* DMSendSignalingMsg.m in Sources */,
 				515DCF091F67C5A500AA9465 /* DMLiveCoursewareCell.m in Sources */,
 				51D2D5651F5EC00B00764130 /* DMLoginTextField.m in Sources */,
 				5169FF1E1F6A8FF600396EFA /* DMBottomBarView.m in Sources */,
@@ -1281,6 +1292,7 @@
 				2A27E0D41F5E95C600865644 /* DMHttpClient.m in Sources */,
 				2A44FC071F6BD19D00A1D574 /* DMAlertMananger.m in Sources */,
 				51D2D55E1F5EBFE300764130 /* UIColor+Hex.m in Sources */,
+				2A870FAE1F72126A000975BE /* DMSignalingMsgData.m in Sources */,
 				51D2D5681F5F999D00764130 /* UIView+Frame.m in Sources */,
 				2AF695291F6149070078DC71 /* DMBaseDataModel.m in Sources */,
 				51D2D5D51F60E06800764130 /* DMCourseListController.m in Sources */,

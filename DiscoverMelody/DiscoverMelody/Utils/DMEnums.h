@@ -11,3 +11,10 @@ typedef NS_ENUM(NSInteger, DMCourseListCondition) {
     DMCourseListCondition_Finish = 0, // 已上课程
     DMCourseListCondition_WillStart = 2, // 未上课程
 };
+
+
+typedef NS_ENUM(NSInteger, DMSignalingCodeType) {
+    DMSignalingCode_Start_Syn     = 1, // 开始同步
+    DMSignalingCode_Turn_Page    = 2, // 同步翻页
+    DMSignalingCode_End_Syn     = 3, // 同步结束
+};

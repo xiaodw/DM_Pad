@@ -82,7 +82,7 @@ typedef void (^BlockSignalingOnLogout)(AgoraEcode ecode);//信令与服务器失
 //
 /** 发送同步消息（点对点）
  *
- *  @param name          用户登录厂商 app 的账号
+ *  @param name          用户登录厂商 app 的账号(对方的ID)
  *  @param msg           消息正文。每条消息最大为 8K 可见字符
  *  @param msgID         可见字符，可填空。用于回调的消息标示
  *  @param success       消息发送成功
