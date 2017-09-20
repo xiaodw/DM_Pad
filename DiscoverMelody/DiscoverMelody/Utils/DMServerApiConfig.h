@@ -54,6 +54,10 @@
 //点播视频
 #define DM_Video_Replay_Url             [DM_Url stringByAppendingFormat:@"video/replay"]
 
+//获取问题列表学生
+#define DM_Student_Question_List_Url    [DM_Url stringByAppendingFormat:@"survey/squestionList"]
+//获取问题列表老师
+#define DM_Teacher_Question_List_Url    [DM_Url stringByAppendingFormat:@"survey/tquestionList "]
 
 #endif /* DMServerApiConfig_h */
 

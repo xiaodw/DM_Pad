@@ -72,3 +72,7 @@ UIKIT_EXTERN NSString * const DMStringIDTeacher;
 UIKIT_EXTERN NSString * const DMStringConsultationTelephoneChina;
 UIKIT_EXTERN NSString * const DMStringConsultationTelephoneUSA;
 UIKIT_EXTERN NSString * const DMStringDiscoverMelodyWeChat;
+
+
+UIKIT_EXTERN NSString * const DMTitleStudentQuestionFild;
+UIKIT_EXTERN NSString * const DMTitleTeacherQuestionFild;

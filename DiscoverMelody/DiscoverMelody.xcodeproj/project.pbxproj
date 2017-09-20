@@ -16,6 +16,7 @@
 		2A05C45F1F5D544100FC4D9A /* DMRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A05C45C1F5D544100FC4D9A /* DMRootViewController.m */; };
 		2A05C4601F5D544100FC4D9A /* UIViewController+DMRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A05C45E1F5D544100FC4D9A /* UIViewController+DMRootViewController.m */; };
 		2A05C4631F5D545D00FC4D9A /* DMRootContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A05C4621F5D545D00FC4D9A /* DMRootContainerViewController.m */; };
+		2A152C581F72A3A000CA2309 /* DMQuestionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A152C571F72A3A000CA2309 /* DMQuestionCell.m */; };
 		2A2273E31F6A38340029D8CA /* DMTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A2273E21F6A38340029D8CA /* DMTitleView.m */; };
 		2A23C9711F665AAD0097F91B /* DMCustomerInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A23C9701F665AAD0097F91B /* DMCustomerInfoView.m */; };
 		2A23C9741F665F110097F91B /* DMCustomerPhoneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A23C9731F665F110097F91B /* DMCustomerPhoneCell.m */; };
@@ -70,6 +71,8 @@
 		2AB7DD741F6A37F000270C03 /* DMTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AB7DD731F6A37F000270C03 /* DMTextView.m */; };
 		2ABBAB781F726890004536DB /* DMCustomerDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ABBAB771F726890004536DB /* DMCustomerDataModel.m */; };
 		2ABBAB7B1F7284C3004536DB /* DMVideoReplayData.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ABBAB7A1F7284C3004536DB /* DMVideoReplayData.m */; };
+		2ABBAB7E1F728CC3004536DB /* DMQuestData.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ABBAB7D1F728CC3004536DB /* DMQuestData.m */; };
+		2ABBAB811F728CD6004536DB /* DMAnswerData.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ABBAB801F728CD6004536DB /* DMAnswerData.m */; };
 		2AC06F041F622DD2009F9BFA /* timg1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2AC06F031F622DD2009F9BFA /* timg1.jpg */; };
 		2AC06F071F6247AA009F9BFA /* DMMenuHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AC06F061F6247AA009F9BFA /* DMMenuHeadView.m */; };
 		2AC478151F67B3E500D42F79 /* DMCoursewareFallsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AC478141F67B3E500D42F79 /* DMCoursewareFallsCell.m */; };
@@ -180,6 +183,8 @@
 		2A05C45E1F5D544100FC4D9A /* UIViewController+DMRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+DMRootViewController.m"; sourceTree = "<group>"; };
 		2A05C4611F5D545D00FC4D9A /* DMRootContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMRootContainerViewController.h; sourceTree = "<group>"; };
 		2A05C4621F5D545D00FC4D9A /* DMRootContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMRootContainerViewController.m; sourceTree = "<group>"; };
+		2A152C561F72A3A000CA2309 /* DMQuestionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMQuestionCell.h; sourceTree = "<group>"; };
+		2A152C571F72A3A000CA2309 /* DMQuestionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMQuestionCell.m; sourceTree = "<group>"; };
 		2A2273E11F6A38340029D8CA /* DMTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMTitleView.h; sourceTree = "<group>"; };
 		2A2273E21F6A38340029D8CA /* DMTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMTitleView.m; sourceTree = "<group>"; };
 		2A23C96F1F665AAD0097F91B /* DMCustomerInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCustomerInfoView.h; sourceTree = "<group>"; };
@@ -296,6 +301,10 @@
 		2ABBAB771F726890004536DB /* DMCustomerDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCustomerDataModel.m; sourceTree = "<group>"; };
 		2ABBAB791F7284C3004536DB /* DMVideoReplayData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMVideoReplayData.h; sourceTree = "<group>"; };
 		2ABBAB7A1F7284C3004536DB /* DMVideoReplayData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMVideoReplayData.m; sourceTree = "<group>"; };
+		2ABBAB7C1F728CC3004536DB /* DMQuestData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMQuestData.h; sourceTree = "<group>"; };
+		2ABBAB7D1F728CC3004536DB /* DMQuestData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMQuestData.m; sourceTree = "<group>"; };
+		2ABBAB7F1F728CD6004536DB /* DMAnswerData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMAnswerData.h; sourceTree = "<group>"; };
+		2ABBAB801F728CD6004536DB /* DMAnswerData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMAnswerData.m; sourceTree = "<group>"; };
 		2AC06F031F622DD2009F9BFA /* timg1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = timg1.jpg; sourceTree = "<group>"; };
 		2AC06F051F6247AA009F9BFA /* DMMenuHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMMenuHeadView.h; sourceTree = "<group>"; };
 		2AC06F061F6247AA009F9BFA /* DMMenuHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMMenuHeadView.m; sourceTree = "<group>"; };
@@ -645,6 +654,8 @@
 		2A3D1D2D1F695C10005671B2 /* Questionnaire */ = {
 			isa = PBXGroup;
 			children = (
+				2A152C561F72A3A000CA2309 /* DMQuestionCell.h */,
+				2A152C571F72A3A000CA2309 /* DMQuestionCell.m */,
 				2A3D1D2E1F695C5F005671B2 /* DMQuestionViewController.h */,
 				2A3D1D2F1F695C5F005671B2 /* DMQuestionViewController.m */,
 				2AB7DD6C1F6A37B900270C03 /* DMEStarView.h */,
@@ -655,6 +666,10 @@
 				2AB7DD731F6A37F000270C03 /* DMTextView.m */,
 				2A2273E11F6A38340029D8CA /* DMTitleView.h */,
 				2A2273E21F6A38340029D8CA /* DMTitleView.m */,
+				2ABBAB7C1F728CC3004536DB /* DMQuestData.h */,
+				2ABBAB7D1F728CC3004536DB /* DMQuestData.m */,
+				2ABBAB7F1F728CD6004536DB /* DMAnswerData.h */,
+				2ABBAB801F728CD6004536DB /* DMAnswerData.m */,
 			);
 			path = Questionnaire;
 			sourceTree = "<group>";
@@ -1259,6 +1274,7 @@
 				2A3D1D251F692A44005671B2 /* UIViewController+ZFPlayerRotation.m in Sources */,
 				5100E4701F6A7662000AB506 /* DMTabBarView.m in Sources */,
 				2A40302A1F677CBA00663C72 /* DMSignalingKey.m in Sources */,
+				2ABBAB7E1F728CC3004536DB /* DMQuestData.m in Sources */,
 				515DCF031F66B63800AA9465 /* DMLiveWillStartView.m in Sources */,
 				2A3D1D221F692A44005671B2 /* UINavigationController+ZFPlayerRotation.m in Sources */,
 				2A3D1D301F695C5F005671B2 /* DMQuestionViewController.m in Sources */,
@@ -1293,6 +1309,7 @@
 				2A4E96A11F66AA57000C4DFD /* DMPopCodeView.m in Sources */,
 				2A87F8841F6B68EC00DCC412 /* DMPullDownMenu.m in Sources */,
 				2A3D1D271F692A44005671B2 /* MMMaterialDesignSpinner.m in Sources */,
+				2ABBAB811F728CD6004536DB /* DMAnswerData.m in Sources */,
 				5100E4641F6A6358000AB506 /* DMPresentationController.m in Sources */,
 				2AD2AB371F5D441D00EDA962 /* DMHomeViewController.m in Sources */,
 				2A45F9701F60F6D50077CBA5 /* DMHomeDataModel.m in Sources */,
@@ -1312,6 +1329,7 @@
 				2A3D1D1F1F692A44005671B2 /* ASValueTrackingSlider.m in Sources */,
 				2A3D1D2A1F692A44005671B2 /* ZFPlayerControlView.m in Sources */,
 				5169FF3F1F6BD34C00396EFA /* DMBrowseView.m in Sources */,
+				2A152C581F72A3A000CA2309 /* DMQuestionCell.m in Sources */,
 				5169FFD61F6E912100396EFA /* DMNavigationBar.m in Sources */,
 				2A3D1D2C1F692A44005671B2 /* ZFPlayerView.m in Sources */,
 				2AD2AB431F5D492700EDA962 /* DMMenuViewController.m in Sources */,

@@ -7,13 +7,18 @@
 //
 
 #import "DMQuestionViewController.h"
-
-@interface DMQuestionViewController ()
+#import "DMTabBarView.h"
+#import "DMConst.h"
+#import "DMQuestionCell.h"
+@interface DMQuestionViewController () <DMTabBarViewDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UILabel *classNameLabel;
 @property (nonatomic, strong) UILabel *timeLabel;
 @property (nonatomic, strong) UILabel *typeLabel;
 @property (nonatomic, strong) UIImageView *hImageView;
 @property (nonatomic, strong) UILabel *nameLabel;
+@property (nonatomic, strong) NSArray *questionList;
+@property (nonatomic, strong) DMTabBarView *tabBarView;
+@property (nonatomic, strong) UITableView *bTableView;
 @end
 
 @implementation DMQuestionViewController
@@ -24,13 +29,53 @@
     self.title = DMTextQuestionnaire;
     self.view.backgroundColor = [UIColor whiteColor];
     [self setNavigationBarTransparence];
-    
+    self.questionList = [NSArray array];
     [self loadUI];
+    [self getQuestionList];
     [self updateTopViewInfo:nil];
+}
+
+- (void)getQuestionList {
+    WS(weakSelf);
+    [DMApiModel getQuestInfo:^(BOOL result, NSArray *list) {
+        if (result && list.count > 0) {
+            weakSelf.questionList = list;
+        }
+    }];
 }
 
 - (void)clickCommitBtn:(id)sender {
 
+}
+
+#pragma mark -
+#pragma mark UITableView Delegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark -
+#pragma mark UITableView Datasource
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 88;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex {
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *qCell = @"questionCell";
+    DMQuestionCell *cell = [tableView dequeueReusableCellWithIdentifier:qCell];
+    if (!cell) {
+        cell = [[DMQuestionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:qCell];
+    }
+  
+    return cell;
 }
 
 - (void)loadUI {
@@ -51,8 +96,23 @@
     [topImageView addSubview:self.hImageView];
     [topImageView addSubview:self.nameLabel];
     
+    _bTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+    _bTableView.delegate = self;
+    _bTableView.dataSource = self;
+    _bTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _bTableView.backgroundColor = UIColorFromRGB(0xf6f6f6);
+    UIView *hV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 15)];
+    hV.backgroundColor = UIColorFromRGB(0xf6f6f6);
+    
+    _bTableView.tableHeaderView = hV;
+    [self.view addSubview:_bTableView];
+    
     UIView *bottomView = [[UIView alloc] init];
     bottomView.backgroundColor = [UIColor whiteColor];
+    bottomView.layer.shadowColor = DMColorWithRGBA(221, 221, 221, 1).CGColor; // shadowColor阴影颜色
+    bottomView.layer.shadowOffset = CGSizeMake(0,-9); // shadowOffset阴影偏移,x向右偏移，y向下偏移，默认(0, -3),这个跟shadowRadius配合使用
+    bottomView.layer.shadowOpacity = 1; // 阴影透明度，默认0
+    bottomView.layer.shadowRadius = 9; // 阴影半径，默认3
     
     UIButton *commitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     commitBtn.backgroundColor = DMColorBaseMeiRed;
@@ -65,6 +125,22 @@
     
     [self.view addSubview:bottomView];
     [bottomView addSubview:commitBtn];
+    
+    NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
+    if (userIdentity == 0) {
+        _tabBarView = [DMTabBarView new];
+        _tabBarView.delegate = self;
+        _tabBarView.isFullScreen = YES;
+        
+        self.tabBarView.titles = @[DMTitleStudentQuestionFild, DMTitleTeacherQuestionFild];
+        _tabBarView.layer.shadowColor = DMColorWithRGBA(221, 221, 221, 1).CGColor; // shadowColor阴影颜色
+        _tabBarView.layer.shadowOffset = CGSizeMake(-3,9); // shadowOffset阴影偏移,x向右偏移，y向下偏移，默认(0, -3),这个跟shadowRadius配合使用
+        _tabBarView.layer.shadowOpacity = 1; // 阴影透明度，默认0
+        _tabBarView.layer.shadowRadius = 9; // 阴影半径，默认3
+        [self.view addSubview:_tabBarView];
+    }
+
+    
     
     [bottomView makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.bottom.equalTo(self.view).offset(0);
@@ -83,6 +159,29 @@
         make.top.left.right.equalTo(self.view);
         make.height.equalTo(180);
     }];
+    
+    if (userIdentity == 0) {
+        
+        [_tabBarView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(topImageView.mas_bottom).offset(0);
+            make.left.right.equalTo(self.view);
+            make.height.equalTo(50);
+        }];
+        
+        [_bTableView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_tabBarView.mas_bottom).equalTo(0);
+            make.left.right.equalTo(self.view);
+            make.bottom.equalTo(bottomView.mas_top).equalTo(0);
+        }];
+        
+    } else {
+        [_bTableView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(topImageView.mas_bottom).equalTo(0);
+            make.left.right.equalTo(self.view);
+            make.bottom.equalTo(bottomView.mas_top).equalTo(0);
+        }];
+    }
+
     [_timeLabel makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(topImageView.mas_bottom).offset(-47);
         make.centerX.equalTo(topImageView);

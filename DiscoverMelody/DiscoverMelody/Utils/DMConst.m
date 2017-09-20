@@ -73,3 +73,10 @@ NSString * const DMStringIDTeacher = @"老师";
 NSString * const DMStringConsultationTelephoneChina = @"咨询电话（中国）";
 NSString * const DMStringConsultationTelephoneUSA = @"咨询电话（北美）";
 NSString * const DMStringDiscoverMelodyWeChat = @"寻律微信客服（中国）";
+
+NSString * const DMTitleStudentQuestionFild = @"我的调查";
+NSString * const DMTitleTeacherQuestionFild = @"老师评语";
+
+
+
+

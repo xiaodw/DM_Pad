@@ -12,6 +12,9 @@
 #import "DMClassFileDataModel.h"
 #import "DMCustomerDataModel.h"
 #import "DMVideoReplayData.h"
+#import "DMQuestData.h"
+#import "DMAnswerData.h"
+
 @interface DMApiModel : NSObject
 
 //登录
@@ -46,4 +49,11 @@
 //获取点播视频
 + (void)getVideoReplay:(NSString *)lessionId block:(void(^)(BOOL result, DMVideoReplayData *obj))complectionBlock;
 
+//问卷问题（学生／老师）
++ (void)getQuestInfo:(void(^)(BOOL result, NSArray *list))complectionBlock;
+
 @end
+
+
+
+

@@ -169,6 +169,26 @@
      }];
 }
 
+//获取问题列表
++ (void)getQuestInfo:(void (^)(BOOL, NSArray *))complectionBlock {
+    NSString *type = [DMAccount getUserIdentity];
+    NSString *url = DM_Student_Question_List_Url;
+    if (type.intValue == 1) {
+        url = DM_Teacher_Question_List_Url;
+    }
+    [[DMHttpClient sharedInstance] initWithUrl:url
+                                    parameters:nil
+                                        method:DMHttpRequestPost
+                                dataModelClass:[DMQuestData class]
+                                   isMustToken:YES
+                                       success:^(id responseObject)
+     {
+         DMQuestData *model = (DMQuestData *)responseObject;
+         complectionBlock(YES, model.list);
+     } failure:^(NSError *error) {
+         complectionBlock(NO, nil);
+     }];
+}
 
 @end
 
