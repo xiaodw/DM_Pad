@@ -27,6 +27,7 @@ UIKIT_EXTERN NSString * const DMTitleGoSetting;
 UIKIT_EXTERN NSString * const DMTitleHome;
 UIKIT_EXTERN NSString * const DMTitleSync;
 UIKIT_EXTERN NSString * const DMTitleUpload;
+UIKIT_EXTERN NSString * const DMTitleUploadCount;
 UIKIT_EXTERN NSString * const DMTitleDeleted;
 UIKIT_EXTERN NSString * const DMTitleImmediatelySync;
 UIKIT_EXTERN NSString * const DMTitleMyUploadFild;

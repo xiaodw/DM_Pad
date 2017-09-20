@@ -5,7 +5,7 @@
 
 #import "DMConst.h"
 
-#pragma NSString
+#pragma NSString - 文案信息
 NSString * const Logout_Msg = @"确定退出登录吗？";
 NSString * const Capture_Msg = @"请允许访问相机";
 NSString * const Audio_Msg = @"请允许访问麦克风";
@@ -28,6 +28,7 @@ NSString * const DMTitleGoSetting = @"去设置";
 NSString * const DMTitleHome = @"首页";
 NSString * const DMTitleSync = @"同步";
 NSString * const DMTitleUpload = @"上传";
+NSString * const DMTitleUploadCount = @"最多上传%d张图片";
 NSString * const DMTitleDeleted = @"删除";
 NSString * const DMTitleImmediatelySync = @"立即同步";
 NSString * const DMTitleMyUploadFild = @"我上传的文件";

@@ -83,7 +83,6 @@
 }
 //本课文件
 - (void)clickCourseFiles:(id)sender {
-    NSLog(@"本课文件");
     UIButton *btn = (UIButton *)sender;
     btn.userInteractionEnabled = NO;//防止恶意极限快速点击
     DMCourseFilesController *courseFilesVC = [DMCourseFilesController new];
