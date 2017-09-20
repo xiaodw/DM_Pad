@@ -17,6 +17,11 @@
     //    expiredTime = 1544544000;
     //    account = @"20000685";
     
+    NSLog(@"appID = %@", _appID);
+    NSLog(@"certificate = %@", certificate);
+    NSLog(@"account = %@", account);
+    NSLog(@"expiredTime = %u", expiredTime);
+    
     NSString * sign = [DMSignalingKey MD5:[NSString stringWithFormat:@"%@%@%@%d", account, _appID, certificate, expiredTime]];
     return [NSString stringWithFormat:@"1:%@:%d:%@", _appID, expiredTime, sign];
 }

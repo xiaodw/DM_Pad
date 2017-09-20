@@ -50,6 +50,11 @@ static DMLiveVideoManager* _instance = nil;
         self.uId = obj.uid.intValue;
         self.signalingKey = obj.signaling_key;
         self.app_ID = [DMSecretKeyManager shareManager].appId;
+
+        unsigned expiredTime =  (unsigned)[[NSDate date] timeIntervalSince1970] + 3600;
+        NSString * token =  [DMSignalingKey calcToken:AgoraSAppID certificate:certificate1 account:obj.uid expiredTime:expiredTime];
+        self.signalingKey = token;
+
         
     } else {
         //开发调试使用
@@ -103,8 +108,8 @@ static DMLiveVideoManager* _instance = nil;
     
     [self addTapEvent];
     
-//    [self bindingAccountInfo:nil];
-    [self bindingAccountInfo:[DMSecretKeyManager shareManager].obj];
+    [self bindingAccountInfo:nil];
+//    [self bindingAccountInfo:[DMSecretKeyManager shareManager].obj];
     [self initializeAgoraEngine];
     [self initializeSignaling];
 }
@@ -413,17 +418,19 @@ static DMLiveVideoManager* _instance = nil;
                       faile:(void(^)(NSString *messageID, AgoraEcode ecode))faile {
     
     
-    NSString *account = @"12345";//STR_IS_NIL(name) ? [DMSecretKeyManager shareManager].remoteUserID : name;
-    
+    NSString *account = STR_IS_NIL(name) ? [DMSecretKeyManager shareManager].remoteUserID : name;
+    NSLog(@"发送信令消息的 account = %@", account);
     [_inst messageInstantSend:account uid:0 msg:msg msgID:msgID];
     
     //发送成功
     _inst.onMessageSendSuccess = ^(NSString *messageID) {
         success(messageID);
+         NSLog(@"发送信令消息成功了");
     };
     //失败
     _inst.onMessageSendError = ^(NSString *messageID, AgoraEcode ecode) {
         faile(messageID, ecode);
+         NSLog(@"发送信令消息的失败了");
     };
 }
 

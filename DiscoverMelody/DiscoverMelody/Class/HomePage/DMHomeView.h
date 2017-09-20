@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @protocol DMHomeVCDelegate <NSObject>
-- (void)clickCourseFiles;
-- (void)clickClassRoom;
-- (void)clickReload;
+- (void)clickCourseFiles:(id)sender;
+- (void)clickClassRoom:(id)sender;
+- (void)clickReload:(id)sender;
 - (void)selectedCourse:(DMCourseDatasModel *)courseObj;
 @end
 

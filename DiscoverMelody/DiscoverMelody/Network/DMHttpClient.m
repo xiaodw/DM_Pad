@@ -69,6 +69,7 @@
         } else {
             [self responseStatusCodeException:[[responseObj objectForKey:Code_Key] intValue]
                                           msg:[responseObj objectForKey:Msg_Key]];
+            failure(nil);
         }
     } failure:^(NSError *error) {
         NSLog(@"网络请求错误信息 = %@", error);

@@ -374,20 +374,20 @@
 
 
 - (void)clickCourseFileBtn:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(clickCourseFiles)]) {
-        [self.delegate clickCourseFiles];
+    if ([self.delegate respondsToSelector:@selector(clickCourseFiles:)]) {
+        [self.delegate clickCourseFiles:sender];
     }
 }
 
 - (void)clickClassRoomBtn:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(clickClassRoom)]) {
-        [self.delegate clickClassRoom];
+    if ([self.delegate respondsToSelector:@selector(clickClassRoom:)]) {
+        [self.delegate clickClassRoom:sender];
     }
 }
 
 - (void)clickReload:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(clickReload)]) {
-        [self.delegate clickReload];
+    if ([self.delegate respondsToSelector:@selector(clickReload:)]) {
+        [self.delegate clickReload:sender];
     }
 }
 
