@@ -42,14 +42,14 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
 - (void)setModel:(DMCourseDatasModel *)model {
     
     //课程状态
-    NSInteger live_status = [model.live_status intValue];//arc4random_uniform(5);
+    NSInteger live_status = [model.live_status intValue];
     
-    _numberLabel.text = [NSString stringWithFormat:@"    %@", model.course_id]; //[NSString stringWithFormat:@"    %@", @"1234567"];
-    _nameLabel.text = model.course_name;//@"未来之星1V1--钢琴";
-    _studentNameLabel.text = model.teacher_name;//@"frank";
-    _dateLabel.text = [DMTools timeFormatterYMDFromTs:model.start_time format:@"yyyy/MM/dd"]; //@"2017/2/22";
-    _detailDateLabel.text = [DMTools computationsPeriodOfTime:model.start_time duration:model.duration];//@"09:00-10:00";
-    _periodLabel.text = [[DMTools secondsConvertMinutes:model.duration] stringByAppendingString:DMTextMinutes];//@"1hr";
+    _numberLabel.text = [NSString stringWithFormat:@"    %@", model.course_id];
+    _nameLabel.text = model.course_name;
+    _studentNameLabel.text = model.teacher_name;
+    _dateLabel.text = [DMTools timeFormatterYMDFromTs:model.start_time format:@"yyyy/MM/dd"];
+    _detailDateLabel.text = [DMTools computationsPeriodOfTime:model.start_time duration:model.duration];
+    _periodLabel.text = [[DMTools secondsConvertMinutes:model.duration] stringByAppendingString:DMTextMinutes];
     _statusLabel.hidden = NO;
     _filesButton.enabled = YES;
     _questionnaireButton.enabled = YES;
@@ -138,19 +138,19 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
     }];
     
     [_nameLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_numberLabel.mas_right).offset(30);
+        make.left.equalTo(_numberLabel.mas_right).offset(DMScaleWidth(30));
         make.centerY.equalTo(self.contentView);
         make.width.equalTo(DMScaleWidth(144));
     }];
     
     [_studentNameLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_nameLabel.mas_right).offset(30);
+        make.left.equalTo(_nameLabel.mas_right).offset(DMScaleWidth(30));
         make.centerY.equalTo(self.contentView);
         make.width.equalTo(DMScaleWidth(58));
     }];
     
     [_dateLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_studentNameLabel.mas_right).offset(30);
+        make.left.equalTo(_studentNameLabel.mas_right).offset(DMScaleWidth(30));
         make.centerY.equalTo(self.contentView);
         make.width.equalTo(DMScaleWidth(108));
     }];
@@ -175,7 +175,7 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
     
     [_statusButton makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(_statusLabel);
-        make.size.equalTo(CGSizeMake(63, 30));
+        make.size.equalTo(CGSizeMake(DMScaleWidth(63), 30));
     }];
     
     [_filesPositionView makeConstraints:^(MASConstraintMaker *make) {
@@ -188,7 +188,7 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
     [_filesButton makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(_filesPositionView);
         make.centerY.equalTo(self.contentView);
-        make.size.equalTo(CGSizeMake(22, 20));
+        make.size.equalTo(CGSizeMake(DMScaleWidth(22), 20));
     }];
     
     [_questionnairePositionView makeConstraints:^(MASConstraintMaker *make) {
@@ -201,7 +201,7 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
     [_questionnaireButton makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(_questionnairePositionView);
         make.centerY.equalTo(self.contentView);
-        make.size.equalTo(CGSizeMake(21, 23));
+        make.size.equalTo(CGSizeMake(DMScaleWidth(21), 23));
     }];
     
     [_separatorView makeConstraints:^(MASConstraintMaker *make) {

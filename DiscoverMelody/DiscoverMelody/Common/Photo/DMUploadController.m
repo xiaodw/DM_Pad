@@ -43,13 +43,12 @@
     [self setupMakeLayoutSubviews];
     [self.navigationController setNavigationBarHidden:YES];
     _isPhotoSuccess = YES;
+    WS(weakSelf)
     _imagePickerHelp = [DMAlbumAssetHelp albumAssetHelpWithType:ALAssetsGroupAll filter:[ALAssetsFilter allPhotos] completionBlock:^(BOOL success, NSMutableArray *albums, BOOL first) {
-        
         if(!success) {
-            _isPhotoSuccess = NO;
-            
+            weakSelf.isPhotoSuccess = NO;
             if (first) {
-                [self viewWillAppear:YES];
+                [weakSelf viewWillAppear:YES];
             }
             return;
         }
@@ -64,7 +63,7 @@
     [super viewWillAppear:animated];
     
     if (_isPhotoSuccess) return;
-    
+    WS(weakSelf)
     DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:Photo_Msg message:Capture_Msg preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleDonAllow otherTitle:DMTitleAllow, nil];
     [alert showWithViewController:self IndexBlock:^(NSInteger index) {
         if (index == 1) { // 右侧
@@ -76,9 +75,9 @@
         }
         
         // 左侧
-        [self.liveVC.presentVCs removeObject:self];
-        self.liveVC = nil;
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [weakSelf.liveVC.presentVCs removeObject:weakSelf];
+        weakSelf.liveVC = nil;
+        [weakSelf dismissViewControllerAnimated:YES completion:nil];
     }];
 }
 

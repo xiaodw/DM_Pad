@@ -178,6 +178,17 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 // 离开
 - (void)liveButtonControlViewDidTapLeave:(DMLiveButtonControlView *)liveButtonControlView {
     WS(weakSelf)
+    if(self.alreadyTime < self.totalTime) {
+        DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"请问您确定要结束课程吗?" message:@"确定后视频将自动关闭, 并结束课程" preferredStyle:UIAlertControllerStyleAlert cancelTitle:@"确定" otherTitle:@"取消", nil];
+        [alert showWithViewController:self IndexBlock:^(NSInteger index) {
+            if (index == 0) { // 右侧
+                return;
+            }
+            [weakSelf.liveVideoManager quitLiveVideo:^(BOOL success) {
+                [weakSelf.navigationVC popViewControllerAnimated:YES];
+            }];
+        }];
+    }
     
     [self.liveVideoManager quitLiveVideo:^(BOOL success) {
         if (weakSelf.presentVCs.count == 0) {
