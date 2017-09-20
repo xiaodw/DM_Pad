@@ -81,6 +81,7 @@
     [DMAccount saveUserName:@""];
     [DMAccount saveUserHeadUrl:@""];
     [DMAccount saveUserIdentity:@""];
+    [DMAccount saveUserJoinClassTime:@""];
 }
 
 + (void)saveUserJoinClassTime:(NSString *)time {

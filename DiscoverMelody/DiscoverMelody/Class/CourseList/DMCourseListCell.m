@@ -352,7 +352,8 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
         NSDictionary *inClassDict = @{kStatusTextKey: @"上课中...", kStatusColorKey: kColorGreen};
         NSDictionary *endDict = @{kStatusTextKey: @"课程结束", kStatusColorKey: kColor153};
         NSDictionary *canceledDict = @{kStatusTextKey: @"本课取消", kStatusColorKey: kColor204};
-        _courseStatus = @[willStartDict, inClassDict, endDict, canceledDict];
+        NSDictionary *noDict = @{kStatusTextKey: @"", kStatusColorKey: kColor204};
+        _courseStatus = @[willStartDict, inClassDict, endDict, canceledDict, noDict];
     }
     
     return _courseStatus;
