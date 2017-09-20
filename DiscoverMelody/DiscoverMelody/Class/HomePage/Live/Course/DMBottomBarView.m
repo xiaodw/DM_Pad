@@ -67,7 +67,7 @@
 
 - (UIButton *)setupButton{
     DMButton *button = [DMNotHighlightedButton new];
-    button.spacing = 5;
+    button.spacing = 3;
     button.titleLabel.font = DMFontPingFang_Regular(12);
     button.titleAlignment = DMTitleButtonTypeBottom;
     [button setTitleColor:DMColorBaseMeiRed forState:UIControlStateNormal];

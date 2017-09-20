@@ -13,14 +13,14 @@
 
 - (void)setAsset:(DMAsset *)asset {
     _asset = asset;
-    self.imageView.image = asset.thumbnail;
+    self.imageView.image = asset.compressionImage;
 }
 
 - (void)setCourseModel:(DMClassFileDataModel *)courseModel{
     _courseModel = courseModel;
     
     if (!_isFullScreen) {
-        [self.imageView sd_setImageWithURL:[NSURL URLWithString:[courseModel.img_thumb trim]] placeholderImage:[UIImage imageNamed:@"image_placeholder_280"]];
+        [self.imageView sd_setImageWithURL:[NSURL URLWithString:[courseModel.img trim]] placeholderImage:[UIImage imageNamed:@"image_placeholder_280"]];
         return;
     }
 }
