@@ -13,8 +13,6 @@
 
 @property (strong, nonatomic) UIButton *selectedButton;
 
-@property (strong, nonatomic) UIView *separaterView;
-
 @end
 
 @implementation DMTabBarView
@@ -77,8 +75,6 @@
     }
     [self didTapButton:self.buttons.firstObject];
     [self addSubview:self.slippageView];
-    [self addSubview:self.separaterView];
-    _separaterView.frame = CGRectMake(0, kSelfHeight-0.5, DMScreenWidth*0.5, 0.5);
 }
 
 - (UIButton *)setupButtonWithTitle:(NSString *)title {
@@ -106,15 +102,6 @@
     }
     
     return _slippageView;
-}
-
-- (UIView *)separaterView {
-    if (!_separaterView) {
-        _separaterView = [UIView new];
-        _separaterView.backgroundColor = DMColorWithRGBA(233, 233, 233, 1);
-    }
-    
-    return _separaterView;
 }
 
 @end

@@ -39,13 +39,13 @@
 
 - (void)setupMakeLayoutSubviews {
     [_leftBarButton makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(10);
-        make.size.equalTo(CGSizeMake(34, 30));
+        make.left.equalTo(5);
+        make.size.equalTo(CGSizeMake(44, 30));
         make.bottom.equalTo(self.mas_bottom).offset(-10);
     }];
     
     [_rightBarButton makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.mas_right).offset(-10);
+        make.right.equalTo(self.mas_right).offset(-5);
         make.bottom.width.height.equalTo(_leftBarButton);
     }];
     

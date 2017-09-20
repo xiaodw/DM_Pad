@@ -30,6 +30,7 @@
 
 @property (assign, nonatomic, getter=isEditorMode) BOOL editorMode;
 @property (assign, nonatomic) BOOL isSyncBrowsing;
+@property (assign, nonatomic) NSInteger userIdentity;
 
 @end
 
@@ -67,13 +68,15 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor clearColor];
     
+    NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
+    self.userIdentity = userIdentity;
+    
     [self setupMakeAddSubviews];
     [self setupMakeLayoutSubviews];
-    self.bottomBar.syncButton.hidden = _isFullScreen;
     
-    NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
     NSString *identifier = userIdentity ? DMTitleStudentUploadFild : DMTitleTeacherUploadFild;
     self.tabBarView.titles = @[DMTitleMyUploadFild,identifier];
+    
     WS(weakSelf)
     [DMApiModel getLessonList:self.lessonID block:^(BOOL result, NSArray *teachers, NSArray *students) {
         weakSelf.identifierCpirsesArray = userIdentity ? @[teachers, students] : @[teachers, students];
@@ -124,6 +127,27 @@
 - (void)tabBarView:(DMTabBarView *)tabBarView didTapBarButton:(UIButton *)button{
     self.editorMode = NO;
     self.currentCpirses = self.identifierCpirsesArray[button.tag];
+    self.bottomBar.syncButton.hidden = _isFullScreen || !self.userIdentity;
+    self.rightBarButton.hidden = button.tag && !self.userIdentity;
+    self.bottomBar.deleteButton.hidden = button.tag;
+    self.bottomBar.uploadButton.hidden = button.tag;
+    self.bottomBar.hidden = NO;
+    CGFloat bottom = 0;
+    if (!self.userIdentity && button.tag) {
+        bottom = 50;
+    }
+    [_bottomBar remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view);
+        make.width.equalTo(_tabBarView);
+        make.height.equalTo(50);
+        make.bottom.equalTo(self.view.mas_bottom).offset(bottom);
+    }];
+    
+    [UIView animateWithDuration:0.15 animations:^{
+        [self.view layoutSubviews];
+    } completion:^(BOOL finished) {
+        self.bottomBar.hidden = !self.userIdentity && button.tag;
+    }];
 }
 
 - (void)browseCourseController:(DMBrowseCourseController *)browseCourseController deleteIndexPath:(NSIndexPath *)indexPath {
@@ -290,8 +314,8 @@
     [self.view addSubview:self.browseView];
     [self.view addSubview:self.navigationBar];
     [self.view addSubview:self.backgroundView];
-    [self.view addSubview:self.tabBarView];
     [self.view addSubview:self.collectionView];
+    [self.view addSubview:self.tabBarView];
     [self.view addSubview:self.bottomBar];
 }
 
@@ -358,13 +382,13 @@
         [_navigationBar addSubview:titleLabel];
         
         [leftBarButton makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(10);
-            make.size.equalTo(CGSizeMake(34, 30));
+            make.left.equalTo(5);
+            make.size.equalTo(CGSizeMake(44, 30));
             make.bottom.equalTo(_navigationBar.mas_bottom).offset(-10);
         }];
         
         [_rightBarButton makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(_navigationBar.mas_right).offset(-10);
+            make.right.equalTo(_navigationBar.mas_right).offset(-5);
             make.bottom.width.height.equalTo(leftBarButton);
         }];
         
@@ -446,6 +470,11 @@
         _tabBarView = [DMTabBarView new];
         _tabBarView.delegate = self;
         _tabBarView.isFullScreen = self.isFullScreen;
+        
+        _tabBarView.layer.shadowColor = DMColorWithRGBA(221, 221, 221, 1).CGColor; // shadowColor阴影颜色
+        _tabBarView.layer.shadowOffset = CGSizeMake(-3,9); // shadowOffset阴影偏移,x向右偏移，y向下偏移，默认(0, -3),这个跟shadowRadius配合使用
+        _tabBarView.layer.shadowOpacity = 1; // 阴影透明度，默认0
+        _tabBarView.layer.shadowRadius = 9; // 阴影半径，默认3
     }
     
     return _tabBarView;
@@ -455,6 +484,11 @@
     if (!_bottomBar) {
         _bottomBar = [DMBottomBarView new];
         _bottomBar.delegate = self;
+        
+        _bottomBar.layer.shadowColor = DMColorWithRGBA(221, 221, 221, 1).CGColor; // shadowColor阴影颜色
+        _bottomBar.layer.shadowOffset = CGSizeMake(-3,-9); // shadowOffset阴影偏移,x向右偏移，y向下偏移，默认(0, -3),这个跟shadowRadius配合使用
+        _bottomBar.layer.shadowOpacity = 1; // 阴影透明度，默认0
+        _bottomBar.layer.shadowRadius = 9; // 阴影半径，默认3
     }
     
     return _bottomBar;
