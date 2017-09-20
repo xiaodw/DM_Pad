@@ -50,25 +50,24 @@
 - (void)setupMakeLayoutSubviews {
     
     [_courseFilesButton makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.mas_bottom).offset(-100);
-        make.size.equalTo(CGSizeMake(60, 60));
-        make.left.equalTo(23);
+        make.bottom.equalTo(self.mas_bottom).offset(-80);
+        make.size.equalTo(CGSizeMake(80, 80));
+        make.left.equalTo(3);
     }];
     
     [_swichLayoutButton makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.width.height.equalTo(_courseFilesButton);
-        make.bottom.equalTo(_courseFilesButton.mas_top).offset(-49);
+        make.bottom.equalTo(_courseFilesButton.mas_top).offset(-20);
     }];
     
     [_swichCameraButton makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.width.height.equalTo(_swichLayoutButton);
-        make.bottom.equalTo(_swichLayoutButton.mas_top).offset(-49);
+        make.bottom.equalTo(_swichLayoutButton.mas_top).offset(-20);
     }];
     
     [_leaveChannelButton makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(23);
-        make.top.equalTo(50);
-        make.size.equalTo(CGSizeMake(60, 60));
+        make.top.equalTo(30);
+        make.left.width.height.equalTo(_courseFilesButton);
     }];
 }
 

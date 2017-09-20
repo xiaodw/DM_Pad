@@ -12,6 +12,7 @@
 #import "DMSignalingMsgData.h"
 #define kSmallSize CGSizeMake(DMScaleWidth(240), DMScaleHeight(180))
 #define kColor33 DMColorWithRGBA(33, 33, 33, 1)
+#define kColor06 DMColorWithRGBA(06, 06, 06, 1)
 
 // 布局模式
 typedef NS_ENUM(NSInteger, DMLayoutMode) {
@@ -84,10 +85,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self joinChannel];
     [self setupMakeLiveCallback];
     
-    
     [self.liveVideoManager switchSound:NO block:nil];
-    
-#warning 移动到API 返回之后启动
     [self timer];
 }
 
@@ -107,14 +105,15 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 - (void)setupMakeLiveCallback {
     // 有用户加入
     WS(weakSelf)
-    self.liveVideoManager.blockDidJoinedOfUid = ^(NSUInteger uid) {
-        NSLog(@"blockDidJoinedOfUid");
-        weakSelf.isRemoteUserOnline = YES;
-    };
+//    self.liveVideoManager.blockDidJoinedOfUid = ^(NSUInteger uid) {
+//        NSLog(@"blockDidJoinedOfUid");
+////        weakSelf.isRemoteUserOnline = YES;
+//    };
     
     // 退出直播事件
     self.liveVideoManager.blockQuitLiveVideoEvent = ^(BOOL success) {
-       NSLog(@"blockQuitLiveVideoEvent");
+        NSLog(@"blockQuitLiveVideoEvent");
+        weakSelf.isRemoteUserOnline = NO;
     };
     
     // 有用户离开
@@ -124,8 +123,11 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     };
     
     // 重新加入
-    self.liveVideoManager.blockDidRejoinChannel = ^(NSUInteger uid, NSString *channel) {
-        NSLog(@"blockDidRejoinChannel");
+//    self.liveVideoManager.blockDidRejoinChannel = ^(NSUInteger uid, NSString *channel) {
+//        NSLog(@"blockDidRejoinChannel");
+//    };
+    
+    self.liveVideoManager.blockFirstRemoteVideoDecodedOfUid = ^(NSUInteger uid, CGSize size) {
         weakSelf.isRemoteUserOnline = YES;
     };
 }
@@ -195,10 +197,10 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 
 // 切换摄像头
 - (void)liveButtonControlViewDidTapSwichCamera:(DMLiveButtonControlView *)liveButtonControlView {
-//    [self.liveVideoManager switchCamera];
+    [self.liveVideoManager switchCamera];
     
-    if (_isCoursewareMode) return;
-    _isCoursewareMode = YES;
+//    if (_isCoursewareMode) return;
+//    _isCoursewareMode = YES;
 }
 
 // 切换布局
@@ -368,7 +370,12 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 
 - (void)computTime {
     self.alreadyTime += 1;
-    self.remotePlaceholderView.hidden = self.alreadyTime < 0 || _isRemoteUserOnline;
+    
+    if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeRemoteAndSmall) {
+        self.remotePlaceholderView.hidden = self.alreadyTime < 0 || _isRemoteUserOnline;
+    }else {
+        self.remotePlaceholderView.hidden = _isRemoteUserOnline;
+    }
     self.remotePlaceholderTitleLabel.hidden = self.remotePlaceholderView.hidden;
     
     // 做几分钟开课操作
@@ -525,7 +532,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 - (UIView *)localView {
     if (!_localView) {
         _localView = [UIView new];
-        _localView.backgroundColor = kColor33;
+        _localView.backgroundColor = kColor06;
     }
     
     return _localView;
@@ -644,6 +651,13 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [_localView removeFromSuperview];
     [_remoteBackgroundView removeFromSuperview];
     
+    if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeRemoteAndSmall) {
+        self.remotePlaceholderView.hidden = self.alreadyTime < 0 || _isRemoteUserOnline;
+    }else {
+        self.remotePlaceholderView.hidden = _isRemoteUserOnline;
+    }
+    self.remotePlaceholderTitleLabel.hidden = self.remotePlaceholderView.hidden;
+    
     if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeRemoteAndSmall) { // 远端大, 本地小模式
         [self.view insertSubview:_localView atIndex:0];
         [self.view insertSubview:_remoteBackgroundView atIndex:0];
@@ -672,6 +686,9 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         _localView.userInteractionEnabled = YES;
         _remoteBackgroundView.userInteractionEnabled = NO;
         _remoteView.userInteractionEnabled = _remoteBackgroundView.userInteractionEnabled;
+        _remoteView.backgroundColor = kColor33;
+        _remoteBackgroundView.backgroundColor = kColor33;
+        _localView.backgroundColor = kColor06;
     }
     else if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeSmallAndRemote) { // 本地大, 远端小模式
         [self.view insertSubview:_remoteBackgroundView atIndex:0];
@@ -701,6 +718,9 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         _localView.userInteractionEnabled = NO;
         _remoteBackgroundView.userInteractionEnabled = YES;
         _remoteView.userInteractionEnabled = _remoteBackgroundView.userInteractionEnabled;
+        _remoteView.backgroundColor = kColor06;
+        _localView.backgroundColor = kColor33;
+        _remoteBackgroundView.backgroundColor = kColor06;
     }
     else if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeAveragDistribution) {
         [self.view insertSubview:_remoteBackgroundView atIndex:0];
@@ -716,7 +736,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
                 make.bottom.equalTo(self.view);
             }];
             
-            
             [_remotePlaceholderView remakeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(100);
                 make.size.equalTo(CGSizeMake(154, 154));
@@ -727,6 +746,9 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
                 make.top.equalTo(_remotePlaceholderView.mas_bottom).offset(28);
                 make.centerX.equalTo(_remotePlaceholderView);
             }];
+            _remoteView.backgroundColor = kColor06;
+            _localView.backgroundColor = kColor06;
+            _remoteBackgroundView.backgroundColor = kColor06;
         }else { // 左右
             [_remoteBackgroundView remakeConstraints:^(MASConstraintMaker *make) {
                 make.left.centerY.equalTo(self.view);
@@ -754,6 +776,10 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         _localView.userInteractionEnabled = NO;
         _remoteBackgroundView.userInteractionEnabled = NO;
         _remoteView.userInteractionEnabled = _remoteBackgroundView.userInteractionEnabled;
+        
+        _remoteView.backgroundColor = kColor06;
+        _localView.backgroundColor = kColor06;
+        _remoteBackgroundView.backgroundColor = kColor06;
     }
     
     [_remoteMicrophoneView remakeConstraints:^(MASConstraintMaker *make) {

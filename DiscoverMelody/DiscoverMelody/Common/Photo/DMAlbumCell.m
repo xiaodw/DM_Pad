@@ -113,7 +113,7 @@
 - (UIImageView *)arrowImageView {
     if (!_arrowImageView) {
         _arrowImageView = [UIImageView new];
-        _arrowImageView.image = [UIImage imageNamed:@"btn_arrow_right_red"];
+        _arrowImageView.image = [UIImage imageNamed:@"btn_arrow_right_gray"];
     }
     
     return _arrowImageView;
