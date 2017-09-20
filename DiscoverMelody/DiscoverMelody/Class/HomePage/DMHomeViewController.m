@@ -147,15 +147,15 @@
 - (void)goToClassRoom:(UIButton *)btn {
     NSLog(@"进入课堂");
     WS(weakSelf);
-//    [DMApiModel joinClaseeRoom:self.courseObj.course_id accessTime:[DMTools getCurrentTimestamp] block:^(BOOL result, DMClassDataModel *obj) {
-//        btn.userInteractionEnabled = YES;
-//        if (result) {
-//            [weakSelf joinClassRoom];
-//        }
-//    }];
+    [DMApiModel joinClaseeRoom:self.courseObj.course_id accessTime:[DMTools getCurrentTimestamp] block:^(BOOL result, DMClassDataModel *obj) {
+        btn.userInteractionEnabled = YES;
+        if (result) {
+            [weakSelf joinClassRoom];
+        }
+    }];
 
-    btn.userInteractionEnabled = YES;
-    [weakSelf joinClassRoom];
+//    btn.userInteractionEnabled = YES;
+//    [weakSelf joinClassRoom];
     
 }
 

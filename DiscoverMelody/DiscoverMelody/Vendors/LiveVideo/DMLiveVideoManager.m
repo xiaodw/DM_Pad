@@ -108,8 +108,8 @@ static DMLiveVideoManager* _instance = nil;
     
     [self addTapEvent];
     
-    [self bindingAccountInfo:nil];
-//    [self bindingAccountInfo:[DMSecretKeyManager shareManager].obj];
+    //[self bindingAccountInfo:nil];
+    [self bindingAccountInfo:[DMSecretKeyManager shareManager].obj];
     [self initializeAgoraEngine];
     [self initializeSignaling];
 }

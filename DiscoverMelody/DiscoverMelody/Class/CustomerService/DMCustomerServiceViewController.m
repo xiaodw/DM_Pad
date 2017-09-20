@@ -19,6 +19,9 @@
 
 @property (nonatomic, assign) BOOL isFruled;
 
+@property (nonatomic, assign) BOOL havePhone;
+@property (nonatomic, assign) BOOL haveCustomer;
+
 @property (nonatomic, strong) NSMutableDictionary *statusDic;
 
 @end
@@ -26,6 +29,7 @@
 @implementation DMCustomerServiceViewController
 
 - (void)initDataInfo {
+    WS(weakSelf);
     self.phoneArray = [NSArray arrayWithObjects:DMStringConsultationTelephoneChina, DMStringConsultationTelephoneUSA, nil];
     
     self.customerArray = [NSArray arrayWithObjects:DMStringDiscoverMelodyWeChat, nil];
@@ -37,6 +41,24 @@
         NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:1];
         [self.indexArray addObject:path];
     }
+    
+    [DMApiModel getCustomerInfo:^(BOOL result, DMCustomerDataModel *obj) {
+        if (result) {
+            if (!OBJ_IS_NIL(obj)) {
+                if (obj.tel.count > 0) {
+                    weakSelf.phoneArray = obj.tel;
+                    _havePhone = YES;
+                }
+                if (obj.customer.count > 0) {
+                    weakSelf.customerArray = obj.customer;
+                    _haveCustomer = YES;
+                }
+                [weakSelf.tableView reloadData];
+            }
+        }
+    }];
+    
+    
 }
 
 - (void)viewDidLoad {
@@ -45,8 +67,10 @@
     [self setTitle:DMTitleContactCustomerService];
     self.view.backgroundColor = DMColorWithRGBA(246, 246, 246, 1);//[UIColor whiteColor];
     _isFruled = YES;
-    [self initDataInfo];
+    _phoneArray = [NSArray array];
+    _customerArray = [NSArray array];
     [self loadUI];
+    //[self initDataInfo];
 }
 
 - (void)loadUI {
@@ -100,13 +124,28 @@
 #pragma mark UITableView Datasource
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section != 0) {
-        return 70;
+        if (_haveCustomer) {
+            return 70;
+        }
+    } else {
+        if (_havePhone) {
+            return 60;
+        } else if (_haveCustomer) {
+            return 70;
+        }
     }
-    return 60;
+    return 0;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1+self.customerArray.count;
+    NSInteger num = 0;
+    if (_haveCustomer) {
+        num = self.customerArray.count;
+    }
+    if (_havePhone) {
+        num = num + 1;
+    }
+    return num;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

@@ -134,7 +134,37 @@
      }];
 }
 
+//获取客服
++ (void)getCustomerInfo:(void(^)(BOOL result, DMCustomerDataModel *obj))complectionBlock {
+
+    [[DMHttpClient sharedInstance] initWithUrl:DM_Customer_Url
+                                    parameters:nil
+                                        method:DMHttpRequestPost
+                                dataModelClass:[DMCustomerDataModel class]
+                                   isMustToken:YES
+                                       success:^(id responseObject)
+     {
+         DMCustomerDataModel *model = (DMCustomerDataModel *)responseObject;
+         complectionBlock(YES, model);
+     } failure:^(NSError *error) {
+         complectionBlock(NO, nil);
+     }];
+}
+
+
+
+
 @end
+
+
+
+
+
+
+
+
+
+
 
 
 

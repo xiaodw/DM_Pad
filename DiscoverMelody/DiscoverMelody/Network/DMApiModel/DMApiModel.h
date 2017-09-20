@@ -10,7 +10,7 @@
 
 #import "DMClassDataModel.h"
 #import "DMClassFileDataModel.h"
-
+#import "DMCustomerDataModel.h"
 @interface DMApiModel : NSObject
 
 //登录
@@ -40,6 +40,6 @@
 
 
 //客服接口
-+ (void)getCustomerInfo:(void(^)(BOOL result, DMClassDataModel *obj))complectionBlock;;
++ (void)getCustomerInfo:(void(^)(BOOL result, DMCustomerDataModel *obj))complectionBlock;
 
 @end
