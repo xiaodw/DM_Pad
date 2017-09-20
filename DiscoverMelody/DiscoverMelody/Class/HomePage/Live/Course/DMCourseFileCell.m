@@ -76,7 +76,9 @@
 - (UIImageView *)imageView {
     if (!_imageView) {
         _imageView = [UIImageView new];
+        _imageView.backgroundColor = [UIColor whiteColor];
         _imageView.contentMode = UIViewContentModeScaleAspectFill;
+        _imageView.clipsToBounds = YES;
     }
     
     return _imageView;

@@ -42,8 +42,8 @@
 }
 
 - (void)setupMakeAddSubviews {
-    [self addSubview:self.backgroundView];
     [self addSubview:self.uploadBrowseView];
+    [self addSubview:self.backgroundView];
     [self addSubview:self.navigationBar];
     [self addSubview:self.bottomBar];
     [self addSubview:self.collectionView];
@@ -215,6 +215,7 @@
     if (!_navigationBar) {
         _navigationBar = [DMNavigationBar new];
         
+        [_navigationBar.leftBarButton setTitle:DMTitlePhoto forState:UIControlStateNormal];
         [_navigationBar.leftBarButton addTarget:self action:@selector(didTapBack:) forControlEvents:UIControlEventTouchUpInside];
         [_navigationBar.rightBarButton setTitle:DMTitleCancel forState:UIControlStateNormal];
         [_navigationBar.rightBarButton setTitleColor:DMColorBaseMeiRed forState:UIControlStateNormal];
@@ -234,11 +235,12 @@
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
-        _collectionView.backgroundColor = [UIColor whiteColor];
+        _collectionView.backgroundColor = UIColorFromRGB(0xf6f6f6);
         _collectionView.prefetchingEnabled = NO;
+        _collectionView.showsVerticalScrollIndicator = NO;
+        _collectionView.showsHorizontalScrollIndicator = NO;
         [_collectionView registerClass:[DMCourseFileCell class] forCellWithReuseIdentifier:kCoursewareCellID];
     }
-    
     return _collectionView;
 }
 
@@ -278,6 +280,7 @@
 - (DMBrowseView *)uploadBrowseView {
     if (!_uploadBrowseView) {
         _uploadBrowseView = [DMBrowseView new];
+        _uploadBrowseView.backgroundColor = [UIColor clearColor];
         _uploadBrowseView.browseType = DMBrowseViewTypeUpload;
     }
     

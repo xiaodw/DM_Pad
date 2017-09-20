@@ -36,6 +36,12 @@
     _courses = courses;
     [self.browsecollectionView reloadData];
     [self.collectionView reloadData];
+    
+    if (courses.count == 0) return;
+    self.currentIndexPath = [NSIndexPath indexPathForRow:courses.count-1 inSection:0];
+    [self.collectionView scrollToItemAtIndexPath:self.currentIndexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
+    [self.browsecollectionView scrollToItemAtIndexPath:self.currentIndexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
+    
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -150,10 +156,10 @@
         _syncButton.titleAlignment = DMTitleButtonTypeLeft;
         _syncButton.spacing = 8;
         _syncButton.backgroundColor = [UIColor whiteColor];
-        [_syncButton setTitleColor:DMColorBaseMeiRed forState:UIControlStateNormal];
         _syncButton.titleLabel.font = DMFontPingFang_Regular(16);
         _syncButton.layer.borderColor = DMColorWithRGBA(239, 239, 239, 1).CGColor;
         _syncButton.layer.borderWidth = 0.5;
+        [_syncButton setTitleColor:DMColorBaseMeiRed forState:UIControlStateNormal];
         [_syncButton setTitle:DMTitleImmediatelySync forState:UIControlStateNormal];
         [_syncButton setImage:[UIImage imageNamed:@"btn_arrow_right_red"] forState:UIControlStateNormal];
         [_syncButton addTarget:self action:@selector(didTapSync) forControlEvents:UIControlEventTouchUpInside];
@@ -166,11 +172,13 @@
     UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
     collectionView.dataSource = self;
     collectionView.delegate = self;
-    collectionView.backgroundColor = [UIColor whiteColor];
+    collectionView.backgroundColor = [UIColor clearColor];
     collectionView.showsVerticalScrollIndicator = NO;
     collectionView.prefetchingEnabled = NO;
     collectionView.bounces = NO;
     collectionView.scrollsToTop = NO;
+    collectionView.showsVerticalScrollIndicator = NO;
+    collectionView.showsHorizontalScrollIndicator = NO;
     
     return collectionView;
 }

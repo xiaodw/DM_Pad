@@ -19,6 +19,7 @@ UIKIT_EXTERN NSString * const DMTitleNetworkException;
 UIKIT_EXTERN NSString * const DMTitleLogin;
 UIKIT_EXTERN NSString * const DMTitleOK;
 UIKIT_EXTERN NSString * const DMTitleCancel;
+UIKIT_EXTERN NSString * const DMTitlePhoto;
 UIKIT_EXTERN NSString * const DMTitleContactCustomerService;
 UIKIT_EXTERN NSString * const DMTitleRefresh;
 UIKIT_EXTERN NSString * const DMTitleSelected;
