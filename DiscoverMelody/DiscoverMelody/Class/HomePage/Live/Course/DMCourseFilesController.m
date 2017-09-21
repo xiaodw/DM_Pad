@@ -78,10 +78,29 @@
     self.tabBarView.titles = @[DMTitleMyUploadFild,identifier];
     
     WS(weakSelf)
-    [DMApiModel getLessonList:self.lessonID block:^(BOOL result, NSArray *teachers, NSArray *students) {
-        weakSelf.identifierCpirsesArray = userIdentity ? @[teachers, students] : @[teachers, students];
-        weakSelf.currentCpirses = weakSelf.identifierCpirsesArray.firstObject;
-    }];
+    DMClassFileDataModel *fileData = [DMClassFileDataModel new];
+    fileData.img = @"http://img1.360buyimg.com/imgb/s280x280_jfs/t6004/69/2345754680/407205/1e1663c7/593fefb2N56e82a08.jpg";
+    fileData.img_thumb = fileData.img;
+    DMClassFileDataModel *fileData1 = [DMClassFileDataModel new];
+    fileData1.img = @"http://img1.360buyimg.com/imgb/s280x280_jfs/t5659/132/3869083328/92278/1da152b8/59423e56N798b5950.jpg";
+    fileData1.img_thumb = fileData1.img;
+    DMClassFileDataModel *fileData2 = [DMClassFileDataModel new];
+    fileData2.img = @"http://img1.360buyimg.com/imgb/s280x280_jfs/t5188/114/1752557705/443277/f582e1ba/5913dab4Nb6aca0e7.jpg";
+    fileData2.img_thumb = fileData2.img;
+    DMClassFileDataModel *fileData3 = [DMClassFileDataModel new];
+    fileData3.img = @"http://img1.360buyimg.com/imgb/s280x280_jfs/t6580/50/1132591552/162282/528c84cd/594b9f90N795d5439.jpg";
+    fileData3.img_thumb = fileData3.img;
+    DMClassFileDataModel *fileData4 = [DMClassFileDataModel new];
+    fileData4.img = @"http://img1.360buyimg.com/imgb/s280x280_jfs/t6730/299/1598840430/366892/93ff1b12/595502d0Ne969ab0c.jpg";
+    fileData4.img_thumb = fileData4.img;
+    
+    weakSelf.identifierCpirsesArray = @[@[fileData,fileData1,fileData2,fileData3,fileData4], @[]];
+    weakSelf.currentCpirses = weakSelf.identifierCpirsesArray.firstObject;
+    
+//    [DMApiModel getLessonList:self.lessonID block:^(BOOL result, NSArray *teachers, NSArray *students) {
+//        weakSelf.identifierCpirsesArray = userIdentity ? @[teachers, students] : @[teachers, students];
+//        weakSelf.currentCpirses = weakSelf.identifierCpirsesArray.firstObject;
+//    }];
 }
 
 - (void)didTapSelect:(UIButton *)sender {
@@ -188,6 +207,7 @@
     
     self.bottomBar.syncButton.enabled = NO;
     self.bottomBar.deleteButton.enabled = NO;
+    self.browseView.isFirst = YES;
     self.browseView.courses = self.selectedCpirses;
 }
 
@@ -198,8 +218,7 @@
         [alert showWithViewController:self IndexBlock:^(NSInteger index) { }];
         return;
     }
-    DMLogFunc
-//    self.selectedCpirses
+    
     NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_Start_Syn sourceData:self.selectedCpirses index:0];
     [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) {
         if (![self.delegate respondsToSelector:@selector(courseFilesController:syncCourses:)]){
@@ -298,10 +317,19 @@
     
     cell.courseModel = cell.courseModel;
     [self.collectionView reloadData];
+    self.browseView.isFirst = NO;
     self.browseView.courses = self.selectedCpirses;
     
     if (self.selectedCpirses.count == 0) {
-        [self didTapSelect:self.rightBarButton];
+        _isSyncBrowsing = NO;
+        [self.browseView remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.top.width.equalTo(_navigationBar);
+            make.bottom.equalTo(_bottomBar);
+        }];
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            [self.view layoutSubviews];
+        }];
     }
 }
 

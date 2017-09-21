@@ -39,12 +39,17 @@
 }
 
 - (void)didTapClose {
-    NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_End_Syn sourceData:nil index:0];
-    [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) {
-        if (![self.delegate respondsToSelector:@selector(liveCoursewareViewDidTapClose:)]) return;
-        [self.delegate liveCoursewareViewDidTapClose:self];
-    } faile:^(NSString *messageID, AgoraEcode ecode) {
-        
+    DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"请问您确定要结束同步吗?" message:@"确定后同步将关闭" preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
+    [alert showWithViewController:self.superViewController IndexBlock:^(NSInteger index) {
+        if (index == 1) { // 右侧
+            NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_End_Syn sourceData:nil index:0];
+            [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) {
+                if (![self.delegate respondsToSelector:@selector(liveCoursewareViewDidTapClose:)]) return;
+                [self.delegate liveCoursewareViewDidTapClose:self];
+            } faile:^(NSString *messageID, AgoraEcode ecode) {
+                
+            }];
+        }
     }];
 }
 

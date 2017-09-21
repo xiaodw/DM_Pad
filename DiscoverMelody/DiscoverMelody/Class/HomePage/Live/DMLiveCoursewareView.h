@@ -14,5 +14,6 @@
 @property (weak, nonatomic) id<DMLiveCoursewareViewDelegate> delegate;
 
 @property (strong, nonatomic) NSArray *allCoursewares;
+@property (weak, nonatomic) UIViewController *superViewController;
 
 @end

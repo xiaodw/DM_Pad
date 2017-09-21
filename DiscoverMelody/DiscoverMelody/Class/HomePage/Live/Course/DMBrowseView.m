@@ -38,7 +38,8 @@
     [self.collectionView reloadData];
     
     if (courses.count == 0) return;
-    self.currentIndexPath = [NSIndexPath indexPathForRow:courses.count-1 inSection:0];
+    NSInteger scrollIndex = _isFirst ? 0 : courses.count-1;
+    self.currentIndexPath = [NSIndexPath indexPathForRow:scrollIndex inSection:0];
     [self.collectionView scrollToItemAtIndexPath:self.currentIndexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
     [self.browsecollectionView scrollToItemAtIndexPath:self.currentIndexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
     

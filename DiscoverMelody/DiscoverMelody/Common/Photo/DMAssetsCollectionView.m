@@ -7,6 +7,7 @@
 #import "DMBrowseView.h"
 
 #define kCoursewareCellID @"Courseware"
+#define kPhotoColums 4
 
 @interface DMAssetsCollectionView() <UICollectionViewDataSource, UICollectionViewDelegate>
 
@@ -154,7 +155,7 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat width = (DMScreenWidth*0.5 - 15*4) / 3;
+    CGFloat width = (DMScreenWidth*0.5 - 15*(kPhotoColums+1)) / kPhotoColums;
     CGFloat height = width;
     
     return CGSizeMake(width, height);
