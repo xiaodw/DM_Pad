@@ -1,6 +1,7 @@
 #import "DMLoginController.h"
 
 #import "DMLoginTextField.h"
+#import <IQKeyboardManager.h>
 
 
 const CGFloat kTextFieldHeight = 44;
@@ -27,17 +28,16 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor randomColor];
-    
-    UITextField *textfield = [UITextField new];
-    textfield.backgroundColor = [UIColor randomColor];
-    textfield.frame = CGRectMake(100, 100, 100, 44);
-    [self.view addSubview:textfield];
     
     [self setupMakeAddSubviews];
     [self setupMakeLayoutSubviews];
     
     [self registerForKeyboardNotifications];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [IQKeyboardManager sharedManager].enable = NO;
 }
 
 - (void)registerForKeyboardNotifications {
