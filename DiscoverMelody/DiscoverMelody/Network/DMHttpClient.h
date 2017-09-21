@@ -9,9 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "DMNetConntectDefine.h"
 
+typedef void (^BlockSuccessMsg)(NSString *msg);//成功的提示消息
 @interface DMHttpClient : NSObject
-
+@property (nonatomic, strong) BlockSuccessMsg blockSuccessMsg;
 + (DMHttpClient *)sharedInstance;
+
 /**
  *
  *  @param url              地址

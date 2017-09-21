@@ -219,9 +219,9 @@
     if (type.intValue == 1) {
         url = DM_Submit_Teacher_Answer_Url;
     }
-    
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:answerArray, @"list", nil];
     [[DMHttpClient sharedInstance] initWithUrl:url
-                                    parameters:nil
+                                    parameters:dic
                                         method:DMHttpRequestPost
                                 dataModelClass:[NSObject class]
                                    isMustToken:YES
@@ -231,6 +231,9 @@
      } failure:^(NSError *error) {
          complectionBlock(NO);
      }];
+    [DMHttpClient sharedInstance].blockSuccessMsg = ^(NSString *msg) {
+        [DMTools showMessageToast:msg duration:2 position:CSToastPositionCenter];
+    };
 }
 
 //获取百度云上传的配置信息

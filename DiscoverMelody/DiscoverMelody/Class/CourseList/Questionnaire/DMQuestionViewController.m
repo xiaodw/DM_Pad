@@ -11,6 +11,8 @@
 #import "DMConst.h"
 #import "DMTitleView.h"
 #import "DMQuestionCell.h"
+#import "IQKeyboardManager.h"
+#import "DMCommitAnswerData.h"
 @interface DMQuestionViewController () <DMTabBarViewDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UILabel *classNameLabel;
 @property (nonatomic, strong) UILabel *timeLabel;
@@ -21,6 +23,7 @@
 @property (nonatomic, strong) DMTabBarView *tabBarView;
 @property (nonatomic, strong) UITableView *bTableView;
 @property (nonatomic, strong) UIView *bottomView;
+@property (nonatomic, assign) BOOL isEditQuest;
 @end
 
 @implementation DMQuestionViewController
@@ -31,6 +34,8 @@
     self.title = DMTextQuestionnaire;
     self.view.backgroundColor = [UIColor whiteColor];
     [self setNavigationBarTransparence];
+    [IQKeyboardManager sharedManager].enable = YES;
+    self.isEditQuest = YES;
     self.questionList = [NSArray array];
     [self loadUI];
     [self getQuestionList];
@@ -52,8 +57,22 @@
 
 - (void)clickCommitBtn:(id)sender {
     NSLog(@"点击提交");
-    [DMApiModel commitQuestAnswer:self.lessonID answers:nil block:^(BOOL result) {
-        
+    WS(weakSelf);
+    NSMutableArray *array = [NSMutableArray array];
+    for (DMQuestSingleData *data in self.questionList) {
+        DMCommitAnswerData *obj = [[DMCommitAnswerData alloc] init];
+        obj.lesson_id = self.lessonID;
+        obj.question_id = data.question_id;
+        obj.content = data.content;
+        [array addObject:obj];
+    }
+    NSArray *dicArray = [DMCommitAnswerData mj_keyValuesArrayWithObjectArray:array];
+    [DMApiModel commitQuestAnswer:self.lessonID answers:dicArray block:^(BOOL result) {
+        if (result) {
+            weakSelf.isEditQuest = NO;
+            weakSelf.bottomView.hidden = !weakSelf.isEditQuest;
+            [weakSelf.bTableView reloadData];
+        }
     }];
 }
 
@@ -102,6 +121,7 @@
         cell.tag = indexPath.section;
         DMQuestSingleData *obj = [self.questionList objectAtIndex:indexPath.section];
         [cell configObj:obj indexRow:indexPath.row indexSection:indexPath.section];
+        cell.userInteractionEnabled = self.isEditQuest;
     }
     WS(weakSelf);
     cell.clickButtonBlock = ^{

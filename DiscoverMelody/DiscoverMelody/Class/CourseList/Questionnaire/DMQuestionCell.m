@@ -10,7 +10,7 @@
 #import "DMEStarView.h"
 #import "DMRadioView.h"
 #import "DMTextView.h"
-@interface DMQuestionCell ()
+@interface DMQuestionCell ()<UITextFieldDelegate>
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) DMEStarView *starView;
 @property (nonatomic, strong) DMRadioView *radioView;
@@ -44,6 +44,7 @@
     CGFloat H = self.titleLabel.frame.size.height + self.titleLabel.frame.origin.y;
     
     self.textView = [[DMTextView alloc] initWithFrame:CGRectMake(34, H, DMScreenWidth-68, 50)];
+    self.textView.textField.delegate = self;
     self.radioView = [[DMRadioView alloc] initWithFrame:CGRectMake(34, H, DMScreenWidth-68, 45)];
     [self.radioView.selButton addTarget:self action:@selector(clickSelButton:) forControlEvents:UIControlEventTouchUpInside];
     self.starView = [[DMEStarView alloc] initWithFrame:CGRectMake(34, H, 250, 50) finish:^(CGFloat currentScore) {
@@ -101,6 +102,20 @@
     self.obje.content = btn.titleLabel.text;
     btn.selected = YES;
     self.clickButtonBlock();
+}
+
+- (BOOL)textField:(UITextField*)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    self.obje.content = textField.text;
+    return YES;
+}
+- (void)textFieldDidEndEditing:(UITextField *)textField{
+    self.obje.content = textField.text;
+    
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    
+    return YES;
 }
 
 - (void)awakeFromNib {
