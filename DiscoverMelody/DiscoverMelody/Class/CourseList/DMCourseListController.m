@@ -221,7 +221,7 @@
     if (indexPath.row < self.courses.count) {
         DMCourseDatasModel *model = [self.courses objectAtIndex:indexPath.row];
         DMQuestionViewController *qtVC = [[DMQuestionViewController alloc] init];
-        qtVC.lessonID = model.course_id;
+        qtVC.courseObj = model;
         [self.navigationController pushViewController:qtVC animated:YES];
     }
 

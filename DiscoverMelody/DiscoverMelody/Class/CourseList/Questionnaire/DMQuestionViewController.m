@@ -24,6 +24,14 @@
 @property (nonatomic, strong) UITableView *bTableView;
 @property (nonatomic, strong) UIView *bottomView;
 @property (nonatomic, assign) BOOL isEditQuest;
+
+@property (nonatomic, strong) UIView *topStatusView;
+@property (nonatomic, strong) UIButton *statusButton;
+
+@property (nonatomic, assign) BOOL statusDis;
+
+@property (nonatomic, strong) UIImageView *topImageView;
+
 @end
 
 @implementation DMQuestionViewController
@@ -39,7 +47,7 @@
     self.questionList = [NSArray array];
     [self loadUI];
     [self getQuestionList];
-    [self updateTopViewInfo:nil];
+    [self updateTopViewInfo:self.courseObj];
 }
 
 - (void)getQuestionList {
@@ -57,6 +65,10 @@
 
 - (void)clickCommitBtn:(id)sender {
     NSLog(@"点击提交");
+    
+    [self updateUIStatus:YES];
+    return;
+    
     WS(weakSelf);
     NSMutableArray *array = [NSMutableArray array];
     for (DMQuestSingleData *data in self.questionList) {
@@ -151,8 +163,8 @@
 
 
 - (void)loadUI {
-    UIImageView *topImageView = [[UIImageView alloc] init];
-    topImageView.image = [UIImage imageNamed:@"question_bg"];
+    _topImageView = [[UIImageView alloc] init];
+    _topImageView.image = [UIImage imageNamed:@"question_bg"];
 
     UIView *headView2 = [[UIView alloc] init];
     headView2.backgroundColor = [UIColor whiteColor];
@@ -160,13 +172,13 @@
     headView2.layer.cornerRadius = 50/2;
     headView2.layer.masksToBounds = YES;
     
-    [self.view addSubview:topImageView];
-    [topImageView addSubview:self.timeLabel];
-    [topImageView addSubview:self.classNameLabel];
-    [topImageView addSubview:self.typeLabel];
-    [topImageView addSubview:headView2];
-    [topImageView addSubview:self.hImageView];
-    [topImageView addSubview:self.nameLabel];
+    [self.view addSubview:_topImageView];
+    [_topImageView addSubview:self.timeLabel];
+    [_topImageView addSubview:self.classNameLabel];
+    [_topImageView addSubview:self.typeLabel];
+    [_topImageView addSubview:headView2];
+    [_topImageView addSubview:self.hImageView];
+    [_topImageView addSubview:self.nameLabel];
     
     _bTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     _bTableView.delegate = self;
@@ -210,6 +222,16 @@
         _tabBarView.layer.shadowOpacity = 1; // 阴影透明度，默认0
         _tabBarView.layer.shadowRadius = 9; // 阴影半径，默认3
         [self.view addSubview:_tabBarView];
+    } else {
+        _topStatusView = [[UIView alloc] init];
+        _topStatusView.backgroundColor = DMColorWithRGBA(225, 140, 40, 1);
+        [self.view addSubview:_topStatusView];
+        
+        _statusButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _statusButton.titleLabel.font = DMFontPingFang_Light(15);
+        [_statusButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [self.topStatusView addSubview:self.statusButton];
+        
     }
 
 //    [bottomView makeConstraints:^(MASConstraintMaker *make) {
@@ -225,7 +247,7 @@
 //        make.width.equalTo(130);
 //    }];
 //
-    [topImageView makeConstraints:^(MASConstraintMaker *make) {
+    [_topImageView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(self.view);
         make.height.equalTo(180);
     }];
@@ -233,7 +255,7 @@
     if (userIdentity == 0) {
         
         [_tabBarView makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(topImageView.mas_bottom).offset(0);
+            make.top.equalTo(_topImageView.mas_bottom).offset(0);
             make.left.right.equalTo(self.view);
             make.height.equalTo(50);
         }];
@@ -245,55 +267,96 @@
         }];
         
     } else {
+        float Y = 0;
+        if (_statusDis) {
+            Y = 40;
+        }
+        
+        [_topStatusView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_topImageView.mas_bottom).offset(0);
+            make.left.right.equalTo(self.view);
+            make.height.equalTo(Y);
+        }];
+        [_statusButton makeConstraints:^(MASConstraintMaker *make) {
+            make.top.left.right.bottom.equalTo(_topStatusView);
+        }];
         [_bTableView makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(topImageView.mas_bottom).equalTo(0);
+            make.top.equalTo(_topStatusView.mas_bottom).equalTo(0);
             make.left.right.equalTo(self.view);
             make.bottom.equalTo(self.view).equalTo(0);
         }];
     }
 
     [_timeLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(topImageView.mas_bottom).offset(-47);
-        make.centerX.equalTo(topImageView);
+        make.bottom.equalTo(_topImageView.mas_bottom).offset(-47);
+        make.centerX.equalTo(_topImageView);
         make.size.equalTo(CGSizeMake(240, 40));
     }];
     [_classNameLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(topImageView.mas_bottom).offset(-47);
-        make.left.equalTo(topImageView);
+        make.bottom.equalTo(_topImageView.mas_bottom).offset(-47);
+        make.left.equalTo(_topImageView);
         make.right.equalTo(_timeLabel.mas_left).offset(-52);
         make.height.equalTo(40);
     }];
     [_typeLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(topImageView.mas_bottom).offset(-47);
+        make.bottom.equalTo(_topImageView.mas_bottom).offset(-47);
         make.left.equalTo(_timeLabel.mas_right).offset(52);
         make.size.equalTo(CGSizeMake(50, 40));
     }];
+
+    float headView2_w = 50;
+    float hImageView_v = 7;
+    float hImageView_w = 40;
+    float name_r = 20;
+    if (userIdentity == 1) {
+        hImageView_v = 0;
+        hImageView_w = 0;
+        name_r = 0;
+        headView2_w = 0;
+    }
     [headView2 makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(topImageView.mas_bottom).offset(-42);
+        make.bottom.equalTo(_topImageView.mas_bottom).offset(-42);
         make.left.equalTo(_typeLabel.mas_right).offset(2);
-        make.size.equalTo(CGSizeMake(50, 50));
+        make.size.equalTo(CGSizeMake(headView2_w, headView2_w));
     }];
     [_hImageView makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(topImageView.mas_bottom).offset(-47);
-        make.left.equalTo(_typeLabel.mas_right).offset(7);
-        make.size.equalTo(CGSizeMake(40, 40));
+        make.bottom.equalTo(_topImageView.mas_bottom).offset(-47);
+        make.left.equalTo(_typeLabel.mas_right).offset(hImageView_v);
+        make.size.equalTo(CGSizeMake(hImageView_w, hImageView_w));
     }];
     [_nameLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(topImageView.mas_bottom).offset(-47);
-        make.left.equalTo(_hImageView.mas_right).offset(20);
-        make.right.equalTo(topImageView.mas_right).offset(0);
+        make.bottom.equalTo(_topImageView.mas_bottom).offset(-47);
+        make.left.equalTo(_hImageView.mas_right).offset(name_r);
+        make.right.equalTo(_topImageView.mas_right).offset(0);
         make.height.equalTo(40);
     }];
     
 }
-- (void)updateTopViewInfo:(id)obj {
-    [_hImageView sd_setImageWithURL:nil placeholderImage:[UIImage imageNamed:@"timg1.jpg"]];
-    _classNameLabel.text = @"未来之星1v1--钢琴";
-    _nameLabel.text = @"郎郎";
-    _timeLabel.text = @"上课时间：9月8日 18:00";
-    _typeLabel.text = @"老师：";
+- (void)updateTopViewInfo:(DMCourseDatasModel *)obj {
+    NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
+    NSString *type = @"老师：";
+    if (userIdentity == 0) {
+        [_hImageView sd_setImageWithURL:[NSURL URLWithString:obj.avatar] placeholderImage:HeadPlaceholderName];
+    } else {
+        _hImageView.image = nil;
+        type = @"学生：";
+    }
+    _classNameLabel.text = obj.course_name;//@"未来之星1v1--钢琴";
+    _nameLabel.text = obj.teacher_name;//@"郎郎";
+    _timeLabel.text = [@"上课时间：" stringByAppendingString:
+                       [DMTools timeFormatterYMDFromTs:obj.start_time format:@"YYYY年MM月dd日"]];//@"上课时间：9月8日 18:00";
+    _typeLabel.text = type;
 }
 
+- (void)updateUIStatus:(BOOL)isDisplay {
+    if (isDisplay) {
+        [_topStatusView updateConstraints:^(MASConstraintMaker *make) {
+            make.height.equalTo(40);
+        }];
+        [_statusButton setImage:[UIImage imageNamed:@"t_q_review_icon"] forState:UIControlStateNormal];
+        [_statusButton setTitle:@"  真在审核中。。。" forState:UIControlStateNormal];
+    }
+}
 
 - (UIImageView *)hImageView {
     if (!_hImageView) {

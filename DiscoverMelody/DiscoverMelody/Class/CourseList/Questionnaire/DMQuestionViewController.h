@@ -10,4 +10,5 @@
 
 @interface DMQuestionViewController : DMBaseViewController
 @property (nonatomic, strong) NSString *lessonID;
+@property (nonatomic, strong) DMCourseDatasModel *courseObj;
 @end
