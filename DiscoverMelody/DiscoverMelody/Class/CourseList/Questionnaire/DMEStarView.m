@@ -8,8 +8,8 @@
 
 #import "DMEStarView.h"
 
-#define ForegroundStarImage @"b27_icon_star_yellow"
-#define BackgroundStarImage @"b27_icon_star_gray"
+#define ForegroundStarImage @"question_star_sel"
+#define BackgroundStarImage @"question_star_nor"
 
 typedef void(^completeBlock)(CGFloat currentScore);
 
@@ -98,7 +98,7 @@ typedef void(^completeBlock)(CGFloat currentScore);
     for (NSInteger i = 0; i < self.numberOfStars; i ++)
     {
         UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
-        imageView.frame = CGRectMake(i * self.bounds.size.width / self.numberOfStars, 0, self.bounds.size.width / self.numberOfStars, self.bounds.size.height);
+        imageView.frame = CGRectMake(i*(23+27), (self.bounds.size.height-26)/2, 27, 26);
         imageView.contentMode = UIViewContentModeScaleAspectFit;
         [view addSubview:imageView];
     }

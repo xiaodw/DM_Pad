@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DMTitleView : UIView
+@interface DMTitleView : UITableViewHeaderFooterView
+- (id)initWithReuseIdentifier:(NSString *)reuseIdentifier
+                        frame:(CGRect)frame;
 @property (nonatomic, strong) UILabel *numberLabel;
 @property (nonatomic, strong) UILabel *contentLabel;
+- (void)updateInfo:(NSInteger)index content:(NSString *)content;
 @end

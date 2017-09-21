@@ -197,11 +197,6 @@
 
 // 课件
 - (void)courseListCellDidTapCoursesFiles:(DMCourseListCell *)courseListCell {
-    
-    [self courseListCellDidTapRelook:courseListCell];
-    
-    return;
-    
     DMCourseFilesController *courseFilesVC = [DMCourseFilesController new];
     courseFilesVC.columns = 6;
     courseFilesVC.leftMargin = 15;
@@ -221,8 +216,15 @@
 // 调查问卷
 - (void)courseListCellDidTapQuestionnaire:(DMCourseListCell *)courseListCell {
     DMLogFunc
-    DMQuestionViewController *qtVC = [[DMQuestionViewController alloc] init];
-    [self.navigationController pushViewController:qtVC animated:YES];
+
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:courseListCell];
+    if (indexPath.row < self.courses.count) {
+        DMCourseDatasModel *model = [self.courses objectAtIndex:indexPath.row];
+        DMQuestionViewController *qtVC = [[DMQuestionViewController alloc] init];
+        qtVC.lessonID = model.course_id;
+        [self.navigationController pushViewController:qtVC animated:YES];
+    }
+
 }
 
 - (UITableView *)tableView {

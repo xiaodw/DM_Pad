@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface DMQuestionCell : UITableViewCell
-
+- (void)configObj:(DMQuestSingleData *)obj indexRow:(NSInteger)index;
 @end

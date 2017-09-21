@@ -9,5 +9,5 @@
 #import "DMBaseViewController.h"
 
 @interface DMQuestionViewController : DMBaseViewController
-
+@property (nonatomic, strong) NSString *lessonID;
 @end

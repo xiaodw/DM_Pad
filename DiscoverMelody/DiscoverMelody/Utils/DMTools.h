@@ -44,4 +44,7 @@
  */
 + (void)showMessageToast:(NSString *)msg duration:(NSTimeInterval)duration position:(id)style;
 
+//获取纯色图片
++ (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size alpha:(float)alpha;
+
 @end

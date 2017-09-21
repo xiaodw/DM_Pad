@@ -25,37 +25,35 @@
 - (void)loadUI {
     self.backgroundColor = DMColorWithRGBA(245, 245, 245, 1);
     
-    self.radioView = [[UIView alloc] init];
+    self.radioView = [[UIView alloc] initWithFrame:self.bounds];
     self.radioView.backgroundColor = [UIColor clearColor];
     [self addSubview:self.radioView];
     
-    self.yesButton = [self createRadioButton:@"YES"];
-    self.noButton = [self createRadioButton:@"NO"];
-    [self.radioView addSubview:self.yesButton];
-    [self.radioView addSubview:self.noButton];
+    self.selButton = [self createRadioButton:@"  "];
+    [self.radioView addSubview:self.selButton];
     
     [self.radioView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.bottom.right.equalTo(self);
     }];
-    [self.yesButton makeConstraints:^(MASConstraintMaker *make) {
+    [self.selButton makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.bottom.equalTo(self.radioView);
         make.size.equalTo(92);
     }];
-    [self.noButton makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.equalTo(self.radioView);
-        make.left.equalTo(self.yesButton.mas_right).offset(235);
-        make.size.equalTo(92);
-    }];
-
 }
 
 - (UIButton *)createRadioButton:(NSString *)title {
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn setTitle:title forState:UIControlStateNormal];
-    [btn setTitleColor:DMColorWithRGBA(51, 51, 51, 1) forState:UIControlStateNormal];
+    [btn setTitleColor:DMColorWithRGBA(102, 102, 102, 1) forState:UIControlStateNormal];
     [btn setImage:[UIImage imageNamed:@"question_radio_nor"] forState:UIControlStateNormal];
     [btn setImage:[UIImage imageNamed:@"question_radio_sel"] forState:UIControlStateSelected];
+    [btn.titleLabel setFont:DMFontPingFang_Light(14)];
+    btn.userInteractionEnabled = NO;
     return btn;
+}
+
+- (void)updateButtonTitle:(NSString *)title {
+    [_selButton setTitle:title forState:UIControlStateNormal];
 }
 
 @end

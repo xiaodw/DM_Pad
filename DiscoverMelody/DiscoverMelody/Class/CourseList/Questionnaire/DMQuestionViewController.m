@@ -9,6 +9,7 @@
 #import "DMQuestionViewController.h"
 #import "DMTabBarView.h"
 #import "DMConst.h"
+#import "DMTitleView.h"
 #import "DMQuestionCell.h"
 @interface DMQuestionViewController () <DMTabBarViewDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UILabel *classNameLabel;
@@ -19,6 +20,7 @@
 @property (nonatomic, strong) NSArray *questionList;
 @property (nonatomic, strong) DMTabBarView *tabBarView;
 @property (nonatomic, strong) UITableView *bTableView;
+@property (nonatomic, strong) UIView *bottomView;
 @end
 
 @implementation DMQuestionViewController
@@ -37,35 +39,56 @@
 
 - (void)getQuestionList {
     WS(weakSelf);
-    [DMApiModel getQuestInfo:^(BOOL result, NSArray *list) {
+    [DMApiModel getQuestInfo:self.lessonID block:^(BOOL result, NSArray *list) {
         if (result && list.count > 0) {
             weakSelf.questionList = list;
             [weakSelf.bTableView reloadData];
+            if (weakSelf.bTableView.tableFooterView == nil && _bottomView) {
+                weakSelf.bTableView.tableFooterView = _bottomView;
+            }
         }
     }];
 }
 
 - (void)clickCommitBtn:(id)sender {
-
+    NSLog(@"点击提交");
+    [DMApiModel commitQuestAnswer:self.lessonID answers:nil block:^(BOOL result) {
+        
+    }];
 }
 
 #pragma mark -
 #pragma mark UITableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+//    if (indexPath.section < self.questionList.count) {
+//        DMQuestSingleData *obj = [self.questionList objectAtIndex:indexPath.section];
+//        if (obj.type.intValue == 1) {
+//            if (indexPath.row < obj.options.count) {
+//                DMQuestOptions *op = [obj.options objectAtIndex:indexPath.row];
+//            }
+//        }
+//    }
 }
 
 #pragma mark -
 #pragma mark UITableView Datasource
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 88;
+    return 50;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return self.questionList.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex {
+    if (sectionIndex < self.questionList.count) {
+        DMQuestSingleData *obj = [self.questionList objectAtIndex:sectionIndex];
+        if (obj.type.intValue == 1) {
+            return obj.options.count;
+        }
+        return 1;
+    }
     return 1;
 }
 
@@ -75,13 +98,34 @@
     if (!cell) {
         cell = [[DMQuestionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:qCell];
     }
-    if (indexPath.row < self.questionList.count) {
-        DMQuestSingleData *obj = [self.questionList objectAtIndex:indexPath.row];
+    if (indexPath.section < self.questionList.count) {
         
+        DMQuestSingleData *obj = [self.questionList objectAtIndex:indexPath.section];
+        [cell configObj:obj indexRow:indexPath.row];
     }
   
     return cell;
 }
+
+- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    static NSString *tvH = @"tvheader";
+    DMTitleView *infoV = [tableView dequeueReusableHeaderFooterViewWithIdentifier:tvH];
+    if(infoV==nil) {
+        infoV = [[DMTitleView alloc]
+                 initWithReuseIdentifier:tvH
+                 frame:CGRectMake(0, 0, self.bTableView.frame.size.width, 50)];
+    }
+    if (section < self.questionList.count) {
+        DMQuestSingleData *obj = [self.questionList objectAtIndex:section];
+        [infoV updateInfo:section+1 content:obj.name];
+    }
+    return infoV;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 50;
+}
+
 
 - (void)loadUI {
     UIImageView *topImageView = [[UIImageView alloc] init];
@@ -105,19 +149,18 @@
     _bTableView.delegate = self;
     _bTableView.dataSource = self;
     _bTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    _bTableView.backgroundColor = UIColorFromRGB(0xf6f6f6);
-    UIView *hV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 15)];
-    hV.backgroundColor = UIColorFromRGB(0xf6f6f6);
+    _bTableView.backgroundColor = [UIColor whiteColor];//UIColorFromRGB(0xf6f6f6);
+    UIView *hV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 40)];
+    hV.backgroundColor = [UIColor whiteColor];
     
     _bTableView.tableHeaderView = hV;
-    [self.view addSubview:_bTableView];
     
-    UIView *bottomView = [[UIView alloc] init];
-    bottomView.backgroundColor = [UIColor whiteColor];
-    bottomView.layer.shadowColor = DMColorWithRGBA(221, 221, 221, 1).CGColor; // shadowColor阴影颜色
-    bottomView.layer.shadowOffset = CGSizeMake(0,-9); // shadowOffset阴影偏移,x向右偏移，y向下偏移，默认(0, -3),这个跟shadowRadius配合使用
-    bottomView.layer.shadowOpacity = 1; // 阴影透明度，默认0
-    bottomView.layer.shadowRadius = 9; // 阴影半径，默认3
+    self.bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, DMScreenWidth, 130)];
+    self.bottomView.backgroundColor = [UIColor whiteColor];
+//    bottomView.layer.shadowColor = DMColorWithRGBA(221, 221, 221, 1).CGColor; // shadowColor阴影颜色
+//    bottomView.layer.shadowOffset = CGSizeMake(0,-9); // shadowOffset阴影偏移,x向右偏移，y向下偏移，默认(0, -3),这个跟shadowRadius配合使用
+//    bottomView.layer.shadowOpacity = 1; // 阴影透明度，默认0
+//    bottomView.layer.shadowRadius = 9; // 阴影半径，默认3
     
     UIButton *commitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     commitBtn.backgroundColor = DMColorBaseMeiRed;
@@ -127,9 +170,10 @@
     [commitBtn addTarget:self action:@selector(clickCommitBtn:) forControlEvents:UIControlEventTouchUpInside];
     commitBtn.layer.cornerRadius = 5;
     commitBtn.layer.masksToBounds = YES;
-    
-    [self.view addSubview:bottomView];
-    [bottomView addSubview:commitBtn];
+    commitBtn.frame = CGRectMake((_bottomView.frame.size.width-130)/2, (_bottomView.frame.size.height-40)/2+30, 130, 40);
+    //[self.view addSubview:bottomView];
+    [_bottomView addSubview:commitBtn];
+    [self.view addSubview:_bTableView];
     
     NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
     if (userIdentity == 0) {
@@ -145,21 +189,19 @@
         [self.view addSubview:_tabBarView];
     }
 
-    
-    
-    [bottomView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.bottom.equalTo(self.view).offset(0);
-        make.centerX.equalTo(topImageView);
-        make.height.equalTo(120);
-    }];
-    
-    [commitBtn makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(bottomView.mas_bottom).offset(-43);
-        make.centerX.equalTo(bottomView);
-        make.height.equalTo(40);
-        make.width.equalTo(130);
-    }];
-    
+//    [bottomView makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.right.bottom.equalTo(self.view).offset(0);
+//        make.centerX.equalTo(topImageView);
+//        make.height.equalTo(120);
+//    }];
+////
+//    [commitBtn makeConstraints:^(MASConstraintMaker *make) {
+//        make.bottom.equalTo(bottomView.mas_bottom).offset(-43);
+//        make.centerX.equalTo(bottomView);
+//        make.height.equalTo(40);
+//        make.width.equalTo(130);
+//    }];
+//
     [topImageView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(self.view);
         make.height.equalTo(180);
@@ -176,14 +218,14 @@
         [_bTableView makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_tabBarView.mas_bottom).equalTo(0);
             make.left.right.equalTo(self.view);
-            make.bottom.equalTo(bottomView.mas_top).equalTo(0);
+            make.bottom.equalTo(self.view).equalTo(0);
         }];
         
     } else {
         [_bTableView makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(topImageView.mas_bottom).equalTo(0);
             make.left.right.equalTo(self.view);
-            make.bottom.equalTo(bottomView.mas_top).equalTo(0);
+            make.bottom.equalTo(self.view).equalTo(0);
         }];
     }
 
