@@ -10,6 +10,8 @@
 #import "DMMicrophoneView.h"
 #import "DMSecretKeyManager.h"
 #import "DMSignalingMsgData.h"
+#import "DMSendSignalingMsg.h"
+
 #define kSmallSize CGSizeMake(DMScaleWidth(240), DMScaleHeight(180))
 #define kColor33 DMColorWithRGBA(33, 33, 33, 1)
 #define kColor06 DMColorWithRGBA(06, 06, 06, 1)
@@ -22,7 +24,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     DMLayoutModeAll // 全部模式
 };
 
-@interface DMLiveController ()<DMLiveButtonControlViewDelegate, DMLiveCoursewareViewDelegate>
+@interface DMLiveController ()<DMLiveButtonControlViewDelegate, DMLiveCoursewareViewDelegate, DMCourseFilesControllerDelegate>
 
 #pragma mark - UI
 @property (strong, nonatomic) DMLiveVideoManager *liveVideoManager; // 声网SDK Manager
@@ -48,8 +50,8 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 @property (strong, nonatomic) DMLiveWillStartView *willStartView; // 即将开始的View
 
 #pragma mark - Other
-@property (assign, nonatomic) BOOL isRemoteUserOnline; // 远端是否上线
-@property (nonatomic, strong) dispatch_source_t timer; // 1秒中更新一次时间UI
+@property (strong, nonatomic) NSMutableArray *syncCourseFiles;
+@property (strong, nonatomic) dispatch_source_t timer; // 1秒中更新一次时间UI
 @property (assign, nonatomic) NSInteger tapLayoutCount; // 点击布局按钮次数
 @property (assign, nonatomic) BOOL isCoursewareMode; // 是否是课件布局模式
 @property (assign, nonatomic) DMLayoutMode beforeLayoutMode; // 课件布局模式之前的模式
@@ -68,7 +70,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.tapLayoutCount = 3;
     [self computTime];
     
     NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
@@ -163,14 +165,31 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     
     //接收信令同步的消息，完成同步功能
     [self.liveVideoManager onSignalingMessageReceive:^(NSString *account, NSString *msg) {
-        NSLog(@"接收到来自 %@，的超级好消息 %@", account , msg);
+        // NSLog(@"接收到来自 %@，的超级好消息 %@", account , msg);
         if (!STR_IS_NIL(msg)) {
             DMSignalingMsgData *responseDataModel = [DMSignalingMsgData mj_objectWithKeyValues:msg];
-            NSLog(@"xioxixixixii = %@", responseDataModel.data.list);
-            
-            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                // 1 同步开始
+                if (responseDataModel.code == 1) {
+                    NSArray *courses = responseDataModel.data.list.count > 1 ? responseDataModel.data.list.firstObject : responseDataModel.data.list;
+                    [weakSelf courseFilesController:nil syncCourses:@[courses]];
+                    return ;
+                }
+                
+                // 2,操作
+                if (responseDataModel.code == 2) {
+                    weakSelf.syncCourseFiles = nil;
+                    [weakSelf courseFilesController:nil syncCourses:responseDataModel.data.list];
+                    return ;
+                }
+                
+                // 3,结束同步
+                if (responseDataModel.code == 3) {
+                    [weakSelf liveCoursewareViewDidTapClose:nil];
+                    return ;
+                }
+            });
         }
-        
     }];
 }
 
@@ -180,15 +199,19 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     WS(weakSelf)
     
     if(self.alreadyTime < self.totalTime) {
-        DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:DMTitleExitLiveRoom message:DMTitleLiveAutoClose preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleOK otherTitle:DMTitleCancel, nil];
+        DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:DMTitleExitLiveRoom message:DMTitleLiveAutoClose preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
         [alert showWithViewController:self IndexBlock:^(NSInteger index) {
-            if (index == 0) { // 右侧
-                return;
+            if (index == 1) { // 右侧
+                [weakSelf.liveVideoManager quitLiveVideo:^(BOOL success) {
+                    [weakSelf.navigationVC popViewControllerAnimated:YES];
+                    if ([[DMAccount getUserIdentity] integerValue]) {
+                        NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_End_Syn sourceData:nil index:0];
+                        [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) { } faile:^(NSString *messageID, AgoraEcode ecode) {}];
+                    }
+                }];
             }
-            [weakSelf.liveVideoManager quitLiveVideo:^(BOOL success) {
-                [weakSelf.navigationVC popViewControllerAnimated:YES];
-            }];
         }];
+        return;
     }
     
     [self.liveVideoManager quitLiveVideo:^(BOOL success) {
@@ -210,9 +233,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 // 切换摄像头
 - (void)liveButtonControlViewDidTapSwichCamera:(DMLiveButtonControlView *)liveButtonControlView {
     [self.liveVideoManager switchCamera];
-    
-//    if (_isCoursewareMode) return;
-//    _isCoursewareMode = YES;
 }
 
 // 切换布局
@@ -227,6 +247,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     courseFilesVC.leftMargin = 15;
     courseFilesVC.rightMargin = 15;
     courseFilesVC.columnSpacing = 15;
+    courseFilesVC.delegate = self;
     self.animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight);
     courseFilesVC.transitioningDelegate = self.animationHelper;
     courseFilesVC.modalPresentationStyle = UIModalPresentationCustom;
@@ -234,38 +255,31 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self presentViewController:courseFilesVC animated:YES completion:nil];
     courseFilesVC.liveVC = self;
     [self.presentVCs addObject:courseFilesVC];
-//    [self didTapCourseFiles];
- 
 }
 
 - (void)liveCoursewareViewDidTapClose:(DMLiveCoursewareView *)liveCoursewareView {
-    if (!_isCoursewareMode) return;
-    _isCoursewareMode = NO;
-    [self didTapCourseFiles];
-}
-
-- (void)didTapCourseFiles {
-    if (_isCoursewareMode) _beforeLayoutMode = self.tapLayoutCount-1 % DMLayoutModeAll;
-    
-    self.tapLayoutCount = _isCoursewareMode ? 1 : _beforeLayoutMode;
-    [self makeLayoutViews];
-    if (_isCoursewareMode) {
-        [self.view addSubview:self.coursewareView];
-        [_coursewareView makeConstraints:^(MASConstraintMaker *make) {
-            make.right.bottom.top.equalTo(self.view);
-            make.width.equalTo(DMScreenWidth*0.5);
-        }];
-        self.coursewareView.allCoursewares = @[@"http://f11.baidu.com/it/u=435066478,1958291651&fm=76",
-                                               @"http://f12.baidu.com/it/u=108550577,1474666626&fm=76",
-                                               @"http://f11.baidu.com/it/u=4245406495,4169406916&fm=76",
-                                               @"http://f12.baidu.com/it/u=189212114,1570521444&fm=76",
-                                               @"http://f11.baidu.com/it/u=10925524,1784854435&fm=76",
-                                               @"http://f10.baidu.com/it/u=1262675490,65787803&fm=76",
-                                               @"http://f11.baidu.com/it/u=435066478,1958291651&fm=76"];
-    }else {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (!_isCoursewareMode) return;
+        _isCoursewareMode = NO;
         [self.coursewareView removeFromSuperview];
         _coursewareView = nil;
-    }
+        _syncCourseFiles  = nil;
+        self.tapLayoutCount = _beforeLayoutMode;
+        [self makeLayoutViews];
+    });
+}
+
+#pragma - DMCourseFilesControllerDelegate
+- (void)courseFilesController:(DMCourseFilesController *)courseFilesController syncCourses:(NSArray *)syncCourses {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (!_isCoursewareMode) _beforeLayoutMode = self.tapLayoutCount-1 % DMLayoutModeAll;
+        _isCoursewareMode = YES;
+        self.tapLayoutCount = 1;
+        
+        [self makeLayoutViews];
+        [self.syncCourseFiles addObjectsFromArray:syncCourses];
+        self.coursewareView.allCoursewares = self.syncCourseFiles;
+    });
 }
 
 - (void)setupMakeAddSubviews {
@@ -701,6 +715,12 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         _remoteView.backgroundColor = kColor33;
         _remoteBackgroundView.backgroundColor = kColor33;
         _localView.backgroundColor = kColor06;
+        
+        [_coursewareView remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.view.mas_right);
+            make.bottom.top.equalTo(self.view);
+            make.width.equalTo(DMScreenWidth*0.5);
+        }];
     }
     else if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeSmallAndRemote) { // 本地大, 远端小模式
         [self.view insertSubview:_remoteBackgroundView atIndex:0];
@@ -733,6 +753,12 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         _remoteView.backgroundColor = kColor06;
         _localView.backgroundColor = kColor33;
         _remoteBackgroundView.backgroundColor = kColor06;
+        
+        [_coursewareView remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.view.mas_right);
+            make.bottom.top.equalTo(self.view);
+            make.width.equalTo(DMScreenWidth*0.5);
+        }];
     }
     else if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeAveragDistribution) {
         [self.view insertSubview:_remoteBackgroundView atIndex:0];
@@ -761,6 +787,14 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
             _remoteView.backgroundColor = kColor06;
             _localView.backgroundColor = kColor06;
             _remoteBackgroundView.backgroundColor = kColor06;
+            
+            if (!self.coursewareView.superview){
+                [self.view insertSubview:self.coursewareView belowSubview:self.localView];
+            }
+            [_coursewareView remakeConstraints:^(MASConstraintMaker *make) {
+                make.right.bottom.top.equalTo(self.view);
+                make.width.equalTo(DMScreenWidth*0.5);
+            }];
         }else { // 左右
             [_remoteBackgroundView remakeConstraints:^(MASConstraintMaker *make) {
                 make.left.centerY.equalTo(self.view);
@@ -817,6 +851,14 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     }
     
     return _presentVCs;
+}
+
+- (NSMutableArray *)syncCourseFiles {
+    if (!_syncCourseFiles) {
+        _syncCourseFiles = [NSMutableArray array];
+    }
+    
+    return _syncCourseFiles;
 }
 
 @end
