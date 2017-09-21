@@ -37,7 +37,7 @@
 
 - (void)updateUserInfo {
     NSString *headUrl = [DMAccount getUserHeadUrl];
-    [self.headView.headImageView sd_setImageWithURL:[NSURL URLWithString:headUrl] placeholderImage:DMPlaceholderImageDefault];
+    [self.headView.headImageView sd_setImageWithURL:[NSURL URLWithString:headUrl] placeholderImage:HeadPlaceholderName];
     self.headView.nameLabel.text = [DMAccount getUserName];
 }
 

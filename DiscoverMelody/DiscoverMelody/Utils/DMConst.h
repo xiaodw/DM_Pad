@@ -76,3 +76,5 @@ UIKIT_EXTERN NSString * const DMStringDiscoverMelodyWeChat;
 
 UIKIT_EXTERN NSString * const DMTitleStudentQuestionFild;
 UIKIT_EXTERN NSString * const DMTitleTeacherQuestionFild;
+
+UIKIT_EXTERN NSString * const DMTitleNoTeacherQuestionComFild;

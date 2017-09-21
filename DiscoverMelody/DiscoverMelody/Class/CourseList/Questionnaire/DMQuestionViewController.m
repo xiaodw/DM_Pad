@@ -32,6 +32,13 @@
 
 @property (nonatomic, strong) UIImageView *topImageView;
 
+@property (nonatomic, strong) UIView *teacherCommentsView;
+@property (nonatomic, strong) UIImageView *noComView;
+@property (nonatomic, strong) UILabel *noComLabel;
+
+@property (nonatomic, strong)DMQuestData *myQuestObj;
+@property (nonatomic, strong)DMQuestData *teachSurveyObj;
+
 @end
 
 @implementation DMQuestionViewController
@@ -46,36 +53,60 @@
     self.isEditQuest = YES;
     self.questionList = [NSArray array];
     [self loadUI];
+    [self getSurveyTeacher];
     [self getQuestionList];
     [self updateTopViewInfo:self.courseObj];
 }
 
 - (void)getQuestionList {
     WS(weakSelf);
-    [DMApiModel getQuestInfo:self.lessonID block:^(BOOL result, NSArray *list) {
-        if (result && list.count > 0) {
-            weakSelf.questionList = list;
-            [weakSelf.bTableView reloadData];
-            if (weakSelf.bTableView.tableFooterView == nil && _bottomView) {
-                weakSelf.bTableView.tableFooterView = _bottomView;
+    [DMApiModel getQuestInfo:self.courseObj.course_id block:^(BOOL result, DMQuestData *obj) {
+        if (result && !OBJ_IS_NIL(obj) && obj.list.count > 0) {
+            weakSelf.myQuestObj = obj;
+            if (obj.survey.intValue == 1 || obj.survey.intValue == 2) {
+                weakSelf.isEditQuest = NO;
+            } else {
+                weakSelf.isEditQuest = YES;
             }
+            NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
+            if (userIdentity != 0) {
+                [weakSelf updateUIStatus:obj.survey.intValue];
+            }
+            [weakSelf updateTableStatus:obj];
         }
     }];
 }
 
+- (void)getSurveyTeacher {
+    WS(weakSelf);
+    [DMApiModel getTeacherAppraise:self.courseObj.course_id block:^(BOOL result, DMQuestData *obj) {
+        if (result && !OBJ_IS_NIL(obj) && obj.list.count > 0) {
+            weakSelf.teachSurveyObj = obj;
+            weakSelf.isEditQuest = NO;
+            [weakSelf updateTableStatus:obj];
+        }
+    }];
+}
+
+- (void)updateTableStatus:(DMQuestData *)obj {
+    
+    self.questionList = obj.list;
+    [self.bTableView reloadData];
+    if (self.bTableView.tableFooterView == nil && _bottomView) {
+        self.bTableView.tableFooterView = _bottomView;
+        self.bottomView.hidden = !self.isEditQuest;
+    }
+}
+
 - (void)clickCommitBtn:(id)sender {
     NSLog(@"点击提交");
-    
-    [self updateUIStatus:YES];
-    return;
-    
     WS(weakSelf);
     NSMutableArray *array = [NSMutableArray array];
     for (DMQuestSingleData *data in self.questionList) {
         DMCommitAnswerData *obj = [[DMCommitAnswerData alloc] init];
-        obj.lesson_id = self.lessonID;
+        obj.lesson_id = self.courseObj.course_id;
         obj.question_id = data.question_id;
-        obj.content = data.content;
+        obj.content = data.answer_content;
         [array addObject:obj];
     }
     NSArray *dicArray = [DMCommitAnswerData mj_keyValuesArrayWithObjectArray:array];
@@ -88,18 +119,112 @@
     }];
 }
 
+- (void)tabBarView:(DMTabBarView *)tabBarView didTapBarButton:(UIButton *)button {
+    
+    if (button.tag == 0) {
+        NSLog(@"学生问卷");
+        _bTableView.hidden = NO;
+        _teacherCommentsView.hidden = YES;
+        self.questionList = self.myQuestObj.list;
+        [self.bTableView reloadData];
+    } else {
+        NSLog(@"老师评语");
+        if (self.teachSurveyObj == nil) {
+            //[self getSurveyTeacher];
+            _bTableView.hidden = YES;
+            _teacherCommentsView.hidden = NO;
+            [self isDisplayNoComView:YES];
+        } else {
+            self.questionList = self.teachSurveyObj.list;
+            [self.bTableView reloadData];
+        }
+    }
+}
+
+- (void)isDisplayNoComView:(BOOL)isDisplay {
+    //显示没有评语的效果
+    if (_noComView == nil) {
+        self.noComView = [[UIImageView alloc] init];
+        self.noComView.image = [UIImage imageNamed:@"quest_no_teacher_com"];//DMTitleNoTeacherQuestionComFild
+        [self.teacherCommentsView addSubview:self.noComView];
+        
+        self.noComLabel = [[UILabel alloc] init];
+        self.noComLabel.text = DMTitleNoTeacherQuestionComFild;
+        self.noComLabel.textAlignment = NSTextAlignmentCenter;
+        self.noComLabel.font = DMFontPingFang_Light(16);
+        self.noComLabel.textColor = DMColorWithRGBA(204, 204, 204, 1);
+        [self.teacherCommentsView addSubview:self.noComLabel];
+        
+        [self.noComView makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(_teacherCommentsView);
+            make.centerY.equalTo(_teacherCommentsView).offset(-100);
+            //make.top.equalTo(_teacherCommentsView).offset(133);
+        }];
+        
+        [self.noComLabel makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_noComView.mas_bottom).offset(22);
+            make.left.right.equalTo(_teacherCommentsView);
+            make.height.equalTo(16);
+        }];
+        
+    }
+    self.noComLabel.hidden = !isDisplay;
+    self.noComView.hidden = !isDisplay;
+}
+
+- (void)updateTopViewInfo:(DMCourseDatasModel *)obj {
+    NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
+    NSString *type = @"老师：";
+    if (userIdentity == 0) {
+        [_hImageView sd_setImageWithURL:[NSURL URLWithString:obj.avatar] placeholderImage:HeadPlaceholderName];
+    } else {
+        _hImageView.image = nil;
+        type = @"学生：";
+    }
+    _classNameLabel.text = obj.course_name;//@"未来之星1v1--钢琴";
+    _nameLabel.text = obj.teacher_name;//@"郎郎";
+    _timeLabel.text = [@"上课时间：" stringByAppendingString:
+                       [DMTools timeFormatterYMDFromTs:obj.start_time format:@"YYYY年MM月dd日"]];//@"上课时间：9月8日 18:00";
+    _typeLabel.text = type;
+}
+
+- (void)updateUIStatus:(NSInteger)survey {
+    if (survey != 0) {
+        [_topStatusView updateConstraints:^(MASConstraintMaker *make) {
+            make.height.equalTo(40);
+        }];
+        
+        switch (survey) {
+            case 1:
+                [_statusButton setImage:[UIImage imageNamed:@"t_q_review_icon"] forState:UIControlStateNormal];
+                [_statusButton setTitle:@"  正在审核中..." forState:UIControlStateNormal];
+                break;
+            case 2:
+                [_statusButton setImage:[UIImage imageNamed:@"t_q_review_success"] forState:UIControlStateNormal];
+                [_statusButton setTitle:@"  审核通过" forState:UIControlStateNormal];
+                break;
+            case 3:
+                [_statusButton setImage:[UIImage imageNamed:@"t_q_review_fail"] forState:UIControlStateNormal];
+                [_statusButton setTitle:@"  审核失败" forState:UIControlStateNormal];
+                break;
+            default:
+                break;
+        }
+    }
+}
+
 #pragma mark -
 #pragma mark UITableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-//    if (indexPath.section < self.questionList.count) {
-//        DMQuestSingleData *obj = [self.questionList objectAtIndex:indexPath.section];
-//        if (obj.type.intValue == 1) {
-//            if (indexPath.row < obj.options.count) {
-//                DMQuestOptions *op = [obj.options objectAtIndex:indexPath.row];
-//            }
-//        }
-//    }
+    //    if (indexPath.section < self.questionList.count) {
+    //        DMQuestSingleData *obj = [self.questionList objectAtIndex:indexPath.section];
+    //        if (obj.type.intValue == 1) {
+    //            if (indexPath.row < obj.options.count) {
+    //                DMQuestOptions *op = [obj.options objectAtIndex:indexPath.row];
+    //            }
+    //        }
+    //    }
 }
 
 #pragma mark -
@@ -163,6 +288,7 @@
 
 
 - (void)loadUI {
+
     _topImageView = [[UIImageView alloc] init];
     _topImageView.image = [UIImage imageNamed:@"question_bg"];
 
@@ -187,15 +313,10 @@
     _bTableView.backgroundColor = [UIColor whiteColor];//UIColorFromRGB(0xf6f6f6);
     UIView *hV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 40)];
     hV.backgroundColor = [UIColor whiteColor];
-    
     _bTableView.tableHeaderView = hV;
     
     self.bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, DMScreenWidth, 130)];
     self.bottomView.backgroundColor = [UIColor whiteColor];
-//    bottomView.layer.shadowColor = DMColorWithRGBA(221, 221, 221, 1).CGColor; // shadowColor阴影颜色
-//    bottomView.layer.shadowOffset = CGSizeMake(0,-9); // shadowOffset阴影偏移,x向右偏移，y向下偏移，默认(0, -3),这个跟shadowRadius配合使用
-//    bottomView.layer.shadowOpacity = 1; // 阴影透明度，默认0
-//    bottomView.layer.shadowRadius = 9; // 阴影半径，默认3
     
     UIButton *commitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     commitBtn.backgroundColor = DMColorBaseMeiRed;
@@ -212,6 +333,12 @@
     
     NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
     if (userIdentity == 0) {
+        
+        _teacherCommentsView = [[UIView alloc] init];
+        _teacherCommentsView.backgroundColor = [UIColor whiteColor];
+        [self.view addSubview:_teacherCommentsView];
+        _teacherCommentsView.hidden = YES;
+        
         _tabBarView = [DMTabBarView new];
         _tabBarView.delegate = self;
         _tabBarView.isFullScreen = YES;
@@ -222,6 +349,8 @@
         _tabBarView.layer.shadowOpacity = 1; // 阴影透明度，默认0
         _tabBarView.layer.shadowRadius = 9; // 阴影半径，默认3
         [self.view addSubview:_tabBarView];
+        
+        
     } else {
         _topStatusView = [[UIView alloc] init];
         _topStatusView.backgroundColor = DMColorWithRGBA(225, 140, 40, 1);
@@ -234,19 +363,6 @@
         
     }
 
-//    [bottomView makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.right.bottom.equalTo(self.view).offset(0);
-//        make.centerX.equalTo(topImageView);
-//        make.height.equalTo(120);
-//    }];
-////
-//    [commitBtn makeConstraints:^(MASConstraintMaker *make) {
-//        make.bottom.equalTo(bottomView.mas_bottom).offset(-43);
-//        make.centerX.equalTo(bottomView);
-//        make.height.equalTo(40);
-//        make.width.equalTo(130);
-//    }];
-//
     [_topImageView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(self.view);
         make.height.equalTo(180);
@@ -264,6 +380,10 @@
             make.top.equalTo(_tabBarView.mas_bottom).equalTo(0);
             make.left.right.equalTo(self.view);
             make.bottom.equalTo(self.view).equalTo(0);
+        }];
+        
+        [_teacherCommentsView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.left.right.bottom.equalTo(_bTableView);
         }];
         
     } else {
@@ -331,31 +451,6 @@
         make.height.equalTo(40);
     }];
     
-}
-- (void)updateTopViewInfo:(DMCourseDatasModel *)obj {
-    NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
-    NSString *type = @"老师：";
-    if (userIdentity == 0) {
-        [_hImageView sd_setImageWithURL:[NSURL URLWithString:obj.avatar] placeholderImage:HeadPlaceholderName];
-    } else {
-        _hImageView.image = nil;
-        type = @"学生：";
-    }
-    _classNameLabel.text = obj.course_name;//@"未来之星1v1--钢琴";
-    _nameLabel.text = obj.teacher_name;//@"郎郎";
-    _timeLabel.text = [@"上课时间：" stringByAppendingString:
-                       [DMTools timeFormatterYMDFromTs:obj.start_time format:@"YYYY年MM月dd日"]];//@"上课时间：9月8日 18:00";
-    _typeLabel.text = type;
-}
-
-- (void)updateUIStatus:(BOOL)isDisplay {
-    if (isDisplay) {
-        [_topStatusView updateConstraints:^(MASConstraintMaker *make) {
-            make.height.equalTo(40);
-        }];
-        [_statusButton setImage:[UIImage imageNamed:@"t_q_review_icon"] forState:UIControlStateNormal];
-        [_statusButton setTitle:@"  真在审核中。。。" forState:UIControlStateNormal];
-    }
 }
 
 - (UIImageView *)hImageView {
@@ -429,5 +524,28 @@
     // Pass the selected object to the new view controller.
 }
 */
+/*
+ //    bottomView.layer.shadowColor = DMColorWithRGBA(221, 221, 221, 1).CGColor; // shadowColor阴影颜色
+ //    bottomView.layer.shadowOffset = CGSizeMake(0,-9); // shadowOffset阴影偏移,x向右偏移，y向下偏移，默认(0, -3),这个跟shadowRadius配合使用
+ //    bottomView.layer.shadowOpacity = 1; // 阴影透明度，默认0
+ //    bottomView.layer.shadowRadius = 9; // 阴影半径，默认3
+ 
+ 
+ //    [bottomView makeConstraints:^(MASConstraintMaker *make) {
+ //        make.left.right.bottom.equalTo(self.view).offset(0);
+ //        make.centerX.equalTo(topImageView);
+ //        make.height.equalTo(120);
+ //    }];
+ ////
+ //    [commitBtn makeConstraints:^(MASConstraintMaker *make) {
+ //        make.bottom.equalTo(bottomView.mas_bottom).offset(-43);
+ //        make.centerX.equalTo(bottomView);
+ //        make.height.equalTo(40);
+ //        make.width.equalTo(130);
+ //    }];
+ //
+ 
+ 
+ */
 
 @end

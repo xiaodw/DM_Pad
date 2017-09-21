@@ -77,6 +77,8 @@ NSString * const DMStringDiscoverMelodyWeChat = @"寻律微信客服（中国）
 NSString * const DMTitleStudentQuestionFild = @"我的调查";
 NSString * const DMTitleTeacherQuestionFild = @"老师评语";
 
+NSString * const DMTitleNoTeacherQuestionComFild = @"老师暂未填写问卷";
+
 
 
 

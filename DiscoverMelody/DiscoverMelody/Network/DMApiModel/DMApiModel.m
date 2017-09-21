@@ -190,7 +190,7 @@
 }
 
 //获取问题列表
-+ (void)getQuestInfo:(NSString *)lessonID block:(void (^)(BOOL, NSArray *))complectionBlock {
++ (void)getQuestInfo:(NSString *)lessonID block:(void (^)(BOOL result, DMQuestData *obj))complectionBlock {
     NSString *type = [DMAccount getUserIdentity];
     NSString *url = DM_Student_Question_List_Url;
     if (type.intValue == 1) {
@@ -205,7 +205,7 @@
                                        success:^(id responseObject)
      {
          DMQuestData *model = (DMQuestData *)responseObject;
-         complectionBlock(YES, model.list);
+         complectionBlock(YES, model);
      } failure:^(NSError *error) {
          complectionBlock(NO, nil);
      }];
@@ -234,6 +234,24 @@
     [DMHttpClient sharedInstance].blockSuccessMsg = ^(NSString *msg) {
         [DMTools showMessageToast:msg duration:2 position:CSToastPositionCenter];
     };
+}
+
+//获取老师评语
++ (void)getTeacherAppraise:(NSString *)lessonId block:(void(^)(BOOL result, DMQuestData *obj))complectionBlock {
+
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:lessonId, @"lesson_id", nil];
+    [[DMHttpClient sharedInstance] initWithUrl:DM_Survey_TeacherSurvey_Url
+                                    parameters:dic
+                                        method:DMHttpRequestPost
+                                dataModelClass:[DMQuestData class]
+                                   isMustToken:YES
+                                       success:^(id responseObject)
+     {
+         DMQuestData *model = (DMQuestData *)responseObject;
+         complectionBlock(YES, model);
+     } failure:^(NSError *error) {
+         complectionBlock(NO, nil);
+     }];
 }
 
 //获取百度云上传的配置信息
