@@ -210,6 +210,43 @@
      }];
 }
 
+//获取百度云上传的配置信息
++ (void)getUploadConfigInfo:(NSString *)lessonId block:(void(^)(BOOL result, DMCloudConfigData *obj))complectionBlock
+{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:lessonId, @"lesson_id", nil];
+    [[DMHttpClient sharedInstance] initWithUrl:DM_Cloud_Config_Url
+                                    parameters:dic
+                                        method:DMHttpRequestPost
+                                dataModelClass:[DMCloudConfigData class]
+                                   isMustToken:YES
+                                       success:^(id responseObject)
+     {
+         DMCloudConfigData *model = (DMCloudConfigData *)responseObject;
+         complectionBlock(YES, model);
+     } failure:^(NSError *error) {
+         complectionBlock(NO, nil);
+     }];
+}
+//百度云上传成功后的通知
++ (void)getUploadSuccess:(NSString *)lessonId //课节id
+              attachment:(NSString *)attachmentID //课件id
+                 fileExt:(NSString *)fileExt //文件后缀，比如 .png
+                   block:(void(^)(BOOL result))complectionBlock
+{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:lessonId, @"lesson_id",attachmentID, @"attachment_id",fileExt, @"fileext", nil];
+    [[DMHttpClient sharedInstance] initWithUrl:DM_Cloud_Upload_Success_Url
+                                    parameters:dic
+                                        method:DMHttpRequestPost
+                                dataModelClass:[NSObject class]
+                                   isMustToken:YES
+                                       success:^(id responseObject)
+     {
+         complectionBlock(YES);
+     } failure:^(NSError *error) {
+         complectionBlock(NO);
+     }];
+}
+
 @end
 
 

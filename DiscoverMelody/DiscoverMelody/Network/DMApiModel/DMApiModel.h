@@ -14,7 +14,7 @@
 #import "DMVideoReplayData.h"
 #import "DMQuestData.h"
 #import "DMAnswerData.h"
-
+#import "DMCloudConfigData.h"
 @interface DMApiModel : NSObject
 
 //登录
@@ -56,6 +56,14 @@
 
 //问卷问题（学生／老师）
 + (void)getQuestInfo:(void(^)(BOOL result, NSArray *list))complectionBlock;
+
+//获取百度云上传的配置信息
++ (void)getUploadConfigInfo:(NSString *)lessonId block:(void(^)(BOOL result, DMCloudConfigData *obj))complectionBlock;
+//百度云上传成功后的通知
++ (void)getUploadSuccess:(NSString *)lessonId //课节id
+              attachment:(NSString *)attachmentID //课件id
+                 fileExt:(NSString *)fileExt //文件后缀，比如 .png
+                   block:(void(^)(BOOL result))complectionBlock;
 
 @end
 
