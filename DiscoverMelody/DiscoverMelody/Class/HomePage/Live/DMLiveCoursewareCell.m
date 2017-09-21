@@ -1,6 +1,7 @@
 #import "DMLiveCoursewareCell.h"
 #import <UIView+WebCache.h>
 #import "DMClassFileDataModel.h"
+#define kColor33 DMColorWithRGBA(33, 33, 33, 1)
 
 @interface DMLiveCoursewareCell()
 
@@ -40,8 +41,8 @@
 - (UIImageView *)imageView {
     if (!_imageView) {
         _imageView = [UIImageView new];
-        [_imageView sd_setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-        [_imageView sd_setShowActivityIndicatorView:YES];
+        _imageView.contentMode = UIViewContentModeScaleAspectFit;
+        _imageView.backgroundColor = kColor33;
     }
     
     return _imageView;
