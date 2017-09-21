@@ -313,7 +313,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     
     [_shadowRightImageView makeConstraints:^(MASConstraintMaker *make) {
         make.right.top.bottom.equalTo(self.view);
-        make.width.equalTo(_shadowImageView);
+        make.width.equalTo(50);
     }];
     
     [_timeView makeConstraints:^(MASConstraintMaker *make) {
@@ -372,7 +372,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     
     [_willStartView makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self.view);
-        make.size.equalTo(CGSizeMake(406, 406));
+        make.size.equalTo(CGSizeMake(220, 220));
     }];
 }
 
@@ -674,8 +674,8 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 
 - (void)makeLayoutViews {
     self.tapLayoutCount += 1;
-    [_localView removeFromSuperview];
-    [_remoteBackgroundView removeFromSuperview];
+//    [_localView removeFromSuperview];
+//    [_remoteBackgroundView removeFromSuperview];
     
     if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeRemoteAndSmall) {
         self.remotePlaceholderView.hidden = self.alreadyTime < 0 || _isRemoteUserOnline;
@@ -713,7 +713,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         _remoteBackgroundView.userInteractionEnabled = NO;
         _remoteView.userInteractionEnabled = _remoteBackgroundView.userInteractionEnabled;
         _remoteView.backgroundColor = kColor33;
-        _remoteBackgroundView.backgroundColor = kColor33;
+        _remoteBackgroundView.backgroundColor = _remoteView.backgroundColor;
         _localView.backgroundColor = kColor06;
         
         [_coursewareView remakeConstraints:^(MASConstraintMaker *make) {
@@ -751,8 +751,8 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         _remoteBackgroundView.userInteractionEnabled = YES;
         _remoteView.userInteractionEnabled = _remoteBackgroundView.userInteractionEnabled;
         _remoteView.backgroundColor = kColor06;
+        _remoteBackgroundView.backgroundColor = _remoteView.backgroundColor;
         _localView.backgroundColor = kColor33;
-        _remoteBackgroundView.backgroundColor = kColor06;
         
         [_coursewareView remakeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.view.mas_right);
@@ -785,8 +785,8 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
                 make.centerX.equalTo(_remotePlaceholderView);
             }];
             _remoteView.backgroundColor = kColor06;
+            _remoteBackgroundView.backgroundColor = _remoteView.backgroundColor;
             _localView.backgroundColor = kColor06;
-            _remoteBackgroundView.backgroundColor = kColor06;
             
             if (!self.coursewareView.superview){
                 [self.view insertSubview:self.coursewareView belowSubview:self.localView];
@@ -824,8 +824,8 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         _remoteView.userInteractionEnabled = _remoteBackgroundView.userInteractionEnabled;
         
         _remoteView.backgroundColor = kColor06;
+        _remoteBackgroundView.backgroundColor = _remoteView.backgroundColor;
         _localView.backgroundColor = kColor06;
-        _remoteBackgroundView.backgroundColor = kColor06;
     }
     
     [_remoteMicrophoneView remakeConstraints:^(MASConstraintMaker *make) {

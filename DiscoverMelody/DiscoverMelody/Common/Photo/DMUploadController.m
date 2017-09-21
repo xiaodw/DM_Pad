@@ -93,14 +93,15 @@
 }
 
 - (void)setupMakeLayoutSubviews {
-    [_assetsView remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.width.left.bottom.equalTo(self.view);
-    }];
-    
     [_albumBackgroundView remakeConstraints:^(MASConstraintMaker *make) {
         make.left.top.bottom.equalTo(self.view);
         make.width.equalTo(DMScreenWidth*0.5);
     }];
+    [_assetsView remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.width.bottom.equalTo(self.view);
+        make.right.equalTo(_albumBackgroundView.mas_left);
+    }];
+    
 }
 
 - (void)albumsTableView:(DMAlbumsTableView *)albumsTableView didTapRightButton:(UIButton *)rightButton {
@@ -192,7 +193,7 @@
         
         [_albumsView makeConstraints:^(MASConstraintMaker *make) {
             make.top.width.bottom.equalTo(_albumBackgroundView);
-            make.left.equalTo(DMScreenWidth*0.5*0.3);
+            make.left.equalTo(_albumBackgroundView);
         }];
     }
     

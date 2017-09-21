@@ -20,6 +20,8 @@ typedef NS_ENUM(NSInteger, DMBrowseViewType) {
 
 @property (strong, nonatomic) NSArray *courses;
 
+@property (assign, nonatomic) BOOL isFirst;
+
 @property (assign, nonatomic) DMBrowseViewType browseType;
 
 @end
