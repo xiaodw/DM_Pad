@@ -58,6 +58,11 @@
 #define DM_Student_Question_List_Url    [DM_Url stringByAppendingFormat:@"survey/squestionList"]
 //获取问题列表老师
 #define DM_Teacher_Question_List_Url    [DM_Url stringByAppendingFormat:@"survey/tquestionList"]
+//提交答案学生
+#define DM_Submit_Student_Answer_Url    [DM_Url stringByAppendingFormat:@"survey/submitStudent"]
+//提交答案老师
+#define DM_Submit_Teacher_Answer_Url    [DM_Url stringByAppendingFormat:@"survey/submitTeacher"]
+
 
 //获取百度云配置信息
 #define DM_Cloud_Config_Url [DM_Url stringByAppendingFormat:@"Attachment/getUploadConf"]

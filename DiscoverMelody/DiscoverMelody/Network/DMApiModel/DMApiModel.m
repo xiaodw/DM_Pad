@@ -190,14 +190,15 @@
 }
 
 //获取问题列表
-+ (void)getQuestInfo:(void (^)(BOOL, NSArray *))complectionBlock {
++ (void)getQuestInfo:(NSString *)lessonID block:(void (^)(BOOL, NSArray *))complectionBlock {
     NSString *type = [DMAccount getUserIdentity];
     NSString *url = DM_Student_Question_List_Url;
     if (type.intValue == 1) {
         url = DM_Teacher_Question_List_Url;
     }
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:lessonID, @"lesson_id", nil];
     [[DMHttpClient sharedInstance] initWithUrl:url
-                                    parameters:nil
+                                    parameters:dic
                                         method:DMHttpRequestPost
                                 dataModelClass:[DMQuestData class]
                                    isMustToken:YES
@@ -208,6 +209,31 @@
      } failure:^(NSError *error) {
          complectionBlock(NO, nil);
      }];
+}
+
+//提交问题答案
++ (void)commitQuestAnswer:(NSString *)lessonId answers:(NSArray *)answerArray block:(void(^)(BOOL result))complectionBlock
+{
+    NSString *type = [DMAccount getUserIdentity];
+    NSString *url = DM_Submit_Student_Answer_Url;
+    if (type.intValue == 1) {
+        url = DM_Submit_Teacher_Answer_Url;
+    }
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:answerArray, @"list", nil];
+    [[DMHttpClient sharedInstance] initWithUrl:url
+                                    parameters:dic
+                                        method:DMHttpRequestPost
+                                dataModelClass:[NSObject class]
+                                   isMustToken:YES
+                                       success:^(id responseObject)
+     {
+         complectionBlock(YES);
+     } failure:^(NSError *error) {
+         complectionBlock(NO);
+     }];
+    [DMHttpClient sharedInstance].blockSuccessMsg = ^(NSString *msg) {
+        [DMTools showMessageToast:msg duration:2 position:CSToastPositionCenter];
+    };
 }
 
 //获取百度云上传的配置信息

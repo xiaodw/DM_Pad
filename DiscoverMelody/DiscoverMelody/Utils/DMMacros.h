@@ -47,6 +47,9 @@ blue:(((rgbValue) & 0xFF))/255.f alpha:1.0]
 #endif
 
 #pragma mark - Other
+
+#define HeadPlaceholderName [UIImage imageNamed:@"timg.jpg"]
+
 #define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
 
 #define DMNotificationCenter [NSNotificationCenter defaultCenter]

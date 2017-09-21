@@ -15,4 +15,5 @@ target 'DiscoverMelody' do
   #pod 'ZFPlayer'
   pod 'Toast', '~> 3.1.0'
   pod 'SVProgressHUD'
+  pod 'IQKeyboardManager'
 end

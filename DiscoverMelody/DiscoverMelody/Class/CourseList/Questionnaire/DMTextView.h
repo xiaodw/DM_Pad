@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface DMTextView : UIView
-@property (nonatomic, strong) UITextView *textView;
+@property (nonatomic, strong) UITextField *textField;
 @end

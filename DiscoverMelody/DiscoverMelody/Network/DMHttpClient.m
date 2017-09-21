@@ -64,8 +64,16 @@
             if (dataModelClass == [DMClassDataModel class]) {
                 [DMAccount saveUserJoinClassTime:[responseObj objectForKey:Time_Key]];
             }
+            
+            if (self.blockSuccessMsg) {
+                self.blockSuccessMsg([responseObj objectForKey:Msg_Key]);
+                self.blockSuccessMsg = nil;
+            }
+            
             id responseDataModel = [dataModelClass mj_objectWithKeyValues:[responseObj objectForKey:Data_Key]];
             success(responseDataModel);
+            
+            
         } else {
             [self responseStatusCodeException:[[responseObj objectForKey:Code_Key] intValue]
                                           msg:[responseObj objectForKey:Msg_Key]];
@@ -76,6 +84,10 @@
         [DMTools showMessageToast:DMTitleNetworkError duration:2 position:CSToastPositionCenter];
         failure(error);
     }];
+}
+
+-(void)didSuccessMsg:(BlockSuccessMsg)blockSuccessMsg {
+    self.blockSuccessMsg = blockSuccessMsg;
 }
 
 - (NSMutableDictionary *)fixedParameters:(NSMutableDictionary *)source {

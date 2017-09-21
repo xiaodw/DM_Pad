@@ -8,6 +8,19 @@
 
 #import "DMQuestData.h"
 
+@implementation DMQuestOptions
+@end
+
+@implementation DMQuestSingleData
++(NSDictionary *)mj_objectClassInArray
+{
+    return @{
+             @"options" : @"DMQuestOptions"
+             };
+}
+
+@end
+
 @implementation DMQuestData
 +(NSDictionary *)mj_objectClassInArray
 {
