@@ -48,7 +48,7 @@
     [btn setImage:[UIImage imageNamed:@"question_radio_nor"] forState:UIControlStateNormal];
     [btn setImage:[UIImage imageNamed:@"question_radio_sel"] forState:UIControlStateSelected];
     [btn.titleLabel setFont:DMFontPingFang_Light(14)];
-    btn.userInteractionEnabled = NO;
+    //btn.userInteractionEnabled = NO;
     return btn;
 }
 

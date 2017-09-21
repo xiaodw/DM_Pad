@@ -99,11 +99,14 @@
         cell = [[DMQuestionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:qCell];
     }
     if (indexPath.section < self.questionList.count) {
-        
+        cell.tag = indexPath.section;
         DMQuestSingleData *obj = [self.questionList objectAtIndex:indexPath.section];
-        [cell configObj:obj indexRow:indexPath.row];
+        [cell configObj:obj indexRow:indexPath.row indexSection:indexPath.section];
     }
-  
+    WS(weakSelf);
+    cell.clickButtonBlock = ^{
+        [weakSelf.bTableView reloadData];
+    };
     return cell;
 }
 

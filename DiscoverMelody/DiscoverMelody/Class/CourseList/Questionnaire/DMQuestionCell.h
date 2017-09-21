@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
+typedef void (^BlockClickButton)();
 @interface DMQuestionCell : UITableViewCell
-- (void)configObj:(DMQuestSingleData *)obj indexRow:(NSInteger)index;
+@property (nonatomic, strong) BlockClickButton clickButtonBlock;
+- (void)configObj:(DMQuestSingleData *)obj indexRow:(NSInteger)index indexSection:(NSInteger)section;
 @end
