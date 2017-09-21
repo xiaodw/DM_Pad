@@ -16,6 +16,7 @@
 		2A05C45F1F5D544100FC4D9A /* DMRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A05C45C1F5D544100FC4D9A /* DMRootViewController.m */; };
 		2A05C4601F5D544100FC4D9A /* UIViewController+DMRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A05C45E1F5D544100FC4D9A /* UIViewController+DMRootViewController.m */; };
 		2A05C4631F5D545D00FC4D9A /* DMRootContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A05C4621F5D545D00FC4D9A /* DMRootContainerViewController.m */; };
+		2A152C581F72A3A000CA2309 /* DMQuestionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A152C571F72A3A000CA2309 /* DMQuestionCell.m */; };
 		2A2273E31F6A38340029D8CA /* DMTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A2273E21F6A38340029D8CA /* DMTitleView.m */; };
 		2A23C9711F665AAD0097F91B /* DMCustomerInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A23C9701F665AAD0097F91B /* DMCustomerInfoView.m */; };
 		2A23C9741F665F110097F91B /* DMCustomerPhoneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A23C9731F665F110097F91B /* DMCustomerPhoneCell.m */; };
@@ -50,6 +51,7 @@
 		2A47AFBB1F626A14003A90DA /* DMMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A47AFBA1F626A14003A90DA /* DMMenuCell.m */; };
 		2A4E96A11F66AA57000C4DFD /* DMPopCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A4E96A01F66AA57000C4DFD /* DMPopCodeView.m */; };
 		2A4FB8881F629C7900CD670D /* libagora_fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A4FB8871F629C7900CD670D /* libagora_fat.a */; };
+		2A5EA6BC1F73527E0041CBD2 /* DMCloudConfigData.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A5EA6BB1F73527E0041CBD2 /* DMCloudConfigData.m */; };
 		2A5F86C61F5CEDDF00773ADD /* DMBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A5F86C51F5CEDDF00773ADD /* DMBaseViewController.m */; };
 		2A691A791F6F9DA3007293C5 /* DMCommonModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A691A781F6F9DA3007293C5 /* DMCommonModel.m */; };
 		2A7A64C61F629F0800D1E62C /* DMLiveVideoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A7A64C51F629F0800D1E62C /* DMLiveVideoManager.m */; };
@@ -69,6 +71,9 @@
 		2AB7DD711F6A37DA00270C03 /* DMRadioView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AB7DD701F6A37DA00270C03 /* DMRadioView.m */; };
 		2AB7DD741F6A37F000270C03 /* DMTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AB7DD731F6A37F000270C03 /* DMTextView.m */; };
 		2ABBAB781F726890004536DB /* DMCustomerDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ABBAB771F726890004536DB /* DMCustomerDataModel.m */; };
+		2ABBAB7B1F7284C3004536DB /* DMVideoReplayData.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ABBAB7A1F7284C3004536DB /* DMVideoReplayData.m */; };
+		2ABBAB7E1F728CC3004536DB /* DMQuestData.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ABBAB7D1F728CC3004536DB /* DMQuestData.m */; };
+		2ABBAB811F728CD6004536DB /* DMAnswerData.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ABBAB801F728CD6004536DB /* DMAnswerData.m */; };
 		2AC06F041F622DD2009F9BFA /* timg1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2AC06F031F622DD2009F9BFA /* timg1.jpg */; };
 		2AC06F071F6247AA009F9BFA /* DMMenuHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AC06F061F6247AA009F9BFA /* DMMenuHeadView.m */; };
 		2AC478151F67B3E500D42F79 /* DMCoursewareFallsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AC478141F67B3E500D42F79 /* DMCoursewareFallsCell.m */; };
@@ -179,6 +184,8 @@
 		2A05C45E1F5D544100FC4D9A /* UIViewController+DMRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+DMRootViewController.m"; sourceTree = "<group>"; };
 		2A05C4611F5D545D00FC4D9A /* DMRootContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMRootContainerViewController.h; sourceTree = "<group>"; };
 		2A05C4621F5D545D00FC4D9A /* DMRootContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMRootContainerViewController.m; sourceTree = "<group>"; };
+		2A152C561F72A3A000CA2309 /* DMQuestionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMQuestionCell.h; sourceTree = "<group>"; };
+		2A152C571F72A3A000CA2309 /* DMQuestionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMQuestionCell.m; sourceTree = "<group>"; };
 		2A2273E11F6A38340029D8CA /* DMTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMTitleView.h; sourceTree = "<group>"; };
 		2A2273E21F6A38340029D8CA /* DMTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMTitleView.m; sourceTree = "<group>"; };
 		2A23C96F1F665AAD0097F91B /* DMCustomerInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCustomerInfoView.h; sourceTree = "<group>"; };
@@ -252,6 +259,8 @@
 		2A4E96A01F66AA57000C4DFD /* DMPopCodeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMPopCodeView.m; sourceTree = "<group>"; };
 		2A4FB8861F629C7900CD670D /* agorasdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = agorasdk.h; sourceTree = "<group>"; };
 		2A4FB8871F629C7900CD670D /* libagora_fat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libagora_fat.a; sourceTree = "<group>"; };
+		2A5EA6BA1F73527E0041CBD2 /* DMCloudConfigData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCloudConfigData.h; sourceTree = "<group>"; };
+		2A5EA6BB1F73527E0041CBD2 /* DMCloudConfigData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCloudConfigData.m; sourceTree = "<group>"; };
 		2A5F86C41F5CEDDF00773ADD /* DMBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMBaseViewController.h; sourceTree = "<group>"; };
 		2A5F86C51F5CEDDF00773ADD /* DMBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMBaseViewController.m; sourceTree = "<group>"; };
 		2A5F86C71F5D260E00773ADD /* DiscoverMelody-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DiscoverMelody-Prefix.pch"; sourceTree = "<group>"; };
@@ -293,6 +302,12 @@
 		2AB7DD731F6A37F000270C03 /* DMTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMTextView.m; sourceTree = "<group>"; };
 		2ABBAB761F726890004536DB /* DMCustomerDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCustomerDataModel.h; sourceTree = "<group>"; };
 		2ABBAB771F726890004536DB /* DMCustomerDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCustomerDataModel.m; sourceTree = "<group>"; };
+		2ABBAB791F7284C3004536DB /* DMVideoReplayData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMVideoReplayData.h; sourceTree = "<group>"; };
+		2ABBAB7A1F7284C3004536DB /* DMVideoReplayData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMVideoReplayData.m; sourceTree = "<group>"; };
+		2ABBAB7C1F728CC3004536DB /* DMQuestData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMQuestData.h; sourceTree = "<group>"; };
+		2ABBAB7D1F728CC3004536DB /* DMQuestData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMQuestData.m; sourceTree = "<group>"; };
+		2ABBAB7F1F728CD6004536DB /* DMAnswerData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMAnswerData.h; sourceTree = "<group>"; };
+		2ABBAB801F728CD6004536DB /* DMAnswerData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMAnswerData.m; sourceTree = "<group>"; };
 		2AC06F031F622DD2009F9BFA /* timg1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = timg1.jpg; sourceTree = "<group>"; };
 		2AC06F051F6247AA009F9BFA /* DMMenuHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMMenuHeadView.h; sourceTree = "<group>"; };
 		2AC06F061F6247AA009F9BFA /* DMMenuHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMMenuHeadView.m; sourceTree = "<group>"; };
@@ -587,6 +602,8 @@
 				2A3D1CFD1F692A44005671B2 /* ZFPlayer */,
 				2A3D1CF81F690AD1005671B2 /* DMMoviePlayerViewController.h */,
 				2A3D1CF91F690AD1005671B2 /* DMMoviePlayerViewController.m */,
+				2ABBAB791F7284C3004536DB /* DMVideoReplayData.h */,
+				2ABBAB7A1F7284C3004536DB /* DMVideoReplayData.m */,
 			);
 			path = MoviePlayer;
 			sourceTree = "<group>";
@@ -640,6 +657,8 @@
 		2A3D1D2D1F695C10005671B2 /* Questionnaire */ = {
 			isa = PBXGroup;
 			children = (
+				2A152C561F72A3A000CA2309 /* DMQuestionCell.h */,
+				2A152C571F72A3A000CA2309 /* DMQuestionCell.m */,
 				2A3D1D2E1F695C5F005671B2 /* DMQuestionViewController.h */,
 				2A3D1D2F1F695C5F005671B2 /* DMQuestionViewController.m */,
 				2AB7DD6C1F6A37B900270C03 /* DMEStarView.h */,
@@ -650,6 +669,10 @@
 				2AB7DD731F6A37F000270C03 /* DMTextView.m */,
 				2A2273E11F6A38340029D8CA /* DMTitleView.h */,
 				2A2273E21F6A38340029D8CA /* DMTitleView.m */,
+				2ABBAB7C1F728CC3004536DB /* DMQuestData.h */,
+				2ABBAB7D1F728CC3004536DB /* DMQuestData.m */,
+				2ABBAB7F1F728CD6004536DB /* DMAnswerData.h */,
+				2ABBAB801F728CD6004536DB /* DMAnswerData.m */,
 			);
 			path = Questionnaire;
 			sourceTree = "<group>";
@@ -847,6 +870,8 @@
 				2AF871021F67D74F0001E2D3 /* DMClassFilesViewController.m */,
 				2A44FC0B1F6BF72500A1D574 /* DMClassFileDataModel.h */,
 				2A44FC0C1F6BF72500A1D574 /* DMClassFileDataModel.m */,
+				2A5EA6BA1F73527E0041CBD2 /* DMCloudConfigData.h */,
+				2A5EA6BB1F73527E0041CBD2 /* DMCloudConfigData.m */,
 			);
 			path = ClassFiles;
 			sourceTree = "<group>";
@@ -1078,6 +1103,7 @@
 				TargetAttributes = {
 					2A03AF411F555FA80088DBF4 = {
 						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = BR9B47C6A9;
 						ProvisioningStyle = Automatic;
 					};
 					2A03AF5A1F555FA80088DBF4 = {
@@ -1249,14 +1275,17 @@
 				2A3D1D241F692A44005671B2 /* UIView+CustomControlView.m in Sources */,
 				51D2D62E1F613B0900764130 /* DMButton.m in Sources */,
 				2A3D1D261F692A44005671B2 /* UIWindow+CurrentViewController.m in Sources */,
+				2A5EA6BC1F73527E0041CBD2 /* DMCloudConfigData.m in Sources */,
 				2A9D91671F6690FC00DF4A3B /* DMCustomerCell.m in Sources */,
 				2A3D1D251F692A44005671B2 /* UIViewController+ZFPlayerRotation.m in Sources */,
 				5100E4701F6A7662000AB506 /* DMTabBarView.m in Sources */,
 				2A40302A1F677CBA00663C72 /* DMSignalingKey.m in Sources */,
+				2ABBAB7E1F728CC3004536DB /* DMQuestData.m in Sources */,
 				515DCF031F66B63800AA9465 /* DMLiveWillStartView.m in Sources */,
 				2A3D1D221F692A44005671B2 /* UINavigationController+ZFPlayerRotation.m in Sources */,
 				2A3D1D301F695C5F005671B2 /* DMQuestionViewController.m in Sources */,
 				51CC243D1F70CB9900D951D9 /* DMBrowseCourseFlowLayout.m in Sources */,
+				2ABBAB7B1F7284C3004536DB /* DMVideoReplayData.m in Sources */,
 				5169FFDB1F6E912100396EFA /* DMAssetTIFF.m in Sources */,
 				5169FFD31F6E912100396EFA /* DMUploadController.m in Sources */,
 				2A8426AA1F6A7E06005BA6EC /* DMCourseDatasModel.m in Sources */,
@@ -1286,6 +1315,7 @@
 				2A4E96A11F66AA57000C4DFD /* DMPopCodeView.m in Sources */,
 				2A87F8841F6B68EC00DCC412 /* DMPullDownMenu.m in Sources */,
 				2A3D1D271F692A44005671B2 /* MMMaterialDesignSpinner.m in Sources */,
+				2ABBAB811F728CD6004536DB /* DMAnswerData.m in Sources */,
 				5100E4641F6A6358000AB506 /* DMPresentationController.m in Sources */,
 				2AD2AB371F5D441D00EDA962 /* DMHomeViewController.m in Sources */,
 				2A45F9701F60F6D50077CBA5 /* DMHomeDataModel.m in Sources */,
@@ -1305,6 +1335,7 @@
 				2A3D1D1F1F692A44005671B2 /* ASValueTrackingSlider.m in Sources */,
 				2A3D1D2A1F692A44005671B2 /* ZFPlayerControlView.m in Sources */,
 				5169FF3F1F6BD34C00396EFA /* DMBrowseView.m in Sources */,
+				2A152C581F72A3A000CA2309 /* DMQuestionCell.m in Sources */,
 				5169FFD61F6E912100396EFA /* DMNavigationBar.m in Sources */,
 				2A3D1D2C1F692A44005671B2 /* ZFPlayerView.m in Sources */,
 				2AD2AB431F5D492700EDA962 /* DMMenuViewController.m in Sources */,
@@ -1475,7 +1506,7 @@
 			baseConfigurationReference = 1E620A6E158816600EA0CFFE /* Pods-DiscoverMelody.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = BR9B47C6A9;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = DiscoverMelody/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1495,7 +1526,7 @@
 			baseConfigurationReference = 2BF41B440646DC59DC6A7EC6 /* Pods-DiscoverMelody.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = BR9B47C6A9;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = DiscoverMelody/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

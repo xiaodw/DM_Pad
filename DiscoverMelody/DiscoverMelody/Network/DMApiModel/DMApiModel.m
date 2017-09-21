@@ -93,7 +93,7 @@
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:lessonId, @"lesson_id", nil];
     
-    [[DMHttpClient sharedInstance] initWithUrl:DM_Upload_FileList_Url
+    [[DMHttpClient sharedInstance] initWithUrl:DM_Attachment_FileList_Url
                                     parameters:dic
                                         method:DMHttpRequestPost
                                 dataModelClass:[DMClassFilesDataModel class]
@@ -104,6 +104,26 @@
          complectionBlock(YES, model.teacher_list, model.student_list);
      } failure:^(NSError *error) {
          complectionBlock(NO, nil, nil);
+     }];
+}
+
+//删除课件
++ (void)removeLessonFiles:(NSString *)lessonId//课节ID
+                  fileIds:(NSString *)fileIds//课件ids
+                    block:(void(^)(BOOL result))complectionBlock
+{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:lessonId, @"lesson_id", fileIds, @"ids",nil];
+    
+    [[DMHttpClient sharedInstance] initWithUrl:DM_Attachment_fileMove_Url
+                                    parameters:dic
+                                        method:DMHttpRequestPost
+                                dataModelClass:[NSObject class]
+                                   isMustToken:YES
+                                       success:^(id responseObject)
+     {
+         complectionBlock(YES);
+     } failure:^(NSError *error) {
+         complectionBlock(NO);
      }];
 }
 
@@ -151,8 +171,81 @@
      }];
 }
 
+//获取点播视频
++ (void)getVideoReplay:(NSString *)lessionId block:(void(^)(BOOL result, DMVideoReplayData *obj))complectionBlock {
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:lessionId, @"lesson_id", nil];
+    
+    [[DMHttpClient sharedInstance] initWithUrl:DM_Video_Replay_Url
+                                    parameters:dic
+                                        method:DMHttpRequestPost
+                                dataModelClass:[DMVideoReplayData class]
+                                   isMustToken:YES
+                                       success:^(id responseObject)
+     {
+         DMVideoReplayData *model = (DMVideoReplayData *)responseObject;
+         complectionBlock(YES, model);
+     } failure:^(NSError *error) {
+         complectionBlock(NO, nil);
+     }];
+}
 
+//获取问题列表
++ (void)getQuestInfo:(void (^)(BOOL, NSArray *))complectionBlock {
+    NSString *type = [DMAccount getUserIdentity];
+    NSString *url = DM_Student_Question_List_Url;
+    if (type.intValue == 1) {
+        url = DM_Teacher_Question_List_Url;
+    }
+    [[DMHttpClient sharedInstance] initWithUrl:url
+                                    parameters:nil
+                                        method:DMHttpRequestPost
+                                dataModelClass:[DMQuestData class]
+                                   isMustToken:YES
+                                       success:^(id responseObject)
+     {
+         DMQuestData *model = (DMQuestData *)responseObject;
+         complectionBlock(YES, model.list);
+     } failure:^(NSError *error) {
+         complectionBlock(NO, nil);
+     }];
+}
 
+//获取百度云上传的配置信息
++ (void)getUploadConfigInfo:(NSString *)lessonId block:(void(^)(BOOL result, DMCloudConfigData *obj))complectionBlock
+{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:lessonId, @"lesson_id", nil];
+    [[DMHttpClient sharedInstance] initWithUrl:DM_Cloud_Config_Url
+                                    parameters:dic
+                                        method:DMHttpRequestPost
+                                dataModelClass:[DMCloudConfigData class]
+                                   isMustToken:YES
+                                       success:^(id responseObject)
+     {
+         DMCloudConfigData *model = (DMCloudConfigData *)responseObject;
+         complectionBlock(YES, model);
+     } failure:^(NSError *error) {
+         complectionBlock(NO, nil);
+     }];
+}
+//百度云上传成功后的通知
++ (void)getUploadSuccess:(NSString *)lessonId //课节id
+              attachment:(NSString *)attachmentID //课件id
+                 fileExt:(NSString *)fileExt //文件后缀，比如 .png
+                   block:(void(^)(BOOL result))complectionBlock
+{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:lessonId, @"lesson_id",attachmentID, @"attachment_id",fileExt, @"fileext", nil];
+    [[DMHttpClient sharedInstance] initWithUrl:DM_Cloud_Upload_Success_Url
+                                    parameters:dic
+                                        method:DMHttpRequestPost
+                                dataModelClass:[NSObject class]
+                                   isMustToken:YES
+                                       success:^(id responseObject)
+     {
+         complectionBlock(YES);
+     } failure:^(NSError *error) {
+         complectionBlock(NO);
+     }];
+}
 
 @end
 

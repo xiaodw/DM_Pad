@@ -42,17 +42,27 @@
 #define DM_Teacher_Access_Url           [DM_Url stringByAppendingFormat:@"lesson/teacherAccess"]
 
 //获取课件列表
-#define DM_Upload_FileList_Url          [DM_Url stringByAppendingFormat:@"upload/fileList"]
+#define DM_Attachment_FileList_Url          [DM_Url stringByAppendingFormat:@"Attachment/getList"]
 //课件上传
 #define DM_User_Attachment_Upload_Url   [DM_Url stringByAppendingFormat:@"attachment/upload"]
 //删除课件
-#define DM_Upload_fileMove_Url          [DM_Url stringByAppendingFormat:@"upload/fileMove"]
+#define DM_Attachment_fileMove_Url          [DM_Url stringByAppendingFormat:@"Attachment/fileMove"]
 
 //客服
 #define DM_Customer_Url                 [DM_Url stringByAppendingFormat:@"customer/index"]
 
+//点播视频
+#define DM_Video_Replay_Url             [DM_Url stringByAppendingFormat:@"video/replay"]
 
+//获取问题列表学生
+#define DM_Student_Question_List_Url    [DM_Url stringByAppendingFormat:@"survey/squestionList"]
+//获取问题列表老师
+#define DM_Teacher_Question_List_Url    [DM_Url stringByAppendingFormat:@"survey/tquestionList"]
 
+//获取百度云配置信息
+#define DM_Cloud_Config_Url [DM_Url stringByAppendingFormat:@"Attachment/getUploadConf"]
+//百度云上传成功后的通知
+#define DM_Cloud_Upload_Success_Url [DM_Url stringByAppendingFormat:@"Attachment/uploadSuccess"]
 
 #endif /* DMServerApiConfig_h */
 

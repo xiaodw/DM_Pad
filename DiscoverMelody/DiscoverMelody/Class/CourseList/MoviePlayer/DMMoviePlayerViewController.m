@@ -21,6 +21,8 @@
 @property (nonatomic, assign) BOOL isPlaying;
 @property (nonatomic, strong) ZFPlayerModel *playerModel;
 
+@property (nonatomic, copy) NSURL *videoURL;
+
 @end
 
 @implementation DMMoviePlayerViewController
@@ -29,10 +31,30 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self.navigationController setNavigationBarHidden:YES];
-    // 自动播放，默认不自动播放
-    [self.playerView autoPlayTheVideo];
+
     
     [self.view addSubview:self.playerView];
+    
+    [self getVideReplayUrl];
+}
+
+- (void)getVideReplayUrl {
+    WS(weakSelf);
+    [DMApiModel getVideoReplay:self.lessonID block:^(BOOL result, DMVideoReplayData *obj) {
+        if (result) {
+            if (obj) {
+                weakSelf.videoURL = [NSURL URLWithString:obj.video_url];
+                // 自动播放，默认不自动播放
+                [weakSelf.playerView autoPlayTheVideo];
+            } else {
+                [DMTools showMessageToast:@"视频资源不存在" duration:2 position:CSToastPositionCenter];
+            }
+        } else {
+            [DMTools showMessageToast:@"视频连接出错" duration:2 position:CSToastPositionCenter];
+        }
+    }];
+    
+
 }
 
 /**
