@@ -42,11 +42,11 @@
 #define DM_Teacher_Access_Url           [DM_Url stringByAppendingFormat:@"lesson/teacherAccess"]
 
 //获取课件列表
-#define DM_Upload_FileList_Url          [DM_Url stringByAppendingFormat:@"upload/fileList"]
+#define DM_Attachment_FileList_Url          [DM_Url stringByAppendingFormat:@"Attachment/getList"]
 //课件上传
 #define DM_User_Attachment_Upload_Url   [DM_Url stringByAppendingFormat:@"attachment/upload"]
 //删除课件
-#define DM_Upload_fileMove_Url          [DM_Url stringByAppendingFormat:@"upload/fileMove"]
+#define DM_Attachment_fileMove_Url          [DM_Url stringByAppendingFormat:@"Attachment/fileMove"]
 
 //客服
 #define DM_Customer_Url                 [DM_Url stringByAppendingFormat:@"customer/index"]

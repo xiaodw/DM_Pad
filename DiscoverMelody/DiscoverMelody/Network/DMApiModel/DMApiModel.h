@@ -37,6 +37,11 @@
 + (void)getLessonList:(NSString *)lessonId //课节ID
                  block:(void(^)(BOOL result, NSArray *teachers, NSArray *students))complectionBlock;
 
+//删除课件
++ (void)removeLessonFiles:(NSString *)lessonId//课节ID
+                  fileIds:(NSString *)fileIds//课件ids
+                    block:(void(^)(BOOL result))complectionBlock;
+
 //进入课堂(学生／老师)
 + (void)joinClaseeRoom:(NSString *)lessonId //课节ID
             accessTime:(NSString *)accessTime //访问时间

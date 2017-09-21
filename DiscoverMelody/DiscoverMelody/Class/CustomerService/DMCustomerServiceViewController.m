@@ -100,10 +100,20 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section != 0) {
-        DMPopCodeView *codeView = [[DMPopCodeView alloc] initWithTitle:@"寻律课程顾问-A老师" message:@"微信号：Dsicover-Melody-1" imageName:@"codeTest"];
-        [codeView show];
+        if (indexPath.section-1 < self.customerArray.count) {
+            DMCustomerTeacher *objList = [self.customerArray objectAtIndex:indexPath.section-1];
+            if (indexPath.row < objList.customer_list.count) {
+                DMCustomerTeacherInfo *obj = [objList.customer_list objectAtIndex:indexPath.row];
+                if (!STR_IS_NIL(obj.img_url)) {
+                    DMPopCodeView *codeView = [[DMPopCodeView alloc] initWithTitle:obj.name
+                                                                           message:[NSString stringWithFormat:@"微信号：%@", obj.webchat]
+                                                                         imageName:obj.img_url];
+                    [codeView show];
+        
+                }
+            }
+        }
     }
-    
 }
 
 #pragma mark -

@@ -40,6 +40,7 @@
     [DMApiModel getQuestInfo:^(BOOL result, NSArray *list) {
         if (result && list.count > 0) {
             weakSelf.questionList = list;
+            [weakSelf.bTableView reloadData];
         }
     }];
 }
@@ -73,6 +74,10 @@
     DMQuestionCell *cell = [tableView dequeueReusableCellWithIdentifier:qCell];
     if (!cell) {
         cell = [[DMQuestionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:qCell];
+    }
+    if (indexPath.row < self.questionList.count) {
+        DMQuestSingleData *obj = [self.questionList objectAtIndex:indexPath.row];
+        
     }
   
     return cell;

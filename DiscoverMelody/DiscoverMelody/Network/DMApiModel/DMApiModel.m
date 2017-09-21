@@ -93,7 +93,7 @@
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:lessonId, @"lesson_id", nil];
     
-    [[DMHttpClient sharedInstance] initWithUrl:DM_Upload_FileList_Url
+    [[DMHttpClient sharedInstance] initWithUrl:DM_Attachment_FileList_Url
                                     parameters:dic
                                         method:DMHttpRequestPost
                                 dataModelClass:[DMClassFilesDataModel class]
@@ -104,6 +104,26 @@
          complectionBlock(YES, model.teacher_list, model.student_list);
      } failure:^(NSError *error) {
          complectionBlock(NO, nil, nil);
+     }];
+}
+
+//删除课件
++ (void)removeLessonFiles:(NSString *)lessonId//课节ID
+                  fileIds:(NSString *)fileIds//课件ids
+                    block:(void(^)(BOOL result))complectionBlock
+{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:lessonId, @"lesson_id", fileIds, @"ids",nil];
+    
+    [[DMHttpClient sharedInstance] initWithUrl:DM_Attachment_fileMove_Url
+                                    parameters:dic
+                                        method:DMHttpRequestPost
+                                dataModelClass:[NSObject class]
+                                   isMustToken:YES
+                                       success:^(id responseObject)
+     {
+         complectionBlock(YES);
+     } failure:^(NSError *error) {
+         complectionBlock(NO);
      }];
 }
 
