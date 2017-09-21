@@ -48,7 +48,7 @@
     
     if ([[DMAccount getUserIdentity] intValue] == 0) {
         //学生端
-        [_headImageView sd_setImageWithURL:[NSURL URLWithString:obj.avatar] placeholderImage:[UIImage imageNamed:@"timg1.jpg"]];
+        [_headImageView sd_setImageWithURL:[NSURL URLWithString:obj.avatar] placeholderImage:HeadPlaceholderName];
     } else {
         
         

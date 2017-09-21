@@ -49,7 +49,7 @@
     [self.radioView.selButton addTarget:self action:@selector(clickSelButton:) forControlEvents:UIControlEventTouchUpInside];
     self.starView = [[DMEStarView alloc] initWithFrame:CGRectMake(34, H, 250, 50) finish:^(CGFloat currentScore) {
         NSLog(@"当前选择的分数 = %f",currentScore);
-        weakSelf.obje.content = [NSString stringWithFormat:@"%d", (int)currentScore];
+        weakSelf.obje.answer_content = [NSString stringWithFormat:@"%d", (int)currentScore];
     }];
     self.textView.backgroundColor = DMColorWithRGBA(245, 245, 245, 1);
     self.radioView.backgroundColor = DMColorWithRGBA(245, 245, 245, 1);
@@ -73,15 +73,18 @@
         switch (obj.type.intValue) {
             case 0://问答题
                 self.textView.hidden = NO;
+                
+                self.textView.textField.text = STR_IS_NIL(obj.answer_content) ? @"": obj.answer_content;
                 break;
             case 1://判断／选择题
                 if (index < obj.options.count) {
                     self.radioView.hidden = NO;
                     DMQuestOptions *op = [obj.options objectAtIndex:index];
                     [self.radioView updateButtonTitle:[@"  " stringByAppendingString:op.option_content]];
-                    self.radioView.selButton.tag = (1+index)+section*10;
-                    if (obj.isSelectedIndex == (1+index)+section*10) {
+                    self.radioView.selButton.tag = (1+index)+section*100;
+                    if (obj.answer_content.intValue == op.option_id.intValue) {
                         self.radioView.selButton.selected = YES;
+                        self.obje.answer_content = op.option_id;
                     } else {
                         self.radioView.selButton.selected = NO;
                     }
@@ -89,9 +92,11 @@
                 break;
             case 2://打分题
                 self.starView.hidden = NO;
+                self.starView.currentScore = obj.answer_content.intValue;
                 break;
             default:
                 break;
+                
         }
     }
 }
@@ -99,17 +104,21 @@
 - (void)clickSelButton:(id)sender {
     UIButton *btn = (UIButton *)sender;
     self.obje.isSelectedIndex = btn.tag;
-    self.obje.content = btn.titleLabel.text;
+    int index = btn.tag%100-1;
+    if (index < self.obje.options.count) {
+        DMQuestOptions *op = [ self.obje.options objectAtIndex:index];
+        self.obje.answer_content = op.option_id;
+    }
     btn.selected = YES;
     self.clickButtonBlock();
 }
 
 - (BOOL)textField:(UITextField*)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    self.obje.content = textField.text;
+    self.obje.answer_content = textField.text;
     return YES;
 }
 - (void)textFieldDidEndEditing:(UITextField *)textField{
-    self.obje.content = textField.text;
+    self.obje.answer_content = textField.text;
     
 }
 

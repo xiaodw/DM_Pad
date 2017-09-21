@@ -29,7 +29,7 @@ typedef NS_ENUM(NSInteger, RateStyle)
 @property (nonatomic, assign)BOOL isAnimation;       //是否动画显示，默认NO
 @property (nonatomic, assign)RateStyle rateStyle;    //评分样式    默认是WholeStar
 @property (nonatomic, weak) id<DMStarRateViewDelegate>delegate;
-
+@property (nonatomic, assign) CGFloat currentScore;   // 当前评分：0-5  默认0
 
 -(instancetype)initWithFrame:(CGRect)frame;
 -(instancetype)initWithFrame:(CGRect)frame numberOfStars:(NSInteger)numberOfStars rateStyle:(RateStyle)rateStyle isAnination:(BOOL)isAnimation delegate:(id)delegate;

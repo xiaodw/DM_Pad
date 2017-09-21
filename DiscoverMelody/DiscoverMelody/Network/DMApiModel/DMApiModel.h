@@ -55,9 +55,11 @@
 + (void)getVideoReplay:(NSString *)lessionId block:(void(^)(BOOL result, DMVideoReplayData *obj))complectionBlock;
 
 //问卷问题（学生／老师）
-+ (void)getQuestInfo:(NSString *)lessonID block:(void(^)(BOOL result, NSArray *list))complectionBlock;
++ (void)getQuestInfo:(NSString *)lessonID block:(void(^)(BOOL result, DMQuestData *obj))complectionBlock;
 //提交问题答案
 + (void)commitQuestAnswer:(NSString *)lessonId answers:(NSArray *)answerArray block:(void(^)(BOOL result))complectionBlock;
+//获取老师评语
++ (void)getTeacherAppraise:(NSString *)lessonId block:(void(^)(BOOL result, DMQuestData *obj))complectionBlock;
 
 //获取百度云上传的配置信息
 + (void)getUploadConfigInfo:(NSString *)lessonId block:(void(^)(BOOL result, DMCloudConfigData *obj))complectionBlock;
