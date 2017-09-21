@@ -1,9 +1,9 @@
 #import <UIKit/UIKit.h>
 
-@class DMAsset;
+@class DMClassFileDataModel;
 
 @interface DMLiveCoursewareCell : UICollectionViewCell
 
-@property (strong, nonatomic) NSObject *model;
+@property (strong, nonatomic) DMClassFileDataModel *model;
 
 @end

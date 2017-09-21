@@ -1,6 +1,6 @@
 #import "DMLiveCoursewareCell.h"
 #import <UIView+WebCache.h>
-
+#import "DMClassFileDataModel.h"
 
 @interface DMLiveCoursewareCell()
 
@@ -12,10 +12,10 @@
 
 @implementation DMLiveCoursewareCell
 
-- (void)setModel:(NSObject *)model {
+- (void)setModel:(DMClassFileDataModel *)model {
     _model = model;
     
-    [self.imageView sd_setImageWithURL:[NSURL URLWithString:model]];
+    [self.imageView sd_setImageWithURL:[NSURL URLWithString:model.img]];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {

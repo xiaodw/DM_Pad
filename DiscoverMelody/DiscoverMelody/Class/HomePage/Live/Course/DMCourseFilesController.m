@@ -193,11 +193,26 @@
 
 // 同步接口
 - (void)browseViewDidTapSync:(DMBrowseView *)browseView{
+    if (!self.liveVC.isRemoteUserOnline) {
+        DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"学生未上线, 不能同步操作" message:@"" preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleOK otherTitle: nil];
+        [alert showWithViewController:self IndexBlock:^(NSInteger index) { }];
+        return;
+    }
     DMLogFunc
 //    self.selectedCpirses
     NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_Start_Syn sourceData:self.selectedCpirses index:0];
     [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) {
+        if (![self.delegate respondsToSelector:@selector(courseFilesController:syncCourses:)]){
+            [self dismissController];
+            return;
+        }
         
+        
+        [self.liveVC.presentVCs removeObject:self];
+        self.liveVC = nil;
+        [self dismissViewControllerAnimated:YES completion:^{
+            [self.delegate courseFilesController:self syncCourses:self.self.selectedCpirses];
+        }];
     } faile:^(NSString *messageID, AgoraEcode ecode) {
         
     }];

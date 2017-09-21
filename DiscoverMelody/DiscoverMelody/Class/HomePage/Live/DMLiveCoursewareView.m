@@ -1,5 +1,7 @@
 #import "DMLiveCoursewareView.h"
 #import "DMLiveCoursewareCell.h"
+#import "DMSendSignalingMsg.h"
+#import "DMLiveVideoManager.h"
 
 #define kCoursewareCellID @"Courseware"
 
@@ -18,6 +20,8 @@
     _allCoursewares = allCoursewares;
     
     [self.collectionView reloadData];
+    _leftButton.hidden = YES;
+    _rightButton.hidden = allCoursewares.count == 1;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -27,16 +31,21 @@
         [self setupMakeLayoutSubviews];
         
         NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
-        self.closeButton.hidden = userIdentity;
-        self.leftButton.hidden = userIdentity;
-        self.rightButton.hidden = userIdentity;
+        self.closeButton.hidden = !userIdentity;
+        self.leftButton.hidden = self.closeButton.hidden;
+        self.rightButton.hidden = self.closeButton.hidden;
     }
     return self;
 }
 
 - (void)didTapClose {
-    if (![self.delegate respondsToSelector:@selector(liveCoursewareViewDidTapClose:)]) return;
-    [self.delegate liveCoursewareViewDidTapClose:self];
+    NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_End_Syn sourceData:nil index:0];
+    [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) {
+        if (![self.delegate respondsToSelector:@selector(liveCoursewareViewDidTapClose:)]) return;
+        [self.delegate liveCoursewareViewDidTapClose:self];
+    } faile:^(NSString *messageID, AgoraEcode ecode) {
+        
+    }];
 }
 
 static bool currentTurnPage = false;
@@ -49,19 +58,37 @@ static bool currentTurnPage = false;
         self.collectionView.userInteractionEnabled = YES;
     });
     NSInteger index = self.collectionView.contentOffset.x / self.dm_width + (sender == self.leftButton ? - 1 : 1);
+    _leftButton.hidden = index == 0;
+    _rightButton.hidden = index == self.allCoursewares.count-1;
     [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
+    NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_Turn_Page sourceData:[self.allCoursewares mutableCopy] index:index];
+    [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) {
+        
+    } faile:^(NSString *messageID, AgoraEcode ecode) {
+        
+    }];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.allCoursewares.count;
 }
 
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    NSInteger index = (scrollView.contentOffset.x / self.collectionView.dm_width + 0.5); // 约等于
+    
+    NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_Turn_Page sourceData:[self.allCoursewares mutableCopy] index:index];
+    [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) {
+    
+    } faile:^(NSString *messageID, AgoraEcode ecode) {
+        
+    }];
+    _leftButton.hidden = index == 0;
+    _rightButton.hidden = index == self.allCoursewares.count-1;
+}
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     DMLiveCoursewareCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCoursewareCellID forIndexPath:indexPath];
     cell.model = self.allCoursewares[indexPath.row];
-    
-    _leftButton.hidden = indexPath.row == 0;
-    _rightButton.hidden = indexPath.row == self.allCoursewares.count-1;
     
     return cell;
 }
