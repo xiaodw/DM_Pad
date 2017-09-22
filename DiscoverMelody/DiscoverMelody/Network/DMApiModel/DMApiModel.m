@@ -125,6 +125,10 @@
      } failure:^(NSError *error) {
          complectionBlock(NO);
      }];
+    
+    [DMHttpClient sharedInstance].blockSuccessMsg = ^(NSString *msg) {
+        [DMTools showMessageToast:msg duration:2 position:CSToastPositionCenter];
+    };
 }
 
 //进入课堂(学生／老师)

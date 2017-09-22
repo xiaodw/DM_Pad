@@ -133,7 +133,6 @@
 }
 
 - (void)albrmsCollectionView:(DMAssetsCollectionView *)albrmsCollectionView didTapLeftButton:(UIButton *)leftButton {
-    NSLog(@"%s", __func__);
     if (_isUploaded) return;
     
     [_albumsView remakeConstraints:^(MASConstraintMaker *make) {
@@ -161,9 +160,12 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)albrmsCollectionView:(DMAssetsCollectionView *)albrmsCollectionView didTapUploadButton:(UIButton *)uploadButton {
-    NSLog(@"%s", __func__);
-    
+- (void)albrmsCollectionView:(DMAssetsCollectionView *)albrmsCollectionView success:(NSArray *)courses{
+    [self.liveVC.presentVCs removeObject:self];
+    self.liveVC = nil;
+    [self dismissViewControllerAnimated:YES completion:^{
+        [self.delegate uploadController:self successAsset:courses];
+    }];
 }
 
 - (DMAlbumsTableView *)albumsView {
@@ -179,6 +181,7 @@
     if (!_assetsView) {
         _assetsView = [DMAssetsCollectionView new];
         _assetsView.delegate = self;
+        _assetsView.lessonID = self.lessonID;
     }
     
     return _assetsView;

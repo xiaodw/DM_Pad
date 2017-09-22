@@ -5,6 +5,7 @@
 #import "DMAsset.h"
 #import "DMAlbum.h"
 #import "DMBrowseView.h"
+#import "DMBOSClientManager.h"
 
 #define kCoursewareCellID @"Courseware"
 #define kPhotoColums 4
@@ -21,6 +22,10 @@
 @property (strong, nonatomic) NSMutableArray *selectedAssets;;
 @property (strong, nonatomic) NSMutableArray *selectedIndexPath;
 @property (strong, nonatomic) NSArray *assets;
+@property (strong, nonatomic) DMBOSClientManager *bosManager;
+
+@property (strong, nonatomic) NSMutableArray *successAssets;
+@property (strong, nonatomic) NSMutableArray *fieldAssets;
 
 @end
 
@@ -31,6 +36,8 @@
     
     [self.collectionView reloadData];
     self.navigationBar.titleLabel.text = album.name;
+    if (_assets.count == 0) return;
+    [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:_assets.count-1 inSection:0] atScrollPosition:UICollectionViewScrollPositionBottom animated:NO];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -80,11 +87,51 @@
     }];
 }
 
-- (void)didTapUpload:(UIButton *)sender {
-#warning 发送API 然后通知控制器就可以了
-    if (![self.delegate respondsToSelector:@selector(albrmsCollectionView:didTapUploadButton:)]) return;
+- (void)uploadPhotos:(NSMutableArray *)surplus {
+    WS(weakSelf)
+    NSMutableArray *surplusPhotos = [surplus mutableCopy];
+    if (surplusPhotos.count == 0) {
+        if (self.fieldAssets.count == 0) {
+            [self.delegate albrmsCollectionView:weakSelf success:weakSelf.successAssets];
+            return;
+        }
+        
+        DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"有图片上传失败, 是否重新上传" message:@"点击是后继续上传失败的图片" preferredStyle:UIAlertControllerStyleAlert cancelTitle:@"否" otherTitle:@"是", nil];
+        [alert showWithViewController:(UIViewController *)self.delegate IndexBlock:^(NSInteger index) {
+            if (index == 1) { // 右侧
+                [weakSelf uploadPhotos:weakSelf.fieldAssets];
+                return;
+            }
+            [weakSelf.delegate albrmsCollectionView:weakSelf success:weakSelf.successAssets];
+        }];
+        return;
+    }
     
-    [self.delegate albrmsCollectionView:self didTapUploadButton:sender];
+    DMAsset *asset = surplusPhotos.firstObject;
+    asset.status = DMAssetStatusUploading;
+    [self.uploadBrowseView refrenshAssetStatus:asset];
+    [surplusPhotos removeObject:asset];
+    NSData *imgData = UIImageJPEGRepresentation(asset.fullResolutionImage, 1.0);
+    [self.bosManager startUploadFileToBD:self.lessonID formatType:DMFormatUploadFileType_FileData fileData:imgData filePath:nil fileExt:@".png"];
+    
+    self.bosManager.blockUploadFailed = ^(NSError *error) {
+        asset.status = DMAssetStatusFail;
+        [weakSelf.uploadBrowseView refrenshAssetStatus:asset];
+        [weakSelf uploadPhotos:surplusPhotos];
+    };
+    
+    self.bosManager.blockUploadSuccess = ^(BOOL result, DMClassFileDataModel *obj) {
+        asset.status = DMAssetStatusSuccess;
+        [weakSelf.successAssets addObject:obj];
+        [weakSelf.fieldAssets removeObject:asset];
+        [weakSelf.uploadBrowseView refrenshAssetStatus:asset];
+        [weakSelf uploadPhotos:surplusPhotos];
+    };
+}
+
+- (void)didTapUpload:(UIButton *)sender {
+    if (![self.delegate respondsToSelector:@selector(albrmsCollectionView:success:)]) return;
+    [self uploadPhotos:self.selectedAssets];
 }
 
 - (void)didTapBack:(UIButton *)sender {
@@ -317,6 +364,31 @@
     }
     
     return _backgroundView;
+}
+
+- (DMBOSClientManager *)bosManager {
+    if (!_bosManager) {
+        _bosManager = [DMBOSClientManager shareInstance];
+    }
+    
+    return _bosManager;
+}
+
+- (NSMutableArray *)fieldAssets {
+    if (!_fieldAssets) {
+        _fieldAssets = [NSMutableArray array];
+        [_fieldAssets addObjectsFromArray:self.selectedAssets];
+    }
+    
+    return _fieldAssets;
+}
+
+- (NSMutableArray *)successAssets {
+    if (!_successAssets) {
+        _successAssets = [NSMutableArray array];
+    }
+    
+    return _successAssets;
 }
 
 @end

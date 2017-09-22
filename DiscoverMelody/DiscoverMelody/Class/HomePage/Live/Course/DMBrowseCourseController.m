@@ -3,6 +3,7 @@
 #import "DMButton.h"
 #import "DMBrowseCourseCell.h"
 #import "DMLiveController.h"
+#import "DMClassFileDataModel.h"
 
 #define kBrowseCourseCellID @"BrowseCourse"
 @interface DMBrowseCourseController () <UICollectionViewDataSource, UICollectionViewDelegate>
@@ -35,14 +36,15 @@
     DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"您确定要删除这张图片吗?" message:@"确定后预览自动关闭" preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
     [alert showWithViewController:self IndexBlock:^(NSInteger index) {
         if (index == 1) { // 右侧
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            DMClassFileDataModel *currentCourse = self.courses[self.currentIndexPath.row];
+            [DMApiModel removeLessonFiles:self.lessonID fileIds:currentCourse.ID block:^(BOOL result) {
                 [weakSelf.liveVC.presentVCs removeObject:weakSelf];
                 weakSelf.liveVC = nil;
                 [weakSelf dismissViewControllerAnimated:NO completion:^{
                     if (![weakSelf.browseDelegate respondsToSelector:@selector(browseCourseController:deleteIndexPath:)]) return;
                     [weakSelf.browseDelegate browseCourseController:weakSelf deleteIndexPath:weakSelf.currentIndexPath];
                 }];
-            });
+            }];
         }
     }];
     

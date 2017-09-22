@@ -15,7 +15,7 @@
 @optional
 - (void)albrmsCollectionView:(DMAssetsCollectionView *)albrmsCollectionView didTapRightButton:(UIButton *)rightButton;
 - (void)albrmsCollectionView:(DMAssetsCollectionView *)albrmsCollectionView didTapLeftButton:(UIButton *)leftButton;
-- (void)albrmsCollectionView:(DMAssetsCollectionView *)albrmsCollectionView didTapUploadButton:(UIButton *)uploadButton;
+- (void)albrmsCollectionView:(DMAssetsCollectionView *)albrmsCollectionView success:(NSArray *)courses;
 
 @end
 
@@ -24,5 +24,6 @@
 @property (strong, nonatomic) DMAlbum *album;
 
 @property (weak, nonatomic) id<DMAssetsCollectionViewDelegate> delegate;
+@property (strong, nonatomic) NSString *lessonID;
 
 @end

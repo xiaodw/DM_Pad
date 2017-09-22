@@ -61,19 +61,19 @@ static DMBOSClientManager *bosinstance = nil;
     task.then(^(BCEOutput* output) {
         if (output.progress) {
             // 打印进度
-            NSLog(@"put object progress is %@", output.progress);
+//            NSLog(@"put object progress is %@", output.progress);
         }
         
         if (output.response) {
             response = (BOSPutObjectResponse*)output.response;
             // 打印eTag
-            NSLog(@"The metadata is %@", response.metadata);
-            NSLog(@"The eTag is %@", response.metadata.eTag);
+//            NSLog(@"The metadata is %@", response.metadata);
+//            NSLog(@"The eTag is %@", response.metadata.eTag);
             [weakSelf uploadSuccess];
         }
         
         if (output.error) {
-            NSLog(@"put object failure with %@", output.error);
+//            NSLog(@"put object failure with %@", output.error);
             if (weakSelf.blockUploadFailed) {
                 weakSelf.blockUploadFailed(nil);
             }

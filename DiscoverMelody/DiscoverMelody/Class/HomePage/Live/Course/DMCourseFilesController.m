@@ -11,7 +11,7 @@
 #import "DMSendSignalingMsg.h"
 #define kCourseFileCellID @"Courseware"
 
-@interface DMCourseFilesController () <DMBottomBarViewDelegate, DMTabBarViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, DMBrowseCourseControllerDelegate, DMBrowseViewDelegate>
+@interface DMCourseFilesController () <DMBottomBarViewDelegate, DMTabBarViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, DMBrowseCourseControllerDelegate, DMBrowseViewDelegate, DMUploadControllerDelegate>
 
 @property (strong, nonatomic) UIButton *rightBarButton;
 @property (strong, nonatomic) UIView *navigationBar;
@@ -40,6 +40,8 @@
     _currentCpirses = currentCpirses;
     
     [self.collectionView reloadData];
+    if (currentCpirses.count == 0) return;
+    [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:currentCpirses.count-1 inSection:0] atScrollPosition:UICollectionViewScrollPositionBottom animated:NO];
 }
 
 - (void)setEditorMode:(BOOL)editorMode {
@@ -78,29 +80,12 @@
     self.tabBarView.titles = @[DMTitleMyUploadFild,identifier];
     
     WS(weakSelf)
-    DMClassFileDataModel *fileData = [DMClassFileDataModel new];
-    fileData.img = @"http://img1.360buyimg.com/imgb/s280x280_jfs/t6004/69/2345754680/407205/1e1663c7/593fefb2N56e82a08.jpg";
-    fileData.img_thumb = fileData.img;
-    DMClassFileDataModel *fileData1 = [DMClassFileDataModel new];
-    fileData1.img = @"http://img1.360buyimg.com/imgb/s280x280_jfs/t5659/132/3869083328/92278/1da152b8/59423e56N798b5950.jpg";
-    fileData1.img_thumb = fileData1.img;
-    DMClassFileDataModel *fileData2 = [DMClassFileDataModel new];
-    fileData2.img = @"http://img1.360buyimg.com/imgb/s280x280_jfs/t5188/114/1752557705/443277/f582e1ba/5913dab4Nb6aca0e7.jpg";
-    fileData2.img_thumb = fileData2.img;
-    DMClassFileDataModel *fileData3 = [DMClassFileDataModel new];
-    fileData3.img = @"http://img1.360buyimg.com/imgb/s280x280_jfs/t6580/50/1132591552/162282/528c84cd/594b9f90N795d5439.jpg";
-    fileData3.img_thumb = fileData3.img;
-    DMClassFileDataModel *fileData4 = [DMClassFileDataModel new];
-    fileData4.img = @"http://img1.360buyimg.com/imgb/s280x280_jfs/t6730/299/1598840430/366892/93ff1b12/595502d0Ne969ab0c.jpg";
-    fileData4.img_thumb = fileData4.img;
-    
-    weakSelf.identifierCpirsesArray = @[[@[fileData,fileData1,fileData2,fileData3,fileData4] mutableCopy], @[]];
-    weakSelf.currentCpirses = weakSelf.identifierCpirsesArray.firstObject;
-    
-//    [DMApiModel getLessonList:self.lessonID block:^(BOOL result, NSArray *teachers, NSArray *students) {
-//        weakSelf.identifierCpirsesArray = userIdentity ? @[teachers, students] : @[teachers, students];
-//        weakSelf.currentCpirses = weakSelf.identifierCpirsesArray.firstObject;
-//    }];
+    [DMApiModel getLessonList:self.lessonID block:^(BOOL result, NSArray *teachers, NSArray *students) {
+        NSMutableArray *teacherCourses = [NSMutableArray arrayWithArray:teachers];
+        NSMutableArray *studentCourses = [NSMutableArray arrayWithArray:students];
+        weakSelf.identifierCpirsesArray = userIdentity ? @[teacherCourses, studentCourses] : @[studentCourses, teacherCourses];
+        weakSelf.currentCpirses = weakSelf.identifierCpirsesArray.firstObject;
+    }];
 }
 
 - (void)didTapSelect:(UIButton *)sender {
@@ -145,7 +130,6 @@
 
 - (void)tabBarView:(DMTabBarView *)tabBarView didTapBarButton:(UIButton *)button{
     self.editorMode = NO;
-    self.currentCpirses = self.identifierCpirsesArray[button.tag];
     self.bottomBar.syncButton.hidden = _isFullScreen || !self.userIdentity;
     self.rightBarButton.hidden = button.tag && !self.userIdentity;
     self.bottomBar.deleteButton.hidden = button.tag;
@@ -167,6 +151,7 @@
     } completion:^(BOOL finished) {
         self.bottomBar.hidden = !self.userIdentity && button.tag;
     }];
+    self.currentCpirses = self.identifierCpirsesArray[button.tag];
 }
 
 - (void)browseCourseController:(DMBrowseCourseController *)browseCourseController deleteIndexPath:(NSIndexPath *)indexPath {
@@ -180,6 +165,8 @@
     DMLogFunc
     
     DMUploadController *assetsVC = [DMUploadController new];
+    assetsVC.lessonID = self.lessonID;
+    assetsVC.delegate = self;
     UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:assetsVC];
     [assetsVC view];
     self.animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight);
@@ -244,10 +231,17 @@
     DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"您确定要删除这些张图片吗?" message:@"确定后关闭编辑状态" preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
     [alert showWithViewController:self IndexBlock:^(NSInteger index) {
         if (index == 1) { // 右侧
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            NSMutableString *fileIDs = [NSMutableString string];
+            for (int i = 0; i < self.selectedCpirses.count; i++) {
+                DMClassFileDataModel *fileDataModel = self.selectedCpirses[i];
+                [fileIDs appendString:fileDataModel.ID];
+                if (i != self.selectedCpirses.count-1) [fileIDs appendString:@","];
+            }
+            
+            [DMApiModel removeLessonFiles:self.lessonID fileIds:fileIDs block:^(BOOL result) {
                 [weakSelf.currentCpirses removeObjectsInArray:weakSelf.selectedCpirses];
                 [weakSelf didTapSelect:weakSelf.rightBarButton];
-            });
+            }];
         }
     }]; 
 }
@@ -268,6 +262,7 @@
     if (!_editorMode){
         if(_isFullScreen) {
             DMBrowseCourseController *browseCourseVC = [DMBrowseCourseController new];
+            browseCourseVC.lessonID = self.lessonID;
             CGFloat width = DMScreenWidth - 80;
             CGFloat height = DMScreenHeight - 86;
             browseCourseVC.itemSize = CGSizeMake(width, height);
@@ -284,6 +279,7 @@
         }
         
         DMBrowseCourseController *browseCourseVC = [DMBrowseCourseController new];
+        browseCourseVC.lessonID = self.lessonID;
         CGFloat width = DMScreenWidth * 0.5 - 80;
         CGFloat height = DMScreenHeight - 130;
         browseCourseVC.itemSize = CGSizeMake(width, height);
@@ -336,6 +332,11 @@
             [self.view layoutSubviews];
         }];
     }
+}
+
+- (void)uploadController:(DMUploadController *)uploadController successAsset:(NSArray *)assets {
+    [self.currentCpirses addObjectsFromArray:assets];
+    self.currentCpirses = self.currentCpirses;
 }
 
 - (void)reinstateSelectedCpirses {

@@ -11,10 +11,19 @@
 
 @class DMAssetInfo;
 
+typedef NS_ENUM(NSUInteger, DMAssetStatus) {
+    DMAssetStatusNormal,
+    DMAssetStatusSuccess,
+    DMAssetStatusFail,
+    DMAssetStatusUploading
+};
+
+
 @interface DMAsset : NSObject
 
 @property (assign, nonatomic) BOOL isSelected;
 @property (assign, nonatomic) NSInteger selectedIndex;
+@property (assign, nonatomic) DMAssetStatus status;
 
 @property (strong, nonatomic, readonly) ALAsset *asset;
 

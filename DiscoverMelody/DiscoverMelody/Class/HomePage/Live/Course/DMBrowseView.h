@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 
-@class DMBrowseView;
+@class DMBrowseView, DMAsset;
 
 @protocol DMBrowseViewDelegate <NSObject>
 
@@ -23,5 +23,7 @@ typedef NS_ENUM(NSInteger, DMBrowseViewType) {
 @property (assign, nonatomic) BOOL isFirst;
 
 @property (assign, nonatomic) DMBrowseViewType browseType;
+
+- (void)refrenshAssetStatus:(DMAsset *)asset;
 
 @end

@@ -9,6 +9,8 @@
 
 @property (strong, nonatomic) UILabel *indexLabel;
 @property (strong, nonatomic) UIImageView *imageView;
+@property (strong, nonatomic) UIImageView *statusImageView;
+@property (strong, nonatomic) UIActivityIndicatorView *activityIndicatorView;
 
 @end
 
@@ -20,6 +22,12 @@
     
     NSString *indexString = asset.selectedIndex == 0 ? @"" : [NSString stringWithFormat:@"%zd", asset.selectedIndex];
     if (!_editorMode) return;
+    
+    _indexLabel.hidden = asset.status != DMAssetStatusNormal;
+    
+    _statusImageView.hidden = (asset.status == DMAssetStatusNormal || asset.status == DMAssetStatusUploading);
+    _statusImageView.image = asset.status == DMAssetStatusSuccess ? [UIImage imageNamed:@"icon_success"] : [UIImage imageNamed:@"icon_fail"];
+    asset.status == DMAssetStatusUploading ? [_activityIndicatorView startAnimating] : [_activityIndicatorView stopAnimating];
     
     self.indexLabel.layer.borderColor = asset.isSelected ? DMColorBaseMeiRed.CGColor : [[UIColor blackColor] colorWithAlphaComponent:0.4].CGColor;
     _indexLabel.backgroundColor = asset.isSelected ? DMColorBaseMeiRed : [[UIColor blackColor] colorWithAlphaComponent:0.25];
@@ -58,6 +66,8 @@
     if (self = [super initWithFrame:frame]) {
         [self.contentView addSubview:self.imageView];
         [self.contentView addSubview:self.indexLabel];
+        [self.contentView addSubview:self.statusImageView];
+        [self.contentView addSubview:self.activityIndicatorView];
         
         [_imageView makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.contentView);
@@ -68,10 +78,26 @@
             make.top.equalTo(5);
             make.right.equalTo(self.contentView.mas_right).offset(-5);
         }];
+        
+        [_activityIndicatorView makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(_indexLabel);
+        }];
+        
+        [_statusImageView makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(_indexLabel);
+        }];
     }
     return self;
 }
 
+- (UIImageView *)statusImageView {
+    if (!_statusImageView) {
+        _statusImageView = [UIImageView new];
+        _statusImageView.hidden = YES;
+    }
+    
+    return _statusImageView;
+}
 
 - (UIImageView *)imageView {
     if (!_imageView) {
@@ -96,6 +122,14 @@
     }
     
     return _indexLabel;
+}
+
+- activityIndicatorView {
+    if (!_activityIndicatorView) {
+        _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    }
+    
+    return _activityIndicatorView;
 }
 
 @end

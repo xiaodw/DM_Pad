@@ -20,6 +20,10 @@
 
 @implementation DMBrowseView
 
+- (void)refrenshAssetStatus:(DMAsset *)asset {
+    [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:[self.courses indexOfObject:asset] inSection:0]]];
+}
+
 - (void)setBrowseType:(DMBrowseViewType)browseType {
     _browseType = browseType;
     

@@ -17,6 +17,7 @@
 
 @property (strong, nonatomic) NSIndexPath *currentIndexPath;
 @property (strong, nonatomic) NSMutableArray *courses;
+@property (strong, nonatomic) NSString *lessonID;
 
 @property (assign, nonatomic) CGSize itemSize;
 @property (weak, nonatomic) DMLiveController *liveVC;
