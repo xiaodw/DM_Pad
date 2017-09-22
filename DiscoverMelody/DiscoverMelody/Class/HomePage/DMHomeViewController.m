@@ -39,6 +39,14 @@
     [self.view addSubview:self.homeView];
     
     [self getDataFromServer];
+    
+//    [DMApiModel getUploadConfigInfo:@"1" block:^(BOOL result, DMCloudConfigData *obj) {
+//        
+//    }];
+//    
+//    [DMApiModel getUploadSuccess:@"1" attachment:@"11" fileExt:@".png" block:^(BOOL result) {
+//        
+//    }];
 }
 
 //获取首页数据

@@ -39,6 +39,8 @@
 @property (nonatomic, strong)DMQuestData *myQuestObj;
 @property (nonatomic, strong)DMQuestData *teachSurveyObj;
 
+@property (nonatomic, assign) BOOL currentSegmentTeachSurvey;
+
 @end
 
 @implementation DMQuestionViewController
@@ -52,10 +54,13 @@
     [IQKeyboardManager sharedManager].enable = YES;
     self.isEditQuest = YES;
     self.questionList = [NSArray array];
+    
     [self loadUI];
-    [self getSurveyTeacher];
+    
     [self getQuestionList];
+    [self getSurveyTeacher];
     [self updateTopViewInfo:self.courseObj];
+
 }
 
 - (void)getQuestionList {
@@ -63,16 +68,13 @@
     [DMApiModel getQuestInfo:self.courseObj.course_id block:^(BOOL result, DMQuestData *obj) {
         if (result && !OBJ_IS_NIL(obj) && obj.list.count > 0) {
             weakSelf.myQuestObj = obj;
-            if (obj.survey.intValue == 1 || obj.survey.intValue == 2) {
-                weakSelf.isEditQuest = NO;
-            } else {
-                weakSelf.isEditQuest = YES;
-            }
             NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
             if (userIdentity != 0) {
                 [weakSelf updateUIStatus:obj.survey.intValue];
             }
-            [weakSelf updateTableStatus:obj];
+            [weakSelf updateTableStatus:obj isNetCallback:YES];
+        } else {
+            [weakSelf updateTableStatus:obj isNetCallback:NO];
         }
     }];
 }
@@ -82,20 +84,44 @@
     [DMApiModel getTeacherAppraise:self.courseObj.course_id block:^(BOOL result, DMQuestData *obj) {
         if (result && !OBJ_IS_NIL(obj) && obj.list.count > 0) {
             weakSelf.teachSurveyObj = obj;
-            weakSelf.isEditQuest = NO;
-            [weakSelf updateTableStatus:obj];
+            if (weakSelf.currentSegmentTeachSurvey) {
+                //weakSelf.isEditQuest = NO;
+                [weakSelf updateTableStatus:obj isNetCallback:NO];
+            }
+        } else {
+            if (weakSelf.currentSegmentTeachSurvey) {
+                [weakSelf isDisplayNoComView:YES];
+            }
         }
     }];
 }
 
-- (void)updateTableStatus:(DMQuestData *)obj {
+- (void)updateTableStatus:(DMQuestData *)obj isNetCallback:(BOOL)netCallBack {
     
-    self.questionList = obj.list;
-    [self.bTableView reloadData];
-    if (self.bTableView.tableFooterView == nil && _bottomView) {
-        self.bTableView.tableFooterView = _bottomView;
-        self.bottomView.hidden = !self.isEditQuest;
+    if (obj) {
+        if (obj.survey.intValue == 1 || obj.survey.intValue == 2 || _currentSegmentTeachSurvey) {
+            self.isEditQuest = NO;
+        } else {
+            self.isEditQuest = YES;
+        }
+        self.questionList = obj.list;
+        [self.bTableView reloadData];
+        if (self.bTableView.tableFooterView == nil && _bottomView) {
+            self.bTableView.tableFooterView = _bottomView;
+            
+        }
+        if (netCallBack) {
+            [self performSelector:@selector(delayMethodDisplay) withObject:nil afterDelay:0.2];
+        } else {
+            [self delayMethodDisplay];
+        }
+    } else {
+        self.bottomView.hidden = YES;
     }
+}
+
+- (void)delayMethodDisplay {
+    self.bottomView.hidden = !self.isEditQuest;
 }
 
 - (void)clickCommitBtn:(id)sender {
@@ -112,9 +138,11 @@
     NSArray *dicArray = [DMCommitAnswerData mj_keyValuesArrayWithObjectArray:array];
     [DMApiModel commitQuestAnswer:self.lessonID answers:dicArray block:^(BOOL result) {
         if (result) {
-            weakSelf.isEditQuest = NO;
-            weakSelf.bottomView.hidden = !weakSelf.isEditQuest;
-            [weakSelf.bTableView reloadData];
+            //weakSelf.isEditQuest = NO;
+            weakSelf.myQuestObj.survey = @"1";
+            [weakSelf updateTableStatus:weakSelf.myQuestObj isNetCallback:NO];
+//            weakSelf.bottomView.hidden = !weakSelf.isEditQuest;
+//            [weakSelf.bTableView reloadData];
         }
     }];
 }
@@ -123,20 +151,30 @@
     
     if (button.tag == 0) {
         NSLog(@"学生问卷");
+        _currentSegmentTeachSurvey = NO;
         _bTableView.hidden = NO;
         _teacherCommentsView.hidden = YES;
         self.questionList = self.myQuestObj.list;
-        [self.bTableView reloadData];
+        
+        if (self.myQuestObj) {
+            [self updateTableStatus:self.myQuestObj isNetCallback:NO];
+        } else {
+            [self updateTableStatus:self.myQuestObj isNetCallback:YES];
+        }
+        //[self.bTableView reloadData];
     } else {
         NSLog(@"老师评语");
+        _currentSegmentTeachSurvey = YES;
+        _bTableView.hidden = YES;
+        _teacherCommentsView.hidden = NO;
         if (self.teachSurveyObj == nil) {
-            //[self getSurveyTeacher];
-            _bTableView.hidden = YES;
-            _teacherCommentsView.hidden = NO;
             [self isDisplayNoComView:YES];
         } else {
+            _bTableView.hidden = NO;
+            _teacherCommentsView.hidden = YES;
             self.questionList = self.teachSurveyObj.list;
-            [self.bTableView reloadData];
+            [self updateTableStatus:self.teachSurveyObj isNetCallback:NO];
+            //[self.bTableView reloadData];
         }
     }
 }
@@ -330,6 +368,7 @@
     //[self.view addSubview:bottomView];
     [_bottomView addSubview:commitBtn];
     [self.view addSubview:_bTableView];
+    _bottomView.hidden = YES;
     
     NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
     if (userIdentity == 0) {
@@ -349,7 +388,6 @@
         _tabBarView.layer.shadowOpacity = 1; // 阴影透明度，默认0
         _tabBarView.layer.shadowRadius = 9; // 阴影半径，默认3
         [self.view addSubview:_tabBarView];
-        
         
     } else {
         _topStatusView = [[UIView alloc] init];

@@ -31,7 +31,7 @@
 
 - (UILabel *)numberLabel {
     if (!_numberLabel) {
-        _numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 12, 50)];
+        _numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 24, 50)];
         _numberLabel.textAlignment = NSTextAlignmentLeft;
         _numberLabel.font = DMFontPingFang_Light(15);
         _numberLabel.textColor = DMColorWithRGBA(51, 51, 51, 1);
@@ -41,7 +41,7 @@
 
 - (UILabel *)contentLabel {
     if (!_contentLabel) {
-        _contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 0, DMScreenWidth-60, 50)];
+        _contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, 0, DMScreenWidth-60, 50)];
         _contentLabel.textAlignment = NSTextAlignmentLeft;
         _contentLabel.font = DMFontPingFang_Light(15);
         _contentLabel.textColor = DMColorWithRGBA(51, 51, 51, 1);
