@@ -81,6 +81,7 @@
         }
     } failure:^(NSError *error) {
         NSLog(@"网络请求错误信息 = %@", error);
+        self.blockSuccessMsg = nil;
         [DMTools showMessageToast:DMTitleNetworkError duration:2 position:CSToastPositionCenter];
         failure(error);
     }];
