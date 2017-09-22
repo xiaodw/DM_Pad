@@ -67,7 +67,7 @@
 //课件上传
 #define DM_User_Attachment_Upload_Url   [DM_Url stringByAppendingFormat:@"attachment/upload"]
 //删除课件
-#define DM_Attachment_fileMove_Url          [DM_Url stringByAppendingFormat:@"Attachment/fileMove"]
+#define DM_Attachment_fileMove_Url          [DM_Url stringByAppendingFormat:@"Attachment/move"]
 
 //客服
 #define DM_Customer_Url                 [DM_Url stringByAppendingFormat:@"customer/index"]

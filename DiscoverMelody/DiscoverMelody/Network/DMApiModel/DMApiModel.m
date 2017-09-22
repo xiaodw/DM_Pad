@@ -138,7 +138,7 @@
      }];
     
     [DMHttpClient sharedInstance].blockSuccessMsg = ^(NSString *msg) {
-        [DMTools showMessageToast:msg duration:2 position:CSToastPositionCenter];
+        [DMTools showMessageToast:msg duration:1 position:CSToastPositionCenter];
     };
 }
 
