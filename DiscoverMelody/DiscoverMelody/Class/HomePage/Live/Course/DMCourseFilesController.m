@@ -94,7 +94,7 @@
     fileData4.img = @"http://img1.360buyimg.com/imgb/s280x280_jfs/t6730/299/1598840430/366892/93ff1b12/595502d0Ne969ab0c.jpg";
     fileData4.img_thumb = fileData4.img;
     
-    weakSelf.identifierCpirsesArray = @[@[fileData,fileData1,fileData2,fileData3,fileData4], @[]];
+    weakSelf.identifierCpirsesArray = @[[@[fileData,fileData1,fileData2,fileData3,fileData4] mutableCopy], @[]];
     weakSelf.currentCpirses = weakSelf.identifierCpirsesArray.firstObject;
     
 //    [DMApiModel getLessonList:self.lessonID block:^(BOOL result, NSArray *teachers, NSArray *students) {
@@ -240,11 +240,16 @@
 // 删除
 - (void)botoomBarViewDidTapDelete:(DMBottomBarView *)botoomBarView {
     DMLogFunc
-    
-    [self.currentCpirses removeObjectsInArray:self.selectedCpirses];
-    [self.collectionView reloadData];
-    
-    [self resetting];
+    WS(weakSelf)
+    DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"您确定要删除这些张图片吗?" message:@"确定后关闭编辑状态" preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
+    [alert showWithViewController:self IndexBlock:^(NSInteger index) {
+        if (index == 1) { // 右侧
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [weakSelf.currentCpirses removeObjectsInArray:weakSelf.selectedCpirses];
+                [weakSelf didTapSelect:weakSelf.rightBarButton];
+            });
+        }
+    }]; 
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {

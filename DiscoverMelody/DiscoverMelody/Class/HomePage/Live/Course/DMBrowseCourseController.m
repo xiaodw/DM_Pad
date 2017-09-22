@@ -31,16 +31,22 @@
 }
 
 - (void)didTapDeleted {
-    if (![self.browseDelegate respondsToSelector:@selector(browseCourseController:deleteIndexPath:)]) return;
+    WS(weakSelf)
+    DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"您确定要删除这张图片吗?" message:@"确定后预览自动关闭" preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
+    [alert showWithViewController:self IndexBlock:^(NSInteger index) {
+        if (index == 1) { // 右侧
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [weakSelf.liveVC.presentVCs removeObject:weakSelf];
+                weakSelf.liveVC = nil;
+                [weakSelf dismissViewControllerAnimated:NO completion:^{
+                    if (![weakSelf.browseDelegate respondsToSelector:@selector(browseCourseController:deleteIndexPath:)]) return;
+                    [weakSelf.browseDelegate browseCourseController:weakSelf deleteIndexPath:weakSelf.currentIndexPath];
+                }];
+            });
+        }
+    }];
     
-    [self.browseDelegate browseCourseController:self deleteIndexPath:self.currentIndexPath];
-    if (self.courses.count == 0) {
-        [self.liveVC.presentVCs removeObject:self];
-        self.liveVC = nil;
-        [self dismissViewControllerAnimated:NO completion:nil];
-        return;
-    }
-    [self.collectionView reloadData];
+    
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {

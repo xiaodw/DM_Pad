@@ -87,7 +87,12 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self joinChannel];
     [self setupMakeLiveCallback];
     
+    
+#ifndef DEBUG
+#else
     [self.liveVideoManager switchSound:NO block:nil];
+#endif
+    
     [self timer];
 }
 
@@ -174,14 +179,13 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 // 1 同步开始
                 if (responseDataModel.code == 1) {
-                    NSArray *courses = responseDataModel.data.list.count > 1 ? responseDataModel.data.list.firstObject : responseDataModel.data.list;
+                    NSArray *courses = responseDataModel.data.list.firstObject;
                     [weakSelf courseFilesController:nil syncCourses:@[courses]];
                     return ;
                 }
                 
                 // 2,操作
                 if (responseDataModel.code == 2) {
-                    weakSelf.syncCourseFiles = nil;
                     [weakSelf courseFilesController:nil syncCourses:responseDataModel.data.list];
                     return ;
                 }
@@ -280,6 +284,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         self.tapLayoutCount = 1;
         
         [self makeLayoutViews];
+        _syncCourseFiles = nil;
         [self.syncCourseFiles addObjectsFromArray:syncCourses];
         self.coursewareView.allCoursewares = self.syncCourseFiles;
     });
