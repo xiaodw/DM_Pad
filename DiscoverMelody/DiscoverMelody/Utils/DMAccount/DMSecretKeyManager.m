@@ -23,7 +23,7 @@
     self.channelName = obj.channel_name;
     self.signalingkey = obj.signaling_key;
     self.uid = obj.uid;
-    self.appId = AgoraSAppID;//AgoraAppID;
+    self.appId = AgoraSAppID;
     self.other_uid = obj.other_uid;
     self.obj = obj;
     

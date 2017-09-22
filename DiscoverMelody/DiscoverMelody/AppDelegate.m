@@ -11,27 +11,57 @@
 #import "DMRootViewController.h"
 #import "DMLoginController.h"
 #import "DMLiveController.h"
-
+#import "DMConfigManager.h"
 @interface AppDelegate ()
 
 @end
-
+/*
+                    _ooOoo_
+                   o8888888o
+                   88" . "88
+                   (| -_- |)
+                   O\  =  /O
+                ____/`---'\____
+              .'  \\|     |//  `.
+             /  \\|||  :  |||//  \
+            /  _||||| -:- |||||-  \
+            |   | \\\  -  /// |   |
+            | \_|  ''\---/''  |   |
+            \  .-\__  `-`  ___/-. /
+           ___`. .'  /--.--\  `. . __
+        ."" '<  `.___\_<|>_/___.'  >'"".
+       | | :  `- \`.;`\ _ /`;.`/ - ` : | |
+       \  \ `-.   \_ __\ /__ _/   .-` /  /
+  ======`-.____`-.___\_____/___.-`____.-'======
+                     `=---='
+  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+               佛祖保佑       永无BUG
+ */
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-    
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
-    
+    [[DMConfigManager shareInstance] initConfigInformation];//初始化
+    [self updateConfigInfo];
+    return YES;
+}
+
+- (void)updateConfigInfo {
+    WS(weakSelf);
+    [DMApiModel initConfigSet:^(BOOL result, DMSetConfigData *obj) {
+        [weakSelf goToApp];
+    }];
+}
+
+- (void)goToApp { //85715185
     [SVProgressHUD dismissWithDelay:2.0f];
     if (STR_IS_NIL([DMAccount getToken])) {
         [self toggleRootView:YES];
     } else {
         [self toggleRootView:NO];
     }
-
-    return YES;
 }
 
 - (void)toggleRootView:(BOOL)isLogin {

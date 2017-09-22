@@ -68,20 +68,23 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
         _statusLabel.textColor = textColor;
     }
     
-    NSInteger survey = [model.survey intValue];
+    NSInteger survey = [model.survey intValue]; //0 不可点，1 ，2 可点击
     
     UIImage *normalImage = [UIImage imageNamed:@"icon_questionnaire_normal"];
-    if(survey == 1) {
+    if (survey == 0) {
+        _questionnaireButton.enabled = NO;
+    }
+    else if(survey == 1) {
         normalImage = [UIImage imageNamed:@"icon_questionnaire_selected"];
     }
-    if(survey == 2) {
+    else if(survey == 2) {
         normalImage = [UIImage imageNamed:@"icon_questionnaire_disabled"];
     }
     [_questionnaireButton setImage:normalImage forState:UIControlStateNormal];
     
     if (live_status == DMCourseStatusCanceled) { //课程取消，文件和调查问卷 不可点
         _filesButton.enabled = NO;
-        _questionnaireButton.enabled = NO;
+        //_questionnaireButton.enabled = NO;
     }
     
 }

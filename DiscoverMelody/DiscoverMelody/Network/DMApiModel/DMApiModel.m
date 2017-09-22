@@ -11,6 +11,17 @@
 #import "DMSecretKeyManager.h"
 @implementation DMApiModel
 
+//配置
++ (void)initConfigSet:(void(^)(BOOL result, DMSetConfigData *obj))complectionBlock {
+    [[DMHttpClient sharedInstance] synRequestWithUrl:DM_Init_SetConfig_Url dataModelClass:[DMSetConfigData class] isMustToken:NO success:^(id responseObject) {
+        DMSetConfigData *model = (DMSetConfigData *)responseObject;
+        [[DMConfigManager shareInstance] saveConfigInfo:responseObject];
+        complectionBlock(YES, model);
+    } failure:^(NSError *error) {
+        complectionBlock(NO, nil);
+    }];
+}
+
 //登录
 + (void)loginSystem:(NSString *)account psd:(NSString *)password block:(void(^)(BOOL result))complectionBlock {
     
