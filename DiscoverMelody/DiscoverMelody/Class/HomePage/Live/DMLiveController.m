@@ -116,12 +116,14 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     self.liveVideoManager.blockQuitLiveVideoEvent = ^(BOOL success) {
         NSLog(@"blockQuitLiveVideoEvent");
         weakSelf.isRemoteUserOnline = NO;
+//        [weakSelf setPlaceholder];
     };
     
     // 有用户离开
     self.liveVideoManager.blockDidOfflineOfUid = ^(NSUInteger uid) {
         NSLog(@"blockDidOfflineOfUid");
         weakSelf.isRemoteUserOnline = NO;
+//        [weakSelf setPlaceholder];
     };
     
     // 重新加入
@@ -131,6 +133,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     
     self.liveVideoManager.blockFirstRemoteVideoDecodedOfUid = ^(NSUInteger uid, CGSize size) {
         weakSelf.isRemoteUserOnline = YES;
+        [weakSelf setShowPlaceholderView];
     };
 }
 
@@ -394,16 +397,19 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     return _liveVideoManager;
 }
 
-- (void)computTime {
-    self.alreadyTime += 1;
-    
+- (void)setShowPlaceholderView {
     if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeRemoteAndSmall) {
         self.remotePlaceholderView.hidden = self.alreadyTime < 0 || _isRemoteUserOnline;
     }else {
         self.remotePlaceholderView.hidden = _isRemoteUserOnline;
     }
     self.remotePlaceholderTitleLabel.hidden = self.remotePlaceholderView.hidden;
-    
+}
+
+- (void)computTime {
+    self.alreadyTime += 1;
+    [self setShowPlaceholderView];
+
     // 做几分钟开课操作
     if (self.alreadyTime < 0) {
         self.willStartView.willStartDescribeLabel.text = [NSString stringWithFormat:DMTextLiveStartTimeInterval, -_alreadyTime/60 + 1];
@@ -667,9 +673,20 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     return _coursewareView;
 }
 
-- (void)dealloc {
-    [self invalidate];
-    DMLogFunc
+- (NSMutableArray *)presentVCs {
+    if (!_presentVCs) {
+        _presentVCs = [NSMutableArray array];
+    }
+    
+    return _presentVCs;
+}
+
+- (NSMutableArray *)syncCourseFiles {
+    if (!_syncCourseFiles) {
+        _syncCourseFiles = [NSMutableArray array];
+    }
+    
+    return _syncCourseFiles;
 }
 
 - (void)makeLayoutViews {
@@ -845,20 +862,9 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     }];
 }
 
-- (NSMutableArray *)presentVCs {
-    if (!_presentVCs) {
-        _presentVCs = [NSMutableArray array];
-    }
-    
-    return _presentVCs;
-}
-
-- (NSMutableArray *)syncCourseFiles {
-    if (!_syncCourseFiles) {
-        _syncCourseFiles = [NSMutableArray array];
-    }
-    
-    return _syncCourseFiles;
+- (void)dealloc {
+    [self invalidate];
+    DMLogFunc
 }
 
 @end

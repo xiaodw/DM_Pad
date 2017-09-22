@@ -20,8 +20,8 @@
     _allCoursewares = allCoursewares;
     
     [self.collectionView reloadData];
-    _leftButton.hidden = YES;
-    _rightButton.hidden = allCoursewares.count == 1;
+    _leftButton.enabled = NO;
+    _rightButton.enabled = allCoursewares.count != 1;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -40,7 +40,7 @@
 
 - (void)didTapClose {
     DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"请问您确定要结束同步吗?" message:@"确定后同步将关闭" preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
-    [alert showWithViewController:self.superViewController IndexBlock:^(NSInteger index) {
+    [alert showWithViewController:(UIViewController *)self.delegate IndexBlock:^(NSInteger index) {
         if (index == 1) { // 右侧
             NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_End_Syn sourceData:nil index:0];
             [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) {
@@ -63,8 +63,8 @@ static bool currentTurnPage = false;
         self.collectionView.userInteractionEnabled = YES;
     });
     NSInteger index = self.collectionView.contentOffset.x / self.dm_width + (sender == self.leftButton ? - 1 : 1);
-    _leftButton.hidden = index == 0;
-    _rightButton.hidden = index == self.allCoursewares.count-1;
+    _leftButton.enabled = index != 0;
+    _rightButton.enabled = index != self.allCoursewares.count-1;
     [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
     NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_Turn_Page sourceData:[self.allCoursewares mutableCopy] index:index];
     [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) {
@@ -87,8 +87,8 @@ static bool currentTurnPage = false;
     } faile:^(NSString *messageID, AgoraEcode ecode) {
         
     }];
-    _leftButton.hidden = index == 0;
-    _rightButton.hidden = index == self.allCoursewares.count-1;
+    _leftButton.enabled = index != 0;
+    _rightButton.enabled = index != self.allCoursewares.count-1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -112,7 +112,7 @@ static bool currentTurnPage = false;
     
     [_closeButton makeConstraints:^(MASConstraintMaker *make) {
         make.size.equalTo(CGSizeMake(30, 30));
-        make.top.equalTo(18);
+        make.top.equalTo(40);
         make.right.equalTo(self.mas_right).offset(-23);
     }];
     
@@ -166,6 +166,7 @@ static bool currentTurnPage = false;
     if (!_leftButton) {
         _leftButton = [UIButton new];
         [_leftButton setImage:[UIImage imageNamed:@"icon_previous_arrow"] forState:UIControlStateNormal];
+        [_leftButton setImage:[UIImage imageNamed:@"icon_round_gray"] forState:UIControlStateDisabled];
         [_leftButton addTarget:self action:@selector(didTapTurnPage:) forControlEvents:UIControlEventTouchUpInside];
     }
     
@@ -176,6 +177,7 @@ static bool currentTurnPage = false;
     if (!_rightButton) {
         _rightButton = [UIButton new];
         [_rightButton setImage:[UIImage imageNamed:@"icon_next_arrow"] forState:UIControlStateNormal];
+        [_rightButton setImage:[UIImage imageNamed:@"icon_round_gray"] forState:UIControlStateDisabled];
         [_rightButton addTarget:self action:@selector(didTapTurnPage:) forControlEvents:UIControlEventTouchUpInside];
     }
     
