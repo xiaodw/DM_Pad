@@ -10,6 +10,21 @@
 
 #import "DMRootViewController.h"
 
+/*
+ ┏┳━━━━━━━━━━━━━━┓
+ ┃┃██████████████┃
+ ┃┃█████████┏━━┓█┃
+ ┣┫█████████┃永┃█┃
+ ┃┃█████████┃不┃█┃
+ ┃┃█████████┃崩┃█┃
+ ┣┫█████████┃溃┃█┃
+ ┣┫█████████┃经┃█┃
+ ┃┃█████████┗━━┛█┃
+ ┣┫██████████████┃
+ ┃┃██████████████┃
+ ┗┻━━━━━━━━━━━━━━┛
+ */
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;

@@ -32,6 +32,16 @@ typedef void (^BlockSuccessMsg)(NSString *msg);//成功的提示消息
          success:(void (^)(id responseObject))success
          failure:(void (^)( NSError *error))failure;
 
+/**
+ * 同步请求
+ */
+-(void)synRequestWithUrl:(NSString *)synUrl
+          dataModelClass:(Class)dataModelClass
+             isMustToken:(BOOL)mustToken
+                 success:(void (^)(id responseObject))success
+                 failure:(void (^)( NSError *error))failure;
+
+
 //请求合法性校验
 -(BOOL)isRequestValid;
 - (void)cancleAllHttpRequestOperations;

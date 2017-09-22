@@ -6,20 +6,41 @@
 //  Copyright © 2017年 Discover Melody. All rights reserved.
 //
 
+#import "DMConfigManager.h"
+
 #ifndef DMServerApiConfig_h
 #define DMServerApiConfig_h
 
 #define App_Version [[NSBundle mainBundle].infoDictionary objectForKey:@"CFBundleShortVersionString"]
 #define App_Type @"cn_s" // @"cn_s"  @"cn_t" @"us_s"  @"us_t"
 
-//ENVIRONMENT  0开发，1测试，2正式， 默认为0
+//ENVIRONMENT  1开发，2测试，0正式， 默认为0
 #define ENVIRONMENT   [[[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"]] objectForKey:@"DMSeverCodeKey"] intValue]
+//
+//#define DM_Url    (ENVIRONMENT == 0) ? \
+//@"http://test.api.cn.discovermelody.com/" : ((ENVIRONMENT == 1) ? \
+//@"http://test.api.cn.discovermelody.com/" : ( (ENVIRONMENT == 2) ? \
+//@"http://api.cn.discovermelody.com/" : \
+//@"http://api.cn.discovermelody.com/"))
 
-#define DM_Url    (ENVIRONMENT == 0) ? \
-@"http://test.api.cn.discovermelody.com/" : ((ENVIRONMENT == 1) ? \
+
+#define DMLog_Url    (ENVIRONMENT == 0) ? \
+[DMConfigManager shareInstance].logHost : ((ENVIRONMENT == 1) ? \
 @"http://test.api.cn.discovermelody.com/" : ( (ENVIRONMENT == 2) ? \
 @"http://api.cn.discovermelody.com/" : \
 @"http://api.cn.discovermelody.com/"))
+
+
+//#define DM_Url [DMConfigManager shareInstance].apiHost
+
+#define DM_Url    (ENVIRONMENT == 0) ? \
+([DMConfigManager shareInstance].apiHost) : ((ENVIRONMENT == 1) ? \
+@"http://test.api.cn.discovermelody.com/" : ( (ENVIRONMENT == 2) ? \
+@"http://api.cn.discovermelody.com/" : \
+@"http://api.cn.discovermelody.com/"))
+
+//配置
+#define DM_Init_SetConfig_Url           [DM_Url stringByAppendingFormat:@"init/setConfig"]
 
 //登录
 #define DM_User_Loing_Url               [DM_Url stringByAppendingFormat:@"user/login"]

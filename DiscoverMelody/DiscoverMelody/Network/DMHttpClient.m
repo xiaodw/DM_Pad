@@ -114,6 +114,64 @@
     }
 }
 
+/**
+ * 同步请求
+ */
+-(void)synRequestWithUrl:(NSString *)synUrl
+          dataModelClass:(Class)dataModelClass
+             isMustToken:(BOOL)mustToken
+                 success:(void (^)(id responseObject))success
+                 failure:(void (^)( NSError *error))failure
+{
+    
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0); //创建信号量
+    NSURL *url = [NSURL URLWithString:synUrl];
+    
+    //2.构造Request
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    
+    //(1)设置为POST请求
+    [request setHTTPMethod:@"POST"];
+    
+    //(2)超时
+    [request setTimeoutInterval:30];
+    
+    //(3)设置请求头
+    //[request setAllHTTPHeaderFields:nil];
+    
+    //(4)设置请求体
+    //NSString *bodyStr = @"user_name=admin&user_password=admin";
+    //NSData *bodyData = [bodyStr dataUsingEncoding:NSUTF8StringEncoding];
+    
+    //设置请求体
+    //[request setHTTPBody:bodyData];
+    
+    //3.构造Session
+    NSURLSession *session = [NSURLSession sharedSession];
+    __block id responseDataModel = nil;
+    __block BOOL isSuc = NO;
+    //4.task
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (!OBJ_IS_NIL(data)) {
+            isSuc = YES;
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+            NSLog(@"dict:%@",dict);
+            responseDataModel = [dataModelClass mj_objectWithKeyValues:[dict objectForKey:Data_Key]];
+        }
+        dispatch_semaphore_signal(semaphore);   //发送信号
+    }];
+    
+    [task resume];
+    dispatch_semaphore_wait(semaphore,DISPATCH_TIME_FOREVER);  //等待
+    NSLog(@"数据加载完成！");
+    if (isSuc) {
+        success(responseDataModel);
+    } else {
+        NSLog(@"失败了");
+        failure(nil);
+    }
+}
+
 - (void)cancleAllHttpRequestOperations {
     [[DMRequestModel sharedInstance] cancleAllHttpRequestOperations];
 }

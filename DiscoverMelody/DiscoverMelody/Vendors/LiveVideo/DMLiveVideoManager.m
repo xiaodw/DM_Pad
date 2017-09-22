@@ -51,9 +51,9 @@ static DMLiveVideoManager* _instance = nil;
         self.signalingKey = obj.signaling_key;
         self.app_ID = [DMSecretKeyManager shareManager].appId;
 
-        unsigned expiredTime =  (unsigned)[[NSDate date] timeIntervalSince1970] + 3600;
-        NSString * token =  [DMSignalingKey calcToken:AgoraSAppID certificate:certificate1 account:obj.uid expiredTime:expiredTime];
-        self.signalingKey = token;
+//        unsigned expiredTime =  (unsigned)[[NSDate date] timeIntervalSince1970] + 3600;
+//        NSString * token =  [DMSignalingKey calcToken:AgoraSAppID certificate:certificate1 account:obj.uid expiredTime:expiredTime];
+//        self.signalingKey = token;
 
         
     } else {
@@ -73,7 +73,7 @@ static DMLiveVideoManager* _instance = nil;
         self.channelName = @"1111";
         self.uId = 0;
         self.signalingKey = @"";
-        self.app_ID = AgoraAppID;
+        self.app_ID = AgoraSAppID;
     }
 }
 
