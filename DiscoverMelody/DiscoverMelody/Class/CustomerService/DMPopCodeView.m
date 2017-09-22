@@ -44,7 +44,7 @@
     UIImageView *imageView = [[UIImageView alloc] init];
     //imageView.image = [UIImage imageNamed:_imageName];
     [self addSubview:imageView];
-    [imageView sd_setImageWithURL:nil placeholderImage:[UIImage imageNamed:_imageName]];
+    [imageView sd_setImageWithURL:[NSURL URLWithString:_imageName] placeholderImage:[UIImage imageNamed:@""]];
     
     //标题
     UILabel *alertTitle = [[UILabel alloc] init];

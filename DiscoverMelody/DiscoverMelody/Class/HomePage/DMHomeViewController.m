@@ -19,12 +19,13 @@
 #import "DMCourseFilesController.h"
 #import "DMTransitioningAnimationHelper.h"
 
+#import "DMBOSClientManager.h"
 @interface DMHomeViewController () <DMHomeVCDelegate>
 
 @property (nonatomic, strong) DMHomeView *homeView;
 @property (nonatomic, strong) DMCourseDatasModel *courseObj;
 @property (strong, nonatomic) DMTransitioningAnimationHelper *animationHelper;
-
+@property (nonatomic, strong) DMCloudConfigData *dataCloud;
 @end
 
 @implementation DMHomeViewController
@@ -39,11 +40,8 @@
     [self.view addSubview:self.homeView];
     
     [self getDataFromServer];
-    
-//    [DMApiModel getUploadConfigInfo:@"1" block:^(BOOL result, DMCloudConfigData *obj) {
-//        
-//    }];
-//    
+
+//
 //    [DMApiModel getUploadSuccess:@"1" attachment:@"11" fileExt:@".png" block:^(BOOL result) {
 //        
 //    }];

@@ -67,6 +67,8 @@
 		2A870FAE1F72126A000975BE /* DMSignalingMsgData.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A870FAD1F72126A000975BE /* DMSignalingMsgData.m */; };
 		2A870FB11F722177000975BE /* DMSendSignalingMsg.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A870FB01F722177000975BE /* DMSendSignalingMsg.m */; };
 		2A8782541F61438E004F9184 /* DMRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A8782531F61438E004F9184 /* DMRequestModel.m */; };
+		2A87F24C1F74B6910063830C /* DMBOSClientManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A87F24B1F74B6910063830C /* DMBOSClientManager.m */; };
+		2A87F24F1F74BF4F0063830C /* DMBosConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A87F24E1F74BF4F0063830C /* DMBosConfigModel.m */; };
 		2A87F8841F6B68EC00DCC412 /* DMPullDownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A87F8831F6B68EC00DCC412 /* DMPullDownMenu.m */; };
 		2A87F8871F6B873600DCC412 /* DMPullDownCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A87F8861F6B873600DCC412 /* DMPullDownCell.m */; };
 		2A9D91671F6690FC00DF4A3B /* DMCustomerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A9D91661F6690FC00DF4A3B /* DMCustomerCell.m */; };
@@ -295,6 +297,10 @@
 		2A87824C1F613006004F9184 /* DMNetConntectDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMNetConntectDefine.h; sourceTree = "<group>"; };
 		2A8782521F61438E004F9184 /* DMRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMRequestModel.h; sourceTree = "<group>"; };
 		2A8782531F61438E004F9184 /* DMRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMRequestModel.m; sourceTree = "<group>"; };
+		2A87F24A1F74B6910063830C /* DMBOSClientManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMBOSClientManager.h; sourceTree = "<group>"; };
+		2A87F24B1F74B6910063830C /* DMBOSClientManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMBOSClientManager.m; sourceTree = "<group>"; };
+		2A87F24D1F74BF4F0063830C /* DMBosConfigModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMBosConfigModel.h; sourceTree = "<group>"; };
+		2A87F24E1F74BF4F0063830C /* DMBosConfigModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMBosConfigModel.m; sourceTree = "<group>"; };
 		2A87F8821F6B68EC00DCC412 /* DMPullDownMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMPullDownMenu.h; sourceTree = "<group>"; };
 		2A87F8831F6B68EC00DCC412 /* DMPullDownMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMPullDownMenu.m; sourceTree = "<group>"; };
 		2A87F8851F6B873600DCC412 /* DMPullDownCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMPullDownCell.h; sourceTree = "<group>"; };
@@ -710,6 +716,7 @@
 		2A4FB8831F628E1200CD670D /* Vendors */ = {
 			isa = PBXGroup;
 			children = (
+				2A87F2491F74B3CA0063830C /* BaiDuCloudUpload */,
 				2A4FB8841F628E7A00CD670D /* LiveVideo */,
 			);
 			path = Vendors;
@@ -783,6 +790,17 @@
 				2A8426A01F6A6468005BA6EC /* DMUserDefaults.m */,
 			);
 			path = DMUserDefaults;
+			sourceTree = "<group>";
+		};
+		2A87F2491F74B3CA0063830C /* BaiDuCloudUpload */ = {
+			isa = PBXGroup;
+			children = (
+				2A87F24A1F74B6910063830C /* DMBOSClientManager.h */,
+				2A87F24B1F74B6910063830C /* DMBOSClientManager.m */,
+				2A87F24D1F74BF4F0063830C /* DMBosConfigModel.h */,
+				2A87F24E1F74BF4F0063830C /* DMBosConfigModel.m */,
+			);
+			path = BaiDuCloudUpload;
 			sourceTree = "<group>";
 		};
 		2A87F8881F6BC8FF00DCC412 /* BlockAlertView */ = {
@@ -1280,6 +1298,8 @@
 				2A8426A11F6A6468005BA6EC /* DMUserDefaults.m in Sources */,
 				2A3D1D1E1F692A44005671B2 /* ASValuePopUpView.m in Sources */,
 				5100E4631F6A6358000AB506 /* DMTransitioningAnimationHelper.m in Sources */,
+				2A87F24C1F74B6910063830C /* DMBOSClientManager.m in Sources */,
+				2A87F24F1F74BF4F0063830C /* DMBosConfigModel.m in Sources */,
 				2A23C9711F665AAD0097F91B /* DMCustomerInfoView.m in Sources */,
 				2AD28D6B1F63CE160042333D /* DMTestViewController.m in Sources */,
 				2AB7DD6E1F6A37B900270C03 /* DMEStarView.m in Sources */,

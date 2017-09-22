@@ -275,19 +275,20 @@
 + (void)getUploadSuccess:(NSString *)lessonId //课节id
               attachment:(NSString *)attachmentID //课件id
                  fileExt:(NSString *)fileExt //文件后缀，比如 .png
-                   block:(void(^)(BOOL result))complectionBlock
+                   block:(void(^)(BOOL result, DMClassFileDataModel *obj))complectionBlock
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:lessonId, @"lesson_id",attachmentID, @"attachment_id",fileExt, @"fileext", nil];
     [[DMHttpClient sharedInstance] initWithUrl:DM_Cloud_Upload_Success_Url
                                     parameters:dic
                                         method:DMHttpRequestPost
-                                dataModelClass:[NSObject class]
+                                dataModelClass:[DMClassFileDataModel class]
                                    isMustToken:YES
                                        success:^(id responseObject)
      {
-         complectionBlock(YES);
+         DMClassFileDataModel *model = (DMClassFileDataModel *)responseObject;
+         complectionBlock(YES, model);
      } failure:^(NSError *error) {
-         complectionBlock(NO);
+         complectionBlock(NO, nil);
      }];
 }
 

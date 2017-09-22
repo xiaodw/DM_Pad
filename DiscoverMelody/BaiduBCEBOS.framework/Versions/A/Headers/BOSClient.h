@@ -50,7 +50,7 @@
 
 /**
  *  @brief Constructs a new BOS client using the client configuration to access BOS.
- *  @param Configuration The BOS client configuration.
+ *  @param configuration The BOS client configuration.
  *  @return Client object.
  */
 - (instancetype)initWithConfiguration:(BOSClientConfiguration*)configuration;

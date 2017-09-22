@@ -12,9 +12,14 @@ typedef NS_ENUM(NSInteger, DMCourseListCondition) {
     DMCourseListCondition_WillStart = 2, // 未上课程
 };
 
-
 typedef NS_ENUM(NSInteger, DMSignalingCodeType) {
     DMSignalingCode_Start_Syn     = 1, // 开始同步
     DMSignalingCode_Turn_Page    = 2, // 同步翻页
     DMSignalingCode_End_Syn     = 3, // 同步结束
+};
+
+//上传图片的
+typedef NS_ENUM(NSInteger, DMFormatUploadFileType) {
+    DMFormatUploadFileType_FileData = 0, //默认文件数据流
+    DMFormatUploadFileType_FilePath = 1, //文件路径
 };
