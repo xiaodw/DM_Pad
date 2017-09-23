@@ -29,6 +29,7 @@
     
     [self setupMakeAddSubviews];
     [self setupMakeLayoutSubviews];
+    self.deletedView.hidden = _isNotSelf;
 }
 
 - (void)didTapDeleted {
@@ -38,6 +39,8 @@
         if (index == 1) { // 右侧
             DMClassFileDataModel *currentCourse = self.courses[self.currentIndexPath.row];
             [DMApiModel removeLessonFiles:self.lessonID fileIds:currentCourse.ID block:^(BOOL result) {
+                if (!result) return;
+                
                 [weakSelf.liveVC.presentVCs removeObject:weakSelf];
                 weakSelf.liveVC = nil;
                 [weakSelf dismissViewControllerAnimated:NO completion:^{
@@ -47,8 +50,6 @@
             }];
         }
     }];
-    
-    
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -80,7 +81,9 @@
 - (void)setupMakeLayoutSubviews {
     [_deletedView makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.left.right.equalTo(self.view);
-        make.height.equalTo(50);
+        CGFloat height = 50;
+        if (_isNotSelf) height = 0;
+        make.height.equalTo(height);
     }];
     
     [_collectionView makeConstraints:^(MASConstraintMaker *make) {
@@ -106,7 +109,6 @@
         _collectionView.backgroundColor = [UIColor clearColor];
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.prefetchingEnabled = NO;
-        _collectionView.bounces = NO;
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.showsHorizontalScrollIndicator = NO;
         

@@ -239,6 +239,7 @@
             }
             
             [DMApiModel removeLessonFiles:self.lessonID fileIds:fileIDs block:^(BOOL result) {
+                if (!result) return;
                 [weakSelf.currentCpirses removeObjectsInArray:weakSelf.selectedCpirses];
                 [weakSelf didTapSelect:weakSelf.rightBarButton];
             }];
@@ -262,6 +263,7 @@
     if (!_editorMode){
         if(_isFullScreen) {
             DMBrowseCourseController *browseCourseVC = [DMBrowseCourseController new];
+            browseCourseVC.isNotSelf = [self.identifierCpirsesArray indexOfObject:self.currentCpirses];
             browseCourseVC.lessonID = self.lessonID;
             CGFloat width = DMScreenWidth - 80;
             CGFloat height = DMScreenHeight - 86;
@@ -279,6 +281,7 @@
         }
         
         DMBrowseCourseController *browseCourseVC = [DMBrowseCourseController new];
+        browseCourseVC.isNotSelf = [self.identifierCpirsesArray indexOfObject:self.currentCpirses];
         browseCourseVC.lessonID = self.lessonID;
         CGFloat width = DMScreenWidth * 0.5 - 80;
         CGFloat height = DMScreenHeight - 130;
@@ -407,7 +410,7 @@
         make.left.equalTo(15);
         make.right.equalTo(_tabBarView.mas_right).offset(-15);
         make.bottom.equalTo(_bottomBar.mas_top);
-        make.top.equalTo(_tabBarView.mas_bottom).offset(15);
+        make.top.equalTo(_tabBarView.mas_bottom);
     }];
     
     [_browseView makeConstraints:^(MASConstraintMaker *make) {
@@ -511,6 +514,7 @@
         _collectionView.delegate = self;
         _collectionView.backgroundColor = UIColorFromRGB(0xf6f6f6);
         _collectionView.prefetchingEnabled = NO;
+        _collectionView.contentInset = UIEdgeInsetsMake(15, 0, 15, 0);
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.showsHorizontalScrollIndicator = NO;
         
