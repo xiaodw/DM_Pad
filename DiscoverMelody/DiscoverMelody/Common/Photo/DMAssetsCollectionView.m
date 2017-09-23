@@ -76,7 +76,7 @@
     }];
     
     [_collectionView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_navigationBar.mas_bottom).offset(15);
+        make.top.equalTo(_navigationBar.mas_bottom);
         make.left.equalTo(15);
         make.right.equalTo(_navigationBar.mas_right).offset(-15);
         make.bottom.equalTo(_bottomBar.mas_top);
@@ -91,6 +91,7 @@
     WS(weakSelf)
     NSMutableArray *surplusPhotos = [surplus mutableCopy];
     if (surplusPhotos.count == 0) {
+         [SVProgressHUD dismiss];
         if (self.fieldAssets.count == 0) {
             [self.delegate albrmsCollectionView:weakSelf success:weakSelf.successAssets];
             return;
@@ -131,6 +132,8 @@
 
 - (void)didTapUpload:(UIButton *)sender {
     if (![self.delegate respondsToSelector:@selector(albrmsCollectionView:success:)]) return;
+    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
+    [SVProgressHUD show];
     [self uploadPhotos:self.selectedAssets];
 }
 
@@ -287,6 +290,7 @@
         layout.scrollDirection = UICollectionViewScrollDirectionVertical;
         
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+        _collectionView.contentInset = UIEdgeInsetsMake(15, 0, 15, 0);
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
         _collectionView.backgroundColor = UIColorFromRGB(0xf6f6f6);

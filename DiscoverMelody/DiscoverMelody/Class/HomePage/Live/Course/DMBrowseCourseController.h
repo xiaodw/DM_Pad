@@ -22,4 +22,6 @@
 @property (assign, nonatomic) CGSize itemSize;
 @property (weak, nonatomic) DMLiveController *liveVC;
 
+@property (assign, nonatomic) BOOL isNotSelf;
+
 @end
