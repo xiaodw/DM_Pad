@@ -182,7 +182,7 @@ static DMLiveVideoManager* _instance = nil;
     //设置本地视频显示属性
     [self setupLocalVideoDisplay];
     //启用音量提示
-    [self.agoraKit enableAudioVolumeIndication:2000 smooth:3];
+    [self.agoraKit enableAudioVolumeIndication:200 smooth:3];
     //开始预览
     [self.agoraKit startPreview];
     //加入频道

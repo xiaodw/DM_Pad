@@ -242,6 +242,20 @@
     NSString *title = selectedCount > 0 ? [NSString stringWithFormat:@"传送(%zd)", selectedCount] : @"传送";
     [self.uploadButton setTitle:title forState:UIControlStateNormal];
     
+    if (selectedCount == 0) {
+        [self.uploadBrowseView remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.left.bottom.equalTo(self);
+            make.width.equalTo(DMScreenWidth*0.5);
+        }];
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            [self layoutSubviews];
+        } completion:^(BOOL finished) {
+            self.uploadBrowseView.courses = self.selectedAssets;
+        }];
+        return;
+    }
+    
     self.uploadBrowseView.courses = self.selectedAssets;
     if (selectedCount == 1) {
         [self.uploadBrowseView remakeConstraints:^(MASConstraintMaker *make) {
@@ -251,18 +265,6 @@
         }];
          
         [UIView animateWithDuration:0.15 animations:^{
-            [self layoutSubviews];
-        }];
-        return;
-    }
-    
-    if (selectedCount == 0) {
-        [self.uploadBrowseView remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.left.bottom.equalTo(self);
-            make.width.equalTo(DMScreenWidth*0.5);
-        }];
-        
-        [UIView animateWithDuration:0.25 animations:^{
             [self layoutSubviews];
         }];
     }

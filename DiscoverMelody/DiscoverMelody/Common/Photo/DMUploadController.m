@@ -203,8 +203,6 @@
     return _albumBackgroundView;
 }
 
-- (void)didTapTest {
-    DMLogFunc
-}
+- (void)dealloc { DMLogFunc }
 
 @end
