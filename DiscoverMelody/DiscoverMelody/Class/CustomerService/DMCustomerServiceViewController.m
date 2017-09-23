@@ -67,8 +67,8 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    _tableView.backgroundColor = DMColorWithRGBA(246, 246, 246, 1);
-    [self.view addSubview:self.tableView];
+    _tableView.backgroundColor = [UIColor clearColor];//DMColorWithRGBA(246, 246, 246, 1);
+    
     
     UILabel *bottomLabel = [[UILabel alloc] init];
     bottomLabel.text = DMTextCustomerServiceDescribe;
@@ -76,6 +76,7 @@
     bottomLabel.textColor = DMColorWithRGBA(153, 153, 153, 1);
     bottomLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:bottomLabel];
+    [self.view addSubview:self.tableView];
     
     [bottomLabel makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);
@@ -86,13 +87,15 @@
 }
 
 - (void)sectionClick:(BOOL)isfurled section:(NSInteger)section {
-
     NSMutableIndexSet *set = [[NSMutableIndexSet alloc] initWithIndex:section];
-    if (isfurled) {
-        [self.tableView reloadData];
-    } else {
-        [self.tableView reloadSections:set withRowAnimation:UITableViewRowAnimationFade];
-    }
+    [self.tableView reloadSections:set withRowAnimation:UITableViewRowAnimationFade];
+    
+//    if (isfurled) {
+//        [self.tableView reloadData];
+//    } else {
+//        NSMutableIndexSet *set = [[NSMutableIndexSet alloc] initWithIndex:section];
+//        [self.tableView reloadSections:set withRowAnimation:UITableViewRowAnimationFade];
+//    }
 }
 
 #pragma mark -
