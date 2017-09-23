@@ -88,27 +88,52 @@
 #pragma mark Setters
 
 - (void)setContentViewController:(UIViewController *)contentViewController {
-    [self.containerViewController hide];
-    
     if (!_contentViewController) {
+        [self.containerViewController hide];
         _contentViewController = contentViewController;
         return;
     }
     
-    if (contentViewController) {
-        [self dm_displaySelectedController:_selectedIndex
-                                       old:_oldSelectedIndex
-                                        vc:contentViewController
-                                     frame:self.view.bounds
-                                     block:^{
-            _oldSelectedIndex = _selectedIndex;
-        }];
-    }
-    _contentViewController = contentViewController;
+    WS(weakSelf);
+    [self.containerViewController hideWithCompletionHandler:^{
+        if (contentViewController) {
+            [weakSelf dm_displaySelectedController:_selectedIndex
+                                           old:_oldSelectedIndex
+                                            vc:contentViewController
+                                         frame:weakSelf.view.bounds
+                                         block:^{
+                                             _oldSelectedIndex = _selectedIndex;
+                                         }];
+        }
+        _contentViewController = contentViewController;
+        
+        if ([weakSelf respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
+            [weakSelf performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
+        }
+    }];
     
-    if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
-        [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
-    }
+    
+//    [self.containerViewController hide];
+//
+//    if (!_contentViewController) {
+//        _contentViewController = contentViewController;
+//        return;
+//    }
+//    
+//    if (contentViewController) {
+//        [self dm_displaySelectedController:_selectedIndex
+//                                       old:_oldSelectedIndex
+//                                        vc:contentViewController
+//                                     frame:self.view.bounds
+//                                     block:^{
+//            _oldSelectedIndex = _selectedIndex;
+//        }];
+//    }
+//    _contentViewController = contentViewController;
+//    
+//    if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
+//        [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
+//    }
 }
 
 - (void)setMenuViewController:(UIViewController *)menuViewController

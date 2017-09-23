@@ -4,7 +4,7 @@
 #import "DMCourseListHeaderView.h"
 
 #import "DMMoviePlayerViewController.h"
-#import "DMClassFilesViewController.h"
+//#import "DMClassFilesViewController.h"
 #import "DMQuestionViewController.h"
 #import "DMPullDownMenu.h"
 #define kCellID @"course"

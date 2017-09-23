@@ -15,7 +15,7 @@
 #import "DMTestViewController.h"
 
 #import "DMClassDataModel.h"
-#import "DMClassFilesViewController.h"
+//#import "DMClassFilesViewController.h"
 #import "DMCourseFilesController.h"
 #import "DMTransitioningAnimationHelper.h"
 

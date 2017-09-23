@@ -91,7 +91,7 @@
         [_navigationBar.leftBarButton addTarget:self action:@selector(didTapSelect:) forControlEvents:UIControlEventTouchUpInside];
         _navigationBar.titleLabel.text = DMTitleAllPhotos;
         [_navigationBar.rightBarButton setTitle:DMTitleCancel forState:UIControlStateNormal];
-        [_navigationBar.rightBarButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_navigationBar.rightBarButton setTitleColor:DMColorBaseMeiRed forState:UIControlStateNormal];
         [_navigationBar.rightBarButton addTarget:self action:@selector(didTapSelect:) forControlEvents:UIControlEventTouchUpInside];
     }
     
