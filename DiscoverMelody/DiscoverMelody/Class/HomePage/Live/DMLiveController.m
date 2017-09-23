@@ -87,12 +87,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self joinChannel];
     [self setupMakeLiveCallback];
     
-    
-#ifndef DEBUG
-#else
-    [self.liveVideoManager switchSound:NO block:nil];
-#endif
-    
     [self timer];
 }
 
