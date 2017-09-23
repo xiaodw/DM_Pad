@@ -39,6 +39,8 @@
         if (index == 1) { // 右侧
             DMClassFileDataModel *currentCourse = self.courses[self.currentIndexPath.row];
             [DMApiModel removeLessonFiles:self.lessonID fileIds:currentCourse.ID block:^(BOOL result) {
+                if (!result) return;
+                
                 [weakSelf.liveVC.presentVCs removeObject:weakSelf];
                 weakSelf.liveVC = nil;
                 [weakSelf dismissViewControllerAnimated:NO completion:^{

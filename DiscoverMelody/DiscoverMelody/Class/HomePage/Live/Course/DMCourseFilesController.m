@@ -239,6 +239,7 @@
             }
             
             [DMApiModel removeLessonFiles:self.lessonID fileIds:fileIDs block:^(BOOL result) {
+                if (!result) return;
                 [weakSelf.currentCpirses removeObjectsInArray:weakSelf.selectedCpirses];
                 [weakSelf didTapSelect:weakSelf.rightBarButton];
             }];
