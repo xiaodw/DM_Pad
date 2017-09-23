@@ -54,6 +54,7 @@ NSString * const DMTextMinutes = @"分钟";
 NSString * const DMTextClassNumber = @"课程编号";
 NSString * const DMTextClassName = @"课程名称";
 NSString * const DMTextStudentName = @"学生姓名";
+NSString * const DMTextTeacherName = @"老师姓名";
 NSString * const DMTextDate = @"日期";
 NSString * const DMTextDetailDate = @"时间";
 NSString * const DMTextPeriod = @"课时";

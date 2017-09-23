@@ -53,6 +53,7 @@ UIKIT_EXTERN NSString * const DMTextMinutes;
 UIKIT_EXTERN NSString * const DMTextClassNumber;
 UIKIT_EXTERN NSString * const DMTextClassName;
 UIKIT_EXTERN NSString * const DMTextStudentName;
+UIKIT_EXTERN NSString * const DMTextTeacherName;
 UIKIT_EXTERN NSString * const DMTextDate;
 UIKIT_EXTERN NSString * const DMTextDetailDate;
 UIKIT_EXTERN NSString * const DMTextPeriod;

@@ -125,7 +125,8 @@
 - (UILabel *)studentNameLabel {
     if (!_studentNameLabel) {
         _studentNameLabel = [self setupLabel];
-        _studentNameLabel.text = DMTextStudentName;
+        NSInteger userIdentity = [[DMAccount getUserIdentity] intValue];
+        _studentNameLabel.text = (userIdentity==0 ? DMTextTeacherName:DMTextStudentName);
     }
     
     return _studentNameLabel;

@@ -46,7 +46,9 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
     
     _numberLabel.text = [NSString stringWithFormat:@"    %@", model.course_id];
     _nameLabel.text = model.course_name;
-    _studentNameLabel.text = model.teacher_name;
+    
+    NSInteger userIdentity = [[DMAccount getUserIdentity] intValue];
+    _studentNameLabel.text = (userIdentity == 0 ? model.teacher_name: model.student_name);
     _dateLabel.text = [DMTools timeFormatterYMDFromTs:model.start_time format:@"yyyy/MM/dd"];
     _detailDateLabel.text = [DMTools computationsPeriodOfTime:model.start_time duration:model.duration];
     _periodLabel.text = [[DMTools secondsConvertMinutes:model.duration] stringByAppendingString:DMTextMinutes];

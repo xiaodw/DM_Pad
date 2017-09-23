@@ -152,8 +152,13 @@
 - (void)goToClassRoom:(UIButton *)btn {
     NSLog(@"进入课堂");
     WS(weakSelf);
+    
+    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
+    [SVProgressHUD show];
+    
     [DMApiModel joinClaseeRoom:self.courseObj.course_id accessTime:[DMTools getCurrentTimestamp] block:^(BOOL result, DMClassDataModel *obj) {
         btn.userInteractionEnabled = YES;
+        [SVProgressHUD dismiss];
         if (result) {
             [weakSelf joinClassRoom];
         }

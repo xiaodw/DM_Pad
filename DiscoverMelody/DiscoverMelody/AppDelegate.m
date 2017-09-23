@@ -55,7 +55,7 @@
     }];
 }
 
-- (void)goToApp { //85715185
+- (void)goToApp {
     [SVProgressHUD dismissWithDelay:2.0f];
     if (STR_IS_NIL([DMAccount getToken])) {
         [self toggleRootView:YES];

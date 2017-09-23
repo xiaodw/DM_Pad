@@ -46,17 +46,15 @@
 
 - (void)updateTopViewInfo:(DMCourseDatasModel *)obj {
     
-    if ([[DMAccount getUserIdentity] intValue] == 0) {
+    NSInteger userIdentity = [[DMAccount getUserIdentity] intValue];
+    if (userIdentity == 0) {
         //学生端
         [_headImageView sd_setImageWithURL:[NSURL URLWithString:obj.avatar] placeholderImage:HeadPlaceholderName];
+        _nameLabel.text = obj.teacher_name;
     } else {
-        
-        
+        _nameLabel.text = obj.student_name;
     }
-    
-    
     _courseLabel.text = obj.course_name;
-    _nameLabel.text = obj.teacher_name;
     _timeLabel.text = [@"上课时间：" stringByAppendingString:
                        [DMTools timeFormatterYMDFromTs:obj.start_time format:@"MM月dd日 HH:mm"]];//@"上课时间：9月8日 18:00";
     if (_timeLabel.layer.cornerRadius == 0) {

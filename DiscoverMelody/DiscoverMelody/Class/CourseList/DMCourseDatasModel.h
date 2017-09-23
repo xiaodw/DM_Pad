@@ -11,7 +11,8 @@
 @interface DMCourseDatasModel : DMBaseDataModel
 @property (nonatomic, copy) NSString *course_id;
 @property (nonatomic, copy) NSString *course_name;
-@property (nonatomic, copy) NSString *teacher_name;//0学生，1老师
+@property (nonatomic, copy) NSString *teacher_name;//老师姓名
+@property (nonatomic, copy) NSString *student_name;//学生姓名
 @property (nonatomic, copy) NSString *avatar;
 @property (nonatomic, copy) NSString *start_time;//课程开始时间 秒
 @property (nonatomic, copy) NSString *duration;//课程时长 秒
