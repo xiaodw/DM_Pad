@@ -44,6 +44,7 @@
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
     [[DMConfigManager shareInstance] initConfigInformation];//初始化
+    [DMTools compressedImageDataForUpload:UIImagePNGRepresentation([UIImage imageNamed:@"Poster.png"])];
     [self updateConfigInfo];
     return YES;
 }

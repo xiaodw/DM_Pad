@@ -49,5 +49,5 @@
 
 //进行图片压缩
 + (NSData *)compressedImageForUpload:(UIImage *)sourceImage;
-
++ (NSData *)compressedImageDataForUpload:(NSData *)sourceData;
 @end
