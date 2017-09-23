@@ -122,4 +122,36 @@
     }
 }
 
+//进行图片压缩
++ (NSData *)compressedImageForUpload:(UIImage *)sourceImage {
+    if (sourceImage == nil) {
+        return nil;
+    }
+    NSData *imageData = UIImagePNGRepresentation(sourceImage);
+    if (imageData == nil) {
+        imageData = UIImageJPEGRepresentation(sourceImage, 1);
+        if (imageData == nil) {
+            return nil;
+        }
+    }
+    
+    NSInteger sourceVolume = (unsigned long)imageData.length/1024;
+    NSInteger boundariesValue = [[DMConfigManager shareInstance].uploadMaxSize integerValue];
+    NSLog(@"Size of Image(bytes-->KB):%lu",sourceVolume);
+    if (sourceVolume > boundariesValue) {
+        float ss = (float)boundariesValue/sourceVolume;
+        if (ss < 1.0) {
+            NSFileManager* fileManager=[NSFileManager defaultManager];
+            NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+            // 拼接图片名为"currentImage.png"的路径
+            NSString *imageFilePath = [path stringByAppendingPathComponent:@"currentCompressedImage.jpg"];
+            [UIImageJPEGRepresentation(sourceImage, 1) writeToFile:imageFilePath atomically:YES];
+            UIImage *imgFromDoc = [[UIImage alloc] initWithContentsOfFile:imageFilePath];
+            [fileManager removeItemAtPath:imageFilePath error:nil];
+            return UIImageJPEGRepresentation(imgFromDoc, ss);
+        }
+    }
+    return imageData;
+}
+
 @end
