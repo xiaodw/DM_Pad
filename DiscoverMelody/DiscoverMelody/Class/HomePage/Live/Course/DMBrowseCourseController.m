@@ -17,12 +17,15 @@
 
 @implementation DMBrowseCourseController
 
+#pragma mark - Set Methods
 - (void)setCourses:(NSMutableArray *)courses {
     _courses = courses;
     
     [self.collectionView reloadData];
     [self.collectionView scrollToItemAtIndexPath:self.currentIndexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
 }
+
+#pragma mark - Lifecycle Methods
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor clearColor];
@@ -32,6 +35,7 @@
     self.deletedView.hidden = _isNotSelf;
 }
 
+#pragma mark - Functions
 - (void)didTapDeleted {
     WS(weakSelf)
     DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"您确定要删除这张图片吗?" message:@"确定后预览自动关闭" preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
@@ -52,6 +56,7 @@
     }];
 }
 
+#pragma mark - UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.courses.count;
 }
@@ -62,22 +67,26 @@
     return cell;
 }
 
+#pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [self.liveVC.presentVCs removeObject:self];
     self.liveVC = nil;
     [self dismissViewControllerAnimated:NO completion:nil];
 }
 
+#pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     NSInteger index = (scrollView.contentOffset.x / self.collectionView.dm_width + 0.5); // 约等于
     self.currentIndexPath = [NSIndexPath indexPathForRow:index inSection:0];
 }
 
+#pragma mark - AddSubviews
 - (void)setupMakeAddSubviews {
     [self.view addSubview:self.deletedView];
     [self.view addSubview:self.collectionView];
 }
 
+#pragma mark - LayoutSubviews
 - (void)setupMakeLayoutSubviews {
     [_deletedView makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.left.right.equalTo(self.view);
@@ -93,6 +102,7 @@
     }];
 }
 
+#pragma mark - Lazy
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         DMBrowseCourseFlowLayout *layout = [[DMBrowseCourseFlowLayout alloc] init];
@@ -142,8 +152,6 @@
     return _deletedView;
 }
 
-- (void)dealloc {
-    DMLogFunc
-}
+- (void)dealloc { DMLogFunc }
 
 @end

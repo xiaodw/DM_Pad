@@ -5,12 +5,12 @@
 #import "DMLiveWillStartView.h"
 #import "DMLiveCoursewareView.h"
 #import "NSString+Extension.h"
-#import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
 #import "DMCourseFilesController.h"
 #import "DMMicrophoneView.h"
 #import "DMSecretKeyManager.h"
 #import "DMSignalingMsgData.h"
 #import "DMSendSignalingMsg.h"
+#import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
 
 #define kSmallSize CGSizeMake(DMScaleWidth(240), DMScaleHeight(180))
 #define kColor33 DMColorWithRGBA(33, 33, 33, 1)

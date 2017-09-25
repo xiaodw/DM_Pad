@@ -9,6 +9,7 @@
 #import "DMLiveController.h"
 #import "DMLiveVideoManager.h"
 #import "DMSendSignalingMsg.h"
+
 #define kCourseFileCellID @"Courseware"
 
 @interface DMCourseFilesController () <DMBottomBarViewDelegate, DMTabBarViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, DMBrowseCourseControllerDelegate, DMBrowseViewDelegate, DMUploadControllerDelegate>
@@ -36,6 +37,7 @@
 
 @implementation DMCourseFilesController
 
+#pragma mark - Set Methods
 - (void)setCurrentCpirses:(NSMutableArray *)currentCpirses {
     _currentCpirses = currentCpirses;
     
@@ -66,6 +68,7 @@
     }
 }
 
+#pragma mark - Lifecycle Methods
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor clearColor];
@@ -88,6 +91,7 @@
     }];
 }
 
+#pragma mark - Functions
 - (void)didTapSelect:(UIButton *)sender {
     sender.selected = !sender.selected;
     if (_isSyncBrowsing) {
@@ -128,6 +132,7 @@
     [self dismissController];
 }
 
+#pragma mark - DMTabBarViewDelegate
 - (void)tabBarView:(DMTabBarView *)tabBarView didTapBarButton:(UIButton *)button{
     self.editorMode = NO;
     self.bottomBar.syncButton.hidden = _isFullScreen || !self.userIdentity;
@@ -154,12 +159,14 @@
     self.currentCpirses = self.identifierCpirsesArray[button.tag];
 }
 
+#pragma mark - DMBrowseCourseControllerDelegate
 - (void)browseCourseController:(DMBrowseCourseController *)browseCourseController deleteIndexPath:(NSIndexPath *)indexPath {
     DMClassFileDataModel *course = self.currentCpirses[indexPath.row];
     [self.currentCpirses removeObject:course];
     [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
 }
 
+#pragma mark - DMBottomBarViewDelegate
 // 上传
 - (void)botoomBarViewDidTapUpload:(DMBottomBarView *)botoomBarView {
     DMLogFunc
@@ -198,7 +205,31 @@
     self.browseView.courses = self.selectedCpirses;
 }
 
+// 删除
+- (void)botoomBarViewDidTapDelete:(DMBottomBarView *)botoomBarView {
+    DMLogFunc
+    WS(weakSelf)
+    DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"您确定要删除这些张图片吗?" message:@"确定后关闭编辑状态" preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
+    [alert showWithViewController:self IndexBlock:^(NSInteger index) {
+        if (index == 1) { // 右侧
+            NSMutableString *fileIDs = [NSMutableString string];
+            for (int i = 0; i < self.selectedCpirses.count; i++) {
+                DMClassFileDataModel *fileDataModel = self.selectedCpirses[i];
+                [fileIDs appendString:fileDataModel.ID];
+                if (i != self.selectedCpirses.count-1) [fileIDs appendString:@","];
+            }
+            
+            [DMApiModel removeLessonFiles:self.lessonID fileIds:fileIDs block:^(BOOL result) {
+                if (!result) return;
+                [weakSelf.currentCpirses removeObjectsInArray:weakSelf.selectedCpirses];
+                [weakSelf didTapSelect:weakSelf.rightBarButton];
+            }];
+        }
+    }]; 
+}
+
 // 同步接口
+#pragma mark - DMBrowseViewDelegate
 - (void)browseViewDidTapSync:(DMBrowseView *)browseView{
     if (!self.liveVC.isRemoteUserOnline) {
         DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"学生未上线, 不能同步操作" message:@"" preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleOK otherTitle: nil];
@@ -224,29 +255,13 @@
     }];
 }
 
-// 删除
-- (void)botoomBarViewDidTapDelete:(DMBottomBarView *)botoomBarView {
-    DMLogFunc
-    WS(weakSelf)
-    DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"您确定要删除这些张图片吗?" message:@"确定后关闭编辑状态" preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
-    [alert showWithViewController:self IndexBlock:^(NSInteger index) {
-        if (index == 1) { // 右侧
-            NSMutableString *fileIDs = [NSMutableString string];
-            for (int i = 0; i < self.selectedCpirses.count; i++) {
-                DMClassFileDataModel *fileDataModel = self.selectedCpirses[i];
-                [fileIDs appendString:fileDataModel.ID];
-                if (i != self.selectedCpirses.count-1) [fileIDs appendString:@","];
-            }
-            
-            [DMApiModel removeLessonFiles:self.lessonID fileIds:fileIDs block:^(BOOL result) {
-                if (!result) return;
-                [weakSelf.currentCpirses removeObjectsInArray:weakSelf.selectedCpirses];
-                [weakSelf didTapSelect:weakSelf.rightBarButton];
-            }];
-        }
-    }]; 
+#pragma mark - DMUploadControllerDelegate
+- (void)uploadController:(DMUploadController *)uploadController successAsset:(NSArray *)assets {
+    [self.currentCpirses addObjectsFromArray:assets];
+    self.currentCpirses = self.currentCpirses;
 }
 
+#pragma mark - UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.currentCpirses.count;
 }
@@ -259,6 +274,7 @@
     return cell;
 }
 
+#pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (!_editorMode){
         if(_isFullScreen) {
@@ -337,11 +353,7 @@
     }
 }
 
-- (void)uploadController:(DMUploadController *)uploadController successAsset:(NSArray *)assets {
-    [self.currentCpirses addObjectsFromArray:assets];
-    self.currentCpirses = self.currentCpirses;
-}
-
+#pragma mark - Other
 - (void)reinstateSelectedCpirses {
     for (int i = 0; i < self.selectedCpirses.count; i++) {
         DMClassFileDataModel *courseModel = self.selectedCpirses[i];
@@ -365,6 +377,7 @@
     }
 }
 
+#pragma mark - AddSubviews
 - (void)setupMakeAddSubviews {
     [self.view addSubview:self.closeBackgroundView];
     [self.view addSubview:self.browseView];
@@ -375,6 +388,7 @@
     [self.view addSubview:self.bottomBar];
 }
 
+#pragma mark - LayoutSubviews
 - (void)setupMakeLayoutSubviews {
     [_closeBackgroundView makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
@@ -419,6 +433,7 @@
     }];
 }
 
+#pragma mark - Lazy
 - (UIView *)navigationBar {
     if (!_navigationBar) {
         _navigationBar = [UIView new];
@@ -569,8 +584,6 @@
     return _selectedIndexPath;
 }
 
-- (void)dealloc {
-    DMLogFunc
-}
+- (void)dealloc { DMLogFunc }
 
 @end

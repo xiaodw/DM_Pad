@@ -2,6 +2,7 @@
 
 @implementation DMBrowseCourseFlowLayout
 
+// 定位到某一个cell
 - (void)prepareLayout {
     [super prepareLayout];
     
