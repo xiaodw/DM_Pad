@@ -28,9 +28,9 @@
     [self addSubview:self.bottomView];
 
     _bottomView.layer.shadowColor = UIColorFromRGB(0xf6087a).CGColor;//shadowColor阴影颜色
-    _bottomView.layer.shadowOffset = CGSizeMake(1,3);//shadowOffset阴影偏移,x向右偏移，y向下偏移，默认(0, -3),这个跟shadowRadius配合使用
+    _bottomView.layer.shadowOffset = CGSizeMake(1,4);//shadowOffset阴影偏移,x向右偏移，y向下偏移，默认(0, -3),这个跟shadowRadius配合使用
     _bottomView.layer.shadowOpacity = 0.2;//阴影透明度，默认0
-    _bottomView.layer.shadowRadius = 8;//阴影半径，默认3
+    _bottomView.layer.shadowRadius = 6;//阴影半径，默认3
     
     self.redView = [[UIView alloc] init];
     self.redView.backgroundColor = UIColorFromRGB(0xf6087a);

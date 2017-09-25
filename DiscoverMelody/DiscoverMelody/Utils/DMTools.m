@@ -205,4 +205,19 @@
     return @"";
 }
 
+//计算文字高度
++(float)getContactHeight:(NSString*)contact font:(UIFont *)font width:(CGFloat)width {
+    NSDictionary *attrs = @{NSFontAttributeName : font};
+    CGSize maxSize = CGSizeMake(width, MAXFLOAT);
+    // 计算文字占据的高度
+    CGSize size = [contact boundingRectWithSize:maxSize
+                                        options:NSStringDrawingUsesLineFragmentOrigin
+                                     attributes:attrs
+                                        context:nil].size;
+    
+    
+    return size.height;
+    
+}
+
 @end

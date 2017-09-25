@@ -45,6 +45,8 @@
 
 @implementation DMQuestionViewController
 
+#define Space_H 42
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -197,7 +199,7 @@
         
         [self.noComView makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(_teacherCommentsView);
-            make.centerY.equalTo(_teacherCommentsView).offset(-100);
+            make.centerY.equalTo(_teacherCommentsView).offset(-80);
             //make.top.equalTo(_teacherCommentsView).offset(133);
         }];
         
@@ -351,7 +353,7 @@
     _bTableView.dataSource = self;
     _bTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _bTableView.backgroundColor = [UIColor whiteColor];//UIColorFromRGB(0xf6f6f6);
-    UIView *hV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 40)];
+    UIView *hV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 20)];
     hV.backgroundColor = [UIColor whiteColor];
     _bTableView.tableHeaderView = hV;
     
@@ -366,7 +368,7 @@
     [commitBtn addTarget:self action:@selector(clickCommitBtn:) forControlEvents:UIControlEventTouchUpInside];
     commitBtn.layer.cornerRadius = 5;
     commitBtn.layer.masksToBounds = YES;
-    commitBtn.frame = CGRectMake((_bottomView.frame.size.width-130)/2, (_bottomView.frame.size.height-40)/2+30, 130, 40);
+    commitBtn.frame = CGRectMake((_bottomView.frame.size.width-130)/2, (_bottomView.frame.size.height-40)/2+10, 130, 40);
     //[self.view addSubview:bottomView];
     [_bottomView addSubview:commitBtn];
     [self.view addSubview:_bTableView];
@@ -448,18 +450,18 @@
     }
 
     [_timeLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(_topImageView.mas_bottom).offset(-47);
+        make.bottom.equalTo(_topImageView.mas_bottom).offset(-Space_H);
         make.centerX.equalTo(_topImageView);
         make.size.equalTo(CGSizeMake(240, 40));
     }];
     [_classNameLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(_topImageView.mas_bottom).offset(-47);
-        make.left.equalTo(_topImageView).offset(140);
+        make.bottom.equalTo(_topImageView.mas_bottom).offset(-Space_H);
+        make.left.equalTo(_topImageView).offset(40);
         make.right.equalTo(_timeLabel.mas_left).offset(-52);
         make.height.equalTo(40);
     }];
     [_typeLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(_topImageView.mas_bottom).offset(-47);
+        make.bottom.equalTo(_topImageView.mas_bottom).offset(-Space_H);
         make.left.equalTo(_timeLabel.mas_right).offset(52);
         make.size.equalTo(CGSizeMake(50, 40));
     }];
@@ -475,19 +477,19 @@
         headView2_w = 0;
     }
     [headView2 makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(_topImageView.mas_bottom).offset(-42);
+        make.bottom.equalTo(_topImageView.mas_bottom).offset(-37);
         make.left.equalTo(_typeLabel.mas_right).offset(2);
         make.size.equalTo(CGSizeMake(headView2_w, headView2_w));
     }];
     [_hImageView makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(_topImageView.mas_bottom).offset(-47);
+        make.bottom.equalTo(_topImageView.mas_bottom).offset(-Space_H);
         make.left.equalTo(_typeLabel.mas_right).offset(hImageView_v);
         make.size.equalTo(CGSizeMake(hImageView_w, hImageView_w));
     }];
     [_nameLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(_topImageView.mas_bottom).offset(-47);
+        make.bottom.equalTo(_topImageView.mas_bottom).offset(-Space_H);
         make.left.equalTo(_hImageView.mas_right).offset(name_r);
-        make.right.equalTo(_topImageView.mas_right).offset(-140);
+        make.right.equalTo(_topImageView.mas_right).offset(-40);
         make.height.equalTo(40);
     }];
     
@@ -545,7 +547,7 @@
         _timeLabel.layer.cornerRadius = 5;
         //_timeLabel.layer.borderColor = [UIColor whiteColor].CGColor;
         _timeLabel.layer.borderColor = [UIColor colorWithWhite:1 alpha:0.5].CGColor;
-        _timeLabel.layer.borderWidth = 1;
+        _timeLabel.layer.borderWidth = .5;
     }
     return _timeLabel;
 }

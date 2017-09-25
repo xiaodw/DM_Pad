@@ -62,7 +62,7 @@
     if (_timeLabel.layer.cornerRadius == 0) {
         _timeLabel.layer.cornerRadius = 5;
         _timeLabel.layer.borderColor = [UIColor colorWithWhite:1 alpha:0.5].CGColor;
-        _timeLabel.layer.borderWidth = 1;
+        _timeLabel.layer.borderWidth = .5;
     }
 
 }
@@ -255,7 +255,7 @@
     }
     
     [_nameLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_courseLabel.mas_bottom).offset(14);
+        make.top.equalTo(_courseLabel.mas_bottom).offset(10);
         make.centerX.equalTo(_topView);
         make.left.equalTo(_courseLabel);
         make.right.equalTo(_courseLabel);
@@ -263,7 +263,7 @@
     }];
     
     [_timeLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_nameLabel.mas_bottom).offset(42);
+        make.top.equalTo(_nameLabel.mas_bottom).offset(32);
         make.centerX.equalTo(_topView);
         make.size.equalTo(CGSizeMake(330, 58));
     }];
@@ -280,7 +280,7 @@
     cfLabel.text = DMTextThisClassFile;
     cfLabel.textAlignment = NSTextAlignmentCenter;
     cfLabel.textColor = [UIColor whiteColor];
-    cfLabel.font = DMFontPingFang_Medium(14);
+    cfLabel.font = DMFontPingFang_Regular(14);
     
     UIButton *crBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [crBtn setImage:[UIImage imageNamed:@"hp_enter_classroom"] forState:UIControlStateNormal];
@@ -290,7 +290,7 @@
     crLabel.text = DMTextJoinClass;
     crLabel.textAlignment = NSTextAlignmentCenter;
     crLabel.textColor = [UIColor whiteColor];
-    crLabel.font = DMFontPingFang_Medium(14);
+    crLabel.font = DMFontPingFang_Regular(14);
     
     [_topView addSubview:_cfBtn];
     [_topView addSubview:cfLabel];
@@ -437,7 +437,7 @@
         _courseLabel = [[UILabel alloc] init];
         _courseLabel.textAlignment = NSTextAlignmentCenter;
         _courseLabel.textColor = [UIColor whiteColor];
-        _courseLabel.font = DMFontPingFang_Medium(22);
+        _courseLabel.font = DMFontPingFang_Regular(22-2);
     }
     return _courseLabel;
 }
@@ -447,7 +447,7 @@
         _nameLabel = [[UILabel alloc] init];
         _nameLabel.textAlignment = NSTextAlignmentCenter;
         _nameLabel.textColor = [UIColor whiteColor];
-        _nameLabel.font = DMFontPingFang_Medium(18);
+        _nameLabel.font = DMFontPingFang_Light(18-2);
     }
     return _nameLabel;
 }
@@ -457,7 +457,7 @@
         _timeLabel = [[UILabel alloc] init];
         _timeLabel.textAlignment = NSTextAlignmentCenter;
         _timeLabel.textColor = [UIColor whiteColor];
-        _timeLabel.font = DMFontPingFang_Medium(20);
+        _timeLabel.font = DMFontPingFang_Regular(20-2);
     }
     return _timeLabel;
 }
