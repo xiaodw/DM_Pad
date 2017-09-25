@@ -49,7 +49,7 @@
 }
 
 - (NSInteger)orientation {
-    return  [self.tiff[@"Orientation"] integerValue];
+    return [self.tiff[@"Orientation"] integerValue];
 }
 
 - (NSInteger)resolutionUnit {

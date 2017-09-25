@@ -27,7 +27,7 @@
     return self;
 }
 
-- (void) refreshAlbumAssetWithType:(ALAssetsGroupType)type filter:(ALAssetsFilter *)filter completionBlock:(AlbumRestrictedCallback)callBack {
+- (void)refreshAlbumAssetWithType:(ALAssetsGroupType)type filter:(ALAssetsFilter *)filter completionBlock:(AlbumRestrictedCallback)callBack {
     if (self.authorizationStatus) {
         if (callBack)  {
             callBack(NO, nil, NO);
@@ -47,7 +47,6 @@
     } failureBlock:^(NSError *error) {
         callBack(NO, nil, YES);
     }];
-    
 }
 
 - (ALAssetsLibrary *)defaultAssetsLibrary {

@@ -1,33 +1,27 @@
 #import "DMUploadController.h"
-#import "DMAlbum.h"
+#import "DMLiveController.h"
 #import "DMLiveCoursewareCell.h"
-#import "UIColor+Extension.h"
-#import "DMAlbum.h"
 #import "DMAlbumAssetHelp.h"
+#import "DMAlbumsTableView.h"
+#import "DMAssetsCollectionView.h"
+#import "DMAlbum.h"
 
 #define kCoursewareCellID @"Courseware"
 
-#import "DMAlbumsTableView.h"
-#import "DMAssetsCollectionView.h"
-#import "DMLiveController.h"
-
 @interface DMUploadController () <DMAlbumsTableViewDelegate, DMAssetsCollectionViewDelegate>
 
-@property (strong, nonatomic) UIView *albumBackgroundView;
-@property (strong, nonatomic) DMAlbumsTableView *albumsView;
-@property (strong, nonatomic) DMAssetsCollectionView *assetsView;
-
-
-@property (strong, nonatomic) DMAlbumAssetHelp *imagePickerHelp;
-@property (strong, nonatomic) NSMutableArray *albums;
-@property (assign, nonatomic) bool isUploaded;
-
-@property (assign, nonatomic) BOOL isPhotoSuccess;
+@property (strong, nonatomic) UIView *albumBackgroundView; // 背景
+@property (strong, nonatomic) DMAlbumsTableView *albumsView; // 所有的专辑
+@property (strong, nonatomic) DMAssetsCollectionView *assetsView; // 某个专辑对应的所有资源图片
+@property (strong, nonatomic) DMAlbumAssetHelp *imagePickerHelp; // 一个获取图片的类
+@property (strong, nonatomic) NSMutableArray *albums; // 当前系统所有的专辑
+@property (assign, nonatomic) BOOL isPhotoSuccess; // 是否成功获取相册
 
 @end
 
 @implementation DMUploadController
 
+#pragma mark - Lifecycle Methods
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -79,29 +73,15 @@
     [self.navigationController setNavigationBarHidden:NO];
 }
 
-- (void)setupMakeAddSubviews {
-    [self.view addSubview:self.albumBackgroundView];
-    [self.view addSubview:self.assetsView];
-}
-
-- (void)setupMakeLayoutSubviews {
-    [_albumBackgroundView remakeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.bottom.equalTo(self.view);
-        make.width.equalTo(DMScreenWidth*0.5);
-    }];
-    [_assetsView remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.width.bottom.equalTo(self.view);
-        make.right.equalTo(_albumBackgroundView.mas_left);
-    }];
-    
-}
-
+#pragma mark - DMAlbumsTableViewDelegate
+/** tableView: 点击返回退出 */
 - (void)albumsTableView:(DMAlbumsTableView *)albumsTableView didTapRightButton:(UIButton *)rightButton {
     [self.liveVC.presentVCs removeObject:self];
     self.liveVC = nil;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+/** tableView: 点击某一个cell */
 - (void)albumsTableView:(DMAlbumsTableView *)albumsTableView didTapSelectedIndexPath:(NSIndexPath *)indexPath {
     DMAlbum *album = self.albums[indexPath.row];
     self.assetsView.album = album;
@@ -124,9 +104,10 @@
     }];
 }
 
+#pragma mark - DMAssetsCollectionViewDelegate
+
+/** collectionView: 点击left */
 - (void)albrmsCollectionView:(DMAssetsCollectionView *)albrmsCollectionView didTapLeftButton:(UIButton *)leftButton {
-    if (_isUploaded) return;
-    
     [_albumsView remakeConstraints:^(MASConstraintMaker *make) {
         make.top.width.bottom.equalTo(_albumBackgroundView);
         make.left.equalTo(_albumBackgroundView);
@@ -146,12 +127,14 @@
     }];
 }
 
+/** collectionView: 点击right退出 */
 - (void)albrmsCollectionView:(DMAssetsCollectionView *)albrmsCollectionView didTapRightButton:(UIButton *)rightButton {
     [self.liveVC.presentVCs removeObject:self];
     self.liveVC = nil;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+/** collectionView: 上传之后成功回调 */
 - (void)albrmsCollectionView:(DMAssetsCollectionView *)albrmsCollectionView success:(NSArray *)courses{
     [self.liveVC.presentVCs removeObject:self];
     self.liveVC = nil;
@@ -160,6 +143,25 @@
     }];
 }
 
+#pragma mark - AddSubviews
+- (void)setupMakeAddSubviews {
+    [self.view addSubview:self.albumBackgroundView];
+    [self.view addSubview:self.assetsView];
+}
+
+#pragma mark - LayoutSubviews
+- (void)setupMakeLayoutSubviews {
+    [_albumBackgroundView remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.bottom.equalTo(self.view);
+        make.width.equalTo(DMScreenWidth*0.5);
+    }];
+    [_assetsView remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.width.bottom.equalTo(self.view);
+        make.right.equalTo(_albumBackgroundView.mas_left);
+    }];
+}
+
+#pragma mark - Lazy
 - (DMAlbumsTableView *)albumsView {
     if (!_albumsView) {
         _albumsView = [DMAlbumsTableView new];
