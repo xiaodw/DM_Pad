@@ -9,6 +9,7 @@
 #import "DMLiveController.h"
 #import "DMLiveVideoManager.h"
 #import "DMSendSignalingMsg.h"
+#import "DMBarButtonItem.h"
 
 #define kCourseFileCellID @"Courseware"
 
@@ -439,7 +440,7 @@
         _navigationBar = [UIView new];
         _navigationBar.backgroundColor = [UIColor blackColor];
         
-        UIButton *leftBarButton = [UIButton new];
+        UIButton *leftBarButton = [DMBarButtonItem new];
         [leftBarButton setImage:[UIImage imageNamed:@"back_icon"] forState:UIControlStateNormal];
         [leftBarButton addTarget:self action:@selector(didTapBack) forControlEvents:UIControlEventTouchUpInside];
      
@@ -453,9 +454,9 @@
         [_navigationBar addSubview:titleLabel];
         
         [leftBarButton makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(5);
+            make.left.equalTo(16);
             make.size.equalTo(CGSizeMake(44, 30));
-            make.bottom.equalTo(_navigationBar.mas_bottom).offset(-10);
+            make.bottom.equalTo(_navigationBar.mas_bottom).offset(-7);
         }];
         
         [_rightBarButton makeConstraints:^(MASConstraintMaker *make) {
@@ -529,7 +530,7 @@
         _collectionView.delegate = self;
         _collectionView.backgroundColor = UIColorFromRGB(0xf6f6f6);
 //        _collectionView.prefetchingEnabled = NO;
-        _collectionView.contentInset = UIEdgeInsetsMake(15, 0, 15, 0);
+        _collectionView.contentInset = UIEdgeInsetsMake(20, 0, 20, 0);
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.showsHorizontalScrollIndicator = NO;
         
@@ -545,10 +546,10 @@
         _tabBarView.delegate = self;
         _tabBarView.isFullScreen = self.isFullScreen;
         
-        _tabBarView.layer.shadowColor = DMColorWithRGBA(221, 221, 221, 1).CGColor; // shadowColor阴影颜色
-        _tabBarView.layer.shadowOffset = CGSizeMake(-3,9); // shadowOffset阴影偏移,x向右偏移，y向下偏移，默认(0, -3),这个跟shadowRadius配合使用
-        _tabBarView.layer.shadowOpacity = 1; // 阴影透明度，默认0
-        _tabBarView.layer.shadowRadius = 9; // 阴影半径，默认3
+        _tabBarView.layer.shadowColor = [UIColor blackColor].CGColor; // shadowColor阴影颜色
+        _tabBarView.layer.shadowOffset = CGSizeMake(-3,7); // shadowOffset阴影偏移,x向右偏移，y向下偏移，默认(0, -3),这个跟shadowRadius配合使用
+        _tabBarView.layer.shadowOpacity = 0.07; // 阴影透明度，默认0
+        _tabBarView.layer.shadowRadius = 7; // 阴影半径，默认3
     }
     
     return _tabBarView;
@@ -559,10 +560,10 @@
         _bottomBar = [DMBottomBarView new];
         _bottomBar.delegate = self;
         
-        _bottomBar.layer.shadowColor = DMColorWithRGBA(221, 221, 221, 1).CGColor; // shadowColor阴影颜色
-        _bottomBar.layer.shadowOffset = CGSizeMake(-3,-9); // shadowOffset阴影偏移,x向右偏移，y向下偏移，默认(0, -3),这个跟shadowRadius配合使用
-        _bottomBar.layer.shadowOpacity = 1; // 阴影透明度，默认0
-        _bottomBar.layer.shadowRadius = 9; // 阴影半径，默认3
+        _bottomBar.layer.shadowColor = [UIColor blackColor].CGColor; // shadowColor阴影颜色
+        _bottomBar.layer.shadowOffset = CGSizeMake(-3,-7); // shadowOffset阴影偏移,x向右偏移，y向下偏移，默认(0, -3),这个跟shadowRadius配合使用
+        _bottomBar.layer.shadowOpacity = 0.03; // 阴影透明度，默认0
+        _bottomBar.layer.shadowRadius = 7; // 阴影半径，默认3
     }
     
     return _bottomBar;

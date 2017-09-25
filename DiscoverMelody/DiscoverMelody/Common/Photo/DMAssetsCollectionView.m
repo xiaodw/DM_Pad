@@ -56,8 +56,8 @@
     [self addSubview:self.uploadBrowseView];
     [self addSubview:self.backgroundView];
     [self addSubview:self.navigationBar];
-    [self addSubview:self.bottomBar];
     [self addSubview:self.collectionView];
+    [self addSubview:self.bottomBar];
 }
 
 #pragma mark - LayoutSubviews
@@ -85,6 +85,7 @@
         make.right.equalTo(_navigationBar.mas_right).offset(-15);
         make.bottom.equalTo(_bottomBar.mas_top);
     }];
+    
     [_uploadBrowseView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.bottom.equalTo(self);
         make.width.equalTo(DMScreenWidth*0.5);
@@ -302,11 +303,11 @@
         layout.scrollDirection = UICollectionViewScrollDirectionVertical;
         
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-        _collectionView.contentInset = UIEdgeInsetsMake(15, 0, 15, 0);
+        _collectionView.contentInset = UIEdgeInsetsMake(20, 0, 20, 0);
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
         _collectionView.backgroundColor = UIColorFromRGB(0xf6f6f6);
-//        _collectionView.prefetchingEnabled = NO;
+// _collectionView.prefetchingEnabled = NO;
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.showsHorizontalScrollIndicator = NO;
         [_collectionView registerClass:[DMCourseFileCell class] forCellWithReuseIdentifier:kCoursewareCellID];
@@ -318,6 +319,11 @@
     if (!_bottomBar) {
         _bottomBar = [UIView new];
         _bottomBar.backgroundColor = [UIColor whiteColor];
+        
+        _bottomBar.layer.shadowColor = [UIColor blackColor].CGColor; // shadowColor阴影颜色
+        _bottomBar.layer.shadowOffset = CGSizeMake(-3,-7); // shadowOffset阴影偏移,x向右偏移，y向下偏移，默认(0, -3),这个跟shadowRadius配合使用
+        _bottomBar.layer.shadowOpacity = 0.03; // 阴影透明度，默认0
+        _bottomBar.layer.shadowRadius = 7; // 阴影半径，默认3
         
         [_bottomBar addSubview:self.uploadButton];
         [_uploadButton makeConstraints:^(MASConstraintMaker *make) {

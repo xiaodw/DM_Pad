@@ -165,6 +165,11 @@
     if (!_albumsView) {
         _albumsView = [DMAlbumsTableView new];
         _albumsView.delegate = self;
+//        _albumsView.clipsToBounds = NO;
+//        _albumsView.layer.shadowColor = [UIColor blackColor].CGColor; // shadowColor阴影颜色
+//        _albumsView.layer.shadowOffset = CGSizeMake(7,3); // shadowOffset阴影偏移,x向右偏移，y向下偏移，默认(0, -3),这个跟shadowRadius配合使用
+//        _albumsView.layer.shadowOpacity = 0.6; // 阴影透明度，默认0
+//        _albumsView.layer.shadowRadius = 7; // 阴影半径，默认3
     }
     
     return _albumsView;

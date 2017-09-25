@@ -114,8 +114,6 @@
     
     // imageView Frame
     self.imageView.frame = CGRectMake(imageViewX, imageViewY, imageViewWidth, imageViewHeight);
-    
-    
 }
 
 @end
