@@ -94,16 +94,23 @@
                 }
                 [weakSelf.courses addObjectsFromArray:array];
                 weakSelf.currentPageNumber = nextPageNum;
-        
+                [weakSelf endRefreshing];
+                if (array) {
+                    [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
+                    weakSelf.tableView.mj_footer.hidden = YES;
+                }
+                weakSelf.noCourseView.hidden = weakSelf.courses.count;
+                [weakSelf.tableView reloadData];
             });
+        } else {
+            [weakSelf endRefreshing];
+            if (array) {
+                [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
+                weakSelf.tableView.mj_footer.hidden = YES;
+            }
+            weakSelf.noCourseView.hidden = weakSelf.courses.count;
+            [weakSelf.tableView reloadData];
         }
-        [weakSelf endRefreshing];
-        if (array) {
-            [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
-            weakSelf.tableView.mj_footer.hidden = YES;
-        }
-        weakSelf.noCourseView.hidden = weakSelf.courses.count;
-        [weakSelf.tableView reloadData];
     }];
  
 }
