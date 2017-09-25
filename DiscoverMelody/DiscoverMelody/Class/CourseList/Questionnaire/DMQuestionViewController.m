@@ -239,15 +239,15 @@
         switch (survey) {
             case 1:
                 [_statusButton setImage:[UIImage imageNamed:@"t_q_review_icon"] forState:UIControlStateNormal];
-                [_statusButton setTitle:@"  正在审核中..." forState:UIControlStateNormal];
+                [_statusButton setTitle:DMTitleTeacherQuestionReviewFild forState:UIControlStateNormal];
                 break;
             case 2:
                 [_statusButton setImage:[UIImage imageNamed:@"t_q_review_success"] forState:UIControlStateNormal];
-                [_statusButton setTitle:@"  审核通过" forState:UIControlStateNormal];
+                [_statusButton setTitle:DMTitleTeacherQuestionSuccessFild forState:UIControlStateNormal];
                 break;
             case 3:
                 [_statusButton setImage:[UIImage imageNamed:@"t_q_review_fail"] forState:UIControlStateNormal];
-                [_statusButton setTitle:@"  审核失败" forState:UIControlStateNormal];
+                [_statusButton setTitle:DMTitleTeacherQuestionFailedFild forState:UIControlStateNormal];
                 break;
             default:
                 break;
