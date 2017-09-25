@@ -70,16 +70,16 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
         _statusLabel.textColor = textColor;
     }
     
-    NSInteger survey = [model.survey intValue]; //0 不可点，1 ，2 可点击
+    NSInteger surveyEdit = [model.survey_edit intValue]; //0 不可点，1 ，2 可点击
     
     UIImage *normalImage = [UIImage imageNamed:@"icon_questionnaire_normal"];
-    if (survey == 0) {
+    if (surveyEdit == 0) {
         _questionnaireButton.enabled = NO;
     }
-    else if(survey == 1) {
+    else if(surveyEdit == 1) {
         normalImage = [UIImage imageNamed:@"icon_questionnaire_selected"];
     }
-    else if(survey == 2) {
+    else if(surveyEdit == 2) {
         normalImage = [UIImage imageNamed:@"icon_questionnaire_disabled"];
     }
     [_questionnaireButton setImage:normalImage forState:UIControlStateNormal];

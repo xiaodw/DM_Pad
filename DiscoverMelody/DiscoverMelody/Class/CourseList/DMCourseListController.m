@@ -26,6 +26,7 @@
 
 @property (nonatomic, assign) DMCourseListCondition clCondition;
 @property (strong, nonatomic) DMTransitioningAnimationHelper *animationHelper;
+@property (nonatomic, strong) UIView *bgVV;
 
 @end
 
@@ -118,7 +119,22 @@
     [self.view addSubview:self.tableView];
     [self.view addSubview:self.noCourseView];
     
+//    UIView *bgVV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, DMScreenWidth, DMScreenHeight)];
+//    bgVV.backgroundColor = [UIColor blackColor];
+//    bgVV.alpha = 0.4;
+//    [self.navigationController.view addSubview:bgVV];
+//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(doTapChange)];
+//    tap.numberOfTapsRequired = 1;
+//    [bgVV addGestureRecognizer:tap];
+//    bgVV.hidden = YES;
+//    self.bgVV = bgVV;
+    
     [self.navigationController.view addSubview:self.pullDownMenu];
+}
+
+
+- (void)doTapChange {
+    NSLog(@"点击手势");
 }
 
 - (void)setupMakeLayoutSubviews {
@@ -171,7 +187,26 @@
         [self.tableView.mj_header beginRefreshing];
     }
 }
-
+//
+//- (void)pulldownMenuWillShow:(DMPullDownMenu *)menu    // 当下拉菜单将要显示时调用
+//{
+//    self.bgVV.hidden = NO;
+//    [self.navigationController.view bringSubviewToFront:self.pullDownMenu];
+//    
+//}
+//
+//- (void)pulldownMenuDidShow:(DMPullDownMenu *)menu     // 当下拉菜单已经显示时调用
+//{
+//
+//}
+//- (void)pulldownMenuWillHidden:(DMPullDownMenu *)menu   // 当下拉菜单将要收起时调用
+//{
+//
+//}
+//- (void)pulldownMenuDidHidden:(DMPullDownMenu *)menu   // 当下拉菜单已经收起时调用
+//{
+//
+//}
 - (void)rightOneAction:(id)sender {
     [self.pullDownMenu clickMainBtn:(UIButton *)sender];
 }

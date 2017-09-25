@@ -17,6 +17,6 @@
 @property (nonatomic, copy) NSString *start_time;//课程开始时间 秒
 @property (nonatomic, copy) NSString *duration;//课程时长 秒
 @property (nonatomic, copy) NSString *live_status;//0-未开始，1-上课中，2-课程结束，3-取消课程
-@property (nonatomic, copy) NSString *survey;//0 不可点，1，2 可点
+@property (nonatomic, copy) NSString *survey_edit;//0 不可点，1，可点击 2 可查看
 @property (nonatomic, copy) NSString *video_id;//课程回顾的id
 @end

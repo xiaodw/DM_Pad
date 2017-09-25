@@ -42,7 +42,6 @@
 #define AnimateTime 0.25f   // 下拉动画时间
 
 @implementation DMPullDownMenu
-
 {
     UIImageView * _arrowMark;   // 尖头图标
     UIView      * _listView;    // 下拉列表背景View
@@ -50,6 +49,7 @@
     
     NSArray     * _titleArr;    // 选项数组
     CGFloat       _rowHeight;   // 下拉列表行高
+    UIView      * _bgView;
 }
 
 - (id)initWithFrame:(CGRect)frame{
@@ -89,7 +89,7 @@
     if (self == nil) {
         return;
     }
-    
+
     _titleArr  = [NSArray arrayWithArray:titlesArr];
     _rowHeight = rowHeight;
     
@@ -134,7 +134,6 @@
 }
 
 - (void)showPullDown{   // 显示下拉列表
-    
     [_listView.superview bringSubviewToFront:_listView]; // 将下拉列表置于最上层
     
     if ([self.delegate respondsToSelector:@selector(pulldownMenuWillShow:)]) {
@@ -146,7 +145,7 @@
         _arrowMark.transform = CGAffineTransformMakeRotation(M_PI);
         _listView.frame  = CGRectMake(VIEW_X(_listView), VIEW_Y(_listView), VIEW_WIDTH(_listView), _rowHeight *_titleArr.count);
         _tableView.frame = CGRectMake(0, 0, VIEW_WIDTH(_listView), VIEW_HEIGHT(_listView));
-        
+        _bgView.frame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight);
         
         UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:_tableView.bounds byRoundingCorners:UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii:CGSizeMake(5, 5)];
         CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
@@ -178,7 +177,7 @@
         _arrowMark.transform = CGAffineTransformIdentity;
         _listView.frame  = CGRectMake(VIEW_X(_listView), VIEW_Y(_listView), VIEW_WIDTH(_listView), 0);
         _tableView.frame = CGRectMake(0, 0, VIEW_WIDTH(_listView), VIEW_HEIGHT(_listView));
-        
+        _bgView.frame = CGRectZero;
     }completion:^(BOOL finished) {
         
         if ([self.delegate respondsToSelector:@selector(pulldownMenuDidHidden:)]) {
