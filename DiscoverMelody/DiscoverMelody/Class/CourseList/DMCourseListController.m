@@ -85,7 +85,6 @@
 }
 
 - (void)loadDataList:(NSInteger)currentPageNumber {
-    NSLog(@"发送API请求数据");
     WS(weakSelf);
     [DMApiModel getCourseListData:[DMAccount getUserIdentity] sort:@"" page:currentPageNumber condition:[NSString stringWithFormat:@"%ld",self.clCondition] block:^(BOOL result, NSArray *array, BOOL nextPage) {
         if (!result) {
@@ -159,7 +158,6 @@
 
 #pragma mark - UITableViewDataSource;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSLog(@"%zd", self.courses.count);
     return self.courses.count;
 }
 
