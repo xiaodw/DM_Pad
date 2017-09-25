@@ -40,7 +40,7 @@
 @"http://api.cn.discovermelody.com/"))
 
 //配置
-#define DM_Init_SetConfig_Url           [DM_Url stringByAppendingFormat:@"init/setConfig"]
+#define DM_Init_SetConfig_Url           [DM_Url stringByAppendingFormat:@"init/getConfig"]
 
 //登录
 #define DM_User_Loing_Url               [DM_Url stringByAppendingFormat:@"user/login"]

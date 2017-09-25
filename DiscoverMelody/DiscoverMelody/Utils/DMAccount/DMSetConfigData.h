@@ -23,4 +23,5 @@
 @property (nonatomic, copy) NSString *uploadMaxSize;
 @property (nonatomic, copy) NSString *agoraAppId;
 @property (nonatomic, copy) DMAppUpgradeData *app;
+@property (nonatomic, copy) NSString *agoraVideoProfile;
 @end

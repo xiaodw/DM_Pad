@@ -12,6 +12,7 @@
 #define DMConfig_Log_Host @"DMConfig_Log_Host"
 #define DMConfig_AgoraAppId @"DMConfig_AgoraAppId"
 #define DMConfig_UploadMaxSize @"DMConfig_UploadMaxSize"
+#define DMConfig_AgoraVideoProfile @"DMConfig_AgoraVideoProfile"
 
 static DMConfigManager *configInstance = nil;
 
@@ -22,6 +23,7 @@ static DMConfigManager *configInstance = nil;
     self.logHost = [self getLogHost];
     self.agoraAppId = [self getAgoraAppID];
     self.uploadMaxSize = [self getUploadMaxSize];
+    self.agoraVideoProfile = [self getAgoraVideoProfile];
 }
 
 - (void)saveConfigInfo:(DMSetConfigData *)configObj {
@@ -31,11 +33,13 @@ static DMConfigManager *configInstance = nil;
         [DMConfigManager saveLogHost:configObj.logHost];
         [DMConfigManager saveAgoraAppID:configObj.agoraAppId];
         [DMConfigManager saveUploadMaxSize:configObj.uploadMaxSize];
+        [DMConfigManager saveAgoraVideoProfile:configObj.agoraVideoProfile];
         
         self.apiHost = configObj.apiHost;
         self.logHost = configObj.logHost;
         self.agoraAppId = configObj.agoraAppId;
         self.uploadMaxSize = configObj.uploadMaxSize;
+        self.agoraVideoProfile = configObj.agoraVideoProfile;
     }
 }
 
@@ -54,6 +58,11 @@ static DMConfigManager *configInstance = nil;
     return STR_IS_NIL(pid) ? @"2f4301adc17b415c98eba18b7f1066d4": pid;
 }
 
+- (NSString *)getAgoraVideoProfile {
+    NSString *aP = [DMUserDefaults getValueWithKey:DMConfig_AgoraVideoProfile];
+    return STR_IS_NIL(aP) ? @"52": aP;
+}
+
 - (NSString *)getUploadMaxSize {
     NSString *ms = [DMUserDefaults getValueWithKey:DMConfig_UploadMaxSize];
     return STR_IS_NIL(ms) ? [NSString stringWithFormat:@"%d",2*1024*1024]: ms;
@@ -70,6 +79,10 @@ static DMConfigManager *configInstance = nil;
 //保存agora id
 + (void)saveAgoraAppID:(NSString *)agoID {
     [DMUserDefaults setValue:agoID forKey:DMConfig_AgoraAppId];
+}
+//保存
++ (void)saveAgoraVideoProfile:(NSString *)vProfile {
+    [DMUserDefaults setValue:vProfile forKey:DMConfig_AgoraVideoProfile];
 }
 //保存Upload Image Max Size
 + (void)saveUploadMaxSize:(NSString *)maxSize {

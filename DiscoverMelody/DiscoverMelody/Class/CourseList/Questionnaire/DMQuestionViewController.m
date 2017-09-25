@@ -13,6 +13,7 @@
 #import "DMQuestionCell.h"
 #import "IQKeyboardManager.h"
 #import "DMCommitAnswerData.h"
+
 @interface DMQuestionViewController () <DMTabBarViewDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UILabel *classNameLabel;
 @property (nonatomic, strong) UILabel *timeLabel;
@@ -23,6 +24,7 @@
 @property (nonatomic, strong) DMTabBarView *tabBarView;
 @property (nonatomic, strong) UITableView *bTableView;
 @property (nonatomic, strong) UIView *bottomView;
+@property (nonatomic, strong) UIButton *commitBtn;
 @property (nonatomic, assign) BOOL isEditQuest;
 
 @property (nonatomic, strong) UIView *topStatusView;
@@ -45,6 +47,7 @@
 
 @implementation DMQuestionViewController
 
+#define Top_H 180
 #define Space_H 42
 
 - (void)viewDidLoad {
@@ -111,9 +114,12 @@
         self.questionList = obj.list;
         [self.bTableView reloadData];
         if (self.bTableView.tableFooterView == nil && _bottomView) {
+            [self updateBottomViewFrame];
+            NSLog(@"ddddd = %f ---- %f", self.bTableView.contentSize.height, DMScreenHeight);
             self.bTableView.tableFooterView = _bottomView;
             
         }
+        
         if (netCallBack) {
             [self performSelector:@selector(delayMethodDisplay) withObject:nil afterDelay:0.2];
         } else {
@@ -255,6 +261,17 @@
     }
 }
 
+- (void)updateBottomViewFrame {
+    if (_bTableView.contentSize.height > (DMScreenHeight-180)) {
+        NSLog(@"1");
+        _bottomView.frame = CGRectMake(0, 0, DMScreenWidth, 130);
+    } else {
+        _bottomView.frame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight-180-_bTableView.contentSize.height);
+    }
+    _commitBtn.frame = CGRectMake((_bottomView.frame.size.width-130)/2, _bottomView.frame.size.height-40-35, 130, 40);
+    _bottomView.backgroundColor = [UIColor randomColor];
+}
+
 #pragma mark -
 #pragma mark UITableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -360,17 +377,19 @@
     self.bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, DMScreenWidth, 130)];
     self.bottomView.backgroundColor = [UIColor whiteColor];
     
-    UIButton *commitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    commitBtn.backgroundColor = DMColorBaseMeiRed;
-    [commitBtn setTitle:@"提交" forState:UIControlStateNormal];
-    [commitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [commitBtn.titleLabel setFont:DMFontPingFang_Regular(16)];
-    [commitBtn addTarget:self action:@selector(clickCommitBtn:) forControlEvents:UIControlEventTouchUpInside];
-    commitBtn.layer.cornerRadius = 5;
-    commitBtn.layer.masksToBounds = YES;
-    commitBtn.frame = CGRectMake((_bottomView.frame.size.width-130)/2, (_bottomView.frame.size.height-40)/2+10, 130, 40);
+    self.commitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _commitBtn.backgroundColor = DMColorBaseMeiRed;
+    [_commitBtn setTitle:@"提交" forState:UIControlStateNormal];
+    [_commitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_commitBtn.titleLabel setFont:DMFontPingFang_Regular(16)];
+    [_commitBtn addTarget:self action:@selector(clickCommitBtn:) forControlEvents:UIControlEventTouchUpInside];
+    _commitBtn.layer.cornerRadius = 5;
+    _commitBtn.layer.masksToBounds = YES;
+    //commitBtn.frame = CGRectMake((_bottomView.frame.size.width-130)/2, (_bottomView.frame.size.height-40)/2+10, 130, 40);
+    _commitBtn.frame = CGRectMake((_bottomView.frame.size.width-130)/2, _bottomView.frame.size.height-40-35, 130, 40);
     //[self.view addSubview:bottomView];
-    [_bottomView addSubview:commitBtn];
+    [_bottomView addSubview:_commitBtn];
+    
     [self.view addSubview:_bTableView];
     _bottomView.hidden = YES;
     
