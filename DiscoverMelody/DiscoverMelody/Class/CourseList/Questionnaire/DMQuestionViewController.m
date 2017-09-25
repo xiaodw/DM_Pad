@@ -382,15 +382,16 @@
     self.bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, DMScreenWidth, 130)];
     self.bottomView.backgroundColor = [UIColor whiteColor];
     
-    UIButton *commitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    commitBtn.backgroundColor = DMColorBaseMeiRed;
-    [commitBtn setTitle:DMTitleSubmit forState:UIControlStateNormal];
-    [commitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [commitBtn.titleLabel setFont:DMFontPingFang_Regular(16)];
-    [commitBtn addTarget:self action:@selector(clickCommitBtn:) forControlEvents:UIControlEventTouchUpInside];
-    commitBtn.layer.cornerRadius = 5;
-    commitBtn.layer.masksToBounds = YES;
-    commitBtn.frame = CGRectMake((_bottomView.frame.size.width-130)/2, (_bottomView.frame.size.height-40)/2+10, 130, 40);
+    self.commitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _commitBtn.backgroundColor = DMColorBaseMeiRed;
+    [_commitBtn setTitle:DMTitleSubmit forState:UIControlStateNormal];
+    [_commitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_commitBtn.titleLabel setFont:DMFontPingFang_Regular(16)];
+    [_commitBtn addTarget:self action:@selector(clickCommitBtn:) forControlEvents:UIControlEventTouchUpInside];
+    _commitBtn.layer.cornerRadius = 5;
+    _commitBtn.layer.masksToBounds = YES;
+    //commitBtn.frame = CGRectMake((_bottomView.frame.size.width-130)/2, (_bottomView.frame.size.height-40)/2+10, 130, 40);
+    _commitBtn.frame = CGRectMake((_bottomView.frame.size.width-130)/2, _bottomView.frame.size.height-40-35, 130, 40);
     //[self.view addSubview:bottomView];
     [_bottomView addSubview:_commitBtn];
     
