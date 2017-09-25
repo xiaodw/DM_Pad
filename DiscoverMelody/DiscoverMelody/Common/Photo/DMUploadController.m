@@ -105,7 +105,6 @@
 }
 
 #pragma mark - DMAssetsCollectionViewDelegate
-
 /** collectionView: 点击left */
 - (void)albrmsCollectionView:(DMAssetsCollectionView *)albrmsCollectionView didTapLeftButton:(UIButton *)leftButton {
     [_albumsView remakeConstraints:^(MASConstraintMaker *make) {

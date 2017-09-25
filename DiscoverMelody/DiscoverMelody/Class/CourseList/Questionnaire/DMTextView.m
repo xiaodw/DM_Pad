@@ -25,7 +25,7 @@
 - (UITextField *)textField {
     if (!_textField) {
         _textField = [[UITextField alloc] initWithFrame:CGRectMake(10, 0, self.frame.size.width-20, self.frame.size.height)];
-        _textField.placeholder = @"请填写";
+        _textField.placeholder = DMTextPlaceholderMustFill;
         _textField.textColor = DMColorWithRGBA(102, 102, 102, 1);
         _textField.font = DMFontPingFang_Light(14);
         _textField.textAlignment = NSTextAlignmentLeft;

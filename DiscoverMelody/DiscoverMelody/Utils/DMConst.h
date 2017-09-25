@@ -20,6 +20,7 @@ UIKIT_EXTERN NSString * const DMTitleNetworkError;
 UIKIT_EXTERN NSString * const DMTitleNetworkException;
 UIKIT_EXTERN NSString * const DMTitleLogin;
 UIKIT_EXTERN NSString * const DMTitleOK;
+UIKIT_EXTERN NSString * const DMTitleSubmit;
 UIKIT_EXTERN NSString * const DMTitleCancel;
 UIKIT_EXTERN NSString * const DMTitlePhoto;
 UIKIT_EXTERN NSString * const DMTitleContactCustomerService;
@@ -49,6 +50,7 @@ UIKIT_EXTERN NSString * const DMTextLiveStartTimeInterval;
 UIKIT_EXTERN NSString * const DMTextLiveStudentNotEnter;
 UIKIT_EXTERN NSString * const DMTextLiveTeacherNotEnter;
 UIKIT_EXTERN NSString * const DMTextNotClass;
+UIKIT_EXTERN NSString * const DMTextStartClassTime;
 UIKIT_EXTERN NSString * const DMTextMinutes;
 UIKIT_EXTERN NSString * const DMTextClassNumber;
 UIKIT_EXTERN NSString * const DMTextClassName;
@@ -63,6 +65,9 @@ UIKIT_EXTERN NSString * const DMTextQuestionnaire;
 UIKIT_EXTERN NSString * const DMTextRecentNotClass;
 UIKIT_EXTERN NSString * const DMTextCustomerServiceDescribe;
 UIKIT_EXTERN NSString * const DMTextLoginDescribe;
+UIKIT_EXTERN NSString * const DMTextPlaceholderAccount;
+UIKIT_EXTERN NSString * const DMTextPlaceholderPassword;
+UIKIT_EXTERN NSString * const DMTextPlaceholderMustFill;
 UIKIT_EXTERN NSString * const DMAlertTitleCameraNotOpen;
 UIKIT_EXTERN NSString * const DMKeyStatusNotStart;
 UIKIT_EXTERN NSString * const DMKeyStatusInclass;
@@ -73,6 +78,7 @@ UIKIT_EXTERN NSString * const DMStringIDTeacher;
 UIKIT_EXTERN NSString * const DMStringConsultationTelephoneChina;
 UIKIT_EXTERN NSString * const DMStringConsultationTelephoneUSA;
 UIKIT_EXTERN NSString * const DMStringDiscoverMelodyWeChat;
+UIKIT_EXTERN NSString * const DMStringWeChatNumber;
 UIKIT_EXTERN NSString * const DMTitleStudentQuestionFild;
 UIKIT_EXTERN NSString * const DMTitleTeacherQuestionFild;
 UIKIT_EXTERN NSString * const DMTitleNoTeacherQuestionComFild;
@@ -80,7 +86,7 @@ UIKIT_EXTERN NSString * const DMTitleTeacherQuestionReviewFild;
 UIKIT_EXTERN NSString * const DMTitleTeacherQuestionFailedFild;
 UIKIT_EXTERN NSString * const DMTitleTeacherQuestionSuccessFild;
 
-
+UIKIT_EXTERN NSString * const DMDateFormatterYMD;
 
 
 

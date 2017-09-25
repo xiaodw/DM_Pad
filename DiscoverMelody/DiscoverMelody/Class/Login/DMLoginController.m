@@ -199,7 +199,7 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
     if (!_accountTextField) {
         _accountTextField = [DMLoginTextField new];
         _accountTextField.image = [UIImage imageNamed:@"icon_account"];
-        _accountTextField.placeholder = @"请输入用户名";
+        _accountTextField.placeholder = DMTextPlaceholderAccount;
         _accountTextField.delegate = self;
         _accountTextField.placeholderColor = [DMColorWithHexString(@"#FFFFFF") colorWithAlphaComponent:0.2];
     }
@@ -211,7 +211,7 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
     if (!_passwordTextField) {
         _passwordTextField = [DMLoginTextField new];
         _passwordTextField.image = [UIImage imageNamed:@"icon_pwd"];
-        _passwordTextField.placeholder = @"请输入密码";
+        _passwordTextField.placeholder = DMTextPlaceholderPassword;
         _passwordTextField.secureTextEntry = YES;
         _passwordTextField.placeholderColor = [DMColorWithHexString(@"#FFFFFF") colorWithAlphaComponent:0.2];
         _passwordTextField.delegate = self;
