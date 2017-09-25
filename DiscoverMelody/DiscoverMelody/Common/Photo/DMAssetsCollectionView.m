@@ -13,6 +13,7 @@
 @interface DMAssetsCollectionView() <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (strong, nonatomic) UIView *backgroundView;
+@property (strong, nonatomic) UIView *backgroundCloseView;
 @property (strong, nonatomic) DMNavigationBar *navigationBar;
 @property (strong, nonatomic) UICollectionView *collectionView;
 @property (strong, nonatomic) UIView *bottomBar;
@@ -53,6 +54,7 @@
 
 #pragma mark - AddSubviews
 - (void)setupMakeAddSubviews {
+    [self addSubview:self.backgroundCloseView];
     [self addSubview:self.uploadBrowseView];
     [self addSubview:self.backgroundView];
     [self addSubview:self.navigationBar];
@@ -62,6 +64,10 @@
 
 #pragma mark - LayoutSubviews
 - (void)setupMakeLayoutSubviews {
+    [_backgroundCloseView makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
+    
     [_backgroundView makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.bottom.equalTo(self);
         make.width.equalTo(DMScreenWidth*0.5);
@@ -179,6 +185,11 @@
     
     if (![self.delegate respondsToSelector:@selector(albrmsCollectionView:didTapRightButton:)]) return;
     [self.delegate albrmsCollectionView:self didTapRightButton:sender];
+}
+
+- (void)didTapBackground {
+    if (self.selectedAssets.count) return;
+    [self didTapSelect:_navigationBar.rightBarButton];
 }
 
 - (void)reinstateSelectedCpirses {
@@ -386,6 +397,16 @@
     }
     
     return _backgroundView;
+}
+
+- (UIView *)backgroundCloseView {
+    if (!_backgroundCloseView) {
+        _backgroundCloseView = [UIView new];
+        UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapBackground)];
+        [_backgroundCloseView addGestureRecognizer:tapGestureRecognizer];
+    }
+    
+    return _backgroundCloseView;
 }
 
 - (DMBOSClientManager *)bosManager {

@@ -11,6 +11,7 @@
 @interface DMUploadController () <DMAlbumsTableViewDelegate, DMAssetsCollectionViewDelegate>
 
 @property (strong, nonatomic) UIView *albumBackgroundView; // 背景
+@property (strong, nonatomic) UIView *backgroundView; // 背景
 @property (strong, nonatomic) DMAlbumsTableView *albumsView; // 所有的专辑
 @property (strong, nonatomic) DMAssetsCollectionView *assetsView; // 某个专辑对应的所有资源图片
 @property (strong, nonatomic) DMAlbumAssetHelp *imagePickerHelp; // 一个获取图片的类
@@ -73,6 +74,13 @@
     [self.navigationController setNavigationBarHidden:NO];
 }
 
+#pragma mark - Function
+- (void)didTapBackground {
+    [self.liveVC.presentVCs removeObject:self];
+    self.liveVC = nil;
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark - DMAlbumsTableViewDelegate
 /** tableView: 点击返回退出 */
 - (void)albumsTableView:(DMAlbumsTableView *)albumsTableView didTapRightButton:(UIButton *)rightButton {
@@ -128,9 +136,7 @@
 
 /** collectionView: 点击right退出 */
 - (void)albrmsCollectionView:(DMAssetsCollectionView *)albrmsCollectionView didTapRightButton:(UIButton *)rightButton {
-    [self.liveVC.presentVCs removeObject:self];
-    self.liveVC = nil;
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self didTapBackground];
 }
 
 /** collectionView: 上传之后成功回调 */
@@ -144,12 +150,17 @@
 
 #pragma mark - AddSubviews
 - (void)setupMakeAddSubviews {
+    [self.view addSubview:self.backgroundView];
     [self.view addSubview:self.albumBackgroundView];
     [self.view addSubview:self.assetsView];
 }
 
 #pragma mark - LayoutSubviews
 - (void)setupMakeLayoutSubviews {
+    [_backgroundView makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
+    
     [_albumBackgroundView remakeConstraints:^(MASConstraintMaker *make) {
         make.left.top.bottom.equalTo(self.view);
         make.width.equalTo(DMScreenWidth*0.5);
@@ -161,6 +172,17 @@
 }
 
 #pragma mark - Lazy
+
+- (UIView *)backgroundView {
+    if (!_backgroundView) {
+        _backgroundView = [UIView new];
+        UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapBackground)];
+        [_backgroundView addGestureRecognizer:tapGestureRecognizer];
+    }
+    
+    return _backgroundView;
+}
+
 - (DMAlbumsTableView *)albumsView {
     if (!_albumsView) {
         _albumsView = [DMAlbumsTableView new];
