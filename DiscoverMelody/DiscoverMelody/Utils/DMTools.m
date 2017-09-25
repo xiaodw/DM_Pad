@@ -122,4 +122,87 @@
     }
 }
 
+//进行图片压缩
++ (NSData *)compressedImageForUpload:(UIImage *)sourceImage {
+    if (sourceImage == nil) {
+        return nil;
+    }
+    NSData *imageData = UIImagePNGRepresentation(sourceImage);
+    if (imageData == nil) {
+        imageData = UIImageJPEGRepresentation(sourceImage, 1);
+        if (imageData == nil) {
+            return nil;
+        }
+    }
+
+    return [DMTools compressedImageDataForUpload:imageData];
+    //
+//    NSInteger sourceVolume = (unsigned long)imageData.length/1024;
+//    NSInteger boundariesValue = 1000;//[[DMConfigManager shareInstance].uploadMaxSize integerValue];
+//    NSLog(@"Size of Image(bytes-->KB):%lu",sourceVolume);
+//    if (sourceVolume > boundariesValue) {
+//        float ss = (float)boundariesValue/sourceVolume;
+//        if (ss < 1.0) {
+//            NSFileManager* fileManager=[NSFileManager defaultManager];
+//            NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+//            // 拼接图片名为"currentImage.png"的路径
+//            NSString *imageFilePath = [path stringByAppendingPathComponent:@"currentCompressedImage.jpg"];
+//            [UIImageJPEGRepresentation(sourceImage, 1) writeToFile:imageFilePath atomically:YES];
+//            UIImage *imgFromDoc = [[UIImage alloc] initWithContentsOfFile:imageFilePath];
+//            //[fileManager removeItemAtPath:imageFilePath error:nil];
+//            return UIImageJPEGRepresentation(imgFromDoc, ss);
+//        }
+//    }
+//    return imageData;
+}
++ (NSData *)compressedImageDataForUpload:(NSData *)sourceData {
+    if (sourceData == nil) {
+        return nil;
+    }
+    NSFileManager* fileManager=[NSFileManager defaultManager];
+    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    // 拼接图片名为"currentImage.png"的路径
+    NSString *imageFilePath = [path stringByAppendingPathComponent:@"currentCompressedImage.jpg"];
+    NSData *resultData = sourceData;
+    NSString *type = [DMTools typeForImageData:sourceData];
+    if ([type isEqualToString:@"image/png"]) {
+        UIImage *image = [UIImage imageWithData: sourceData];
+        [UIImageJPEGRepresentation(image, 1) writeToFile:imageFilePath atomically:YES];
+        UIImage *imgFromDoc = [[UIImage alloc] initWithContentsOfFile:imageFilePath];
+        NSData *imageData = UIImageJPEGRepresentation(imgFromDoc, 1);
+        [fileManager removeItemAtPath:imageFilePath error:nil];
+        resultData = imageData;
+    }
+    NSInteger sourceVolume = (unsigned long)resultData.length/1024;
+    NSInteger boundariesValue = [[DMConfigManager shareInstance].uploadMaxSize integerValue]/1024;
+    NSLog(@"Size of Image(bytes-->KB):%lu",sourceVolume);
+    if (sourceVolume > boundariesValue) {
+        CGFloat ss = (CGFloat)boundariesValue/sourceVolume;
+        if (ss < 1.0) {
+            UIImage *imageResult = [UIImage imageWithData: resultData];
+            NSData *lastedData = UIImageJPEGRepresentation(imageResult, ((ss < 0.1) ? 0.1: ss));
+            [lastedData writeToFile:imageFilePath atomically:YES];
+            return lastedData;
+        }
+    }
+    return resultData;
+}
+
++ (NSString *)typeForImageData:(NSData *)data {
+    uint8_t c;
+    [data getBytes:&c length:1];
+    switch (c) {
+        case 0xFF:
+            return @"image/jpeg";
+        case 0x89:
+            return @"image/png";
+        case 0x47:
+            return @"image/gif";
+        case 0x49:
+        case 0x4D:
+            return @"image/tiff";
+    }
+    return @"";
+}
+
 @end

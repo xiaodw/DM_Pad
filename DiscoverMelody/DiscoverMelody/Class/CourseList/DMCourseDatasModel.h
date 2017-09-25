@@ -9,7 +9,7 @@
 #import "DMBaseDataModel.h"
 
 @interface DMCourseDatasModel : DMBaseDataModel
-@property (nonatomic, copy) NSString *course_id;
+@property (nonatomic, copy) NSString *lesson_id;
 @property (nonatomic, copy) NSString *course_name;
 @property (nonatomic, copy) NSString *teacher_name;//老师姓名
 @property (nonatomic, copy) NSString *student_name;//学生姓名

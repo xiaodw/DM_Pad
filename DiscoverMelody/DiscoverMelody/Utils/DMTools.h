@@ -47,4 +47,7 @@
 //获取纯色图片
 + (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size alpha:(float)alpha;
 
+//进行图片压缩
++ (NSData *)compressedImageForUpload:(UIImage *)sourceImage;
++ (NSData *)compressedImageDataForUpload:(NSData *)sourceData;
 @end

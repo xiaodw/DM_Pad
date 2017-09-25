@@ -48,7 +48,7 @@ static DMBOSClientManager *bosinstance = nil;
     if (self.formatType == DMFormatUploadFileType_FilePath) {
         content.objectData.file = self.filePath;//@"<FilePath>";
     } else {
-        content.objectData.data = self.fileData;//@"<NSData object>";
+        content.objectData.data = [DMTools compressedImageDataForUpload:self.fileData];//self.fileData;//@"<NSData object>";
     }
     
     BOSPutObjectRequest* request = [[BOSPutObjectRequest alloc] init];

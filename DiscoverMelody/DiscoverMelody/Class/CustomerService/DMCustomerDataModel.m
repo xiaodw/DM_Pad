@@ -17,6 +17,14 @@
 @end
 
 @implementation DMCustomerTeacher
+- (id)init {
+    self = [super init];
+    if (self) {
+        self.isFurled = YES;
+    }
+    return self;
+}
+
 +(NSDictionary *)mj_objectClassInArray
 {
     return @{

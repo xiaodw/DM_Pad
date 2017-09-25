@@ -54,6 +54,7 @@
 		2A5EA6BC1F73527E0041CBD2 /* DMCloudConfigData.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A5EA6BB1F73527E0041CBD2 /* DMCloudConfigData.m */; };
 		2A5EA6BF1F73AF7A0041CBD2 /* DMCommitAnswerData.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A5EA6BE1F73AF7A0041CBD2 /* DMCommitAnswerData.m */; };
 		2A5F86C61F5CEDDF00773ADD /* DMBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A5F86C51F5CEDDF00773ADD /* DMBaseViewController.m */; };
+		2A6372C21F7657E600E99F09 /* Poster.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A6372C11F7657E600E99F09 /* Poster.png */; };
 		2A691A791F6F9DA3007293C5 /* DMCommonModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A691A781F6F9DA3007293C5 /* DMCommonModel.m */; };
 		2A73EA981F74A09F00856B3E /* BaiduBCEBasic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A73EA951F74A09E00856B3E /* BaiduBCEBasic.framework */; };
 		2A73EA991F74A09F00856B3E /* BaiduBCEBOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A73EA961F74A09F00856B3E /* BaiduBCEBOS.framework */; };
@@ -273,6 +274,7 @@
 		2A5F86C41F5CEDDF00773ADD /* DMBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMBaseViewController.h; sourceTree = "<group>"; };
 		2A5F86C51F5CEDDF00773ADD /* DMBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMBaseViewController.m; sourceTree = "<group>"; };
 		2A5F86C71F5D260E00773ADD /* DiscoverMelody-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DiscoverMelody-Prefix.pch"; sourceTree = "<group>"; };
+		2A6372C11F7657E600E99F09 /* Poster.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Poster.png; sourceTree = "<group>"; };
 		2A68AF061F6624B300EECEF3 /* DMServerApiConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DMServerApiConfig.h; sourceTree = "<group>"; };
 		2A691A771F6F9DA3007293C5 /* DMCommonModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCommonModel.h; sourceTree = "<group>"; };
 		2A691A781F6F9DA3007293C5 /* DMCommonModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCommonModel.m; sourceTree = "<group>"; };
@@ -753,6 +755,7 @@
 		2A5F86C31F5CEDAD00773ADD /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				2A6372C11F7657E600E99F09 /* Poster.png */,
 				2A3D1CFB1F690F41005671B2 /* loading_bgView1.png */,
 				2AF870F21F67C16A0001E2D3 /* zu0.jpg */,
 				2AF870F31F67C16A0001E2D3 /* zu1.jpg */,
@@ -1151,6 +1154,7 @@
 				TargetAttributes = {
 					2A03AF411F555FA80088DBF4 = {
 						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = BR9B47C6A9;
 						ProvisioningStyle = Automatic;
 					};
 					2A03AF5A1F555FA80088DBF4 = {
@@ -1201,6 +1205,7 @@
 				2A27E0D91F5EA65300865644 /* InfoPlist.strings in Resources */,
 				2AC06F041F622DD2009F9BFA /* timg1.jpg in Resources */,
 				2AF870FE1F67C16A0001E2D3 /* zu5.jpg in Resources */,
+				2A6372C21F7657E600E99F09 /* Poster.png in Resources */,
 				2A9D91691F669D2800DF4A3B /* codeTest.png in Resources */,
 				2AF870FA1F67C16A0001E2D3 /* zu1.jpg in Resources */,
 				2AF870FC1F67C16A0001E2D3 /* zu3.jpg in Resources */,
@@ -1559,7 +1564,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = BR9B47C6A9;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1585,7 +1590,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = BR9B47C6A9;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

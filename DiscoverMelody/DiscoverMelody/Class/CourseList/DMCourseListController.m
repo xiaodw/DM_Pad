@@ -87,31 +87,23 @@
             
             NSInteger nextPageNum = currentPageNumber + 1;
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                //        if (!kResponseCode(200)) {
-                //            [self endRefreshing];
-                //            return;
-                //        }
-                
+
                 if (currentPageNumber == 1) {
                     [weakSelf.courses removeAllObjects];
                     weakSelf.tableView.mj_footer.hidden = NO;
                 }
-                
-                //        NSArray *data = [responseObject objectForKey:@"data"];
-                //        NSArray *moreData = [BDArticleListModel mj_objectArrayWithKeyValuesArray:data];
                 [weakSelf.courses addObjectsFromArray:array];
-                
                 weakSelf.currentPageNumber = nextPageNum;
-                [weakSelf endRefreshing];
-                if (array) {
-                    [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
-                    weakSelf.tableView.mj_footer.hidden = YES;
-                }
-                weakSelf.noCourseView.hidden = weakSelf.courses.count;
-                
-                [weakSelf.tableView reloadData];
+        
             });
         }
+        [weakSelf endRefreshing];
+        if (array) {
+            [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
+            weakSelf.tableView.mj_footer.hidden = YES;
+        }
+        weakSelf.noCourseView.hidden = weakSelf.courses.count;
+        [weakSelf.tableView reloadData];
     }];
  
 }
@@ -189,7 +181,7 @@
         
         DMMoviePlayerViewController *movieVC = [[DMMoviePlayerViewController alloc] init];
         //movieVC.videoURL = [NSURL URLWithString:@"http://baobab.wdjcdn.com/1456316686552The.mp4"];
-        movieVC.lessonID = model.course_id;
+        movieVC.lessonID = model.lesson_id;
         [self.navigationController pushViewController:movieVC animated:YES];
     }
 
@@ -197,20 +189,28 @@
 
 // 课件
 - (void)courseListCellDidTapCoursesFiles:(DMCourseListCell *)courseListCell {
-    DMCourseFilesController *courseFilesVC = [DMCourseFilesController new];
-    courseFilesVC.columns = 6;
-    courseFilesVC.leftMargin = 15;
-    courseFilesVC.rightMargin = 15;
-    courseFilesVC.columnSpacing = 15;
-    courseFilesVC.isFullScreen = YES;
-    DMTransitioningAnimationHelper *animationHelper = [DMTransitioningAnimationHelper new];
-    self.animationHelper = animationHelper;
-    animationHelper.animationType = DMTransitioningAnimationRight;
-    animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight);
-    courseFilesVC.transitioningDelegate = animationHelper;
-    courseFilesVC.modalPresentationStyle = UIModalPresentationCustom;
-    courseFilesVC.lessonID = @"1";
-    [self presentViewController:courseFilesVC animated:YES completion:nil];
+    
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:courseListCell];
+    if (indexPath.row < self.courses.count) {
+        DMCourseDatasModel *model = [self.courses objectAtIndex:indexPath.row];
+        
+        DMCourseFilesController *courseFilesVC = [DMCourseFilesController new];
+        courseFilesVC.columns = 6;
+        courseFilesVC.leftMargin = 15;
+        courseFilesVC.rightMargin = 15;
+        courseFilesVC.columnSpacing = 15;
+        courseFilesVC.isFullScreen = YES;
+        DMTransitioningAnimationHelper *animationHelper = [DMTransitioningAnimationHelper new];
+        self.animationHelper = animationHelper;
+        animationHelper.animationType = DMTransitioningAnimationRight;
+        animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight);
+        courseFilesVC.transitioningDelegate = animationHelper;
+        courseFilesVC.modalPresentationStyle = UIModalPresentationCustom;
+        courseFilesVC.lessonID = model.lesson_id;
+        [self presentViewController:courseFilesVC animated:YES completion:nil];
+    
+    }
+
 }
 
 // 调查问卷

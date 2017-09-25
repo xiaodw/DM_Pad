@@ -56,7 +56,7 @@ static DMConfigManager *configInstance = nil;
 
 - (NSString *)getUploadMaxSize {
     NSString *ms = [DMUserDefaults getValueWithKey:DMConfig_UploadMaxSize];
-    return STR_IS_NIL(ms) ? @"2048": ms;
+    return STR_IS_NIL(ms) ? [NSString stringWithFormat:@"%d",2*1024*1024]: ms;
 }
 
 //保存APi Url

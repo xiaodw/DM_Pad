@@ -24,6 +24,8 @@
 @property (nonatomic, strong) UIImageView *iconImageView;
 @property (nonatomic, strong) UILabel *titleLabel;
 
+@property (nonatomic, strong) UIButton *cfBtn;//本课文件按钮
+
 @end
 
 @implementation DMHomeView
@@ -233,24 +235,31 @@
     [_topView addSubview:self.timeLabel];
 
     if (headView1 == nil) {
+        //老师端
         [_courseLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_topView.mas_top).offset(164);
+            make.top.equalTo(_topView.mas_top).offset(144);
             make.centerX.equalTo(_topView);
-            make.size.equalTo(CGSizeMake(330, 20));
+            //make.size.equalTo(CGSizeMake(330, 20));
+            make.height.equalTo(40);
+            make.width.equalTo(DMScreenWidth-116*2);
         }];
     } else {
+        //学生端
         [_courseLabel makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(headView1.mas_bottom).offset(30);
             make.centerX.equalTo(_topView);
-            make.size.equalTo(CGSizeMake(330, 20));
+            //make.size.equalTo(CGSizeMake(330, 20));
+            make.height.equalTo(40);
+            make.width.equalTo(DMScreenWidth-116*2);
         }];
     }
-
     
     [_nameLabel makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_courseLabel.mas_bottom).offset(14);
         make.centerX.equalTo(_topView);
-        make.size.equalTo(CGSizeMake(100, 20));
+        make.left.equalTo(_courseLabel);
+        make.right.equalTo(_courseLabel);
+        //make.size.equalTo(CGSizeMake(100, 20));
     }];
     
     [_timeLabel makeConstraints:^(MASConstraintMaker *make) {
@@ -263,9 +272,9 @@
 
 - (void)configRightRegionView {
     
-    UIButton *cfBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [cfBtn setImage:[UIImage imageNamed:@"hp_course_file"] forState:UIControlStateNormal];
-    [cfBtn addTarget:self action:@selector(clickCourseFileBtn:) forControlEvents:UIControlEventTouchUpInside];
+    self.cfBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_cfBtn setImage:[UIImage imageNamed:@"hp_course_file"] forState:UIControlStateNormal];
+    [_cfBtn addTarget:self action:@selector(clickCourseFileBtn:) forControlEvents:UIControlEventTouchUpInside];
     
     UILabel *cfLabel = [[UILabel alloc] init];
     cfLabel.text = DMTextThisClassFile;
@@ -283,19 +292,19 @@
     crLabel.textColor = [UIColor whiteColor];
     crLabel.font = DMFontPingFang_Medium(14);
     
-    [_topView addSubview:cfBtn];
+    [_topView addSubview:_cfBtn];
     [_topView addSubview:cfLabel];
     [_topView addSubview:crBtn];
     [_topView addSubview:crLabel];
 
-    [cfBtn makeConstraints:^(MASConstraintMaker *make) {
+    [_cfBtn makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_topView.mas_top).offset(117);
         make.right.equalTo(_topView.mas_right).offset(-46);
         make.size.equalTo(CGSizeMake(70, 70));
     }];
     
     [cfLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(cfBtn.mas_bottom).offset(17);
+        make.top.equalTo(_cfBtn.mas_bottom).offset(17);
         make.right.equalTo(_topView.mas_right).offset(-46);
         make.size.equalTo(CGSizeMake(70, 15));
     }];

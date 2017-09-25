@@ -36,7 +36,8 @@
         make.top.left.bottom.right.equalTo(self);
     }];
     [self.selButton makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.bottom.equalTo(self.radioView);
+        make.left.equalTo(self.radioView).offset(10);
+        make.top.bottom.equalTo(self.radioView);
         make.size.equalTo(92);
     }];
 }
@@ -48,6 +49,8 @@
     [btn setImage:[UIImage imageNamed:@"question_radio_nor"] forState:UIControlStateNormal];
     [btn setImage:[UIImage imageNamed:@"question_radio_sel"] forState:UIControlStateSelected];
     [btn.titleLabel setFont:DMFontPingFang_Light(14)];
+    btn.contentHorizontalAlignment =UIControlContentHorizontalAlignmentLeft;
+    btn.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     //btn.userInteractionEnabled = NO;
     return btn;
 }
