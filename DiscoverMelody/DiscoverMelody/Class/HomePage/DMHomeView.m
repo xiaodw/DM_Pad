@@ -237,7 +237,7 @@
     if (headView1 == nil) {
         //老师端
         [_courseLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_topView.mas_top).offset(164);
+            make.top.equalTo(_topView.mas_top).offset(144);
             make.centerX.equalTo(_topView);
             //make.size.equalTo(CGSizeMake(330, 20));
             make.height.equalTo(40);

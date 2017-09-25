@@ -181,7 +181,7 @@
         
         DMMoviePlayerViewController *movieVC = [[DMMoviePlayerViewController alloc] init];
         //movieVC.videoURL = [NSURL URLWithString:@"http://baobab.wdjcdn.com/1456316686552The.mp4"];
-        movieVC.lessonID = model.course_id;
+        movieVC.lessonID = model.lesson_id;
         [self.navigationController pushViewController:movieVC animated:YES];
     }
 

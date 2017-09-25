@@ -44,7 +44,7 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
     //课程状态
     NSInteger live_status = [model.live_status intValue];
     
-    _numberLabel.text = [NSString stringWithFormat:@"    %@", model.course_id];
+    _numberLabel.text = [NSString stringWithFormat:@"    %@", model.lesson_id];
     _nameLabel.text = model.course_name;
     
     NSInteger userIdentity = [[DMAccount getUserIdentity] intValue];

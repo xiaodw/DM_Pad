@@ -67,7 +67,7 @@
 
 - (void)getQuestionList {
     WS(weakSelf);
-    [DMApiModel getQuestInfo:self.courseObj.course_id block:^(BOOL result, DMQuestData *obj) {
+    [DMApiModel getQuestInfo:self.courseObj.lesson_id block:^(BOOL result, DMQuestData *obj) {
         if (result && !OBJ_IS_NIL(obj) && obj.list.count > 0) {
             weakSelf.myQuestObj = obj;
             NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
@@ -83,7 +83,7 @@
 
 - (void)getSurveyTeacher {
     WS(weakSelf);
-    [DMApiModel getTeacherAppraise:self.courseObj.course_id block:^(BOOL result, DMQuestData *obj) {
+    [DMApiModel getTeacherAppraise:self.courseObj.lesson_id block:^(BOOL result, DMQuestData *obj) {
         if (result && !OBJ_IS_NIL(obj) && obj.list.count > 0) {
             weakSelf.teachSurveyObj = obj;
             if (weakSelf.currentSegmentTeachSurvey) {
@@ -132,7 +132,7 @@
     NSMutableArray *array = [NSMutableArray array];
     for (DMQuestSingleData *data in self.questionList) {
         DMCommitAnswerData *obj = [[DMCommitAnswerData alloc] init];
-        obj.lesson_id = self.courseObj.course_id;
+        obj.lesson_id = self.courseObj.lesson_id;
         obj.question_id = data.question_id;
         obj.content = data.answer_content;
         [array addObject:obj];
@@ -454,7 +454,7 @@
     }];
     [_classNameLabel makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(_topImageView.mas_bottom).offset(-47);
-        make.left.equalTo(_topImageView);
+        make.left.equalTo(_topImageView).offset(140);
         make.right.equalTo(_timeLabel.mas_left).offset(-52);
         make.height.equalTo(40);
     }];
@@ -487,7 +487,7 @@
     [_nameLabel makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(_topImageView.mas_bottom).offset(-47);
         make.left.equalTo(_hImageView.mas_right).offset(name_r);
-        make.right.equalTo(_topImageView.mas_right).offset(0);
+        make.right.equalTo(_topImageView.mas_right).offset(-140);
         make.height.equalTo(40);
     }];
     

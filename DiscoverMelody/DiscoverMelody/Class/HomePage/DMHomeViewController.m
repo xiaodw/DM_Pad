@@ -156,7 +156,7 @@
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
     [SVProgressHUD show];
     
-    [DMApiModel joinClaseeRoom:self.courseObj.course_id accessTime:[DMTools getCurrentTimestamp] block:^(BOOL result, DMClassDataModel *obj) {
+    [DMApiModel joinClaseeRoom:self.courseObj.lesson_id accessTime:[DMTools getCurrentTimestamp] block:^(BOOL result, DMClassDataModel *obj) {
         btn.userInteractionEnabled = YES;
         [SVProgressHUD dismiss];
         if (result) {
