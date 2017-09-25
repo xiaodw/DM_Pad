@@ -51,14 +51,10 @@
 - (void)updateConfigInfo {
     WS(weakSelf);
     [DMApiModel initConfigGet:^(BOOL result, DMSetConfigData *obj) {
-//        if ([obj.app.update intValue] == 1) {
-//            //升级
-//        } else if ([obj.app.update intValue] == 2) {
-//            //强制升级
-//            [weakSelf upgradeMustForApp:obj.app.updateMsg];
-//        }
-//        
         [weakSelf goToApp];
+        if (!OBJ_IS_NIL(obj)) {
+            [weakSelf upgradeMustForApp:obj.app];
+        }
     }];
 }
 
@@ -84,16 +80,36 @@
     [self.window makeKeyAndVisible];
 }
 
-- (void)upgradeMustForApp:(NSString *)msg {
-    
-    DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@""
-                                                                         message:msg
-                                                                  preferredStyle:UIAlertControllerStyleAlert
-                                                                     cancelTitle:nil
-                                                                      otherTitle:@"升级", nil];
-    [alert showWithViewController:self.window.rootViewController IndexBlock:^(NSInteger index) {
+- (void)upgradeMustForApp:(DMAppUpgradeData *)obj {
+    if (!OBJ_IS_NIL(obj)) {
+        DMAlertMananger *alert = [DMAlertMananger shareManager];
+        if (obj.update.intValue == 1) {
+            [alert creatAlertWithTitle:@""
+                               message:obj.updateMsg
+                        preferredStyle:UIAlertControllerStyleAlert
+                           cancelTitle:DMTitleCancel
+                            otherTitle:DMTitleUpgrade, nil];
+        } else if (obj.update.intValue ==2) {
+            [alert creatAlertWithTitle:@""
+                               message:obj.updateMsg
+                        preferredStyle:UIAlertControllerStyleAlert
+                           cancelTitle:DMTitleMustUpgrade
+                            otherTitle: nil];
+        }
         
-    }];
+        [alert showWithViewController:self.window.rootViewController IndexBlock:^(NSInteger index) {
+            if (obj.update.intValue == 1) {
+                if (index == 1) {
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:obj.updateUrl]];
+                }
+            } else {
+                if (index == 0) {
+                    [self.window.rootViewController presentViewController:alert.alertCol animated:YES completion:nil];
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:obj.updateUrl]];
+                }
+            }
+        }];
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

@@ -10,7 +10,6 @@
 
 @interface DMAlertMananger ()
 
-@property(nonatomic, strong)UIAlertController *alertCol;
 @property(nonatomic, strong)NSMutableArray *actionTitles;
 @property(nonatomic,copy)AlertIndexBlock indexBlock;
 

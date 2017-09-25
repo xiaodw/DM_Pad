@@ -11,7 +11,7 @@
 @class DMSetConfigData;
 
 @interface DMAppUpgradeData : NSObject
-@property (nonatomic, copy) NSString *newVer;
+@property (nonatomic, copy) NSString *ver;
 @property (nonatomic, copy) NSString *update;
 @property (nonatomic, copy) NSString *updateMsg;
 @property (nonatomic, copy) NSString *updateUrl;
@@ -22,6 +22,6 @@
 @property (nonatomic, copy) NSString *logHost;
 @property (nonatomic, copy) NSString *uploadMaxSize;
 @property (nonatomic, copy) NSString *agoraAppId;
-@property (nonatomic, copy) DMAppUpgradeData *app;
+@property (nonatomic, strong) DMAppUpgradeData *app;
 @property (nonatomic, copy) NSString *agoraVideoProfile;
 @end
