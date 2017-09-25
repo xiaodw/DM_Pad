@@ -103,7 +103,7 @@
     animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight);
     courseFilesVC.transitioningDelegate = animationHelper;
     courseFilesVC.modalPresentationStyle = UIModalPresentationCustom;
-    courseFilesVC.lessonID = self.courseObj.course_id;
+    courseFilesVC.lessonID = self.courseObj.lesson_id;
     [self presentViewController:courseFilesVC animated:YES completion:nil];
     
     btn.userInteractionEnabled = YES;//防止恶意极限快速点击
@@ -181,7 +181,7 @@
     
     DMLiveController *liveVC = [DMLiveController new];
     liveVC.navigationVC = self.navigationController;
-    liveVC.lessonID = self.courseObj.course_id;
+    liveVC.lessonID = self.courseObj.lesson_id;
     liveVC.totalTime = 45 * 60;
     liveVC.alreadyTime = -400;
     liveVC.warningTime = 5*60;
