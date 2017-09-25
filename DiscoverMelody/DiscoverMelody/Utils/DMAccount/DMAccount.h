@@ -25,6 +25,9 @@
 //读取用户头像
 + (NSString *)getUserHeadUrl;
 
+//读取uid
++ (NSString *)getUserID;
+
 
 //保存账号信息
 + (void)saveAccountInfo:(DMLoginDataModel *)obj;
@@ -40,6 +43,9 @@
 
 //保存用户头像
 + (void)saveUserHeadUrl:(NSString *)headUrl;
+
+//保存用户uid
++ (void)saveUserID:(NSString *)uID;
 
 //清除用户所有信息
 + (void)removeUserAllInfo;
