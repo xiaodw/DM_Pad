@@ -26,7 +26,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 
 @interface DMLiveController ()<DMLiveButtonControlViewDelegate, DMLiveCoursewareViewDelegate, DMCourseFilesControllerDelegate>
 
-#pragma mark - UI
+#pragma mark - UI property
 @property (strong, nonatomic) DMLiveVideoManager *liveVideoManager; // 声网SDK Manager
 @property (strong, nonatomic) UIView *remoteView; // 远端窗口
 @property (strong, nonatomic) UIView *remoteBackgroundView; // 远端窗口
@@ -49,7 +49,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 @property (strong, nonatomic) UILabel *describeTimeLabel; // 底部时间条: 提示
 @property (strong, nonatomic) DMLiveWillStartView *willStartView; // 即将开始的View
 
-#pragma mark - Other
+#pragma mark - Other property
 @property (strong, nonatomic) NSMutableArray *syncCourseFiles;
 @property (strong, nonatomic) dispatch_source_t timer; // 1秒中更新一次时间UI
 @property (assign, nonatomic) NSInteger tapLayoutCount; // 点击布局按钮次数
@@ -60,6 +60,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 
 @implementation DMLiveController
 
+#pragma mark - Set Methods
 - (void)setIsRemoteUserOnline:(BOOL)isRemoteUserOnline {
     _isRemoteUserOnline = isRemoteUserOnline;
     
@@ -68,6 +69,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     }];
 }
 
+#pragma mark - Lifecycle Methods
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -102,6 +104,18 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     }];
 }
 
+#pragma mark - Functions
+- (void)didTapRemote {
+    self.tapLayoutCount = DMLayoutModeAveragDistribution;
+    [self makeLayoutViews];
+}
+
+- (void)didTapLocal {
+    self.tapLayoutCount = DMLayoutModeRemoteAndSmall;
+    [self makeLayoutViews];
+}
+
+#pragma mark - Setup make live
 // 远端有人回调
 - (void)setupMakeLiveCallback {
     // 有用户加入
@@ -122,6 +136,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     };
 }
 
+#pragma mark - JoinChannel
 - (void)joinChannel {
     WS(weakSelf)
     [self.liveVideoManager startLiveVideo:self.localView remote:self.remoteView isTapVideo:YES blockAudioVolume:^(NSInteger totalVolume, NSArray *speakers) {
@@ -175,7 +190,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     }];
 }
 
-#pragma mark - 左侧按钮们点击
+#pragma mark - DMLiveButtonControlViewDelegate
 // 离开
 - (void)liveButtonControlViewDidTapLeave:(DMLiveButtonControlView *)liveButtonControlView {
     WS(weakSelf)
@@ -239,6 +254,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self.presentVCs addObject:courseFilesVC];
 }
 
+#pragma mark - DMLiveCoursewareViewDelegate
 - (void)liveCoursewareViewDidTapClose:(DMLiveCoursewareView *)liveCoursewareView {
     dispatch_async(dispatch_get_main_queue(), ^{
         if (!_isCoursewareMode) return;
@@ -251,7 +267,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     });
 }
 
-#pragma - DMCourseFilesControllerDelegate
+#pragma mark - DMCourseFilesControllerDelegate
 - (void)courseFilesController:(DMCourseFilesController *)courseFilesController syncCourses:(NSArray *)syncCourses {
     dispatch_async(dispatch_get_main_queue(), ^{
         if (!_isCoursewareMode) _beforeLayoutMode = self.tapLayoutCount-1 % DMLayoutModeAll;
@@ -265,6 +281,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     });
 }
 
+#pragma mark - AddSubviews
 - (void)setupMakeAddSubviews {
     [self.view addSubview:self.remoteBackgroundView];
     [self.remoteBackgroundView addSubview:self.remoteView];
@@ -284,6 +301,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self.view addSubview:self.willStartView];
 }
 
+#pragma mark - LayoutSubviews
 - (void)setupMakeLayoutSubviews {
     [_controlView makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.bottom.equalTo(self.view);
@@ -359,24 +377,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     }];
 }
 
-- (void)didTapRemote {
-    self.tapLayoutCount = DMLayoutModeAveragDistribution;
-    [self makeLayoutViews];
-}
-
-- (void)didTapLocal {
-    self.tapLayoutCount = DMLayoutModeRemoteAndSmall;
-    [self makeLayoutViews];
-}
-
-- (DMLiveVideoManager *)liveVideoManager {
-    if (!_liveVideoManager) {
-        _liveVideoManager = [DMLiveVideoManager shareInstance];
-    }
-    
-    return _liveVideoManager;
-}
-
 - (void)setShowPlaceholderView {
     if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeRemoteAndSmall) {
         self.remotePlaceholderView.hidden = self.alreadyTime < 0 || _isRemoteUserOnline;
@@ -386,6 +386,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     self.remotePlaceholderTitleLabel.hidden = self.remotePlaceholderView.hidden;
 }
 
+#pragma mark - timer
 - (void)computTime {
     self.alreadyTime += 1;
     [self setShowPlaceholderView];
@@ -431,6 +432,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     }
 }
 
+#pragma mark - Lazy
 - (dispatch_source_t)timer {
     if (!_timer) {
         // 获得队列
@@ -458,6 +460,14 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         dispatch_resume(_timer);
     }
     return _timer;
+}
+
+- (DMLiveVideoManager *)liveVideoManager {
+    if (!_liveVideoManager) {
+        _liveVideoManager = [DMLiveVideoManager shareInstance];
+    }
+    
+    return _liveVideoManager;
 }
 
 - (void)invalidate {
@@ -669,6 +679,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     return _syncCourseFiles;
 }
 
+#pragma mark - Swich Layout
 - (void)makeLayoutViews {
     self.tapLayoutCount += 1;
     
