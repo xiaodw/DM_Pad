@@ -13,6 +13,7 @@
 @interface DMAssetsCollectionView() <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (strong, nonatomic) UIView *backgroundView;
+@property (strong, nonatomic) UIView *backgroundCloseView;
 @property (strong, nonatomic) DMNavigationBar *navigationBar;
 @property (strong, nonatomic) UICollectionView *collectionView;
 @property (strong, nonatomic) UIView *bottomBar;
@@ -53,15 +54,20 @@
 
 #pragma mark - AddSubviews
 - (void)setupMakeAddSubviews {
+    [self addSubview:self.backgroundCloseView];
     [self addSubview:self.uploadBrowseView];
     [self addSubview:self.backgroundView];
     [self addSubview:self.navigationBar];
-    [self addSubview:self.bottomBar];
     [self addSubview:self.collectionView];
+    [self addSubview:self.bottomBar];
 }
 
 #pragma mark - LayoutSubviews
 - (void)setupMakeLayoutSubviews {
+    [_backgroundCloseView makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
+    
     [_backgroundView makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.bottom.equalTo(self);
         make.width.equalTo(DMScreenWidth*0.5);
@@ -85,6 +91,7 @@
         make.right.equalTo(_navigationBar.mas_right).offset(-15);
         make.bottom.equalTo(_bottomBar.mas_top);
     }];
+    
     [_uploadBrowseView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.bottom.equalTo(self);
         make.width.equalTo(DMScreenWidth*0.5);
@@ -102,7 +109,7 @@
             return;
         }
         
-        DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"有图片上传失败, 是否重新上传" message:@"点击是后继续上传失败的图片" preferredStyle:UIAlertControllerStyleAlert cancelTitle:@"否" otherTitle:@"是", nil];
+        DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:DMTitleUploadFail message:DMTitleUploadFailMessage preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleNO otherTitle:DMTitleYes, nil];
         [alert showWithViewController:(UIViewController *)self.delegate IndexBlock:^(NSInteger index) {
             if (index == 1) { // 右侧
                 [weakSelf uploadPhotos:weakSelf.fieldAssets];
@@ -180,6 +187,11 @@
     [self.delegate albrmsCollectionView:self didTapRightButton:sender];
 }
 
+- (void)didTapBackground {
+    if (self.selectedAssets.count) return;
+    [self didTapSelect:_navigationBar.rightBarButton];
+}
+
 - (void)reinstateSelectedCpirses {
     for (int i = 0; i < self.selectedAssets.count; i++) {
         DMAsset *asset = self.selectedAssets[i];
@@ -248,7 +260,7 @@
     self.uploadButton.enabled = selectedCount;
     self.uploadButton.layer.borderColor = selectedCount ?  DMColorBaseMeiRed.CGColor : DMColorWithRGBA(221, 221, 221, 1) .CGColor;
     
-    NSString *title = selectedCount > 0 ? [NSString stringWithFormat:@"传送(%zd)", selectedCount] : @"传送";
+    NSString *title = selectedCount > 0 ? [NSString stringWithFormat:DMTitlePhotoUploadCount, selectedCount] : DMTitlePhotoUpload;
     [self.uploadButton setTitle:title forState:UIControlStateNormal];
     
     if (selectedCount == 0) {
@@ -302,11 +314,11 @@
         layout.scrollDirection = UICollectionViewScrollDirectionVertical;
         
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-        _collectionView.contentInset = UIEdgeInsetsMake(15, 0, 15, 0);
+        _collectionView.contentInset = UIEdgeInsetsMake(20, 0, 20, 0);
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
         _collectionView.backgroundColor = UIColorFromRGB(0xf6f6f6);
-//        _collectionView.prefetchingEnabled = NO;
+// _collectionView.prefetchingEnabled = NO;
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.showsHorizontalScrollIndicator = NO;
         [_collectionView registerClass:[DMCourseFileCell class] forCellWithReuseIdentifier:kCoursewareCellID];
@@ -318,6 +330,11 @@
     if (!_bottomBar) {
         _bottomBar = [UIView new];
         _bottomBar.backgroundColor = [UIColor whiteColor];
+        
+        _bottomBar.layer.shadowColor = [UIColor blackColor].CGColor; // shadowColor阴影颜色
+        _bottomBar.layer.shadowOffset = CGSizeMake(-3,-7); // shadowOffset阴影偏移,x向右偏移，y向下偏移，默认(0, -3),这个跟shadowRadius配合使用
+        _bottomBar.layer.shadowOpacity = 0.03; // 阴影透明度，默认0
+        _bottomBar.layer.shadowRadius = 7; // 阴影半径，默认3
         
         [_bottomBar addSubview:self.uploadButton];
         [_uploadButton makeConstraints:^(MASConstraintMaker *make) {
@@ -380,6 +397,16 @@
     }
     
     return _backgroundView;
+}
+
+- (UIView *)backgroundCloseView {
+    if (!_backgroundCloseView) {
+        _backgroundCloseView = [UIView new];
+        UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapBackground)];
+        [_backgroundCloseView addGestureRecognizer:tapGestureRecognizer];
+    }
+    
+    return _backgroundCloseView;
 }
 
 - (DMBOSClientManager *)bosManager {

@@ -40,7 +40,7 @@
         if (group) {
             [group setAssetsFilter:filter];
             DMAlbum *album = [DMAlbum album:group];
-            [albums addObject:album];
+            if(album.assets.count>0) [albums addObject:album];
             return;
         }
         if (stop) callBack(YES, albums, NO);

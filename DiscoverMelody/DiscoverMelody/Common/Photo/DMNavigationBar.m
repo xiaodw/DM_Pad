@@ -1,9 +1,9 @@
 #import "DMNavigationBar.h"
-#import "DMButton.h"
+#import "DMBarButtonItem.h"
 
 @interface DMNavigationBar ()
 
-@property (strong, nonatomic) DMButton *leftBarButton;
+@property (strong, nonatomic) UIButton *leftBarButton;
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UIButton *rightBarButton;
 
@@ -11,8 +11,7 @@
 
 @implementation DMNavigationBar
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor blackColor];
@@ -31,9 +30,9 @@
 
 - (void)setupMakeLayoutSubviews {
     [_leftBarButton makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(5);
+        make.left.equalTo(16);
         make.size.equalTo(CGSizeMake(54, 30));
-        make.bottom.equalTo(self.mas_bottom).offset(-5);
+        make.bottom.equalTo(self.mas_bottom).offset(-7);
     }];
     
     [_rightBarButton makeConstraints:^(MASConstraintMaker *make) {
@@ -66,11 +65,11 @@
     return _rightBarButton;
 }
 
-- (DMButton *)leftBarButton {
+- (UIButton *)leftBarButton {
     if (!_leftBarButton) {
-        _leftBarButton = [DMButton new];
-        _leftBarButton.spacing = 3;
-        _leftBarButton.titleAlignment = DMTitleButtonTypeRight;
+        DMBarButtonItem *leftBarButton = [DMBarButtonItem new];
+        leftBarButton.titleSpacing = 8;
+        _leftBarButton = leftBarButton;
         _leftBarButton.titleLabel.font = DMFontPingFang_Medium(16);
         [_leftBarButton setImage:[UIImage imageNamed:@"back_icon"] forState:UIControlStateNormal];
     }
