@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 #import <AssetsLibrary/AssetsLibrary.h>
-
+#import <Photos/Photos.h>
 @class DMAssetInfo;
 
 typedef NS_ENUM(NSUInteger, DMAssetStatus) {
