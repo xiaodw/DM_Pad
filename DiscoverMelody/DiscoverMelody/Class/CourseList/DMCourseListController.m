@@ -73,6 +73,7 @@
     }];
 //    [footer setTitle:BDCommonLoadNomoreData forState:MJRefreshStateNoMoreData];
     self.tableView.mj_footer = footer;
+    self.tableView.mj_footer.hidden = YES;
     
     [self.tableView.mj_header beginRefreshing];
 }
