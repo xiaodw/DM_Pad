@@ -120,7 +120,6 @@
 		5169FFD91F6E912100396EFA /* DMAssetInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FFCD1F6E912100396EFA /* DMAssetInfo.m */; };
 		5169FFDA1F6E912100396EFA /* DMAssetExif.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FFCF1F6E912100396EFA /* DMAssetExif.m */; };
 		5169FFDB1F6E912100396EFA /* DMAssetTIFF.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FFD11F6E912100396EFA /* DMAssetTIFF.m */; };
-		5169FFDE1F6E91E300396EFA /* DMPHAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FFDD1F6E91E300396EFA /* DMPHAsset.m */; };
 		5169FFE21F6E9A9A00396EFA /* DMClassFileDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A44FC0C1F6BF72500A1D574 /* DMClassFileDataModel.m */; };
 		5169FFE41F6E9ACB00396EFA /* DMClassDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A44FC091F6BF22A00A1D574 /* DMClassDataModel.m */; };
 		51B471391F62506D004FACC8 /* DMLiveController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B471381F62506D004FACC8 /* DMLiveController.m */; };
@@ -384,8 +383,6 @@
 		5169FFCF1F6E912100396EFA /* DMAssetExif.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMAssetExif.m; sourceTree = "<group>"; };
 		5169FFD01F6E912100396EFA /* DMAssetTIFF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMAssetTIFF.h; sourceTree = "<group>"; };
 		5169FFD11F6E912100396EFA /* DMAssetTIFF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMAssetTIFF.m; sourceTree = "<group>"; };
-		5169FFDC1F6E91E300396EFA /* DMPHAsset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMPHAsset.h; sourceTree = "<group>"; };
-		5169FFDD1F6E91E300396EFA /* DMPHAsset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMPHAsset.m; sourceTree = "<group>"; };
 		51B471371F62506D004FACC8 /* DMLiveController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMLiveController.h; sourceTree = "<group>"; };
 		51B471381F62506D004FACC8 /* DMLiveController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMLiveController.m; sourceTree = "<group>"; };
 		51B471431F62717A004FACC8 /* DMConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMConfig.h; sourceTree = "<group>"; };
@@ -914,8 +911,6 @@
 		511733181F69539F004E0CD1 /* Photo */ = {
 			isa = PBXGroup;
 			children = (
-				5169FFDC1F6E91E300396EFA /* DMPHAsset.h */,
-				5169FFDD1F6E91E300396EFA /* DMPHAsset.m */,
 				5169FFBE1F6E912100396EFA /* DMAlbumAssetHelp.h */,
 				5169FFBF1F6E912100396EFA /* DMAlbumAssetHelp.m */,
 				5169FFC01F6E912100396EFA /* DMUploadController.h */,
@@ -1338,7 +1333,6 @@
 				2AD2AB431F5D492700EDA962 /* DMMenuViewController.m in Sources */,
 				51B471481F62760E004FACC8 /* DMLiveButtonControlView.m in Sources */,
 				2A03AF471F555FA80088DBF4 /* main.m in Sources */,
-				5169FFDE1F6E91E300396EFA /* DMPHAsset.m in Sources */,
 				2AB7DD741F6A37F000270C03 /* DMTextView.m in Sources */,
 				2AC06F071F6247AA009F9BFA /* DMMenuHeadView.m in Sources */,
 				5100E42E1F6A4C1A000AB506 /* DMCourseFilesController.m in Sources */,

@@ -1,11 +1,3 @@
-//
-//  DMAssetInfo.m
-//  collectuonview
-//
-//  Created by My mac on 2017/9/17.
-//  Copyright © 2017年 My mac. All rights reserved.
-//
-
 #import "DMAssetInfo.h"
 #import "DMAssetExif.h"
 #import "DMAssetTIFF.h"
