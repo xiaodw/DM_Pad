@@ -10,7 +10,7 @@
 #define kCoursewareCellID @"Courseware"
 #define kPhotoColums 4
 
-@interface DMAssetsCollectionView() <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface DMAssetsCollectionView() <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (strong, nonatomic) UIView *backgroundView;
 @property (strong, nonatomic) DMNavigationBar *navigationBar;
@@ -31,6 +31,7 @@
 
 @implementation DMAssetsCollectionView
 
+#pragma mark - Set Methods
 - (void)setAlbum:(DMAlbum *)album {
     _assets = album.assets;
     
@@ -40,6 +41,7 @@
     [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:_assets.count-1 inSection:0] atScrollPosition:UICollectionViewScrollPositionBottom animated:NO];
 }
 
+#pragma mark - Lifecycle Methods
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
@@ -49,6 +51,7 @@
     return self;
 }
 
+#pragma mark - AddSubviews
 - (void)setupMakeAddSubviews {
     [self addSubview:self.uploadBrowseView];
     [self addSubview:self.backgroundView];
@@ -57,6 +60,7 @@
     [self addSubview:self.collectionView];
 }
 
+#pragma mark - LayoutSubviews
 - (void)setupMakeLayoutSubviews {
     [_backgroundView makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.bottom.equalTo(self);
@@ -87,6 +91,7 @@
     }];
 }
 
+#pragma mark - uploadPhotos
 - (void)uploadPhotos:(NSMutableArray *)surplus {
     WS(weakSelf)
     NSMutableArray *surplusPhotos = [surplus mutableCopy];
@@ -130,6 +135,7 @@
     };
 }
 
+#pragma mark - Functions
 - (void)didTapUpload:(UIButton *)sender {
     if (![self.delegate respondsToSelector:@selector(albrmsCollectionView:success:)]) return;
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
@@ -153,24 +159,6 @@
     }];
 }
 
-- (void)reinstateSelectedCpirses {
-    for (int i = 0; i < self.selectedAssets.count; i++) {
-        DMAsset *asset = self.selectedAssets[i];
-        asset.selectedIndex = 0;
-        asset.isSelected = NO;
-    }
-    _selectedAssets = nil;
-    _selectedIndexPath = nil;
-    self.uploadButton.selected = NO;
-}
-
-- (void)reSetSelectedCpirsesIndex {
-    for (int i = 0; i < self.selectedAssets.count; i++) {
-        DMAsset *asset = self.selectedAssets[i];
-        asset.selectedIndex = i+1;
-    }
-}
-
 - (void)didTapSelect:(UIButton *)sender {
     if (self.selectedAssets.count) {
         [self.uploadBrowseView remakeConstraints:^(MASConstraintMaker *make) {
@@ -192,6 +180,25 @@
     [self.delegate albrmsCollectionView:self didTapRightButton:sender];
 }
 
+- (void)reinstateSelectedCpirses {
+    for (int i = 0; i < self.selectedAssets.count; i++) {
+        DMAsset *asset = self.selectedAssets[i];
+        asset.selectedIndex = 0;
+        asset.isSelected = NO;
+    }
+    _selectedAssets = nil;
+    _selectedIndexPath = nil;
+    self.uploadButton.selected = NO;
+}
+
+- (void)reSetSelectedCpirsesIndex {
+    for (int i = 0; i < self.selectedAssets.count; i++) {
+        DMAsset *asset = self.selectedAssets[i];
+        asset.selectedIndex = i+1;
+    }
+}
+
+#pragma mark - UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.assets.count;
 }
@@ -204,13 +211,15 @@
     return cell;
 }
 
+#pragma mark - UICollectionViewDelegateFlowLayout
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat width = (DMScreenWidth*0.5 - 15*(kPhotoColums+1)) / kPhotoColums;
     CGFloat height = width;
-    
+
     return CGSizeMake(width, height);
 }
 
+#pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     DMCourseFileCell *cell = (DMCourseFileCell *)[collectionView cellForItemAtIndexPath:indexPath];
     if ([self.selectedAssets containsObject:cell.asset]) {
@@ -270,6 +279,7 @@
     }
 }
 
+#pragma mark - Lazy
 - (DMNavigationBar *)navigationBar {
     if (!_navigationBar) {
         _navigationBar = [DMNavigationBar new];

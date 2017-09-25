@@ -1,6 +1,8 @@
 #import "DMCourseFileCell.h"
 #import "DMClassFileDataModel.h"
 #import "DMAsset.h"
+#import "DMAssetInfo.h"
+#import "DMAssetTIFF.h"
 #import "NSString+Extension.h"
 
 #define kLndexLabelWH 20
@@ -18,6 +20,7 @@
 
 - (void)setAsset:(DMAsset *)asset {
     _asset = asset;
+    asset.assetInfo.tiff.orientation;
     self.imageView.image = asset.thumbnail;
     
     NSString *indexString = asset.selectedIndex == 0 ? @"" : [NSString stringWithFormat:@"%zd", asset.selectedIndex];

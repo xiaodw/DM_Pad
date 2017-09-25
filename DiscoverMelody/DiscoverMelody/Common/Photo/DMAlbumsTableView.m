@@ -12,11 +12,13 @@
 
 @implementation DMAlbumsTableView
 
+#pragma mark - Set Methods
 - (void)setAlbums:(NSMutableArray *)albums {
     _albums = albums;
     [self.albumTableView reloadData];
 }
 
+#pragma mark - Lifecycle Methods
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
@@ -27,11 +29,13 @@
     return self;
 }
 
+#pragma mark - AddSubviews
 - (void)setupMakeAddSubviews {
     [self addSubview:self.navigationBar];
     [self addSubview:self.albumTableView];
 }
 
+#pragma mark - LayoutSubviews
 - (void)setupMakeLayoutSubviews {
     [_navigationBar makeConstraints:^(MASConstraintMaker *make) {
         make.width.equalTo(DMScreenWidth*0.5);
@@ -46,12 +50,14 @@
     }];
 }
 
+#pragma mark - Functions
 - (void)didTapSelect:(UIButton *)sender  {
     if (![self.delegate respondsToSelector:@selector(albumsTableView:didTapRightButton:)]) return;
     
     [self.delegate albumsTableView:self didTapRightButton:sender];
 }
 
+#pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.albums.count;
 }
@@ -73,6 +79,7 @@
     [self.delegate albumsTableView:self didTapSelectedIndexPath:indexPath];
 }
 
+#pragma mark - Lazy
 - (UITableView *)albumTableView {
     if (!_albumTableView) {
         _albumTableView = [UITableView new];

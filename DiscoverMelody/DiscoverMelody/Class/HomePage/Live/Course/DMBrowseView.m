@@ -20,10 +20,12 @@
 
 @implementation DMBrowseView
 
+// 刷新最新添加的asset
 - (void)refrenshAssetStatus:(DMAsset *)asset {
     [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:[self.courses indexOfObject:asset] inSection:0]]];
 }
 
+#pragma mark - Set Methods
 - (void)setBrowseType:(DMBrowseViewType)browseType {
     _browseType = browseType;
     
@@ -49,6 +51,7 @@
     
 }
 
+#pragma mark - Lifecycle Methods
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
@@ -57,6 +60,67 @@
         [self setupMakeLayoutSubviews];
     }
     return self;
+}
+
+#pragma mark - Functions
+- (void)didTapSync {
+    if (![self.delegate respondsToSelector:@selector(browseViewDidTapSync:)]) return;
+    
+    [self.delegate browseViewDidTapSync:self];
+}
+
+#pragma mark - UICollectionViewDataSouce
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return self.courses.count;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    // 大
+    if (collectionView == self.browsecollectionView) {
+        DMBrowseCourseCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kBrowseCourseCellID forIndexPath:indexPath];
+        if (self.browseType == DMBrowseViewTypeUpload) {
+            cell.asset = self.courses[indexPath.row];
+        }
+        else if (self.browseType == DMBrowseViewTypeSync) {
+            cell.courseModel = self.courses[indexPath.row];
+        }
+        return cell;
+    }
+    
+    // 小
+    DMCourseFileCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kcourseCellID forIndexPath:indexPath];
+    cell.editorMode = YES;
+    if (self.browseType == DMBrowseViewTypeUpload) {
+        cell.asset = self.courses[indexPath.row];
+    }
+    else if (self.browseType == DMBrowseViewTypeSync) {
+        cell.courseModel = self.courses[indexPath.row];
+    }
+    
+    if (!_currentIndexPath) _currentIndexPath = indexPath;
+    cell.showBorder = _currentIndexPath == indexPath;
+    
+    return cell;
+}
+
+#pragma mark - UICollectionViewDelegate
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (collectionView == self.browsecollectionView) {
+        return;
+    }
+    
+    [self.browsecollectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
+    _currentIndexPath = indexPath;
+    [self.collectionView reloadData];
+}
+#pragma mark - UIScrollViewDelegate
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    if (scrollView == self.collectionView) return;
+    
+    NSInteger index = (scrollView.contentOffset.x / self.browsecollectionView.dm_width + 0.5); // 约等于
+    self.currentIndexPath = [NSIndexPath indexPathForRow:index inSection:0];
+    [self.collectionView reloadData];
+    [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
 }
 
 - (void)setupMakeAddSubviews {
@@ -93,64 +157,7 @@
     }];
 }
 
-- (void)didTapSync {
-    if (![self.delegate respondsToSelector:@selector(browseViewDidTapSync:)]) return;
-    
-    [self.delegate browseViewDidTapSync:self];
-}
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.courses.count;
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    // 大
-    if (collectionView == self.browsecollectionView) {
-        DMBrowseCourseCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kBrowseCourseCellID forIndexPath:indexPath];
-        if (self.browseType == DMBrowseViewTypeUpload) {
-            cell.asset = self.courses[indexPath.row];
-        }
-        else if (self.browseType == DMBrowseViewTypeSync) {
-            cell.courseModel = self.courses[indexPath.row];
-        }
-        return cell;
-    }
-    
-    // 小
-    DMCourseFileCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kcourseCellID forIndexPath:indexPath];
-    cell.editorMode = YES;
-    if (self.browseType == DMBrowseViewTypeUpload) {
-        cell.asset = self.courses[indexPath.row];
-    }
-    else if (self.browseType == DMBrowseViewTypeSync) {
-        cell.courseModel = self.courses[indexPath.row];
-    }
-    
-    if (!_currentIndexPath) _currentIndexPath = indexPath;
-    cell.showBorder = _currentIndexPath == indexPath;
-    
-    return cell;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (collectionView == self.browsecollectionView) {
-        return;
-    }
-    
-    [self.browsecollectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
-    _currentIndexPath = indexPath;
-    [self.collectionView reloadData];
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    if (scrollView == self.collectionView) return;
-    
-    NSInteger index = (scrollView.contentOffset.x / self.browsecollectionView.dm_width + 0.5); // 约等于
-    self.currentIndexPath = [NSIndexPath indexPathForRow:index inSection:0];
-    [self.collectionView reloadData];
-    [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
-}
-
+#pragma mark - Lazy
 - (DMButton *)syncButton {
     if (!_syncButton) {
         _syncButton = [DMNotHighlightedButton new];
