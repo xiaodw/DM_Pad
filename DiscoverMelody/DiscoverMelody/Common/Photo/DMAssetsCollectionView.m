@@ -109,7 +109,7 @@
             return;
         }
         
-        DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"有图片上传失败, 是否重新上传" message:@"点击是后继续上传失败的图片" preferredStyle:UIAlertControllerStyleAlert cancelTitle:@"否" otherTitle:@"是", nil];
+        DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:DMTitleUploadFail message:DMTitleUploadFailMessage preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleNO otherTitle:DMTitleYes, nil];
         [alert showWithViewController:(UIViewController *)self.delegate IndexBlock:^(NSInteger index) {
             if (index == 1) { // 右侧
                 [weakSelf uploadPhotos:weakSelf.fieldAssets];
@@ -260,7 +260,7 @@
     self.uploadButton.enabled = selectedCount;
     self.uploadButton.layer.borderColor = selectedCount ?  DMColorBaseMeiRed.CGColor : DMColorWithRGBA(221, 221, 221, 1) .CGColor;
     
-    NSString *title = selectedCount > 0 ? [NSString stringWithFormat:@"传送(%zd)", selectedCount] : @"传送";
+    NSString *title = selectedCount > 0 ? [NSString stringWithFormat:DMTitlePhotoUploadCount, selectedCount] : DMTitlePhotoUpload;
     [self.uploadButton setTitle:title forState:UIControlStateNormal];
     
     if (selectedCount == 0) {
