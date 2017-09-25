@@ -7,6 +7,13 @@
 //
 
 #import "DMSetConfigData.h"
+@class DMSetConfigData;
+@implementation DMAppUpgradeData
+
++ (NSDictionary *)mj_replacedKeyFromPropertyName {
+    return @{@"ver": @"newVer"};
+}
+@end
 
 @implementation DMSetConfigData
 

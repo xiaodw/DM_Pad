@@ -18,5 +18,5 @@ typedef void(^AlertIndexBlock)(NSInteger index);
 - (DMAlertMananger *)creatAlertWithTitle:(NSString *)title message:(NSString *)message preferredStyle:(UIAlertControllerStyle)preferredStyle cancelTitle:(NSString *)canceTitle otherTitle:(NSString *)otherTitle,...NS_REQUIRES_NIL_TERMINATION;
 
 - (void)showWithViewController:(UIViewController *)viewController IndexBlock:(AlertIndexBlock)indexBlock;
-
+@property(nonatomic, strong)UIAlertController *alertCol;
 @end

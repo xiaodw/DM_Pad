@@ -35,6 +35,8 @@ UIKIT_EXTERN NSString * const DMTitleLogin;
 UIKIT_EXTERN NSString * const DMTitleOK;
 UIKIT_EXTERN NSString * const DMTitleSubmit;
 UIKIT_EXTERN NSString * const DMTitleCancel;
+UIKIT_EXTERN NSString * const DMTitleUpgrade;
+UIKIT_EXTERN NSString * const DMTitleMustUpgrade;
 UIKIT_EXTERN NSString * const DMTitlePhoto;
 UIKIT_EXTERN NSString * const DMTitleContactCustomerService;
 UIKIT_EXTERN NSString * const DMTitleRefresh;
