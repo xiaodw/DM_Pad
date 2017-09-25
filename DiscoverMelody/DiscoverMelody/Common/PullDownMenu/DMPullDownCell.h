@@ -10,4 +10,5 @@
 
 @interface DMPullDownCell : UITableViewCell
 @property (nonatomic, strong) UIView *lineView;
+@property (nonatomic, strong) UILabel *titleLabel;
 @end

@@ -50,4 +50,15 @@
 //进行图片压缩
 + (NSData *)compressedImageForUpload:(UIImage *)sourceImage;
 + (NSData *)compressedImageDataForUpload:(NSData *)sourceData;
+
+//计算文字对应的label高度
++(CGFloat)getContactHeight:(NSString*)contact font:(UIFont *)font width:(CGFloat)width;
+
+
 @end
+
+
+
+
+
+

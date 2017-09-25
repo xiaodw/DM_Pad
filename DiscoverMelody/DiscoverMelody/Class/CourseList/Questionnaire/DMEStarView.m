@@ -97,7 +97,7 @@ typedef void(^completeBlock)(CGFloat currentScore);
     for (NSInteger i = 0; i < self.numberOfStars; i ++)
     {
         UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
-        imageView.frame = CGRectMake(i*(23+27), (self.bounds.size.height-26)/2, 27, 26);
+        imageView.frame = CGRectMake(i*(23+27), (self.bounds.size.height-26)/2-5, 27, 26);
         imageView.contentMode = UIViewContentModeScaleAspectFit;
         [view addSubview:imageView];
     }

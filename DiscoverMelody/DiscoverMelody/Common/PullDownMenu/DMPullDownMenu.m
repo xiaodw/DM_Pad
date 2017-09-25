@@ -74,7 +74,7 @@
         _mainBtn.layer.borderColor = [UIColor colorWithWhite:1 alpha:0.5].CGColor;
         _mainBtn.layer.borderWidth = 1;
         _mainBtn.backgroundColor = DMColorWithRGBA(56, 56, 56, 1);
-        [_mainBtn setTitleEdgeInsets:UIEdgeInsetsMake(0.0, -30, 0, 30.0)];
+        [_mainBtn setTitleEdgeInsets:UIEdgeInsetsMake(0.0, -20, 0, 30.0)];
         [_mainBtn setImageEdgeInsets:UIEdgeInsetsMake(0, 65, 0.0, -65)];
         [_mainBtn setImage:[UIImage imageNamed:@"btn_menu_arrow_top"] forState:UIControlStateSelected];
         
@@ -207,7 +207,7 @@
     if (!cell) {
         cell = [[DMPullDownCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:pdCell];
     }
-    cell.textLabel.text =[_titleArr objectAtIndex:indexPath.row];
+    cell.titleLabel.text =[_titleArr objectAtIndex:indexPath.row];
     if (_titleArr.count == 0 || indexPath.row == _titleArr.count-1) {
         cell.lineView.hidden = YES;
     } else {

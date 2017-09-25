@@ -29,7 +29,7 @@
         [self setEdgesForExtendedLayout:UIRectEdgeNone];
     }
     [self.navigationController.navigationBar setBarTintColor:[UIColor blackColor]];
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:DMFontPingFang_Medium(16)}];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:DMFontPingFang_Regular(16)}];
     [self setNavigationbar];
 }
 

@@ -33,13 +33,13 @@
     
     self.teachLabel = [[UILabel alloc] init];
     self.teachLabel.textColor = DMColorWithRGBA(51, 51, 51, 1);
-    self.teachLabel.font = DMFontPingFang_UltraLight(16);
+    self.teachLabel.font = DMFontPingFang_Thin(16);
     self.teachLabel.textAlignment = NSTextAlignmentLeft;
     [self addSubview:self.teachLabel];
     
     self.wecatAccountLabel = [[UILabel alloc] init];
     self.wecatAccountLabel.textColor = DMColorWithRGBA(153, 153, 153, 1);
-    self.wecatAccountLabel.font = DMFontPingFang_UltraLight(12);
+    self.wecatAccountLabel.font = DMFontPingFang_Thin(12);
     self.wecatAccountLabel.textAlignment = NSTextAlignmentLeft;
     [self addSubview:self.wecatAccountLabel];
     

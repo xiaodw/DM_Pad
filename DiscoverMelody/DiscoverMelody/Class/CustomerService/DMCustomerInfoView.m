@@ -50,7 +50,7 @@
     self.infoButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.infoButton setTitle:@"" forState:UIControlStateNormal];
     [self.infoButton setTitleColor:DMColorWithRGBA(246, 8, 122, 1) forState:UIControlStateNormal];
-    [self.infoButton.titleLabel setFont:DMFontPingFang_Thin(16)];
+    [self.infoButton.titleLabel setFont:DMFontPingFang_Light(16)];
     self.infoButton.userInteractionEnabled = NO;
     self.infoButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     if (_isTap) {

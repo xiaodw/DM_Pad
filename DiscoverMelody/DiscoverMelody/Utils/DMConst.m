@@ -79,6 +79,9 @@ NSString * const DMTitleStudentQuestionFild = @"我的调查";
 NSString * const DMTitleTeacherQuestionFild = @"老师评语";
 
 NSString * const DMTitleNoTeacherQuestionComFild = @"老师暂未填写问卷";
+NSString * const DMTitleTeacherQuestionReviewFild = @"  正在审核中...";
+NSString * const DMTitleTeacherQuestionFailedFild = @"  审核失败";
+NSString * const DMTitleTeacherQuestionSuccessFild = @"  审核通过";
 
 
 

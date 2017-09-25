@@ -136,32 +136,14 @@
     }
 
     return [DMTools compressedImageDataForUpload:imageData];
-    //
-//    NSInteger sourceVolume = (unsigned long)imageData.length/1024;
-//    NSInteger boundariesValue = 1000;//[[DMConfigManager shareInstance].uploadMaxSize integerValue];
-//    NSLog(@"Size of Image(bytes-->KB):%lu",sourceVolume);
-//    if (sourceVolume > boundariesValue) {
-//        float ss = (float)boundariesValue/sourceVolume;
-//        if (ss < 1.0) {
-//            NSFileManager* fileManager=[NSFileManager defaultManager];
-//            NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-//            // 拼接图片名为"currentImage.png"的路径
-//            NSString *imageFilePath = [path stringByAppendingPathComponent:@"currentCompressedImage.jpg"];
-//            [UIImageJPEGRepresentation(sourceImage, 1) writeToFile:imageFilePath atomically:YES];
-//            UIImage *imgFromDoc = [[UIImage alloc] initWithContentsOfFile:imageFilePath];
-//            //[fileManager removeItemAtPath:imageFilePath error:nil];
-//            return UIImageJPEGRepresentation(imgFromDoc, ss);
-//        }
-//    }
-//    return imageData;
 }
+
 + (NSData *)compressedImageDataForUpload:(NSData *)sourceData {
     if (sourceData == nil) {
         return nil;
     }
     NSFileManager* fileManager=[NSFileManager defaultManager];
     NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-    // 拼接图片名为"currentImage.png"的路径
     NSString *imageFilePath = [path stringByAppendingPathComponent:@"currentCompressedImage.jpg"];
     NSData *resultData = sourceData;
     NSString *type = [DMTools typeForImageData:sourceData];
@@ -203,6 +185,21 @@
             return @"image/tiff";
     }
     return @"";
+}
+
+//计算文字高度
++(CGFloat)getContactHeight:(NSString*)contact font:(UIFont *)font width:(CGFloat)width {
+    NSDictionary *attrs = @{NSFontAttributeName : font};
+    CGSize maxSize = CGSizeMake(width, MAXFLOAT);
+    // 计算文字占据的高度
+    CGSize size = [contact boundingRectWithSize:maxSize
+                                        options:NSStringDrawingUsesLineFragmentOrigin
+                                     attributes:attrs
+                                        context:nil].size;
+    
+    
+    return size.height;
+    
 }
 
 @end

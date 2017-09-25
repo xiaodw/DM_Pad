@@ -290,9 +290,11 @@
 + (void)getUploadSuccess:(NSString *)lessonId //课节id
               attachment:(NSString *)attachmentID //课件id
                  fileExt:(NSString *)fileExt //文件后缀，比如 .png
+                   angle:(NSString *)angle
                    block:(void(^)(BOOL result, DMClassFileDataModel *obj))complectionBlock
 {
-    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:lessonId, @"lesson_id",attachmentID, @"attachment_id",fileExt, @"fileext", nil];
+    NSMutableDictionary *dic = [NSMutableDictionary
+                                dictionaryWithObjectsAndKeys:lessonId, @"lesson_id",attachmentID, @"attachment_id",fileExt, @"fileext", angle, @"angle",nil];
     [[DMHttpClient sharedInstance] initWithUrl:DM_Cloud_Upload_Success_Url
                                     parameters:dic
                                         method:DMHttpRequestPost

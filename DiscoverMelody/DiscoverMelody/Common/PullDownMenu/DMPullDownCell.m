@@ -23,12 +23,25 @@
 }
 
 - (void)loadUI {
-    self.textLabel.font          = DMFontPingFang_UltraLight(14);
-    self.textLabel.textColor     = DMColorBaseMeiRed;
+//    self.textLabel.font          = DMFontPingFang_Thin(14);
+//    self.textLabel.textColor     = DMColorBaseMeiRed;
+    
+    _titleLabel = [[UILabel alloc] init];
+    _titleLabel.textAlignment = NSTextAlignmentLeft;
+    _titleLabel.textColor = DMColorBaseMeiRed;
+    _titleLabel.font = DMFontPingFang_Thin(14);
+    [self addSubview:self.titleLabel];
     
     self.lineView = [[UIView alloc] initWithFrame:CGRectMake(10, 35 - 0.5, self.frame.size.width-20, 0.5)];
     _lineView.backgroundColor = DMColorBaseMeiRed;
     [self addSubview:_lineView];
+    [_titleLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self).offset(20);
+        make.right.equalTo(self).offset(-15);
+        make.bottom.equalTo(self);
+        make.height.equalTo(self);
+        make.top.equalTo(self);
+    }];
     
     [_lineView makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self).offset(10);

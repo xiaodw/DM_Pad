@@ -42,7 +42,7 @@
                 title:[self.selArray lastObject]
           titileColor:DMColorWithRGBA(246, 246, 246, 1)
             imageName:@"btn_menu_arrow_bottom"
-                 font:DMFontPingFang_UltraLight(14)];
+                 font:DMFontPingFang_Thin(14)];
     self.clCondition = DMCourseListCondition_WillStart;
     [self setupMakeAddSubviews];
     [self setupMakeLayoutSubviews];
