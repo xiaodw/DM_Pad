@@ -39,7 +39,7 @@
 }
 
 - (void)didTapClose {
-    DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"请问您确定要结束同步吗?" message:@"确定后同步将关闭" preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
+    DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:DMTitleCloseSync message:DMTitleCloseSyncMessage preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
     [alert showWithViewController:(UIViewController *)self.delegate IndexBlock:^(NSInteger index) {
         if (index == 1) { // 右侧
             NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_End_Syn sourceData:nil index:0];

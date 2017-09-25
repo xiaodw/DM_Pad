@@ -47,10 +47,10 @@
                 // 自动播放，默认不自动播放
                 [weakSelf.playerView autoPlayTheVideo];
             } else {
-                [DMTools showMessageToast:@"视频资源不存在" duration:2 position:CSToastPositionCenter];
+                [DMTools showMessageToast:DMAlertTitleVedioNotExist duration:2 position:CSToastPositionCenter];
             }
         } else {
-            [DMTools showMessageToast:@"视频连接出错" duration:2 position:CSToastPositionCenter];
+            [DMTools showMessageToast:DMAlertTitleVedioError duration:2 position:CSToastPositionCenter];
         }
     }];
     
@@ -89,7 +89,7 @@
 - (ZFPlayerModel *)playerModel {
     if (!_playerModel) {
         _playerModel                  = [[ZFPlayerModel alloc] init];
-        _playerModel.title            = @"这里设置视频标题";
+        _playerModel.title            = DMTitleVedio;
         _playerModel.videoURL         = self.videoURL;
         _playerModel.placeholderImage = [UIImage imageNamed:@"loading_bgView1.png"];
         _playerModel.fatherView       = self.view;

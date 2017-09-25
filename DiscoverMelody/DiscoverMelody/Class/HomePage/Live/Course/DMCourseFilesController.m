@@ -209,7 +209,7 @@
 - (void)botoomBarViewDidTapDelete:(DMBottomBarView *)botoomBarView {
     DMLogFunc
     WS(weakSelf)
-    DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"您确定要删除这些张图片吗?" message:@"确定后关闭编辑状态" preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
+    DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:DMTitleDeletedPhotos message:DMTitleDeletedPhotosMessage preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
     [alert showWithViewController:self IndexBlock:^(NSInteger index) {
         if (index == 1) { // 右侧
             NSMutableString *fileIDs = [NSMutableString string];
@@ -232,7 +232,7 @@
 #pragma mark - DMBrowseViewDelegate
 - (void)browseViewDidTapSync:(DMBrowseView *)browseView{
     if (!self.liveVC.isRemoteUserOnline) {
-        DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"学生未上线, 不能同步操作" message:@"" preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleOK otherTitle: nil];
+        DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:DMAlertTitleNotSync message:@"" preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleOK otherTitle: nil];
         [alert showWithViewController:self IndexBlock:^(NSInteger index) { }];
         return;
     }

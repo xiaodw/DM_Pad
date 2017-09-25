@@ -38,7 +38,7 @@
 #pragma mark - Functions
 - (void)didTapDeleted {
     WS(weakSelf)
-    DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"您确定要删除这张图片吗?" message:@"确定后预览自动关闭" preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
+    DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:DMTitleDeletedPhoto message:DMTitleDeletedPhotoMessage preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
     [alert showWithViewController:self IndexBlock:^(NSInteger index) {
         if (index == 1) { // 右侧
             DMClassFileDataModel *currentCourse = self.courses[self.currentIndexPath.row];

@@ -20,7 +20,7 @@
 
 - (void)setAsset:(DMAsset *)asset {
     _asset = asset;
-    asset.assetInfo.tiff.orientation;
+
     self.imageView.image = asset.thumbnail;
     
     NSString *indexString = asset.selectedIndex == 0 ? @"" : [NSString stringWithFormat:@"%zd", asset.selectedIndex];
