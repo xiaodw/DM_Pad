@@ -19,7 +19,7 @@
 @interface DMApiModel : NSObject
 
 //配置
-+ (void)initConfigSet:(void(^)(BOOL result, DMSetConfigData *obj))complectionBlock;
++ (void)initConfigGet:(void(^)(BOOL result, DMSetConfigData *obj))complectionBlock;
 
 //登录
 + (void)loginSystem:(NSString *)account psd:(NSString *)password block:(void(^)(BOOL result))complectionBlock;

@@ -25,6 +25,9 @@
 @property (nonatomic, strong) DMCourseDatasModel *courseObj;
 @property (strong, nonatomic) DMTransitioningAnimationHelper *animationHelper;
 @property (nonatomic, strong) DMCloudConfigData *dataCloud;
+
+@property (nonatomic, strong) DMClassDataModel *classJoinData;
+
 @end
 
 @implementation DMHomeViewController
@@ -159,23 +162,21 @@
         btn.userInteractionEnabled = YES;
         [SVProgressHUD dismiss];
         if (result) {
+            weakSelf.classJoinData = obj;
             [weakSelf joinClassRoom];
         }
     }];
-
-//    btn.userInteractionEnabled = YES;
-//    [weakSelf joinClassRoom];
-    
 }
 
 - (void)joinClassRoom {
 //    DMLiveController *liveVC = [DMLiveController new];
 //    liveVC.navigationVC = self.navigationController;
-//    liveVC.lessonID = self.courseObj.course_id;
-//    liveVC.totalTime = [self.courseObj.duration intValue];
-//    liveVC.alreadyTime = [DMTools computationsClassTimeDifference:self.courseObj.start_time
+//    liveVC.lessonID = self.courseObj.lesson_id;
+//    liveVC.totalTime = [self.classJoinData.duration intValue];
+//    liveVC.alreadyTime = [DMTools computationsClassTimeDifference:self.classJoinData.start_time
 //                                                       accessTime:[DMAccount getUserJoinClassTime]];
-//    
+//    liveVC.warningTime = self.classJoinData.countdown.longLongValue;
+//    liveVC.delayTime = self.classJoinData.forceclose.longLongValue;
 //    [self.navigationController pushViewController:liveVC animated:YES];
     
     DMLiveController *liveVC = [DMLiveController new];

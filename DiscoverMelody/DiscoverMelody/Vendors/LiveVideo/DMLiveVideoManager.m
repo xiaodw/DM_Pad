@@ -178,7 +178,7 @@ static DMLiveVideoManager* _instance = nil;
     //打开视频模式
     [self.agoraKit enableVideo];
     //设置本地视频属性
-    [self.agoraKit setVideoProfile:AgoraRtc_VideoProfile_360P swapWidthAndHeight: false];
+    [self.agoraKit setVideoProfile:[[DMConfigManager shareInstance].agoraVideoProfile intValue] swapWidthAndHeight: false];
     //设置本地视频显示属性
     [self setupLocalVideoDisplay];
     //启用音量提示

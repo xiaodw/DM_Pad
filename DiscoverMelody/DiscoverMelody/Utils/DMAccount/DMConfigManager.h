@@ -14,6 +14,7 @@
 @property (nonatomic, copy) NSString *logHost;
 @property (nonatomic, copy) NSString *uploadMaxSize;
 @property (nonatomic, copy) NSString *agoraAppId;
+@property (nonatomic, copy) NSString *agoraVideoProfile;
 
 + (instancetype)shareInstance;
 - (void)initConfigInformation;

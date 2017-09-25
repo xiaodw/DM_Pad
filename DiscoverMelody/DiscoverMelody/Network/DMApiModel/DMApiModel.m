@@ -12,7 +12,7 @@
 @implementation DMApiModel
 
 //配置
-+ (void)initConfigSet:(void(^)(BOOL result, DMSetConfigData *obj))complectionBlock {
++ (void)initConfigGet:(void(^)(BOOL result, DMSetConfigData *obj))complectionBlock {
     [[DMHttpClient sharedInstance] synRequestWithUrl:DM_Init_SetConfig_Url dataModelClass:[DMSetConfigData class] isMustToken:NO success:^(id responseObject) {
         DMSetConfigData *model = (DMSetConfigData *)responseObject;
         [[DMConfigManager shareInstance] saveConfigInfo:responseObject];

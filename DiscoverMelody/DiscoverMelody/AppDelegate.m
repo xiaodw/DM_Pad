@@ -50,7 +50,7 @@
 
 - (void)updateConfigInfo {
     WS(weakSelf);
-    [DMApiModel initConfigSet:^(BOOL result, DMSetConfigData *obj) {
+    [DMApiModel initConfigGet:^(BOOL result, DMSetConfigData *obj) {
         [weakSelf goToApp];
     }];
 }

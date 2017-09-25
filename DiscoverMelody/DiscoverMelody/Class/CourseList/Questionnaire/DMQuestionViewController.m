@@ -13,6 +13,7 @@
 #import "DMQuestionCell.h"
 #import "IQKeyboardManager.h"
 #import "DMCommitAnswerData.h"
+
 @interface DMQuestionViewController () <DMTabBarViewDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UILabel *classNameLabel;
 @property (nonatomic, strong) UILabel *timeLabel;
@@ -23,6 +24,7 @@
 @property (nonatomic, strong) DMTabBarView *tabBarView;
 @property (nonatomic, strong) UITableView *bTableView;
 @property (nonatomic, strong) UIView *bottomView;
+@property (nonatomic, strong) UIButton *commitBtn;
 @property (nonatomic, assign) BOOL isEditQuest;
 
 @property (nonatomic, strong) UIView *topStatusView;
@@ -45,6 +47,7 @@
 
 @implementation DMQuestionViewController
 
+#define Top_H 180
 #define Space_H 42
 
 - (void)viewDidLoad {
@@ -111,9 +114,12 @@
         self.questionList = obj.list;
         [self.bTableView reloadData];
         if (self.bTableView.tableFooterView == nil && _bottomView) {
+            [self updateBottomViewFrame];
+            NSLog(@"ddddd = %f ---- %f", self.bTableView.contentSize.height, DMScreenHeight);
             self.bTableView.tableFooterView = _bottomView;
             
         }
+        
         if (netCallBack) {
             [self performSelector:@selector(delayMethodDisplay) withObject:nil afterDelay:0.2];
         } else {
@@ -255,6 +261,22 @@
     }
 }
 
+- (void)updateBottomViewFrame {
+    if (_bTableView.contentSize.height > (DMScreenHeight-180)) {
+        NSLog(@"1");
+        _bottomView.frame = CGRectMake(0, 0, DMScreenWidth, 130);
+    } else {
+        NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
+        if (userIdentity != 0) {
+            _bottomView.frame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight-180-_bTableView.contentSize.height-(self.myQuestObj.survey.intValue == 3 ? 40: 0));
+        } else {
+            _bottomView.frame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight-180-_bTableView.contentSize.height);
+        }
+    }
+    _commitBtn.frame = CGRectMake((_bottomView.frame.size.width-130)/2, _bottomView.frame.size.height-40-35, 130, 40);
+    //_bottomView.backgroundColor = [UIColor randomColor];
+}
+
 #pragma mark -
 #pragma mark UITableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -370,7 +392,8 @@
     commitBtn.layer.masksToBounds = YES;
     commitBtn.frame = CGRectMake((_bottomView.frame.size.width-130)/2, (_bottomView.frame.size.height-40)/2+10, 130, 40);
     //[self.view addSubview:bottomView];
-    [_bottomView addSubview:commitBtn];
+    [_bottomView addSubview:_commitBtn];
+    
     [self.view addSubview:_bTableView];
     _bottomView.hidden = YES;
     
