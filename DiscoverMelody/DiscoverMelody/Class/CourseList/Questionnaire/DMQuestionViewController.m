@@ -266,10 +266,15 @@
         NSLog(@"1");
         _bottomView.frame = CGRectMake(0, 0, DMScreenWidth, 130);
     } else {
-        _bottomView.frame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight-180-_bTableView.contentSize.height);
+        NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
+        if (userIdentity != 0) {
+            _bottomView.frame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight-180-_bTableView.contentSize.height-(self.myQuestObj.survey.intValue == 3 ? 40: 0));
+        } else {
+            _bottomView.frame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight-180-_bTableView.contentSize.height);
+        }
     }
     _commitBtn.frame = CGRectMake((_bottomView.frame.size.width-130)/2, _bottomView.frame.size.height-40-35, 130, 40);
-    _bottomView.backgroundColor = [UIColor randomColor];
+    //_bottomView.backgroundColor = [UIColor randomColor];
 }
 
 #pragma mark -
