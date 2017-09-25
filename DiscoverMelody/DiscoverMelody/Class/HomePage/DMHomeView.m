@@ -253,7 +253,6 @@
             make.width.equalTo(DMScreenWidth-116*2);
         }];
     }
-
     
     [_nameLabel makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_courseLabel.mas_bottom).offset(14);
