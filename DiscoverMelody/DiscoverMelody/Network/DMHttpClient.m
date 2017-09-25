@@ -66,8 +66,14 @@
             }
             
             if (self.blockSuccessMsg) {
-                self.blockSuccessMsg([responseObj objectForKey:Msg_Key]);
-                self.blockSuccessMsg = nil;
+                if ([[responseObj objectForKey:Msg_Key] isKindOfClass:[NSString class]]) {
+                    self.blockSuccessMsg([responseObj objectForKey:Msg_Key]);
+                    self.blockSuccessMsg = nil;
+                } else {
+                    self.blockSuccessMsg(DMTitleNoTypeError);
+                    self.blockSuccessMsg = nil;
+                }
+                
             }
             
             id responseDataModel = [dataModelClass mj_objectWithKeyValues:[responseObj objectForKey:Data_Key]];
@@ -75,8 +81,14 @@
             
             
         } else {
-            [self responseStatusCodeException:[[responseObj objectForKey:Code_Key] intValue]
-                                          msg:[responseObj objectForKey:Msg_Key]];
+            if ([[responseObj objectForKey:Msg_Key] isKindOfClass:[NSString class]]) {
+                [self responseStatusCodeException:[[responseObj objectForKey:Code_Key] intValue]
+                                              msg:[responseObj objectForKey:Msg_Key]];
+            } else {
+                [self responseStatusCodeException:[[responseObj objectForKey:Code_Key] intValue]
+                                              msg:DMTitleNoTypeError];
+            }
+            
             failure(nil);
         }
     } failure:^(NSError *error) {
@@ -107,10 +119,18 @@
             break;
         case DMHttpResponseCodeType_RefusedToEnter:
             //[SVProgressHUD showWithStatus:message];
-            [DMTools showMessageToast:message duration:2 position:CSToastPositionCenter];
+            if ([message isKindOfClass:[NSString class]]) {
+                [DMTools showMessageToast:message duration:2 position:CSToastPositionCenter];
+            } else {
+                [DMTools showMessageToast:DMTitleNoTypeError duration:2 position:CSToastPositionCenter];
+            }
             break;
         default:
-            [DMTools showMessageToast:message duration:2 position:CSToastPositionCenter];
+            if ([message isKindOfClass:[NSString class]]) {
+                [DMTools showMessageToast:message duration:2 position:CSToastPositionCenter];
+            } else {
+                [DMTools showMessageToast:DMTitleNoTypeError duration:2 position:CSToastPositionCenter];
+            }
             break;
     }
 }

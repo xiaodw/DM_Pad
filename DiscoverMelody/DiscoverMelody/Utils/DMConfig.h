@@ -14,6 +14,12 @@
 
 //登录成功的通知
 #define DMNotification_Login_Success_Key @"Login_Success_Key"
+//切换到首页的通知
+#define DMNotification_HomePage_Key @"DMNotification_HomePage_Key"
+//切换到课程列表的通知
+#define DMNotification_CourseList_Key @"DMNotification_CourseList_Key"
+//切换到客服的通知
+#define DMNotification_CustomerService_Key @"DMNotification_CustomerService_Key"
 
 #pragma mark -
 //上传图片张数限制

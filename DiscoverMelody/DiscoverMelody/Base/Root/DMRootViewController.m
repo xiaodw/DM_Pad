@@ -36,11 +36,20 @@
     _containerViewController = [[DMRootContainerViewController alloc] init];
     _containerViewController.dmRootViewController = self;
     _menuViewSize = CGSizeZero;
-    _panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:_containerViewController action:@selector(panGestureRecognized:)];
+    _panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:_containerViewController
+                                                                    action:@selector(panGestureRecognized:)];
     _automaticSize = YES;
 }
 
 - (void)createVC {
+    DMHomeViewController *homeVC = [[DMHomeViewController alloc] init];
+    UINavigationController *navHomeVC =
+    [[UINavigationController alloc] initWithRootViewController:homeVC];
+    DMMenuViewController *menuVC = [[DMMenuViewController alloc] init];
+    _menuViewController = menuVC;
+    _contentVCs = [NSMutableArray arrayWithObjects:navHomeVC, nil];
+    
+/*  //原始
     DMHomeViewController *homeVC = [[DMHomeViewController alloc] init];
     DMCourseListController *clVC = [[DMCourseListController alloc] init];
     DMCustomerServiceViewController *ssVC = [[DMCustomerServiceViewController alloc] init];
@@ -54,6 +63,7 @@
     DMMenuViewController *menuVC = [[DMMenuViewController alloc] init];
     _menuViewController = menuVC;
     _contentVCs = [NSMutableArray arrayWithObjects:navHomeVC, navClVC, navSsVC, nil];
+*/
 }
 
 //- (id)initWithContentViewControllers:(NSMutableArray *)contentViewControllers
@@ -81,7 +91,50 @@
 
 - (void)togglePage:(NSInteger)selected {
     self.selectedIndex = selected;
+    [self updateContentVCs:selected];
     [self setContentViewController:[_contentVCs objectAtIndex:selected]];
+    [self sendVCUpdateNotification];
+}
+
+- (void)sendVCUpdateNotification {
+    if (self.selectedIndex == self.oldSelectedIndex) {
+        return;
+    }
+    switch (self.selectedIndex) {
+        case 0:
+            [[NSNotificationCenter defaultCenter] postNotificationName:DMNotification_HomePage_Key object:nil userInfo:nil];
+            break;
+        case 1:
+            [[NSNotificationCenter defaultCenter] postNotificationName:DMNotification_CourseList_Key object:nil userInfo:nil];
+            break;
+        case 2:
+            [[NSNotificationCenter defaultCenter] postNotificationName:DMNotification_CustomerService_Key object:nil userInfo:nil];
+            break;
+        default:
+            break;
+    }
+    
+}
+
+- (void)updateContentVCs:(NSInteger)selected {
+    
+    if (selected < _contentVCs.count) {
+        return;
+    }
+    
+    if (selected == 1) {
+        DMCourseListController *clVC = [[DMCourseListController alloc] init];
+        UINavigationController *navClVC =
+        [[UINavigationController alloc] initWithRootViewController:clVC];
+        [_contentVCs addObject:navClVC];
+        [self dm_addController:navClVC frame:self.view.bounds];
+    } else if (selected == 2) {
+        DMCustomerServiceViewController *ssVC = [[DMCustomerServiceViewController alloc] init];
+        UINavigationController *navSsVC =
+        [[UINavigationController alloc] initWithRootViewController:ssVC];
+        [_contentVCs addObject:navSsVC];
+        [self dm_addController:navSsVC frame:self.view.bounds];
+    }
 }
 
 #pragma mark -
@@ -98,12 +151,12 @@
     [self.containerViewController hideWithCompletionHandler:^{
         if (contentViewController) {
             [weakSelf dm_displaySelectedController:_selectedIndex
-                                           old:_oldSelectedIndex
-                                            vc:contentViewController
-                                         frame:weakSelf.view.bounds
-                                         block:^{
-                                             _oldSelectedIndex = _selectedIndex;
-                                         }];
+                                               old:_oldSelectedIndex
+                                                vc:contentViewController
+                                             frame:weakSelf.view.bounds
+                                             block:^{
+                                                 _oldSelectedIndex = _selectedIndex;
+                                             }];
         }
         _contentViewController = contentViewController;
         

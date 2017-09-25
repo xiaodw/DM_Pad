@@ -330,7 +330,7 @@
     };
     return cell;
 }
-
+#define testStre @""
 - (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     static NSString *tvH = @"tvheader";
     DMTitleView *infoV = [tableView dequeueReusableHeaderFooterViewWithIdentifier:tvH];
@@ -343,10 +343,18 @@
         DMQuestSingleData *obj = [self.questionList objectAtIndex:section];
         [infoV updateInfo:section+1 content:obj.name];
     }
+    
     return infoV;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (section < self.questionList.count) {
+        DMQuestSingleData *obj = [self.questionList objectAtIndex:section];
+        CGFloat h = [DMTools getContactHeight:obj.name font:DMFontPingFang_Light(15) width:Content_Label_W];
+        if (h > 21) {
+            return 50+(h-21);
+        }
+    }
     return 50;
 }
 

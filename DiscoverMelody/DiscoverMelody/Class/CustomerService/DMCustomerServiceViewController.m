@@ -60,6 +60,11 @@
     _customerArray = [NSArray array];
     [self loadUI];
     [self initDataInfo];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updataCSData:) name:DMNotification_CustomerService_Key object:nil];
+}
+
+- (void)updataCSData:(NSNotification *)notification {
+    [self initDataInfo];
 }
 
 - (void)loadUI {

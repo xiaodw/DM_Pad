@@ -47,6 +47,11 @@
     [self setupMakeAddSubviews];
     [self setupMakeLayoutSubviews];
     [self setupMJRefresh];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updataCourseListData:) name:DMNotification_CourseList_Key object:nil];
+}
+
+- (void)updataCourseListData:(NSNotification *)notification {
+    [self.tableView.mj_header beginRefreshing];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

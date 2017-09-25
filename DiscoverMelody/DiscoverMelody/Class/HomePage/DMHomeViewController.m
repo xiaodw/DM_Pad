@@ -42,11 +42,14 @@
     [self.view addSubview:self.homeView];
     
     [self getDataFromServer];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateHomeData:)
+                                                 name:DMNotification_HomePage_Key
+                                               object:nil];
+}
 
-//
-//    [DMApiModel getUploadSuccess:@"1" attachment:@"11" fileExt:@".png" block:^(BOOL result) {
-//        
-//    }];
+- (void)updateHomeData:(NSNotification *)notification {
+    [self getDataFromServer];
 }
 
 //获取首页数据

@@ -24,6 +24,7 @@ UIKIT_EXTERN NSString * const DMTitleDonAllow;
 UIKIT_EXTERN NSString * const DMTitleAllow;
 UIKIT_EXTERN NSString * const DMTitleExitLogin;
 UIKIT_EXTERN NSString * const DMTitleNetworkError;
+UIKIT_EXTERN NSString * const DMTitleNoTypeError;
 UIKIT_EXTERN NSString * const DMTitleNetworkException;
 UIKIT_EXTERN NSString * const DMTitleLogin;
 UIKIT_EXTERN NSString * const DMTitleOK;

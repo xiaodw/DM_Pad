@@ -14,7 +14,7 @@
 #define U_TYPE @"user_type"
 #define U_AVATAR @"avatar"
 #define U_TOKEN @"token"
-
+#define U_UID @"uid"
 #define U_C_TIME @"ctime"
 
 //读取账号信息
@@ -44,6 +44,11 @@
     return [DMUserDefaults getValueWithKey:U_AVATAR];
 }
 
+//读取uid
++ (NSString *)getUserID {
+    return [DMUserDefaults getValueWithKey:U_UID];
+}
+
 //保存账号信息
 + (void)saveAccountInfo:(DMLoginDataModel *)obj {
     if (OBJ_IS_NIL(obj)) {
@@ -53,6 +58,7 @@
     [DMAccount saveUserName:obj.name];
     [DMAccount saveUserHeadUrl:obj.avatar];
     [DMAccount saveUserIdentity:obj.user_type];
+    [DMAccount saveUserID:obj.user_id];
 }
 
 //保存token信息
@@ -75,12 +81,19 @@
     [DMUserDefaults setValue:headUrl forKey:U_AVATAR];
 }
 
+//保存用户uid
++ (void)saveUserID:(NSString *)uID {
+    [DMUserDefaults setValue:uID forKey:U_UID];
+}
+
 //清除用户所有信息
 + (void)removeUserAllInfo {
     [DMAccount saveToken:@""];
+    [DMAccount saveUserID:@""];
     [DMAccount saveUserName:@""];
     [DMAccount saveUserHeadUrl:@""];
     [DMAccount saveUserIdentity:@""];
+    [DMAccount saveUserJoinClassTime:@""];
     [DMAccount saveUserJoinClassTime:@""];
 }
 
