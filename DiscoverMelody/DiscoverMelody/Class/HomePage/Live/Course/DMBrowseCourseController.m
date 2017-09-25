@@ -108,7 +108,9 @@
         _collectionView.pagingEnabled = YES;
         _collectionView.backgroundColor = [UIColor clearColor];
         _collectionView.showsVerticalScrollIndicator = NO;
-        _collectionView.prefetchingEnabled = NO;
+//        if ([[UIDevice currentDevice].systemVersion floatValue] >= 10.0) {
+//            _collectionView.prefetchingEnabled = NO;
+//        }
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.showsHorizontalScrollIndicator = NO;
         

@@ -14,7 +14,6 @@
 @interface DMBottomBarView : UIView
 
 @property (weak, nonatomic) id<DMBottomBarViewDelegate> delegate;
-
 @property (strong, nonatomic) UIButton *uploadButton;
 @property (strong, nonatomic) UIButton *syncButton;
 @property (strong, nonatomic) UIButton *deleteButton;

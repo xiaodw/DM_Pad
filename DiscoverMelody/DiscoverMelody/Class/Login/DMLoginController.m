@@ -1,8 +1,7 @@
 #import "DMLoginController.h"
-
 #import "DMLoginTextField.h"
-#import <IQKeyboardManager.h>
 
+#import <IQKeyboardManager.h>
 
 const CGFloat kTextFieldHeight = 44;
 const CGFloat kTextfieldViewHeight = kTextFieldHeight * 2 + 16;
@@ -12,20 +11,19 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
 
 @interface DMLoginController () <UITextFieldDelegate>
 
-@property (strong, nonatomic) UIImageView *backgroundImageView;
-@property (strong, nonatomic) UIImageView *logoImageView;
-
-@property (strong, nonatomic) UIView *textfieldView;
-@property (strong, nonatomic) DMLoginTextField *accountTextField;
-@property (strong, nonatomic) DMLoginTextField *passwordTextField;
-
-@property (strong, nonatomic) UIButton *loginButton;
-@property (strong, nonatomic) UILabel *descriptionLabel;
+@property (strong, nonatomic) UIImageView *backgroundImageView; // 背景图片
+@property (strong, nonatomic) UIImageView *logoImageView; // 登录logo图片
+@property (strong, nonatomic) UIView *textfieldView; // 文本框s
+@property (strong, nonatomic) DMLoginTextField *accountTextField; // 文本框: 账号
+@property (strong, nonatomic) DMLoginTextField *passwordTextField; // 文本框: 密码
+@property (strong, nonatomic) UIButton *loginButton; // 登录按钮
+@property (strong, nonatomic) UILabel *descriptionLabel; // 下边描述部分
 
 @end
 
 @implementation DMLoginController
 
+#pragma mark - Lifecycle Methods
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -40,6 +38,7 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
     [IQKeyboardManager sharedManager].enable = NO;
 }
 
+#pragma mark - Notification
 - (void)registerForKeyboardNotifications {
     // 使用NSNotificationCenter 键盘显示
     [DMNotificationCenter addObserver:self
@@ -103,6 +102,7 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
     }];
 }
 
+#pragma mark - UITextFieldDelegate
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if (textField.secureTextEntry) { // 当前是密码框
         if (!_accountTextField.text.length) { // 如果账号是空
@@ -118,12 +118,6 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
         }
     }
     return YES;
-}
-
-- (void)didChangeValue:(UITextField *)textField {
-    BOOL allHaveValue = self.passwordTextField.text.length && self.accountTextField.text.length;
-    _loginButton.enabled = allHaveValue;
-    _loginButton.backgroundColor = allHaveValue ? [UIColor colorWithHexString:@"#F6087A"] : [UIColor colorWithHexString:@"#666666"];
 }
 
 - (void)didTapLogin {
@@ -143,6 +137,7 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
     }];
 }
 
+#pragma mark - AddSubviews
 - (void)setupMakeAddSubviews {
     [self.view addSubview:self.backgroundImageView];
     [self.view addSubview:self.logoImageView];
@@ -151,6 +146,7 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
     [self.view addSubview:self.descriptionLabel];
 }
 
+#pragma mark - LayoutSubviews
 - (void)setupMakeLayoutSubviews {
     [_backgroundImageView makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
@@ -180,6 +176,7 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
     }];
 }
 
+#pragma mark - Lazy
 - (UIImageView *)backgroundImageView {
     if (!_backgroundImageView) {
         _backgroundImageView = [UIImageView new];
@@ -205,7 +202,6 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
         _accountTextField.placeholder = @"请输入用户名";
         _accountTextField.delegate = self;
         _accountTextField.placeholderColor = [DMColorWithHexString(@"#FFFFFF") colorWithAlphaComponent:0.2];
-        [_accountTextField addTarget:self action:@selector(didChangeValue:) forControlEvents:UIControlEventEditingChanged];
     }
     
     return _accountTextField;
@@ -219,7 +215,6 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
         _passwordTextField.secureTextEntry = YES;
         _passwordTextField.placeholderColor = [DMColorWithHexString(@"#FFFFFF") colorWithAlphaComponent:0.2];
         _passwordTextField.delegate = self;
-        [_passwordTextField addTarget:self action:@selector(didChangeValue:) forControlEvents:UIControlEventEditingChanged];
     }
     
     return _passwordTextField;
@@ -250,10 +245,9 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
 - (UIButton *)loginButton {
     if (!_loginButton) {
         _loginButton = [UIButton new];
-        _loginButton.enabled = NO;
         _loginButton.layer.cornerRadius = 8;
         _loginButton.clipsToBounds = YES;
-        _loginButton.backgroundColor = [UIColor colorWithHexString:@"#666666"];
+        _loginButton.backgroundColor = DMColorBaseMeiRed;
         _loginButton.titleLabel.font = DMFontPingFang_Regular(20);
         [_loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_loginButton setTitleColor:DMColorWithHexString(@"#999999") forState:UIControlStateDisabled];
@@ -281,8 +275,13 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
     return _descriptionLabel;
 }
 
+#pragma mark - Other
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [self.view endEditing:YES];
+}
+
+- (void)dealloc {
+    [DMNotificationCenter removeObserver:self];
 }
 
 @end

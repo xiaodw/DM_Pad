@@ -181,7 +181,7 @@
     
     DMLiveController *liveVC = [DMLiveController new];
     liveVC.navigationVC = self.navigationController;
-    liveVC.lessonID = @"1";
+    liveVC.lessonID = self.courseObj.lesson_id;
     liveVC.totalTime = 45 * 60;
     liveVC.alreadyTime = -400;
     liveVC.warningTime = 5*60;

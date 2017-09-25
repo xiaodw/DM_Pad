@@ -175,7 +175,7 @@
     collectionView.delegate = self;
     collectionView.backgroundColor = [UIColor clearColor];
     collectionView.showsVerticalScrollIndicator = NO;
-    collectionView.prefetchingEnabled = NO;
+//    collectionView.prefetchingEnabled = NO;
     collectionView.bounces = NO;
     collectionView.scrollsToTop = NO;
     collectionView.showsVerticalScrollIndicator = NO;
