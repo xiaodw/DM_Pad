@@ -25,6 +25,7 @@ NSString * const DMTitleDonAllow = @"不允许";
 NSString * const DMTitleAllow = @"允许";
 NSString * const DMTitleExitLogin = @"退出登录";
 NSString * const DMTitleNetworkError = @"网络出错了";
+NSString * const DMTitleNoTypeError = @"未知错误";
 NSString * const DMTitleNetworkException = @"网络异常";
 NSString * const DMTitleLogin = @"登录";
 NSString * const DMTitleOK = @"确定";

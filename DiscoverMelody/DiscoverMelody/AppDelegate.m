@@ -51,6 +51,13 @@
 - (void)updateConfigInfo {
     WS(weakSelf);
     [DMApiModel initConfigGet:^(BOOL result, DMSetConfigData *obj) {
+//        if ([obj.app.update intValue] == 1) {
+//            //升级
+//        } else if ([obj.app.update intValue] == 2) {
+//            //强制升级
+//            [weakSelf upgradeMustForApp:obj.app.updateMsg];
+//        }
+//        
         [weakSelf goToApp];
     }];
 }
@@ -75,6 +82,18 @@
         self.window.rootViewController = self.dmrVC;
     }
     [self.window makeKeyAndVisible];
+}
+
+- (void)upgradeMustForApp:(NSString *)msg {
+    
+    DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@""
+                                                                         message:msg
+                                                                  preferredStyle:UIAlertControllerStyleAlert
+                                                                     cancelTitle:nil
+                                                                      otherTitle:@"升级", nil];
+    [alert showWithViewController:self.window.rootViewController IndexBlock:^(NSInteger index) {
+        
+    }];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
