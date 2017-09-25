@@ -103,7 +103,7 @@
     animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight);
     courseFilesVC.transitioningDelegate = animationHelper;
     courseFilesVC.modalPresentationStyle = UIModalPresentationCustom;
-    courseFilesVC.lessonID = @"1";
+    courseFilesVC.lessonID = self.courseObj.lesson_id;
     [self presentViewController:courseFilesVC animated:YES completion:nil];
     
     btn.userInteractionEnabled = YES;//防止恶意极限快速点击
