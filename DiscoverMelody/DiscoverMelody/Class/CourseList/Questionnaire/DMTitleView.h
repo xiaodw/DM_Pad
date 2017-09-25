@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#define Content_Label_W DMScreenWidth-64
 @interface DMTitleView : UITableViewHeaderFooterView
 - (id)initWithReuseIdentifier:(NSString *)reuseIdentifier
                         frame:(CGRect)frame;
