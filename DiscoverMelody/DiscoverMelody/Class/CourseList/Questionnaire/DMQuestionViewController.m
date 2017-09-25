@@ -222,17 +222,17 @@
 
 - (void)updateTopViewInfo:(DMCourseDatasModel *)obj {
     NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
-    NSString *type = @"老师：";
+    NSString *type = [NSString stringWithFormat:@"%@：", DMStringIDTeacher];
     if (userIdentity == 0) {
         [_hImageView sd_setImageWithURL:[NSURL URLWithString:obj.avatar] placeholderImage:HeadPlaceholderName];
     } else {
         _hImageView.image = nil;
-        type = @"学生：";
+        type = [NSString stringWithFormat:@"%@：", DMStringIDStudent];
     }
     _classNameLabel.text = obj.course_name;//@"未来之星1v1--钢琴";
     _nameLabel.text = (userIdentity == 0)?obj.teacher_name:obj.student_name;//@"郎郎";
-    _timeLabel.text = [@"上课时间：" stringByAppendingString:
-                       [DMTools timeFormatterYMDFromTs:obj.start_time format:@"YYYY年MM月dd日"]];//@"上课时间：9月8日 18:00";
+    _timeLabel.text = [DMTextStartClassTime stringByAppendingString:
+                       [DMTools timeFormatterYMDFromTs:obj.start_time format:DMDateFormatterYMD]];//@"上课时间：9月8日 18:00";
     _typeLabel.text = type;
 }
 
@@ -392,7 +392,7 @@
     
     self.commitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _commitBtn.backgroundColor = DMColorBaseMeiRed;
-    [_commitBtn setTitle:@"提交" forState:UIControlStateNormal];
+    [_commitBtn setTitle:DMTitleSubmit forState:UIControlStateNormal];
     [_commitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_commitBtn.titleLabel setFont:DMFontPingFang_Regular(16)];
     [_commitBtn addTarget:self action:@selector(clickCommitBtn:) forControlEvents:UIControlEventTouchUpInside];

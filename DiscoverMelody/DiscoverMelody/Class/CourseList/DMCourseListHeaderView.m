@@ -45,61 +45,61 @@
 - (void)setupMakeLayoutSubviews {
     [_numberLabel makeConstraints:^(MASConstraintMaker *make) {
         make.left.centerY.equalTo(self);
-        make.width.equalTo(DMScaleWidth(110));
+        make.width.equalTo(DMScaleWidth(85));
     }];
     
-    [_nameLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_numberLabel.mas_right);
+    [_questionnaireLabel makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self);
-        make.width.equalTo(DMScaleWidth(174));
-    }];
-
-    [_studentNameLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_nameLabel.mas_right);
-        make.centerY.equalTo(self);
-        make.width.equalTo(DMScaleWidth(88));
-    }];
-
-    [_dateLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_studentNameLabel.mas_right);
-        make.centerY.equalTo(self);
-        make.width.equalTo(DMScaleWidth(108));
-    }];
-
-    [_detailDateLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_dateLabel.mas_right);
-        make.centerY.equalTo(self);
-        make.width.equalTo(DMScaleWidth(130));
-    }];
-
-    [_periodLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_detailDateLabel.mas_right);
-        make.centerY.equalTo(self);
-        make.width.equalTo(DMScaleWidth(66));
-    }];
-
-    [_statusLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_periodLabel.mas_right);
-        make.centerY.equalTo(self);
-        make.width.equalTo(DMScaleWidth(140));
+        make.width.equalTo(DMScaleWidth(70));
+        make.right.equalTo(self.mas_right).offset(-DMScaleWidth(16));
     }];
     
     [_filesLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_statusLabel.mas_right);
+        make.right.equalTo(_questionnaireLabel.mas_left);
         make.centerY.equalTo(self);
-        make.width.equalTo(DMScaleWidth(76));
+        make.width.equalTo(DMScaleWidth(70));
+    }];
+    
+    [_statusLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(_filesLabel.mas_left);
+        make.centerY.equalTo(self);
+        make.width.equalTo(DMScaleWidth(120));
+    }];
+    
+    [_periodLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(_statusLabel.mas_left);
+        make.centerY.equalTo(self);
+        make.width.equalTo(DMScaleWidth(66));
+    }];
+    
+    [_detailDateLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(_periodLabel.mas_left);
+        make.centerY.equalTo(self);
+        make.width.equalTo(DMScaleWidth(130));
+    }];
+    
+    [_dateLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(_detailDateLabel.mas_left);
+        make.centerY.equalTo(self);
+        make.width.equalTo(DMScaleWidth(110));
+    }];
+    
+    [_studentNameLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(_dateLabel.mas_left);
+        make.centerY.equalTo(self);
+        make.width.equalTo(DMScaleWidth(90));
     }];
 
-    [_questionnaireLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_filesLabel.mas_right);
+    [_nameLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(_studentNameLabel.mas_left);
+        make.left.equalTo(_numberLabel.mas_right);
         make.centerY.equalTo(self);
-        make.width.equalTo(DMScaleWidth(106));
     }];
 }
 
 - (UILabel *)setupLabel {
     UILabel *label = [UILabel new];
-    label.font = DMFontPingFang_Light(16);
+    label.font = DMFontPingFang_Light(14);
     label.textColor = kColor153;
     return label;
 }

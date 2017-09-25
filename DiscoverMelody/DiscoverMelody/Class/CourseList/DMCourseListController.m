@@ -75,44 +75,36 @@
 - (void)endRefreshing {
     [self.tableView.mj_footer endRefreshing];
     [self.tableView.mj_header endRefreshing];
-//    [self loadinghiden];
 }
 
 - (void)loadDataList:(NSInteger)currentPageNumber {
     NSLog(@"发送API请求数据");
     WS(weakSelf);
     [DMApiModel getCourseListData:[DMAccount getUserIdentity] sort:@"" page:currentPageNumber condition:[NSString stringWithFormat:@"%ld",self.clCondition] block:^(BOOL result, NSArray *array, BOOL nextPage) {
-        if (result && array.count > 0) {
-            //请求到了列表数据
-            
-            NSInteger nextPageNum = currentPageNumber + 1;
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-
-                if (currentPageNumber == 1) {
-                    [weakSelf.courses removeAllObjects];
-                    weakSelf.tableView.mj_footer.hidden = NO;
-                }
-                [weakSelf.courses addObjectsFromArray:array];
-                weakSelf.currentPageNumber = nextPageNum;
-                [weakSelf endRefreshing];
-                if (array) {
-                    [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
-                    weakSelf.tableView.mj_footer.hidden = YES;
-                }
-                weakSelf.noCourseView.hidden = weakSelf.courses.count;
-                [weakSelf.tableView reloadData];
-            });
-        } else {
+        if (!result) {
             [weakSelf endRefreshing];
-            if (array) {
-                [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
-                weakSelf.tableView.mj_footer.hidden = YES;
-            }
+            [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
+            weakSelf.tableView.mj_footer.hidden = YES;
             weakSelf.noCourseView.hidden = weakSelf.courses.count;
-            [weakSelf.tableView reloadData];
+            return;
         }
+        
+        //请求到了列表数据
+        weakSelf.tableView.mj_footer.hidden = !nextPage;
+        NSInteger nextPageNum = currentPageNumber + 1;
+        if (currentPageNumber == 1) {
+            [weakSelf.courses removeAllObjects];
+        }
+        
+        [weakSelf.courses addObjectsFromArray:array];
+        weakSelf.currentPageNumber = nextPageNum;
+        [weakSelf endRefreshing];
+        if (!nextPage) {
+            [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
+        }
+        weakSelf.noCourseView.hidden = weakSelf.courses.count;
+        [weakSelf.tableView reloadData];
     }];
- 
 }
 
 - (void)setupMakeAddSubviews {
@@ -141,7 +133,6 @@
         make.size.equalTo(CGSizeMake(134, 170));
         make.centerX.equalTo(_tableViewHeaderView);
     }];
-
 }
 
 #pragma mark - UITableViewDataSource;
@@ -191,16 +182,13 @@
         movieVC.lessonID = model.lesson_id;
         [self.navigationController pushViewController:movieVC animated:YES];
     }
-
 }
 
 // 课件
 - (void)courseListCellDidTapCoursesFiles:(DMCourseListCell *)courseListCell {
-    
     NSIndexPath *indexPath = [self.tableView indexPathForCell:courseListCell];
     if (indexPath.row < self.courses.count) {
         DMCourseDatasModel *model = [self.courses objectAtIndex:indexPath.row];
-        
         DMCourseFilesController *courseFilesVC = [DMCourseFilesController new];
         courseFilesVC.columns = 6;
         courseFilesVC.leftMargin = 15;
@@ -215,15 +203,12 @@
         courseFilesVC.modalPresentationStyle = UIModalPresentationCustom;
         courseFilesVC.lessonID = model.lesson_id;
         [self presentViewController:courseFilesVC animated:YES completion:nil];
-    
     }
-
 }
 
 // 调查问卷
 - (void)courseListCellDidTapQuestionnaire:(DMCourseListCell *)courseListCell {
     DMLogFunc
-
     NSIndexPath *indexPath = [self.tableView indexPathForCell:courseListCell];
     if (indexPath.row < self.courses.count) {
         DMCourseDatasModel *model = [self.courses objectAtIndex:indexPath.row];
@@ -231,7 +216,6 @@
         qtVC.courseObj = model;
         [self.navigationController pushViewController:qtVC animated:YES];
     }
-
 }
 
 - (UITableView *)tableView {

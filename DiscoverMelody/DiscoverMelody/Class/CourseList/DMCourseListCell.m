@@ -88,7 +88,6 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
         _filesButton.enabled = NO;
         //_questionnaireButton.enabled = NO;
     }
-    
 }
 
 - (void)didTapRelook {
@@ -139,67 +138,13 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
 - (void)setupMakeLayoutSubviews {
     [_numberLabel makeConstraints:^(MASConstraintMaker *make) {
         make.left.centerY.equalTo(self.contentView);
-        make.width.equalTo(DMScaleWidth(80));
-    }];
-    
-    [_nameLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_numberLabel.mas_right).offset(DMScaleWidth(30));
-        make.centerY.equalTo(self.contentView);
-        make.width.equalTo(DMScaleWidth(144));
-    }];
-    
-    [_studentNameLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_nameLabel.mas_right).offset(DMScaleWidth(30));
-        make.centerY.equalTo(self.contentView);
-        make.width.equalTo(DMScaleWidth(58));
-    }];
-    
-    [_dateLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_studentNameLabel.mas_right).offset(DMScaleWidth(30));
-        make.centerY.equalTo(self.contentView);
-        make.width.equalTo(DMScaleWidth(108));
-    }];
-    
-    [_detailDateLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_dateLabel.mas_right);
-        make.centerY.equalTo(self.contentView);
-        make.width.equalTo(DMScaleWidth(130));
-    }];
-    
-    [_periodLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_detailDateLabel.mas_right);
-        make.centerY.equalTo(self.contentView);
-        make.width.equalTo(DMScaleWidth(66));
-    }];
-    
-    [_statusLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_periodLabel.mas_right);
-        make.centerY.equalTo(self.contentView);
-        make.width.equalTo(DMScaleWidth(140));
-    }];
-    
-    [_statusButton makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(_statusLabel);
-        make.size.equalTo(CGSizeMake(DMScaleWidth(63), 30));
-    }];
-    
-    [_filesPositionView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_statusLabel.mas_right);
-        make.height.equalTo(2);
-        make.width.equalTo(DMScaleWidth(76));
-        make.bottom.equalTo(self.contentView);
-    }];
-    
-    [_filesButton makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(_filesPositionView);
-        make.centerY.equalTo(self.contentView);
-        make.size.equalTo(CGSizeMake(DMScaleWidth(22), 20));
+        make.width.equalTo(DMScaleWidth(70));
     }];
     
     [_questionnairePositionView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_filesPositionView.mas_right);
+        make.width.equalTo(DMScaleWidth(70));
         make.height.equalTo(2);
-        make.right.equalTo(self.contentView.mas_right);
+        make.right.equalTo(self.contentView.mas_right).offset(-DMScaleWidth(16));
         make.bottom.equalTo(self.contentView);
     }];
     
@@ -207,6 +152,60 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
         make.centerX.equalTo(_questionnairePositionView);
         make.centerY.equalTo(self.contentView);
         make.size.equalTo(CGSizeMake(DMScaleWidth(21), 23));
+    }];
+
+    [_filesPositionView makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(_questionnairePositionView.mas_left);
+        make.height.equalTo(2);
+        make.width.equalTo(DMScaleWidth(70));
+        make.bottom.equalTo(self.contentView);
+    }];
+
+    [_filesButton makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(_filesPositionView);
+        make.centerY.equalTo(self.contentView);
+        make.size.equalTo(CGSizeMake(DMScaleWidth(22), 20));
+    }];
+
+    [_statusLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(_filesPositionView.mas_left);
+        make.centerY.equalTo(self.contentView);
+        make.width.equalTo(DMScaleWidth(120));
+    }];
+
+    [_statusButton makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(_statusLabel);
+        make.size.equalTo(CGSizeMake(DMScaleWidth(63), 30));
+    }];
+
+    [_periodLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(_statusLabel.mas_left);
+        make.centerY.equalTo(self.contentView);
+        make.width.equalTo(DMScaleWidth(66));
+    }];
+
+    [_detailDateLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(_periodLabel.mas_left);
+        make.centerY.equalTo(self.contentView);
+        make.width.equalTo(DMScaleWidth(130));
+    }];
+
+    [_dateLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(_detailDateLabel.mas_left).offset(-DMScaleWidth(10));
+        make.centerY.equalTo(self.contentView);
+        make.width.equalTo(DMScaleWidth(100));
+    }];
+
+    [_studentNameLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(_dateLabel.mas_left).offset(-DMScaleWidth(20));
+        make.centerY.equalTo(self.contentView);
+        make.width.equalTo(DMScaleWidth(70));
+    }];
+
+    [_nameLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_numberLabel.mas_right).offset(DMScaleWidth(15));
+        make.centerY.equalTo(self.contentView);
+        make.right.equalTo(_studentNameLabel.mas_left).offset(-DMScaleWidth(20));
     }];
     
     [_separatorView makeConstraints:^(MASConstraintMaker *make) {

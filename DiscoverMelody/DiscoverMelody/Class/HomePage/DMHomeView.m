@@ -57,7 +57,7 @@
         _nameLabel.text = obj.student_name;
     }
     _courseLabel.text = obj.course_name;
-    _timeLabel.text = [@"上课时间：" stringByAppendingString:
+    _timeLabel.text = [DMTextStartClassTime stringByAppendingString:
                        [DMTools timeFormatterYMDFromTs:obj.start_time format:@"MM月dd日 HH:mm"]];//@"上课时间：9月8日 18:00";
     if (_timeLabel.layer.cornerRadius == 0) {
         _timeLabel.layer.cornerRadius = 5;
@@ -73,12 +73,12 @@
         if (error) {
             //网络错误
             self.iconImageView.image = [UIImage imageNamed:@"error_icon"];
-            self.titleLabel.text = @"数据加载失败";
+            self.titleLabel.text = DMTextDataLoaddingError;
             self.reloadButton.hidden = NO;
         } else {
             //无课程
             self.iconImageView.image = [UIImage imageNamed:@"icon_noCourse"];
-            self.titleLabel.text = @"您暂时还没有课程哦";
+            self.titleLabel.text = DMTextNotClassInfo;
             self.reloadButton.hidden = YES;
         }
     }
@@ -129,17 +129,17 @@
         [cell isSelectedCell:NO];
     }
     cell.nameLabel.text = data.course_name;
-    cell.timeLabel.text = [@"上课时间：" stringByAppendingString:
+    cell.timeLabel.text = [DMTextStartClassTime stringByAppendingString:
                            [DMTools timeFormatterYMDFromTs:data.start_time format:@"MM月dd日 HH:mm"]];//@"上课时间：8月16日 10:00";
     cell.statusLabel.text = @"";
     if (data.live_status.intValue == 0) {
-        cell.statusLabel.text = @"未开始";
+        cell.statusLabel.text = DMKeyStatusNotStart;
     } else if (data.live_status.intValue == 1) {
-        cell.statusLabel.text = @"上课中";
+        cell.statusLabel.text = DMKeyStatusInclass;
     } else if (data.live_status.intValue == 2) {
-        cell.statusLabel.text = @"课程结束";
+        cell.statusLabel.text = DMKeyStatusClassEnd;
     } else if (data.live_status.intValue == 3) {
-        cell.statusLabel.text = @"取消课程";
+        cell.statusLabel.text = DMKeyStatusClassCancel;
     }
 //    else if (data.live_status.intValue == 4) {
 //        cell.statusLabel.text = @"结束";

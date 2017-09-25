@@ -109,7 +109,7 @@
                 DMCustomerTeacherInfo *obj = [objList.customer_list objectAtIndex:indexPath.row];
                 if (!STR_IS_NIL(obj.img_url)) {
                     DMPopCodeView *codeView = [[DMPopCodeView alloc] initWithTitle:obj.name
-                                                                           message:[NSString stringWithFormat:@"微信号：%@", obj.webchat]
+                                                                           message:[NSString stringWithFormat:DMStringWeChatNumber, obj.webchat]
                                                                          imageName:obj.img_url];
                     [codeView show];
         
