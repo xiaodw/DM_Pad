@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "DMCloudConfigData.h"
-
+#import <Photos/Photos.h>
 typedef void (^BlockUploadSuccess)(BOOL result, DMClassFileDataModel* obj);//上传成功
 typedef void (^BlockUploadFailed)(NSError *error);//上传失败
 
@@ -30,5 +30,6 @@ typedef void (^BlockUploadFailed)(NSError *error);//上传失败
                  formatType:(DMFormatUploadFileType)type
                    fileData:(NSData *)fileData
                    filePath:(NSString *)filePath
-                    fileExt:(NSString *)fileExt;
+                    fileExt:(NSString *)fileExt
+                      angle:(UIImageOrientation)tation;
 @end

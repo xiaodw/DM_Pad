@@ -20,6 +20,7 @@
 @property (nonatomic, strong) NSString *filePath;
 @property (nonatomic, assign) DMFormatUploadFileType formatType;
 @property (nonatomic, strong) NSString *fileExt;
+@property (nonatomic, strong) NSString *tation;
 
 @end
 
@@ -92,13 +93,33 @@ static DMBOSClientManager *bosinstance = nil;
                    fileData:(NSData *)fileData
                    filePath:(NSString *)filePath
                     fileExt:(NSString *)fileExt
+                      angle:(UIImageOrientation)tation
 {
-    self.lessonID = lessonID;
+    self.lessonID   = lessonID;
     self.formatType = type;
-    self.filePath = filePath;
-    self.fileData = fileData;
-    self.fileExt = fileExt;
+    self.filePath   = filePath;
+    self.fileData   = fileData;
+    self.fileExt    = fileExt;
     
+    NSString *angle = @"0";
+    switch (tation) {
+        case UIImageOrientationUp:
+            angle = @"0";
+            break;
+        case UIImageOrientationRight:
+            angle = @"90";
+            break;
+        case UIImageOrientationDown:
+            angle = @"180";
+            break;
+        case UIImageOrientationLeft:
+            angle = @"270";
+            break;
+        default:
+            break;
+    }
+    
+    self.tation = angle;
     [self getCloudConfig];
 }
 
@@ -115,6 +136,7 @@ static DMBOSClientManager *bosinstance = nil;
     [DMApiModel getUploadSuccess:self.lessonID
                       attachment:self.cloudObj.ID
                          fileExt:self.fileExt
+                            angle:self.tation
                            block:^(BOOL result, DMClassFileDataModel *obj) {
                                if (result) {
                                    if (weakSelf.blockUploadSuccess) {

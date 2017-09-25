@@ -71,6 +71,7 @@
 + (void)getUploadSuccess:(NSString *)lessonId //课节id
               attachment:(NSString *)attachmentID //课件id
                  fileExt:(NSString *)fileExt //文件后缀，比如 .png
+                   angle:(NSString *)angle
                    block:(void(^)(BOOL result, DMClassFileDataModel *obj))complectionBlock;
 
 @end

@@ -294,7 +294,7 @@
                    block:(void(^)(BOOL result, DMClassFileDataModel *obj))complectionBlock
 {
     NSMutableDictionary *dic = [NSMutableDictionary
-                                dictionaryWithObjectsAndKeys:lessonId, @"lesson_id",attachmentID, @"attachment_id",fileExt, @"fileext", angle, @"angle",nil];
+                                dictionaryWithObjectsAndKeys:lessonId, @"lesson_id",attachmentID, @"attachment_id",fileExt, @"fileext", angle, @"angle", nil];
     [[DMHttpClient sharedInstance] initWithUrl:DM_Cloud_Upload_Success_Url
                                     parameters:dic
                                         method:DMHttpRequestPost

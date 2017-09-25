@@ -118,7 +118,7 @@
     [self.uploadBrowseView refrenshAssetStatus:asset];
     [surplusPhotos removeObject:asset];
     NSData *imgData = UIImageJPEGRepresentation(asset.fullResolutionImage, 1.0);
-    [self.bosManager startUploadFileToBD:self.lessonID formatType:DMFormatUploadFileType_FileData fileData:imgData filePath:nil fileExt:@".png"];
+    [self.bosManager startUploadFileToBD:self.lessonID formatType:DMFormatUploadFileType_FileData fileData:imgData filePath:nil fileExt:@".png" angle:(UIImageOrientation)asset.orientation];
     
     self.bosManager.blockUploadFailed = ^(NSError *error) {
         asset.status = DMAssetStatusFail;
