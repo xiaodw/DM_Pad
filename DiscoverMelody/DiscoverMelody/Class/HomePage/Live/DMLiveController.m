@@ -70,14 +70,15 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.view.backgroundColor = kColor33;
+    [self.navigationController setNavigationBarHidden:YES];
+    
     self.tapLayoutCount = 3;
     [self computTime];
     
     NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
     self.remotePlaceholderTitleLabel.text = userIdentity ? DMTextLiveStudentNotEnter : DMTextLiveTeacherNotEnter;
-    
-    self.view.backgroundColor = kColor33;
-    [self.navigationController setNavigationBarHidden:YES];
     
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(remoteVideoTapped)];
     [self.view addGestureRecognizer:tapGestureRecognizer];
@@ -92,7 +93,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    
     [self.navigationController setNavigationBarHidden:NO];
 }
 
@@ -106,29 +106,15 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 - (void)setupMakeLiveCallback {
     // 有用户加入
     WS(weakSelf)
-//    self.liveVideoManager.blockDidJoinedOfUid = ^(NSUInteger uid) {
-//        NSLog(@"blockDidJoinedOfUid");
-////        weakSelf.isRemoteUserOnline = YES;
-//    };
-    
     // 退出直播事件
     self.liveVideoManager.blockQuitLiveVideoEvent = ^(BOOL success) {
-        NSLog(@"blockQuitLiveVideoEvent");
         weakSelf.isRemoteUserOnline = NO;
-//        [weakSelf setPlaceholder];
     };
     
     // 有用户离开
     self.liveVideoManager.blockDidOfflineOfUid = ^(NSUInteger uid) {
-        NSLog(@"blockDidOfflineOfUid");
         weakSelf.isRemoteUserOnline = NO;
-//        [weakSelf setPlaceholder];
     };
-    
-    // 重新加入
-//    self.liveVideoManager.blockDidRejoinChannel = ^(NSUInteger uid, NSString *channel) {
-//        NSLog(@"blockDidRejoinChannel");
-//    };
     
     self.liveVideoManager.blockFirstRemoteVideoDecodedOfUid = ^(NSUInteger uid, CGSize size) {
         weakSelf.isRemoteUserOnline = YES;
@@ -145,15 +131,10 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
             AgoraRtcAudioVolumeInfo *volumeInfo = speakers[i];
             // uid 为 0 说明是自己
             if (volumeInfo.uid == 0) {
-                if (volumeInfo.volume <= 0) return;
-                // self make animation
                 weakSelf.localMicrophoneView.voiceValue = volumeInfo.volume / 255.0;
                 return;
             }
-            
-            if (volumeInfo.volume > 0) {
-                weakSelf.remoteMicrophoneView.voiceValue = volumeInfo.volume / 255.0;
-            }
+            weakSelf.remoteMicrophoneView.voiceValue = volumeInfo.volume / 255.0;
         }
     } blockTapVideoEvent:^(DMLiveVideoViewType type) {
         if (weakSelf.tapLayoutCount % DMLayoutModeAll == DMLayoutModeAveragDistribution) return;
@@ -690,8 +671,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 
 - (void)makeLayoutViews {
     self.tapLayoutCount += 1;
-//    [_localView removeFromSuperview];
-//    [_remoteBackgroundView removeFromSuperview];
     
     if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeRemoteAndSmall) {
         self.remotePlaceholderView.hidden = self.alreadyTime < 0 || _isRemoteUserOnline;
@@ -814,7 +793,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         }else { // 左右
             [_remoteBackgroundView remakeConstraints:^(MASConstraintMaker *make) {
                 make.left.centerY.equalTo(self.view);
-                make.size.equalTo(CGSizeMake(DMScreenWidth * 0.5, 385));
+                make.size.equalTo(CGSizeMake(DMScreenWidth * 0.5, DMScaleWidth(385)));
             }];
             
             [_localView remakeConstraints:^(MASConstraintMaker *make) {
@@ -822,7 +801,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
                 make.right.equalTo(self.view);
             }];
             
-            CGFloat remotePHVTop = (DMScreenHeight - 385) * 0.5 + 95;
+            CGFloat remotePHVTop = (DMScreenHeight - DMScaleWidth(385)) * 0.5 + 95;
             [_remotePlaceholderView remakeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(remotePHVTop);
                 make.size.equalTo(CGSizeMake(154, 154));

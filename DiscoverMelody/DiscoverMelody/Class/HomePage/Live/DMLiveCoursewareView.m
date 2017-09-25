@@ -144,8 +144,7 @@ static bool currentTurnPage = false;
         _collectionView.bounces = NO;
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.showsHorizontalScrollIndicator = NO;
-#warning iOS10 属性
-        _collectionView.prefetchingEnabled = NO;
+//        _collectionView.prefetchingEnabled = NO;
         [_collectionView registerClass:[DMLiveCoursewareCell class] forCellWithReuseIdentifier:kCoursewareCellID];
     }
     

@@ -296,7 +296,7 @@
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
         _collectionView.backgroundColor = UIColorFromRGB(0xf6f6f6);
-        _collectionView.prefetchingEnabled = NO;
+//        _collectionView.prefetchingEnabled = NO;
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.showsHorizontalScrollIndicator = NO;
         [_collectionView registerClass:[DMCourseFileCell class] forCellWithReuseIdentifier:kCoursewareCellID];
