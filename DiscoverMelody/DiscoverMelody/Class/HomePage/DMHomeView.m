@@ -52,9 +52,9 @@
     if (userIdentity == 0) {
         //学生端
         [_headImageView sd_setImageWithURL:[NSURL URLWithString:obj.avatar] placeholderImage:HeadPlaceholderName];
-        _nameLabel.text = obj.teacher_name;
+        _nameLabel.text = [[DMStringIDTeacher stringByAppendingString:@"："] stringByAppendingString:obj.teacher_name];
     } else {
-        _nameLabel.text = obj.student_name;
+        _nameLabel.text = [[DMStringIDStudent stringByAppendingString:@"："] stringByAppendingString:obj.student_name];
     }
     _courseLabel.text = obj.course_name;
     _timeLabel.text = [DMTextStartClassTime stringByAppendingString:

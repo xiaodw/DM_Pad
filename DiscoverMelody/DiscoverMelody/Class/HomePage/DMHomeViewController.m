@@ -94,6 +94,20 @@
 }
 //本课文件
 - (void)clickCourseFiles:(id)sender {
+    
+    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleCustom];
+    [SVProgressHUD setMinimumDismissTimeInterval:1];
+    [SVProgressHUD setMaximumDismissTimeInterval:2];
+    [SVProgressHUD setForegroundColor:DMColorWithRGBA(254, 254, 254, 1)]; //字体颜色
+    [SVProgressHUD setBackgroundColor:DMColorWithRGBA(0, 0, 0, 0.6)];//背景颜色
+    [SVProgressHUD setCornerRadius:5];
+    
+    [SVProgressHUD setMinimumSize:CGSizeMake(130, 130)];
+    [SVProgressHUD setFont:DMFontPingFang_Regular(16)];
+    [SVProgressHUD setImageViewSize:CGSizeMake(20, 20)];
+    [SVProgressHUD setFadeInAnimationDuration:0.2];
+    [SVProgressHUD showImage:[UIImage imageNamed:@"question_radio_sel"] status:@""];
+    return;
 
     UIButton *btn = (UIButton *)sender;
     btn.userInteractionEnabled = NO;//防止恶意极限快速点击
