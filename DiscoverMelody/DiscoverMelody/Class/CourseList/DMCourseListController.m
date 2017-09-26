@@ -192,18 +192,11 @@
     self.bgVV.hidden = NO;
 }
 
-- (void)pulldownMenuDidShow:(DMPullDownMenu *)menu     // 当下拉菜单已经显示时调用
-{
-
-}
 - (void)pulldownMenuWillHidden:(DMPullDownMenu *)menu   // 当下拉菜单将要收起时调用
 {
     self.bgVV.hidden = YES;
 }
-- (void)pulldownMenuDidHidden:(DMPullDownMenu *)menu   // 当下拉菜单已经收起时调用
-{
 
-}
 - (void)rightOneAction:(id)sender {
     [self.pullDownMenu clickMainBtn:(UIButton *)sender];
 }
