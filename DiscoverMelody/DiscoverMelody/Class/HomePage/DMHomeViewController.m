@@ -185,10 +185,10 @@
     DMLiveController *liveVC = [DMLiveController new];
     liveVC.navigationVC = self.navigationController;
     liveVC.lessonID = self.courseObj.lesson_id;
-    liveVC.totalTime = 45 * 60;
-    liveVC.alreadyTime = -400;
-    liveVC.warningTime = 5*60;
-    liveVC.delayTime = 15*60;
+    liveVC.totalTime = 1 * 60;
+    liveVC.alreadyTime = 60;
+    liveVC.warningTime = 30;
+    liveVC.delayTime = 1*60;
     
     [self.navigationController pushViewController:liveVC animated:YES];
 }
