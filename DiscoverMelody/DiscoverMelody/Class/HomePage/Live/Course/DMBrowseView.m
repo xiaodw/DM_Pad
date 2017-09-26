@@ -55,7 +55,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor blackColor];
         [self setupMakeAddSubviews];
         [self setupMakeLayoutSubviews];
     }

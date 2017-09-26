@@ -367,7 +367,6 @@
 - (DMBrowseView *)uploadBrowseView {
     if (!_uploadBrowseView) {
         _uploadBrowseView = [DMBrowseView new];
-        _uploadBrowseView.backgroundColor = [UIColor clearColor];
         _uploadBrowseView.browseType = DMBrowseViewTypeUpload;
     }
     
