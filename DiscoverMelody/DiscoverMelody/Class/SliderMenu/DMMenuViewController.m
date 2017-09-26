@@ -24,7 +24,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.items = [NSArray arrayWithObjects:DMTitleSelfHome, DMTitleCourseList, DMTitleContactCustomerService, nil];
+    self.items = [NSArray arrayWithObjects:DMTitleHome, DMTitleCourseList, DMTitleContactCustomerService, nil];
     self.imageItems = [NSArray arrayWithObjects:@"home_icon", @"course_icon", @"customer_icon", nil];
     self.selImageItems = [NSArray arrayWithObjects:@"home_icon_sel", @"course_icon_sel", @"customer_icon_sel", nil];
     [self loadUI];

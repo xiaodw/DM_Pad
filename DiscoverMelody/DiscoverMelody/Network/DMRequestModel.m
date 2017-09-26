@@ -127,7 +127,7 @@
 //弹出网络错误提示框
 - (void)showExceptionDialog {
     //[DMTools showMessageToast:DMTitleNetworkException duration:2 position:CSToastPositionCenter];
-    [DMTools showSVProgressHudCustom:@"" title:DMTitleNetworkException];
+    [DMTools showSVProgressHudCustom:@"" title:DMTitleNetworkError];
 }
 
 - (void)cancleAllHttpRequestOperations {
