@@ -46,6 +46,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 @property (strong, nonatomic) UIView *timeView; // 底部时间条
 @property (strong, nonatomic) DMButton *timeButton; // 底部时间条: 图标
 @property (strong, nonatomic) UILabel *alreadyTimeLabel; // 底部时间条: 过了多少时间
+@property (strong, nonatomic) UIImageView *alreadyTimeShadowImageView; // 底部时间条阴影
 @property (strong, nonatomic) UILabel *describeTimeLabel; // 底部时间条: 提示
 @property (strong, nonatomic) DMLiveWillStartView *willStartView; // 即将开始的View
 
@@ -291,6 +292,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self.view addSubview:self.localView];
     [self.view addSubview:self.shadowImageView];
     [self.view addSubview:self.controlView];
+    [self.view addSubview:self.alreadyTimeShadowImageView];
     [self.view addSubview:self.timeView];
     [self.view addSubview:self.remoteMicrophoneView];
     [self.view addSubview:self.localMicrophoneView];
@@ -322,6 +324,11 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         make.bottom.equalTo(self.view.mas_bottom).offset(-18);
         make.height.equalTo(20);
         make.right.equalTo(self.view);
+    }];
+    
+    [_alreadyTimeShadowImageView makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.equalTo(self.view);
+        make.top.equalTo(_timeView);
     }];
     
     [_remoteBackgroundView makeConstraints:^(MASConstraintMaker *make) {
@@ -624,6 +631,15 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     }
     
     return _timeButton;
+}
+
+- (UIImageView *)alreadyTimeShadowImageView {
+    if (!_alreadyTimeShadowImageView) {
+        _alreadyTimeShadowImageView = [UIImageView new];
+        _alreadyTimeShadowImageView.image = [UIImage imageNamed:@"image_shadowBottomToTop"];
+    }
+    
+    return _alreadyTimeShadowImageView;
 }
 
 - (UILabel *)alreadyTimeLabel {
