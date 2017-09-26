@@ -32,14 +32,15 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self updateUserInfo];
+    //[self updateUserInfo];
 }
 
-- (void)updateUserInfo {
-    NSString *headUrl = [DMAccount getUserHeadUrl];
-    [self.headView.headImageView sd_setImageWithURL:[NSURL URLWithString:headUrl] placeholderImage:HeadPlaceholderName];
-    self.headView.nameLabel.text = [DMAccount getUserName];
-}
+//废弃的方法
+//- (void)updateUserInfo {
+//    NSString *headUrl = [DMAccount getUserHeadUrl];
+//    [self.headView.headImageView sd_setImageWithURL:[NSURL URLWithString:headUrl] placeholderImage:HeadPlaceholderName];
+//    self.headView.nameLabel.text = [DMAccount getUserName];
+//}
 
 - (void)clickLoginOut:(id)sender {
     WS(weakSelf)
@@ -108,7 +109,7 @@
     UIButton *loginOutBtn = [self loadLoginOutView];
     [self.view addSubview:loginOutBtn];
     
-    self.headView = [[DMMenuHeadView alloc] initWithFrame:CGRectMake(0, 0, 150, 193)];
+    self.headView = [[DMMenuHeadView alloc] initWithFrame:CGRectMake(0, 0, 150, 73)];
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     _tableView.backgroundColor = [UIColor whiteColor];
     _tableView.tableHeaderView = self.headView;
