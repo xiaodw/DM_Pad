@@ -2,10 +2,12 @@
 #import "DMClassFileDataModel.h"
 #import "DMAsset.h"
 #import "NSString+Extension.h"
+#import "DMActivityView.h"
 
 @interface DMBrowseCourseCell()
 
 @property (strong, nonatomic) UIImageView *imageView;
+@property (strong, nonatomic) DMActivityView *activityView;
 
 @end
 
@@ -18,9 +20,12 @@
 
 - (void)setCourseModel:(DMClassFileDataModel *)courseModel{
     _courseModel = courseModel;
-    
+    _activityView.hidden = NO;
+    [self.activityView showInView:self.imageView];
     if (!_isFullScreen) {
-        [self.imageView sd_setImageWithURL:[NSURL URLWithString:[courseModel.img trim]] placeholderImage:[UIImage imageNamed:@"image_placeholder_300"]];
+        [self.imageView sd_setImageWithURL:[NSURL URLWithString:[courseModel.img trim]] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+            [self.activityView hide];
+        }];
         return;
     }
 }
@@ -31,6 +36,7 @@
         self.backgroundColor = [UIColor clearColor];
         
         [self.contentView addSubview:self.imageView];
+        [self.contentView addSubview:self.activityView];
         [_imageView makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.contentView);
         }];
@@ -46,6 +52,15 @@
     }
     
     return _imageView;
+}
+
+- (DMActivityView *)activityView {
+    if (!_activityView) {
+        _activityView = [DMActivityView new];
+        _activityView.hidden = YES;
+    }
+    
+    return _activityView;
 }
 
 @end

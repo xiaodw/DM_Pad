@@ -77,7 +77,7 @@
             self.reloadButton.hidden = NO;
         } else {
             //无课程
-            self.iconImageView.image = [UIImage imageNamed:@"icon_noCourse"];
+            self.iconImageView.image = [UIImage imageNamed:@"quest_no_teacher_com"];
             self.titleLabel.text = DMTextNotClassInfo;
             self.reloadButton.hidden = YES;
         }
@@ -331,7 +331,7 @@
         topImageView.image = [UIImage imageNamed:@"hp_no_course_icon"];
         
         _iconImageView = [UIImageView new];
-        _iconImageView.image = [UIImage imageNamed:@"icon_noCourse"];
+        _iconImageView.image = [UIImage imageNamed:@"quest_no_teacher_com"];
         
         _titleLabel = [UILabel new];
         _titleLabel.text = DMTextRecentNotClass;

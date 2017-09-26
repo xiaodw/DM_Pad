@@ -103,7 +103,7 @@
     WS(weakSelf)
     NSMutableArray *surplusPhotos = [surplus mutableCopy];
     if (surplusPhotos.count == 0) {
-         [SVProgressHUD dismiss];
+         [DMActivityView hideActivity];
         if (self.fieldAssets.count == 0) {
             [self.delegate albrmsCollectionView:weakSelf success:weakSelf.successAssets];
             return;
@@ -145,8 +145,9 @@
 #pragma mark - Functions
 - (void)didTapUpload:(UIButton *)sender {
     if (![self.delegate respondsToSelector:@selector(albrmsCollectionView:success:)]) return;
-    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
-    [SVProgressHUD show];
+//    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
+//    [SVProgressHUD show];
+    [DMActivityView showActivity:self];
     [self uploadPhotos:self.selectedAssets];
 }
 

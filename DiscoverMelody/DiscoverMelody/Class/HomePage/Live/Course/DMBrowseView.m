@@ -12,6 +12,7 @@
 
 @property (strong, nonatomic) DMButton *syncButton;
 @property (strong, nonatomic) UIView *colBackgroundView;
+@property (strong, nonatomic) UIView *backgroundView;
 @property (strong, nonatomic) UICollectionView *browsecollectionView; // 大图
 @property (strong, nonatomic) UICollectionView *collectionView; // 小图
 @property (strong, nonatomic) NSIndexPath *currentIndexPath;
@@ -48,14 +49,13 @@
     self.currentIndexPath = [NSIndexPath indexPathForRow:scrollIndex inSection:0];
     [self.collectionView scrollToItemAtIndexPath:self.currentIndexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
     [self.browsecollectionView scrollToItemAtIndexPath:self.currentIndexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
-    
 }
 
 #pragma mark - Lifecycle Methods
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor blackColor];
+        self.backgroundColor = [UIColor clearColor];
         [self setupMakeAddSubviews];
         [self setupMakeLayoutSubviews];
     }
@@ -124,6 +124,7 @@
 }
 
 - (void)setupMakeAddSubviews {
+    [self addSubview:self.backgroundView];
     [self addSubview:self.browsecollectionView];
     [self addSubview:self.colBackgroundView];
     [self addSubview:self.collectionView];
@@ -151,9 +152,14 @@
     
     [_browsecollectionView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(64);
-        make.bottom.equalTo(_colBackgroundView.mas_top);
+        make.bottom.equalTo(_colBackgroundView);
         make.left.equalTo(25);
         make.right.equalTo(self.mas_right).offset(-25);
+    }];
+    
+    [_backgroundView makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.equalTo(self);
+        make.bottom.equalTo(_colBackgroundView.mas_top);
     }];
 }
 
@@ -174,6 +180,15 @@
     }
     
     return _syncButton;
+}
+
+- (UIView *)backgroundView {
+    if (!_backgroundView) {
+        _backgroundView = [UIView new];
+        _backgroundView.backgroundColor = [UIColor blackColor];
+    }
+    
+    return _backgroundView;
 }
 
 - (UICollectionView *)setupCollectionView:(UICollectionViewFlowLayout *)layout {

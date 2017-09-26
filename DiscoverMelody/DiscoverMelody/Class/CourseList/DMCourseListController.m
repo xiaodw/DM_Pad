@@ -284,7 +284,7 @@
         _noCourseView = [UIView new];
         
         UIImageView *iconImageView = [UIImageView new];
-        iconImageView.image = [UIImage imageNamed:@"icon_noCourse"];
+        iconImageView.image = [UIImage imageNamed:@"quest_no_teacher_com"];
         
         UILabel *titleLabel = [UILabel new];
         titleLabel.text = DMTextNotClass;

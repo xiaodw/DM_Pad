@@ -56,7 +56,7 @@
 #import<AVFoundation/AVCaptureDevice.h>
 #import <AVFoundation/AVMediaFormat.h>
 #import <AVFoundation/AVAudioSession.h>
-
+#import "DMActivityView.h"
 
 
 #import "DMEnums.h"
