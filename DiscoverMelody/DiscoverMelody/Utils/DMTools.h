@@ -54,6 +54,8 @@
 //计算文字对应的label高度
 +(CGFloat)getContactHeight:(NSString*)contact font:(UIFont *)font width:(CGFloat)width;
 
+//成功/失败 提示框
++(void)showSVProgressHudCustom:(NSString *)imageName title:(NSString *)title;
 
 @end
 

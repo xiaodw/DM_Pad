@@ -108,6 +108,9 @@ UIKIT_EXTERN NSString * const DMTitleTeacherQuestionSuccessFild;
 
 UIKIT_EXTERN NSString * const DMDateFormatterYMD;
 
+UIKIT_EXTERN NSString * const DMQuestCommitStatusSuccess;
+UIKIT_EXTERN NSString * const DMQuestCommitStatusFailed;
+
 
 
 

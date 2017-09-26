@@ -94,7 +94,7 @@
     } failure:^(NSError *error) {
         NSLog(@"网络请求错误信息 = %@", error);
         self.blockSuccessMsg = nil;
-        [DMTools showMessageToast:DMTitleNetworkError duration:2 position:CSToastPositionCenter];
+        [DMTools showSVProgressHudCustom:@"" title:DMTitleNetworkError];
         failure(error);
     }];
 }
@@ -120,16 +120,20 @@
         case DMHttpResponseCodeType_RefusedToEnter:
             //[SVProgressHUD showWithStatus:message];
             if ([message isKindOfClass:[NSString class]]) {
-                [DMTools showMessageToast:message duration:2 position:CSToastPositionCenter];
+                //[DMTools showMessageToast:message duration:2 position:CSToastPositionCenter];
+                [DMTools showSVProgressHudCustom:@"" title:message];
             } else {
-                [DMTools showMessageToast:DMTitleNoTypeError duration:2 position:CSToastPositionCenter];
+                //[DMTools showMessageToast:DMTitleNoTypeError duration:2 position:CSToastPositionCenter];
+                [DMTools showSVProgressHudCustom:@"" title:DMTitleNoTypeError];
             }
             break;
         default:
             if ([message isKindOfClass:[NSString class]]) {
-                [DMTools showMessageToast:message duration:2 position:CSToastPositionCenter];
+                //[DMTools showMessageToast:message duration:2 position:CSToastPositionCenter];
+                [DMTools showSVProgressHudCustom:@"" title:message];
             } else {
-                [DMTools showMessageToast:DMTitleNoTypeError duration:2 position:CSToastPositionCenter];
+                //[DMTools showMessageToast:DMTitleNoTypeError duration:2 position:CSToastPositionCenter];
+                [DMTools showSVProgressHudCustom:@"" title:DMTitleNoTypeError];
             }
             break;
     }
