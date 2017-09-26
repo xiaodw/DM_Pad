@@ -159,13 +159,13 @@
     
     //(3)设置请求头
     //[request setAllHTTPHeaderFields:nil];
-    
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     //(4)设置请求体
     //NSString *bodyStr = @"user_name=admin&user_password=admin";
     //NSData *bodyData = [bodyStr dataUsingEncoding:NSUTF8StringEncoding];
-    
+    NSMutableDictionary *dic = [self fixedParameters:[NSMutableDictionary dictionary]];
     //设置请求体
-    //[request setHTTPBody:bodyData];
+    [request setHTTPBody:[NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil]];
     
     //3.构造Session
     NSURLSession *session = [NSURLSession sharedSession];

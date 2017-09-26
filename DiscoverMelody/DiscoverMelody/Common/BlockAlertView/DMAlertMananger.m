@@ -53,11 +53,11 @@
         
         NSMutableAttributedString *msgAlert = [[NSMutableAttributedString alloc] initWithString:message];
         [msgAlert addAttribute:NSFontAttributeName value:DMFontPingFang_Light(13) range:NSMakeRange(0, [[msgAlert string] length])];
-        [self.alertCol setValue:msgAlert forKey:@"attributedTitle"];
+        [self.alertCol setValue:msgAlert forKey:@"attributedMessage"];
     } else {
         NSMutableAttributedString *msgAlert = [[NSMutableAttributedString alloc] initWithString:message];
         [msgAlert addAttribute:NSFontAttributeName value:DMFontPingFang_Regular(18) range:NSMakeRange(0, [[msgAlert string] length])];
-        [self.alertCol setValue:msgAlert forKey:@"attributedTitle"];
+        [self.alertCol setValue:msgAlert forKey:@"attributedMessage"];
     }
     
 
