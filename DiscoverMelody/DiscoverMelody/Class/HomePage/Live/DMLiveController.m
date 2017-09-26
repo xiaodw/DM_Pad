@@ -201,7 +201,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 - (void)liveButtonControlViewDidTapLeave:(DMLiveButtonControlView *)liveButtonControlView {
     WS(weakSelf)
     
-    if(self.alreadyTime < self.totalTime) {
+    if(self.alreadyTime < self.totalTime + self.delayTime) {
         DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:DMTitleExitLiveRoom message:DMTitleLiveAutoClose preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
         [alert showWithViewController:self IndexBlock:^(NSInteger index) {
             if (index == 1) { // 右侧
