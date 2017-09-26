@@ -32,8 +32,8 @@
     _statusImageView.image = asset.status == DMAssetStatusSuccess ? [UIImage imageNamed:@"icon_success"] : [UIImage imageNamed:@"icon_fail"];
     asset.status == DMAssetStatusUploading ? [_activityIndicatorView startAnimating] : [_activityIndicatorView stopAnimating];
     
-    self.indexLabel.layer.borderColor = asset.isSelected ? DMColorBaseMeiRed.CGColor : [[UIColor blackColor] colorWithAlphaComponent:0.4].CGColor;
-    _indexLabel.backgroundColor = asset.isSelected ? DMColorBaseMeiRed : [[UIColor blackColor] colorWithAlphaComponent:0.25];
+    self.indexLabel.layer.borderColor = asset.isSelected ? DMColorBaseMeiRed.CGColor : DMColorWithHexString(@"#999999").CGColor;
+    _indexLabel.backgroundColor = asset.isSelected ? DMColorBaseMeiRed : [[UIColor blackColor] colorWithAlphaComponent:0.3];
     _indexLabel.text = [NSString stringWithFormat:@"%@", indexString];
 }
 

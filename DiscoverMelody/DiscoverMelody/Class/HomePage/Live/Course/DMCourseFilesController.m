@@ -339,7 +339,6 @@
     cell.courseModel = cell.courseModel;
     [self.collectionView reloadData];
     self.browseView.isFirst = NO;
-    self.browseView.courses = self.selectedCpirses;
     
     if (self.selectedCpirses.count == 0) {
         _isSyncBrowsing = NO;
@@ -350,8 +349,12 @@
         
         [UIView animateWithDuration:0.25 animations:^{
             [self.view layoutSubviews];
+        } completion:^(BOOL finished) {
+            self.browseView.courses = self.selectedCpirses;
         }];
+        return;
     }
+    self.browseView.courses = self.selectedCpirses;
 }
 
 #pragma mark - Other
