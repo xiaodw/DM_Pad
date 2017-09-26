@@ -153,7 +153,7 @@
     [_colBackgroundView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_collectionView.mas_top).offset(-15);
         make.bottom.equalTo(_syncButton.mas_top);
-        make.left.right.equalTo(_collectionView);
+        make.left.right.equalTo(self);
     }];
 }
 

@@ -333,8 +333,8 @@
         cell.courseModel.isSelected = YES;
     }
     
-    self.bottomBar.syncButton.enabled = self.selectedCpirses.count > 0;
-    self.bottomBar.deleteButton.enabled = self.selectedCpirses.count > 0;
+    self.bottomBar.syncButton.enabled = self.selectedCpirses.count > 0 && !_isSyncBrowsing;
+    self.bottomBar.deleteButton.enabled = self.bottomBar.syncButton.enabled;
     
     cell.courseModel = cell.courseModel;
     [self.collectionView reloadData];
@@ -438,7 +438,7 @@
 - (UIView *)navigationBar {
     if (!_navigationBar) {
         _navigationBar = [UIView new];
-        _navigationBar.backgroundColor = [UIColor blackColor];
+        _navigationBar.backgroundColor = DMColor33(1);
         
         UIButton *leftBarButton = [DMBarButtonItem new];
         [leftBarButton setImage:[UIImage imageNamed:@"back_icon"] forState:UIControlStateNormal];
