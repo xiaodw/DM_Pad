@@ -282,8 +282,8 @@
             DMBrowseCourseController *browseCourseVC = [DMBrowseCourseController new];
             browseCourseVC.isNotSelf = [self.identifierCpirsesArray indexOfObject:self.currentCpirses];
             browseCourseVC.lessonID = self.lessonID;
-            CGFloat width = DMScreenWidth - 80;
-            CGFloat height = DMScreenHeight - 86;
+            CGFloat width = DMScreenWidth;
+            CGFloat height = DMScreenHeight - 50;
             browseCourseVC.itemSize = CGSizeMake(width, height);
             browseCourseVC.browseDelegate = self;
             browseCourseVC.currentIndexPath = indexPath;
@@ -300,8 +300,8 @@
         DMBrowseCourseController *browseCourseVC = [DMBrowseCourseController new];
         browseCourseVC.isNotSelf = [self.identifierCpirsesArray indexOfObject:self.currentCpirses];
         browseCourseVC.lessonID = self.lessonID;
-        CGFloat width = DMScreenWidth * 0.5 - 80;
-        CGFloat height = DMScreenHeight - 130;
+        CGFloat width = DMScreenWidth * 0.5;
+        CGFloat height = DMScreenHeight - 50;
         browseCourseVC.itemSize = CGSizeMake(width, height);
         browseCourseVC.browseDelegate = self;
         browseCourseVC.currentIndexPath = indexPath;
@@ -548,7 +548,6 @@
         _tabBarView = [DMTabBarView new];
         _tabBarView.delegate = self;
         _tabBarView.isFullScreen = self.isFullScreen;
-        
         _tabBarView.layer.shadowColor = [UIColor blackColor].CGColor; // shadowColor阴影颜色
         _tabBarView.layer.shadowOffset = CGSizeMake(-3,7); // shadowOffset阴影偏移,x向右偏移，y向下偏移，默认(0, -3),这个跟shadowRadius配合使用
         _tabBarView.layer.shadowOpacity = 0.07; // 阴影透明度，默认0
@@ -562,7 +561,6 @@
     if (!_bottomBar) {
         _bottomBar = [DMBottomBarView new];
         _bottomBar.delegate = self;
-        
         _bottomBar.layer.shadowColor = [UIColor blackColor].CGColor; // shadowColor阴影颜色
         _bottomBar.layer.shadowOffset = CGSizeMake(-3,-7); // shadowOffset阴影偏移,x向右偏移，y向下偏移，默认(0, -3),这个跟shadowRadius配合使用
         _bottomBar.layer.shadowOpacity = 0.03; // 阴影透明度，默认0

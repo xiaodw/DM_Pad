@@ -78,7 +78,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self.navigationController setNavigationBarHidden:YES];
     
     self.tapLayoutCount = 3;
-    [self computTime];
     
     NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
     self.remotePlaceholderTitleLabel.text = userIdentity ? DMTextLiveStudentNotEnter : DMTextLiveTeacherNotEnter;
@@ -92,6 +91,12 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self setupMakeLiveCallback];
     
     [self timer];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self computTime];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
