@@ -82,7 +82,7 @@
     NSString *userString = [NSString stringWithFormat:@"%@%@", [DMAccount getUserName], identityString];
     NSRange idRange = [userString rangeOfString:identityString];
     NSMutableAttributedString *attributeString = [[NSMutableAttributedString alloc] initWithString:userString];
-    [attributeString setAttributes:@{NSFontAttributeName: DMFontPingFang_UltraLight(14), NSForegroundColorAttributeName: [UIColor whiteColor] } range:idRange];
+    [attributeString setAttributes:@{NSFontAttributeName: DMFontPingFang_Thin(14), NSForegroundColorAttributeName: [UIColor whiteColor] } range:idRange];
     self.userLabel.attributedText = attributeString;
 }
 

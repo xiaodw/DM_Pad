@@ -117,22 +117,18 @@
             [DMCommonModel removeUserAllDataAndOperation];
             [APP_DELEGATE toggleRootView:YES];
             break;
-        case DMHttpResponseCodeType_RefusedToEnter:
-            //[SVProgressHUD showWithStatus:message];
+        case DMHttpResponseCodeType_Failed:
             if ([message isKindOfClass:[NSString class]]) {
-                //[DMTools showMessageToast:message duration:2 position:CSToastPositionCenter];
-                [DMTools showSVProgressHudCustom:@"" title:message];
+
+                [DMTools showSVProgressHudCustom:@"hud_failed_icon" title:message];
             } else {
-                //[DMTools showMessageToast:DMTitleNoTypeError duration:2 position:CSToastPositionCenter];
-                [DMTools showSVProgressHudCustom:@"" title:DMTitleNoTypeError];
+                [DMTools showSVProgressHudCustom:@"hud_failed_icon" title:DMTitleNoTypeError];
             }
             break;
         default:
             if ([message isKindOfClass:[NSString class]]) {
-                //[DMTools showMessageToast:message duration:2 position:CSToastPositionCenter];
                 [DMTools showSVProgressHudCustom:@"" title:message];
             } else {
-                //[DMTools showMessageToast:DMTitleNoTypeError duration:2 position:CSToastPositionCenter];
                 [DMTools showSVProgressHudCustom:@"" title:DMTitleNoTypeError];
             }
             break;

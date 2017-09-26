@@ -243,7 +243,7 @@
          complectionBlock(NO);
      }];
     [DMHttpClient sharedInstance].blockSuccessMsg = ^(NSString *msg) {
-        [DMTools showSVProgressHudCustom:@"hud_success_icon" title:(STR_IS_NIL(msg)?@"提交成功":msg)];
+        [DMTools showSVProgressHudCustom:@"hud_success_icon" title:(STR_IS_NIL(msg)?DMQuestCommitStatusSuccess:msg)];
     };
 }
 
