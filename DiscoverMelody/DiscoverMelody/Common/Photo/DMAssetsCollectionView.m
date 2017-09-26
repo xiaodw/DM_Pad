@@ -258,7 +258,7 @@
     
     NSInteger selectedCount = self.selectedAssets.count;
     self.uploadButton.enabled = selectedCount;
-    self.uploadButton.layer.borderColor = selectedCount ?  DMColorBaseMeiRed.CGColor : DMColorWithRGBA(221, 221, 221, 1) .CGColor;
+    self.uploadButton.backgroundColor = selectedCount ? DMColorBaseMeiRed : DMColorWithRGBA(221, 221, 221, 1);
     
     NSString *title = selectedCount > 0 ? [NSString stringWithFormat:DMTitlePhotoUploadCount, selectedCount] : DMTitlePhotoUpload;
     [self.uploadButton setTitle:title forState:UIControlStateNormal];
@@ -349,13 +349,12 @@
 - (UIButton *)uploadButton {
     if (!_uploadButton) {
         _uploadButton = [UIButton new];
-        _uploadButton.layer.borderWidth = 1;
         _uploadButton.layer.cornerRadius = 5;
-        _uploadButton.layer.borderColor = DMColorWithRGBA(221, 221, 221, 1) .CGColor;
         _uploadButton.enabled = NO;
         _uploadButton.titleLabel.font = DMFontPingFang_Regular(14);
-        [_uploadButton setTitleColor:DMColorWithRGBA(204, 204, 204, 204) forState:UIControlStateDisabled];
-        [_uploadButton setTitleColor:DMColorBaseMeiRed forState:UIControlStateNormal];
+        _uploadButton.backgroundColor = DMColorWithRGBA(221, 221, 221, 1);
+        [_uploadButton setTitleColor:DMColorWithHexString(@"#999999") forState:UIControlStateDisabled];
+        [_uploadButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
         [_uploadButton setTitle:DMTitlePhotoUpload forState:UIControlStateNormal];
         [_uploadButton addTarget:self action:@selector(didTapUpload:) forControlEvents:UIControlEventTouchUpInside];

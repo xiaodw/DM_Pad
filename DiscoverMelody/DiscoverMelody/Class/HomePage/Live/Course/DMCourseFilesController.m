@@ -144,7 +144,7 @@
     self.bottomBar.uploadButton.hidden = button.tag;
     self.bottomBar.hidden = NO;
     CGFloat bottom = 0;
-    if (!self.userIdentity && button.tag) {
+    if ((!self.userIdentity || self.isFullScreen) && button.tag) {
         bottom = 50;
     }
     [_bottomBar remakeConstraints:^(MASConstraintMaker *make) {
