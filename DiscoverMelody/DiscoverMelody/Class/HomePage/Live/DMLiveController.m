@@ -223,7 +223,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
             return;
         }
         
-        [SVProgressHUD dismiss];
+        [DMActivityView hideActivity];
         for (int i = (int)weakSelf.presentVCs.count-1; i >= 0; i--) {
             UIViewController *presentVC = weakSelf.presentVCs[i];
             [weakSelf.presentVCs removeObject:presentVC];

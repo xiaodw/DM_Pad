@@ -84,9 +84,11 @@
     
     NSString *identifier = userIdentity ? DMTitleStudentUploadFild : DMTitleTeacherUploadFild;
     self.tabBarView.titles = @[DMTitleMyUploadFild,identifier];
+    [DMActivityView showActivity:self.view];
     
     WS(weakSelf)
     [DMApiModel getLessonList:self.lessonID block:^(BOOL result, NSArray *teachers, NSArray *students) {
+        [DMActivityView hideActivity];
         NSMutableArray *teacherCourses = [NSMutableArray arrayWithArray:teachers];
         NSMutableArray *studentCourses = [NSMutableArray arrayWithArray:students];
         weakSelf.identifierCpirsesArray = userIdentity ? @[teacherCourses, studentCourses] : @[studentCourses, teacherCourses];
@@ -159,6 +161,7 @@
     } completion:^(BOOL finished) {
         self.bottomBar.hidden = !self.userIdentity && button.tag;
     }];
+    if (self.identifierCpirsesArray.count == 0) return;
     self.currentCpirses = self.identifierCpirsesArray[button.tag];
 }
 
@@ -180,6 +183,7 @@
     UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:assetsVC];
     [assetsVC view];
     self.animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight);
+    self.animationHelper.coverBackgroundColor = _isFullScreen ? [[UIColor blackColor] colorWithAlphaComponent:0.6] : [UIColor clearColor];
     nvc.transitioningDelegate = self.animationHelper;
     nvc.modalPresentationStyle = UIModalPresentationCustom;
     [self presentViewController:nvc animated:YES completion:nil];
@@ -585,7 +589,7 @@
         _notFileView.hidden = YES;
         
         UIImageView *iconImageView = [UIImageView new];
-        iconImageView.image = [UIImage imageNamed:@"icon_noCourse"];
+        iconImageView.image = [UIImage imageNamed:@"quest_no_teacher_com"];
         
         UILabel *titleLabel = [UILabel new];
         titleLabel.text = DMTextNotCourse;
