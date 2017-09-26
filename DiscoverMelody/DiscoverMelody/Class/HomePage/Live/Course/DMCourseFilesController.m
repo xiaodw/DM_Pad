@@ -19,6 +19,7 @@
 @property (strong, nonatomic) UIView *navigationBar;
 @property (strong, nonatomic) UIView *backgroundView;
 @property (strong, nonatomic) UIView *closeBackgroundView;
+@property (strong, nonatomic) UIView *notFileView;
 
 @property (strong, nonatomic) DMBrowseView *browseView;
 @property (strong, nonatomic) DMTabBarView *tabBarView;
@@ -42,6 +43,7 @@
 - (void)setCurrentCpirses:(NSMutableArray *)currentCpirses {
     _currentCpirses = currentCpirses;
     
+    _notFileView.hidden = currentCpirses.count;
     [self.collectionView reloadData];
     if (currentCpirses.count == 0) return;
     [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:currentCpirses.count-1 inSection:0] atScrollPosition:UICollectionViewScrollPositionBottom animated:NO];
@@ -388,6 +390,7 @@
     [self.view addSubview:self.navigationBar];
     [self.view addSubview:self.backgroundView];
     [self.view addSubview:self.collectionView];
+    [self.view addSubview:self.notFileView];
     [self.view addSubview:self.tabBarView];
     [self.view addSubview:self.bottomBar];
 }
@@ -434,6 +437,12 @@
     [_browseView makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.width.equalTo(_navigationBar);
         make.bottom.equalTo(_bottomBar);
+    }];
+    
+    [_notFileView makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.view);
+        make.centerX.equalTo(self.collectionView);
+        make.size.equalTo(CGSizeMake(134, 170));
     }];
 }
 
@@ -568,6 +577,36 @@
     }
     
     return _bottomBar;
+}
+
+- (UIView *)notFileView {
+    if (!_notFileView) {
+        _notFileView = [UIView new];
+        _notFileView.hidden = YES;
+        
+        UIImageView *iconImageView = [UIImageView new];
+        iconImageView.image = [UIImage imageNamed:@"icon_noCourse"];
+        
+        UILabel *titleLabel = [UILabel new];
+        titleLabel.text = DMTextNotCourse;
+        titleLabel.font = DMFontPingFang_Light(20);
+        titleLabel.textColor = DMColorWithRGBA(204, 204, 204, 1);
+        
+        [_notFileView addSubview:iconImageView];
+        [_notFileView addSubview:titleLabel];
+        
+        [iconImageView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.centerX.equalTo(_notFileView);
+            make.size.equalTo(CGSizeMake(134, 118));
+        }];
+        
+        [titleLabel makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(iconImageView.mas_bottom).offset(15);
+            make.centerX.equalTo(iconImageView);
+        }];
+    }
+    
+    return _notFileView;
 }
 
 - (NSMutableArray *)selectedCpirses {

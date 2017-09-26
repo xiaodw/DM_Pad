@@ -44,8 +44,8 @@
     NSString *indexString = courseModel.selectedIndex == 0 ? @"" : [NSString stringWithFormat:@"%zd", courseModel.selectedIndex];
     if (!_editorMode) return;
     
-    self.indexLabel.layer.borderColor = courseModel.isSelected ? DMColorBaseMeiRed.CGColor : [[UIColor blackColor] colorWithAlphaComponent:0.4].CGColor;
-    _indexLabel.backgroundColor = courseModel.isSelected ? DMColorBaseMeiRed : [[UIColor blackColor] colorWithAlphaComponent:0.25];
+    self.indexLabel.layer.borderColor = courseModel.isSelected ? DMColorBaseMeiRed.CGColor : DMColorWithHexString(@"#999999").CGColor;
+    _indexLabel.backgroundColor = courseModel.isSelected ? DMColorBaseMeiRed : [[UIColor blackColor] colorWithAlphaComponent:0.3];
     _indexLabel.text = [NSString stringWithFormat:@"%@", indexString];
 }
 

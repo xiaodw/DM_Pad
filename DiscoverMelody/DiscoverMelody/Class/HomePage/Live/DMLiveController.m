@@ -222,7 +222,8 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
             [weakSelf.navigationVC popViewControllerAnimated:YES];
             return;
         }
-     
+        
+        [SVProgressHUD dismiss];
         for (int i = (int)weakSelf.presentVCs.count-1; i >= 0; i--) {
             UIViewController *presentVC = weakSelf.presentVCs[i];
             [weakSelf.presentVCs removeObject:presentVC];

@@ -65,6 +65,7 @@ UIKIT_EXTERN NSString * const DMTextLiveStartTimeInterval;
 UIKIT_EXTERN NSString * const DMTextLiveStudentNotEnter;
 UIKIT_EXTERN NSString * const DMTextLiveTeacherNotEnter;
 UIKIT_EXTERN NSString * const DMTextNotClass;
+UIKIT_EXTERN NSString * const DMTextNotCourse;
 UIKIT_EXTERN NSString * const DMTextStartClassTime;
 UIKIT_EXTERN NSString * const DMTextDataLoaddingError;
 UIKIT_EXTERN NSString * const DMTextNotClassInfo;
