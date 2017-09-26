@@ -31,7 +31,7 @@
         //响应结果序列化类型
         self.manager.responseSerializer = [AFHTTPResponseSerializer serializer];
         //请求超时时间
-        self.manager.requestSerializer.timeoutInterval = 30;
+        self.manager.requestSerializer.timeoutInterval = 10;
     }
     return self;
 }

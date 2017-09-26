@@ -155,7 +155,7 @@
     [request setHTTPMethod:@"POST"];
     
     //(2)超时
-    [request setTimeoutInterval:30];
+    [request setTimeoutInterval:10];
     
     //(3)设置请求头
     //[request setAllHTTPHeaderFields:nil];
