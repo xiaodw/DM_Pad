@@ -202,4 +202,56 @@
     
 }
 
+//计算文字宽度
++(CGFloat)getContactWidth:(NSString*)contact font:(UIFont *)font height:(CGFloat)height {
+    NSDictionary *attrs = @{NSFontAttributeName : font};
+    CGSize maxSize = CGSizeMake(MAXFLOAT, height);
+    // 计算文字占据的高度
+    CGSize size = [contact boundingRectWithSize:maxSize
+                                        options:NSStringDrawingUsesLineFragmentOrigin
+                                     attributes:attrs
+                                        context:nil].size;
+    
+    
+    return size.width;
+    
+}
+
+//成功提示框
++(void)showSVProgressHudCustom:(NSString *)imageName title:(NSString *)title {
+    
+    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleCustom];
+    [SVProgressHUD setMinimumDismissTimeInterval:1];
+    [SVProgressHUD setMaximumDismissTimeInterval:2];
+    [SVProgressHUD setForegroundColor:DMColorWithRGBA(254, 254, 254, 1)]; //字体颜色
+    [SVProgressHUD setBackgroundColor:DMColorWithRGBA(0, 0, 0, 0.6)];//背景颜色
+    [SVProgressHUD setCornerRadius:5];
+    
+    if (!STR_IS_NIL(imageName)) {
+
+        [SVProgressHUD setMinimumSize:CGSizeMake(130, 130)];
+        [SVProgressHUD setFont:DMFontPingFang_Regular(16)];
+        [SVProgressHUD setImageViewSize:CGSizeMake(62, 62)];
+    
+    } else {
+        
+        NSInteger w = [DMTools getContactWidth:title font:DMFontPingFang_Regular(18) height:25];
+        NSInteger h = 65;
+        if (w <= 72) {
+            w = 146;
+        } else if (w > 200) {
+            w = 276;
+            h = 95;
+        } else {
+            w = w+80;
+        }
+        [SVProgressHUD setMinimumSize:CGSizeMake(w, h)];
+        [SVProgressHUD setFont:DMFontPingFang_Regular(18)];
+        [SVProgressHUD setImageViewSize:CGSizeMake(0, 0)];
+        [SVProgressHUD setRingRadius:40];
+        
+    }
+    [SVProgressHUD showImage:[UIImage imageNamed:imageName] status:title];
+}
+
 @end

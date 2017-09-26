@@ -45,9 +45,26 @@
         }
         va_end(args);
     }
+    
+    if (!STR_IS_NIL(title))  {
+        NSMutableAttributedString *titleAlert = [[NSMutableAttributedString alloc] initWithString:title];
+        [titleAlert addAttribute:NSFontAttributeName value:DMFontPingFang_Regular(16) range:NSMakeRange(0, [[titleAlert string] length])];
+        [self.alertCol setValue:titleAlert forKey:@"attributedTitle"];
+        
+        NSMutableAttributedString *msgAlert = [[NSMutableAttributedString alloc] initWithString:message];
+        [msgAlert addAttribute:NSFontAttributeName value:DMFontPingFang_Light(12) range:NSMakeRange(0, [[msgAlert string] length])];
+        [self.alertCol setValue:msgAlert forKey:@"attributedMessage"];
+    } else {
+        NSMutableAttributedString *msgAlert = [[NSMutableAttributedString alloc] initWithString:message];
+        [msgAlert addAttribute:NSFontAttributeName value:DMFontPingFang_Regular(16) range:NSMakeRange(0, [[msgAlert string] length])];
+        [self.alertCol setValue:msgAlert forKey:@"attributedMessage"];
+    }
+    
+
+    
     [self buildCancelAction];
     [self buildOtherAction];
-    
+
     return [DMAlertMananger shareManager];
 }
 
@@ -58,9 +75,9 @@
         self.indexBlock(0);
         
     }];
+
     [cancelAction setValue:DMColorBaseMeiRed forKey:@"_titleTextColor"];
     [self.alertCol addAction:cancelAction];
-    
 }
 
 - (void)buildOtherAction{

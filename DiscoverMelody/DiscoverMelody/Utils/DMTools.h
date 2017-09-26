@@ -42,7 +42,7 @@
 /**
  * 显示提示框
  */
-+ (void)showMessageToast:(NSString *)msg duration:(NSTimeInterval)duration position:(id)style;
+//+ (void)showMessageToast:(NSString *)msg duration:(NSTimeInterval)duration position:(id)style;
 
 //获取纯色图片
 + (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size alpha:(float)alpha;
@@ -54,6 +54,11 @@
 //计算文字对应的label高度
 +(CGFloat)getContactHeight:(NSString*)contact font:(UIFont *)font width:(CGFloat)width;
 
+//计算文字宽度
++(CGFloat)getContactWidth:(NSString*)contact font:(UIFont *)font height:(CGFloat)height;
+
+//成功/失败 提示框
++(void)showSVProgressHudCustom:(NSString *)imageName title:(NSString *)title;
 
 @end
 

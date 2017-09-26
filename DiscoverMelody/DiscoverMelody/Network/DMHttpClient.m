@@ -94,7 +94,7 @@
     } failure:^(NSError *error) {
         NSLog(@"网络请求错误信息 = %@", error);
         self.blockSuccessMsg = nil;
-        [DMTools showMessageToast:DMTitleNetworkError duration:2 position:CSToastPositionCenter];
+        [DMTools showSVProgressHudCustom:@"" title:DMTitleNetworkError];
         failure(error);
     }];
 }
@@ -117,19 +117,19 @@
             [DMCommonModel removeUserAllDataAndOperation];
             [APP_DELEGATE toggleRootView:YES];
             break;
-        case DMHttpResponseCodeType_RefusedToEnter:
-            //[SVProgressHUD showWithStatus:message];
+        case DMHttpResponseCodeType_Failed:
             if ([message isKindOfClass:[NSString class]]) {
-                [DMTools showMessageToast:message duration:2 position:CSToastPositionCenter];
+
+                [DMTools showSVProgressHudCustom:@"hud_failed_icon" title:message];
             } else {
-                [DMTools showMessageToast:DMTitleNoTypeError duration:2 position:CSToastPositionCenter];
+                [DMTools showSVProgressHudCustom:@"hud_failed_icon" title:DMTitleNoTypeError];
             }
             break;
         default:
             if ([message isKindOfClass:[NSString class]]) {
-                [DMTools showMessageToast:message duration:2 position:CSToastPositionCenter];
+                [DMTools showSVProgressHudCustom:@"" title:message];
             } else {
-                [DMTools showMessageToast:DMTitleNoTypeError duration:2 position:CSToastPositionCenter];
+                [DMTools showSVProgressHudCustom:@"" title:DMTitleNoTypeError];
             }
             break;
     }
@@ -159,13 +159,13 @@
     
     //(3)设置请求头
     //[request setAllHTTPHeaderFields:nil];
-    
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     //(4)设置请求体
     //NSString *bodyStr = @"user_name=admin&user_password=admin";
     //NSData *bodyData = [bodyStr dataUsingEncoding:NSUTF8StringEncoding];
-    
+    NSMutableDictionary *dic = [self fixedParameters:[NSMutableDictionary dictionary]];
     //设置请求体
-    //[request setHTTPBody:bodyData];
+    [request setHTTPBody:[NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil]];
     
     //3.构造Session
     NSURLSession *session = [NSURLSession sharedSession];

@@ -15,11 +15,11 @@
 #import "DMCommitAnswerData.h"
 
 @interface DMQuestionViewController () <DMTabBarViewDelegate, UITableViewDelegate, UITableViewDataSource>
+
 @property (nonatomic, strong) UILabel *classNameLabel;
-@property (nonatomic, strong) UILabel *timeLabel;
-@property (nonatomic, strong) UILabel *typeLabel;
-@property (nonatomic, strong) UIImageView *hImageView;
-@property (nonatomic, strong) UILabel *nameLabel;
+
+@property (nonatomic, strong) UILabel *classInfoLabel;
+
 @property (nonatomic, strong) NSArray *questionList;
 @property (nonatomic, strong) DMTabBarView *tabBarView;
 @property (nonatomic, strong) UITableView *bTableView;
@@ -114,10 +114,7 @@
         self.questionList = obj.list;
         [self.bTableView reloadData];
         if (self.bTableView.tableFooterView == nil && _bottomView) {
-            [self updateBottomViewFrame];
-            NSLog(@"ddddd = %f ---- %f", self.bTableView.contentSize.height, DMScreenHeight);
             self.bTableView.tableFooterView = _bottomView;
-            
         }
         
         if (netCallBack) {
@@ -148,11 +145,8 @@
     NSArray *dicArray = [DMCommitAnswerData mj_keyValuesArrayWithObjectArray:array];
     [DMApiModel commitQuestAnswer:self.lessonID answers:dicArray block:^(BOOL result) {
         if (result) {
-            //weakSelf.isEditQuest = NO;
             weakSelf.myQuestObj.survey = @"1";
             [weakSelf updateTableStatus:weakSelf.myQuestObj isNetCallback:NO];
-//            weakSelf.bottomView.hidden = !weakSelf.isEditQuest;
-//            [weakSelf.bTableView reloadData];
         }
     }];
 }
@@ -223,17 +217,14 @@
 - (void)updateTopViewInfo:(DMCourseDatasModel *)obj {
     NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
     NSString *type = [NSString stringWithFormat:@"%@：", DMStringIDTeacher];
-    if (userIdentity == 0) {
-        [_hImageView sd_setImageWithURL:[NSURL URLWithString:obj.avatar] placeholderImage:HeadPlaceholderName];
-    } else {
-        _hImageView.image = nil;
+    if (userIdentity != 0) {
         type = [NSString stringWithFormat:@"%@：", DMStringIDStudent];
     }
     _classNameLabel.text = obj.course_name;//@"未来之星1v1--钢琴";
-    _nameLabel.text = (userIdentity == 0)?obj.teacher_name:obj.student_name;//@"郎郎";
-    _timeLabel.text = [DMTextStartClassTime stringByAppendingString:
-                       [DMTools timeFormatterYMDFromTs:obj.start_time format:DMDateFormatterYMD]];//@"上课时间：9月8日 18:00";
-    _typeLabel.text = type;
+    
+    NSString *timeStr = [DMTextStartClassTime stringByAppendingString:[DMTools timeFormatterYMDFromTs:obj.start_time format:DMDateFormatterYMD]];
+    NSString *typeName = [type stringByAppendingString: (userIdentity == 0)?obj.teacher_name:obj.student_name];
+    _classInfoLabel.text = [[timeStr stringByAppendingString:@"         "] stringByAppendingString:typeName];//9个空格
 }
 
 - (void)updateUIStatus:(NSInteger)survey {
@@ -261,34 +252,10 @@
     }
 }
 
-- (void)updateBottomViewFrame {
-    if (_bTableView.contentSize.height > (DMScreenHeight-180)) {
-        NSLog(@"1");
-        _bottomView.frame = CGRectMake(0, 0, DMScreenWidth, 130);
-    } else {
-        NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
-        if (userIdentity != 0) {
-            _bottomView.frame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight-180-_bTableView.contentSize.height-(self.myQuestObj.survey.intValue == 3 ? 40: 0));
-        } else {
-            _bottomView.frame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight-180-_bTableView.contentSize.height);
-        }
-    }
-    _commitBtn.frame = CGRectMake((_bottomView.frame.size.width-130)/2, _bottomView.frame.size.height-40-35, 130, 40);
-    //_bottomView.backgroundColor = [UIColor randomColor];
-}
-
 #pragma mark -
 #pragma mark UITableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    //    if (indexPath.section < self.questionList.count) {
-    //        DMQuestSingleData *obj = [self.questionList objectAtIndex:indexPath.section];
-    //        if (obj.type.intValue == 1) {
-    //            if (indexPath.row < obj.options.count) {
-    //                DMQuestOptions *op = [obj.options objectAtIndex:indexPath.row];
-    //            }
-    //        }
-    //    }
 }
 
 #pragma mark -
@@ -361,87 +328,40 @@
 
 - (void)loadUI {
 
-    _topImageView = [[UIImageView alloc] init];
-    _topImageView.image = [UIImage imageNamed:@"question_bg"];
-
-    UIView *headView2 = [[UIView alloc] init];
-    headView2.backgroundColor = [UIColor whiteColor];
-    headView2.alpha = 0.1;
-    headView2.layer.cornerRadius = 50/2;
-    headView2.layer.masksToBounds = YES;
-    
-    [self.view addSubview:_topImageView];
-    [_topImageView addSubview:self.timeLabel];
+    [self.view addSubview:self.topImageView];
     [_topImageView addSubview:self.classNameLabel];
-    [_topImageView addSubview:self.typeLabel];
-    [_topImageView addSubview:headView2];
-    [_topImageView addSubview:self.hImageView];
-    [_topImageView addSubview:self.nameLabel];
+    [_topImageView addSubview:self.classInfoLabel];
     
-    _bTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-    _bTableView.delegate = self;
-    _bTableView.dataSource = self;
-    _bTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    _bTableView.backgroundColor = [UIColor whiteColor];//UIColorFromRGB(0xf6f6f6);
-    UIView *hV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 20)];
-    hV.backgroundColor = [UIColor whiteColor];
-    _bTableView.tableHeaderView = hV;
-    
-    self.bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, DMScreenWidth, 130)];
-    self.bottomView.backgroundColor = [UIColor whiteColor];
-    
-    self.commitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _commitBtn.backgroundColor = DMColorBaseMeiRed;
-    [_commitBtn setTitle:DMTitleSubmit forState:UIControlStateNormal];
-    [_commitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [_commitBtn.titleLabel setFont:DMFontPingFang_Regular(16)];
-    [_commitBtn addTarget:self action:@selector(clickCommitBtn:) forControlEvents:UIControlEventTouchUpInside];
-    _commitBtn.layer.cornerRadius = 5;
-    _commitBtn.layer.masksToBounds = YES;
-    //commitBtn.frame = CGRectMake((_bottomView.frame.size.width-130)/2, (_bottomView.frame.size.height-40)/2+10, 130, 40);
-    _commitBtn.frame = CGRectMake((_bottomView.frame.size.width-130)/2, _bottomView.frame.size.height-40-35, 130, 40);
-    //[self.view addSubview:bottomView];
-    [_bottomView addSubview:_commitBtn];
-    
-    [self.view addSubview:_bTableView];
-    _bottomView.hidden = YES;
+    [self.view addSubview:self.bTableView];
     
     NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
     if (userIdentity == 0) {
-        
-        _teacherCommentsView = [[UIView alloc] init];
-        _teacherCommentsView.backgroundColor = [UIColor whiteColor];
-        [self.view addSubview:_teacherCommentsView];
-        _teacherCommentsView.hidden = YES;
-        
-        _tabBarView = [DMTabBarView new];
-        _tabBarView.delegate = self;
-        _tabBarView.isFullScreen = YES;
-        
-        self.tabBarView.titles = @[DMTitleStudentQuestionFild, DMTitleTeacherQuestionFild];
-        _tabBarView.layer.shadowColor = DMColorWithRGBA(221, 221, 221, 1).CGColor; // shadowColor阴影颜色
-        _tabBarView.layer.shadowOffset = CGSizeMake(-3,9); // shadowOffset阴影偏移,x向右偏移，y向下偏移，默认(0, -3),这个跟shadowRadius配合使用
-        _tabBarView.layer.shadowOpacity = 1; // 阴影透明度，默认0
-        _tabBarView.layer.shadowRadius = 9; // 阴影半径，默认3
-        [self.view addSubview:_tabBarView];
-        
+        [self.view addSubview:self.teacherCommentsView];
+        [self.view addSubview:self.tabBarView];
     } else {
-        _topStatusView = [[UIView alloc] init];
-        _topStatusView.backgroundColor = DMColorWithRGBA(225, 140, 40, 1);
-        [self.view addSubview:_topStatusView];
-        
-        _statusButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _statusButton.titleLabel.font = DMFontPingFang_Light(15);
-        [_statusButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [self.view addSubview:self.topStatusView];
         [self.topStatusView addSubview:self.statusButton];
-        
     }
-
+    
     [_topImageView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.equalTo(self.view);
+        make.top.left.right.equalTo(self.view).offset(0);
         make.height.equalTo(180);
     }];
     
+    [_classNameLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(_topImageView.mas_top).offset(115);
+        make.left.equalTo(_topImageView.mas_left).offset(40);
+        make.right.equalTo(_topImageView.mas_right).offset(-40);
+        make.height.equalTo(40);
+    }];
+    
+    [_classInfoLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_classNameLabel.mas_bottom).offset(11);
+        make.left.right.equalTo(_classNameLabel).offset(0);
+        make.height.equalTo(22);
+    }];
+    
+
     if (userIdentity == 0) {
         
         [_tabBarView makeConstraints:^(MASConstraintMaker *make) {
@@ -476,112 +396,109 @@
         }];
         [_bTableView makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_topStatusView.mas_bottom).equalTo(0);
-            make.left.right.equalTo(self.view);
+            make.left.right.equalTo(self.view).equalTo(0);
             make.bottom.equalTo(self.view).equalTo(0);
         }];
     }
 
-    [_timeLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(_topImageView.mas_bottom).offset(-Space_H);
-        make.centerX.equalTo(_topImageView);
-        make.size.equalTo(CGSizeMake(240, 40));
-    }];
-    [_classNameLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(_topImageView.mas_bottom).offset(-Space_H);
-        make.left.equalTo(_topImageView).offset(40);
-        make.right.equalTo(_timeLabel.mas_left).offset(-52);
-        make.height.equalTo(40);
-    }];
-    [_typeLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(_topImageView.mas_bottom).offset(-Space_H);
-        make.left.equalTo(_timeLabel.mas_right).offset(52);
-        make.size.equalTo(CGSizeMake(50, 40));
-    }];
-
-    float headView2_w = 50;
-    float hImageView_v = 7;
-    float hImageView_w = 40;
-    float name_r = 20;
-    if (userIdentity == 1) {
-        hImageView_v = 0;
-        hImageView_w = 0;
-        name_r = 0;
-        headView2_w = 0;
-    }
-    [headView2 makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(_topImageView.mas_bottom).offset(-37);
-        make.left.equalTo(_typeLabel.mas_right).offset(2);
-        make.size.equalTo(CGSizeMake(headView2_w, headView2_w));
-    }];
-    [_hImageView makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(_topImageView.mas_bottom).offset(-Space_H);
-        make.left.equalTo(_typeLabel.mas_right).offset(hImageView_v);
-        make.size.equalTo(CGSizeMake(hImageView_w, hImageView_w));
-    }];
-    [_nameLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(_topImageView.mas_bottom).offset(-Space_H);
-        make.left.equalTo(_hImageView.mas_right).offset(name_r);
-        make.right.equalTo(_topImageView.mas_right).offset(-40);
-        make.height.equalTo(40);
-    }];
-    
 }
 
-- (UIImageView *)hImageView {
-    if (!_hImageView) {
-        _hImageView = [[UIImageView alloc] init];
-        _hImageView.layer.cornerRadius = 40/2;
-        _hImageView.layer.masksToBounds = YES;
-        _hImageView.contentMode = UIViewContentModeScaleAspectFill;
+- (UIImageView *)topImageView {
+    if (!_topImageView) {
+        _topImageView = [[UIImageView alloc] init];
+        _topImageView.image = [UIImage imageNamed:@"question_bg"];
     }
-    return _hImageView;
+    return _topImageView;
 }
 
 - (UILabel *)classNameLabel {
     if (!_classNameLabel) {
         _classNameLabel = [[UILabel alloc] init];
-        _classNameLabel.textAlignment = NSTextAlignmentRight;
+        _classNameLabel.textAlignment = NSTextAlignmentCenter;
         _classNameLabel.textColor = [UIColor whiteColor];
-        _classNameLabel.font = DMFontPingFang_Light(16);
+        _classNameLabel.font = DMFontPingFang_Regular(18);
     }
     return _classNameLabel;
 }
 
-- (UILabel *)typeLabel {
-    if (!_typeLabel) {
-        _typeLabel = [[UILabel alloc] init];
-        _typeLabel.textAlignment = NSTextAlignmentLeft;
-        _typeLabel.textColor = [UIColor whiteColor];
-        _typeLabel.font = DMFontPingFang_Light(16);
+- (UILabel *)classInfoLabel {
+    if (!_classInfoLabel) {
+        _classInfoLabel = [[UILabel alloc] init];
+        _classInfoLabel.textAlignment = NSTextAlignmentCenter;
+        _classInfoLabel.textColor = [UIColor whiteColor];
+        _classInfoLabel.font = DMFontPingFang_Thin(14);
     }
-    return _typeLabel;
+    return _classInfoLabel;
 }
 
-
-- (UILabel *)nameLabel {
-    if (!_nameLabel) {
-        _nameLabel = [[UILabel alloc] init];
-        _nameLabel.textAlignment = NSTextAlignmentLeft;
-        _nameLabel.textColor = [UIColor whiteColor];
-        _nameLabel.font = DMFontPingFang_Light(16);
-    }
-    return _nameLabel;
-}
-
-
-- (UILabel *)timeLabel {
-    if (!_timeLabel) {
-        _timeLabel = [[UILabel alloc] init];
-        _timeLabel.textAlignment = NSTextAlignmentCenter;
-        _timeLabel.textColor = [UIColor whiteColor];
-        _timeLabel.font = DMFontPingFang_Light(16);
+- (UITableView *)bTableView {
+    if (!_bTableView) {
+        _bTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _bTableView.delegate = self;
+        _bTableView.dataSource = self;
+        _bTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _bTableView.backgroundColor = [UIColor whiteColor];
+        UIView *hV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 20)];
+        hV.backgroundColor = [UIColor whiteColor];
+        _bTableView.tableHeaderView = hV;
         
-        _timeLabel.layer.cornerRadius = 5;
-        //_timeLabel.layer.borderColor = [UIColor whiteColor].CGColor;
-        _timeLabel.layer.borderColor = [UIColor colorWithWhite:1 alpha:0.5].CGColor;
-        _timeLabel.layer.borderWidth = .5;
+        self.bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, DMScreenWidth, 130)];
+        self.bottomView.backgroundColor = [UIColor whiteColor];
+        
+        self.commitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _commitBtn.backgroundColor = DMColorBaseMeiRed;
+        [_commitBtn setTitle:DMTitleSubmit forState:UIControlStateNormal];
+        [_commitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_commitBtn.titleLabel setFont:DMFontPingFang_Regular(16)];
+        [_commitBtn addTarget:self action:@selector(clickCommitBtn:) forControlEvents:UIControlEventTouchUpInside];
+        _commitBtn.layer.cornerRadius = 5;
+        _commitBtn.layer.masksToBounds = YES;
+        _commitBtn.frame = CGRectMake((_bottomView.frame.size.width-130)/2, (_bottomView.frame.size.height-40)/2+10, 130, 40);
+        [_bottomView addSubview:_commitBtn];
+        _bottomView.hidden = YES;
     }
-    return _timeLabel;
+    return _bTableView;
+}
+
+- (UIView *)teacherCommentsView {
+    if (!_teacherCommentsView) {
+        _teacherCommentsView = [[UIView alloc] init];
+        _teacherCommentsView.backgroundColor = [UIColor whiteColor];
+        _teacherCommentsView.hidden = YES;
+    }
+    return _teacherCommentsView;
+}
+
+- (DMTabBarView *)tabBarView {
+    if (!_tabBarView) {
+        _tabBarView = [DMTabBarView new];
+        _tabBarView.delegate = self;
+        _tabBarView.isFullScreen = YES;
+        
+        self.tabBarView.titles = @[DMTitleStudentQuestionFild, DMTitleTeacherQuestionFild];
+        _tabBarView.layer.shadowColor = DMColorWithRGBA(221, 221, 221, 1).CGColor; // shadowColor阴影颜色
+        _tabBarView.layer.shadowOffset = CGSizeMake(-3,9); // shadowOffset阴影偏移,x向右偏移，y向下偏移，默认(0, -3),这个跟shadowRadius配合使用
+        _tabBarView.layer.shadowOpacity = 1; // 阴影透明度，默认0
+        _tabBarView.layer.shadowRadius = 9; // 阴影半径，默认3
+    }
+    return _tabBarView;
+}
+
+- (UIView *)topStatusView {
+    if (!_topStatusView) {
+        _topStatusView = [[UIView alloc] init];
+        _topStatusView.backgroundColor = DMColorWithRGBA(225, 140, 40, 1);
+    }
+    return _topStatusView;
+}
+
+- (UIButton *)statusButton {
+    if (!_statusButton) {
+        _statusButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _statusButton.titleLabel.font = DMFontPingFang_Light(15);
+        [_statusButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    }
+    return _statusButton;
 }
 
 - (void)didReceiveMemoryWarning {

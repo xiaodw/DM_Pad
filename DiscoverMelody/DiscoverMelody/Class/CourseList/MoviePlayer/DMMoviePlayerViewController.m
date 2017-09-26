@@ -47,10 +47,12 @@
                 // 自动播放，默认不自动播放
                 [weakSelf.playerView autoPlayTheVideo];
             } else {
-                [DMTools showMessageToast:DMAlertTitleVedioNotExist duration:2 position:CSToastPositionCenter];
+                //[DMTools showMessageToast:DMAlertTitleVedioNotExist duration:2 position:CSToastPositionCenter];
+                [DMTools showSVProgressHudCustom:@"" title:DMAlertTitleVedioNotExist];
             }
         } else {
-            [DMTools showMessageToast:DMAlertTitleVedioError duration:2 position:CSToastPositionCenter];
+            //[DMTools showMessageToast:DMAlertTitleVedioError duration:2 position:CSToastPositionCenter];
+            [DMTools showSVProgressHudCustom:@"" title:DMAlertTitleVedioError];
         }
     }];
     

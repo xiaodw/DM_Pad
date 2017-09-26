@@ -243,7 +243,7 @@
          complectionBlock(NO);
      }];
     [DMHttpClient sharedInstance].blockSuccessMsg = ^(NSString *msg) {
-        [DMTools showMessageToast:msg duration:2 position:CSToastPositionCenter];
+        [DMTools showSVProgressHudCustom:@"hud_success_icon" title:(STR_IS_NIL(msg)?DMQuestCommitStatusSuccess:msg)];
     };
 }
 
