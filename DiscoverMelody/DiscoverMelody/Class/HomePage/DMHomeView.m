@@ -58,7 +58,7 @@
     }
     _courseLabel.text = obj.course_name;
     _timeLabel.text = [DMTextStartClassTime stringByAppendingString:
-                       [DMTools timeFormatterYMDFromTs:obj.start_time format:@"MM月dd日 HH:mm"]];//@"上课时间：9月8日 18:00";
+                       [DMTools timeFormatterYMDFromTs:obj.start_time format:DMClassStartTimeYMDHM]];//@"上课时间：9月8日 18:00";
     if (_timeLabel.layer.cornerRadius == 0) {
         _timeLabel.layer.cornerRadius = 5;
         _timeLabel.layer.borderColor = [UIColor colorWithWhite:1 alpha:0.5].CGColor;

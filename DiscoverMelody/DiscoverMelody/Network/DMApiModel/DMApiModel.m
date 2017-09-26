@@ -230,7 +230,7 @@
     if (type.intValue == 1) {
         url = DM_Submit_Teacher_Answer_Url;
     }
-    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:answerArray, @"list", nil];
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:answerArray, @"answer_json", nil];
     [[DMHttpClient sharedInstance] initWithUrl:url
                                     parameters:dic
                                         method:DMHttpRequestPost

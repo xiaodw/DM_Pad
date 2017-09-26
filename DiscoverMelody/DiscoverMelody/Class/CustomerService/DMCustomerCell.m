@@ -92,7 +92,7 @@
 - (void)configObj:(id)obj {
     DMCustomerTeacherInfo *infoObj = (DMCustomerTeacherInfo *)obj;
     self.teachLabel.text = infoObj.name;
-    self.wecatAccountLabel.text = [NSString stringWithFormat:@"微信号：%@", infoObj.webchat];
+    self.wecatAccountLabel.text = [NSString stringWithFormat:DMStringWeChatNumber, infoObj.webchat];
     self.bgCodeImageView.image = [UIImage imageNamed:@"customer_code"];
     [self.codeImageView sd_setImageWithURL:[NSURL URLWithString:infoObj.img_url] placeholderImage:[UIImage imageNamed:@""]];
 }

@@ -80,7 +80,7 @@
                 if (index < obj.options.count) {
                     self.radioView.hidden = NO;
                     DMQuestOptions *op = [obj.options objectAtIndex:index];
-                    [self.radioView updateButtonTitle:[@"  " stringByAppendingString:op.option_content]];
+                    [self.radioView updateButtonTitle:[@"  " stringByAppendingString:STR_IS_NIL(op.option_content)?@"": op.option_content]];
                     self.radioView.selButton.tag = (1+index)+section*100;
                     if (obj.answer_content.intValue == op.option_id.intValue) {
                         self.radioView.selButton.selected = YES;

@@ -112,6 +112,8 @@ NSString * const DMTitleTeacherQuestionSuccessFild = @"  审核通过";
 
 NSString * const DMDateFormatterYMD = @"YYYY年MM月dd日";
 
+NSString * const DMClassStartTimeYMDHM = @"MM月dd日 HH:mm";
+
 NSString * const DMQuestCommitStatusSuccess = @"提交成功";
 NSString * const DMQuestCommitStatusFailed = @"提交失败";
 
