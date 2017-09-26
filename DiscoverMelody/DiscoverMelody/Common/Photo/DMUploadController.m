@@ -14,6 +14,7 @@
 @property (strong, nonatomic) UIView *backgroundView; // 背景
 @property (strong, nonatomic) DMAlbumsTableView *albumsView; // 所有的专辑
 @property (strong, nonatomic) DMAssetsCollectionView *assetsView; // 某个专辑对应的所有资源图片
+@property (strong, nonatomic) UIImageView *shadowImageView;
 @property (strong, nonatomic) DMAlbumAssetHelp *imagePickerHelp; // 一个获取图片的类
 @property (strong, nonatomic) NSMutableArray *albums; // 当前系统所有的专辑
 @property (assign, nonatomic) BOOL isPhotoSuccess; // 是否成功获取相册
@@ -151,6 +152,7 @@
 #pragma mark - AddSubviews
 - (void)setupMakeAddSubviews {
     [self.view addSubview:self.backgroundView];
+    [self.view addSubview:self.shadowImageView];
     [self.view addSubview:self.albumBackgroundView];
     [self.view addSubview:self.assetsView];
 }
@@ -168,6 +170,12 @@
     [_assetsView remakeConstraints:^(MASConstraintMaker *make) {
         make.top.width.bottom.equalTo(self.view);
         make.right.equalTo(_albumBackgroundView.mas_left);
+    }];
+    
+    [_shadowImageView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.equalTo(self.view);
+        make.width.equalTo(50);
+        make.left.equalTo(_albumBackgroundView.mas_right);
     }];
 }
 
@@ -187,14 +195,18 @@
     if (!_albumsView) {
         _albumsView = [DMAlbumsTableView new];
         _albumsView.delegate = self;
-//        _albumsView.clipsToBounds = NO;
-//        _albumsView.layer.shadowColor = [UIColor blackColor].CGColor; // shadowColor阴影颜色
-//        _albumsView.layer.shadowOffset = CGSizeMake(7,3); // shadowOffset阴影偏移,x向右偏移，y向下偏移，默认(0, -3),这个跟shadowRadius配合使用
-//        _albumsView.layer.shadowOpacity = 0.6; // 阴影透明度，默认0
-//        _albumsView.layer.shadowRadius = 7; // 阴影半径，默认3
     }
     
     return _albumsView;
+}
+
+- (UIImageView *)shadowImageView {
+    if (!_shadowImageView) {
+        _shadowImageView = [UIImageView new];
+        _shadowImageView.image = [UIImage imageNamed:@"image_shadow"];
+    }
+    
+    return _shadowImageView;
 }
 
 - (DMAssetsCollectionView *)assetsView {

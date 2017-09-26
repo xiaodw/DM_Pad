@@ -78,7 +78,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self.navigationController setNavigationBarHidden:YES];
     
     self.tapLayoutCount = 3;
-    [self computTime];
     
     NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
     self.remotePlaceholderTitleLabel.text = userIdentity ? DMTextLiveStudentNotEnter : DMTextLiveTeacherNotEnter;
@@ -92,6 +91,12 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self setupMakeLiveCallback];
     
     [self timer];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self computTime];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -196,7 +201,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 - (void)liveButtonControlViewDidTapLeave:(DMLiveButtonControlView *)liveButtonControlView {
     WS(weakSelf)
     
-    if(self.alreadyTime < self.totalTime) {
+    if(self.alreadyTime < self.totalTime + self.delayTime) {
         DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:DMTitleExitLiveRoom message:DMTitleLiveAutoClose preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
         [alert showWithViewController:self IndexBlock:^(NSInteger index) {
             if (index == 1) { // 右侧
@@ -217,7 +222,8 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
             [weakSelf.navigationVC popViewControllerAnimated:YES];
             return;
         }
-     
+        
+        [SVProgressHUD dismiss];
         for (int i = (int)weakSelf.presentVCs.count-1; i >= 0; i--) {
             UIViewController *presentVC = weakSelf.presentVCs[i];
             [weakSelf.presentVCs removeObject:presentVC];

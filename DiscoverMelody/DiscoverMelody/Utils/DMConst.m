@@ -66,6 +66,7 @@ NSString * const DMTextLiveStartTimeInterval = @"距离上课时间还有%zd分�
 NSString * const DMTextLiveStudentNotEnter = @"学生尚未进入课堂";
 NSString * const DMTextLiveTeacherNotEnter = @"老师尚未进入课堂";
 NSString * const DMTextNotClass = @"暂无课程";
+NSString * const DMTextNotCourse = @"暂无课件";
 NSString * const DMTextStartClassTime = @"上课时间：";
 NSString * const DMTextDataLoaddingError = @"数据加载失败";
 NSString * const DMTextNotClassInfo = @"您暂时还没有课程哦";

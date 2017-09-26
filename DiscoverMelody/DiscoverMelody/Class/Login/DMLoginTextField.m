@@ -10,6 +10,11 @@
 
 @implementation DMLoginTextField
 
+- (void)setKeyboardType:(UIKeyboardType)keyboardType {
+    _keyboardType = keyboardType;
+    self.textField.keyboardType = keyboardType;
+}
+
 - (void)setPlaceholder:(NSString *)placeholder{
     _placeholder = placeholder;
     self.textField.placeholder = placeholder;

@@ -28,7 +28,7 @@
 #pragma mark - Lifecycle Methods
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [UIColor blackColor];
     
     [self setupMakeAddSubviews];
     [self setupMakeLayoutSubviews];
@@ -96,9 +96,8 @@
     }];
     
     [_collectionView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.equalTo(40);
-        make.right.equalTo(self.view.mas_right).offset(-40);
-        make.bottom.equalTo(_deletedView.mas_top).offset(-40);
+        make.top.left.right.equalTo(self.view);
+        make.bottom.equalTo(_deletedView.mas_top);
     }];
 }
 
@@ -118,9 +117,6 @@
         _collectionView.pagingEnabled = YES;
         _collectionView.backgroundColor = [UIColor clearColor];
         _collectionView.showsVerticalScrollIndicator = NO;
-//        if ([[UIDevice currentDevice].systemVersion floatValue] >= 10.0) {
-//            _collectionView.prefetchingEnabled = NO;
-//        }
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.showsHorizontalScrollIndicator = NO;
         
@@ -133,16 +129,18 @@
 - (UIView *)deletedView {
     if (!_deletedView) {
         _deletedView = [UIView new];
-        _deletedView.backgroundColor = DMColorWithRGBA(38, 38, 38, 1);
+        _deletedView.backgroundColor = DMColor33(1);
         
         _deletedButton = [DMNotHighlightedButton new];
         _deletedButton.titleAlignment = DMTitleButtonTypeBottom;
-        [_deletedButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _deletedButton.titleLabel.font = DMFontPingFang_Light(12);
+        [_deletedButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_deletedButton setTitle:DMTitleDeleted forState:UIControlStateNormal];
         [_deletedButton setImage:[UIImage imageNamed:@"c_delete_normal"] forState:UIControlStateNormal];
         [_deletedButton addTarget:self action:@selector(didTapDeleted) forControlEvents:UIControlEventTouchUpInside];
+        
         [_deletedView addSubview:_deletedButton];
+        
         [_deletedButton makeConstraints:^(MASConstraintMaker *make) {
             make.top.bottom.centerX.equalTo(_deletedView);
             make.width.equalTo(100);

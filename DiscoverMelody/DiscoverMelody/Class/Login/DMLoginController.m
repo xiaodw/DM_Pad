@@ -201,6 +201,7 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
         _accountTextField.image = [UIImage imageNamed:@"icon_account"];
         _accountTextField.placeholder = DMTextPlaceholderAccount;
         _accountTextField.delegate = self;
+        _accountTextField.keyboardType = UIKeyboardTypeASCIICapable;
         _accountTextField.placeholderColor = [DMColorWithHexString(@"#FFFFFF") colorWithAlphaComponent:0.2];
     }
     

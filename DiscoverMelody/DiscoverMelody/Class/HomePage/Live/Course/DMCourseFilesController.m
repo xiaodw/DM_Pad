@@ -19,6 +19,7 @@
 @property (strong, nonatomic) UIView *navigationBar;
 @property (strong, nonatomic) UIView *backgroundView;
 @property (strong, nonatomic) UIView *closeBackgroundView;
+@property (strong, nonatomic) UIView *notFileView;
 
 @property (strong, nonatomic) DMBrowseView *browseView;
 @property (strong, nonatomic) DMTabBarView *tabBarView;
@@ -42,6 +43,7 @@
 - (void)setCurrentCpirses:(NSMutableArray *)currentCpirses {
     _currentCpirses = currentCpirses;
     
+    _notFileView.hidden = currentCpirses.count;
     [self.collectionView reloadData];
     if (currentCpirses.count == 0) return;
     [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:currentCpirses.count-1 inSection:0] atScrollPosition:UICollectionViewScrollPositionBottom animated:NO];
@@ -142,7 +144,7 @@
     self.bottomBar.uploadButton.hidden = button.tag;
     self.bottomBar.hidden = NO;
     CGFloat bottom = 0;
-    if (!self.userIdentity && button.tag) {
+    if ((!self.userIdentity || self.isFullScreen) && button.tag) {
         bottom = 50;
     }
     [_bottomBar remakeConstraints:^(MASConstraintMaker *make) {
@@ -282,8 +284,8 @@
             DMBrowseCourseController *browseCourseVC = [DMBrowseCourseController new];
             browseCourseVC.isNotSelf = [self.identifierCpirsesArray indexOfObject:self.currentCpirses];
             browseCourseVC.lessonID = self.lessonID;
-            CGFloat width = DMScreenWidth - 80;
-            CGFloat height = DMScreenHeight - 86;
+            CGFloat width = DMScreenWidth;
+            CGFloat height = DMScreenHeight - 50;
             browseCourseVC.itemSize = CGSizeMake(width, height);
             browseCourseVC.browseDelegate = self;
             browseCourseVC.currentIndexPath = indexPath;
@@ -300,8 +302,8 @@
         DMBrowseCourseController *browseCourseVC = [DMBrowseCourseController new];
         browseCourseVC.isNotSelf = [self.identifierCpirsesArray indexOfObject:self.currentCpirses];
         browseCourseVC.lessonID = self.lessonID;
-        CGFloat width = DMScreenWidth * 0.5 - 80;
-        CGFloat height = DMScreenHeight - 130;
+        CGFloat width = DMScreenWidth * 0.5;
+        CGFloat height = DMScreenHeight - 50;
         browseCourseVC.itemSize = CGSizeMake(width, height);
         browseCourseVC.browseDelegate = self;
         browseCourseVC.currentIndexPath = indexPath;
@@ -388,6 +390,7 @@
     [self.view addSubview:self.navigationBar];
     [self.view addSubview:self.backgroundView];
     [self.view addSubview:self.collectionView];
+    [self.view addSubview:self.notFileView];
     [self.view addSubview:self.tabBarView];
     [self.view addSubview:self.bottomBar];
 }
@@ -434,6 +437,12 @@
     [_browseView makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.width.equalTo(_navigationBar);
         make.bottom.equalTo(_bottomBar);
+    }];
+    
+    [_notFileView makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.view);
+        make.centerX.equalTo(self.collectionView);
+        make.size.equalTo(CGSizeMake(134, 170));
     }];
 }
 
@@ -548,7 +557,6 @@
         _tabBarView = [DMTabBarView new];
         _tabBarView.delegate = self;
         _tabBarView.isFullScreen = self.isFullScreen;
-        
         _tabBarView.layer.shadowColor = [UIColor blackColor].CGColor; // shadowColor阴影颜色
         _tabBarView.layer.shadowOffset = CGSizeMake(-3,7); // shadowOffset阴影偏移,x向右偏移，y向下偏移，默认(0, -3),这个跟shadowRadius配合使用
         _tabBarView.layer.shadowOpacity = 0.07; // 阴影透明度，默认0
@@ -562,7 +570,6 @@
     if (!_bottomBar) {
         _bottomBar = [DMBottomBarView new];
         _bottomBar.delegate = self;
-        
         _bottomBar.layer.shadowColor = [UIColor blackColor].CGColor; // shadowColor阴影颜色
         _bottomBar.layer.shadowOffset = CGSizeMake(-3,-7); // shadowOffset阴影偏移,x向右偏移，y向下偏移，默认(0, -3),这个跟shadowRadius配合使用
         _bottomBar.layer.shadowOpacity = 0.03; // 阴影透明度，默认0
@@ -570,6 +577,36 @@
     }
     
     return _bottomBar;
+}
+
+- (UIView *)notFileView {
+    if (!_notFileView) {
+        _notFileView = [UIView new];
+        _notFileView.hidden = YES;
+        
+        UIImageView *iconImageView = [UIImageView new];
+        iconImageView.image = [UIImage imageNamed:@"icon_noCourse"];
+        
+        UILabel *titleLabel = [UILabel new];
+        titleLabel.text = DMTextNotCourse;
+        titleLabel.font = DMFontPingFang_Light(20);
+        titleLabel.textColor = DMColorWithRGBA(204, 204, 204, 1);
+        
+        [_notFileView addSubview:iconImageView];
+        [_notFileView addSubview:titleLabel];
+        
+        [iconImageView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.centerX.equalTo(_notFileView);
+            make.size.equalTo(CGSizeMake(134, 118));
+        }];
+        
+        [titleLabel makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(iconImageView.mas_bottom).offset(15);
+            make.centerX.equalTo(iconImageView);
+        }];
+    }
+    
+    return _notFileView;
 }
 
 - (NSMutableArray *)selectedCpirses {

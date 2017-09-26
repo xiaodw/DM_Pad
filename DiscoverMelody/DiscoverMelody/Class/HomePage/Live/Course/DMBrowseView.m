@@ -55,7 +55,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor blackColor];
         [self setupMakeAddSubviews];
         [self setupMakeLayoutSubviews];
     }
@@ -143,17 +143,17 @@
         make.height.equalTo(80);
     }];
     
-    [_browsecollectionView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(64);
-        make.bottom.equalTo(_syncButton.mas_top).offset(-15);
-        make.left.equalTo(40);
-        make.right.equalTo(self.mas_right).offset(-40);
-    }];
-    
     [_colBackgroundView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_collectionView.mas_top).offset(-15);
         make.bottom.equalTo(_syncButton.mas_top);
         make.left.right.equalTo(self);
+    }];
+    
+    [_browsecollectionView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(64);
+        make.bottom.equalTo(_colBackgroundView.mas_top);
+        make.left.equalTo(25);
+        make.right.equalTo(self.mas_right).offset(-25);
     }];
 }
 
@@ -195,8 +195,8 @@
     if (!_browsecollectionView) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        CGFloat width = DMScreenWidth * 0.5 - 80;
-        CGFloat height = DMScreenHeight - 64 - 50;
+        CGFloat width = DMScreenWidth * 0.5 - 50;
+        CGFloat height = DMScreenHeight - 64 - 80;
         
         layout.itemSize = CGSizeMake(width, height);
         layout.minimumInteritemSpacing = 0;
