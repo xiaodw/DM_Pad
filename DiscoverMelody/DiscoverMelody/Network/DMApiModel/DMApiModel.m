@@ -68,7 +68,6 @@
 
 //课程列表(老师／学生)
 + (void)getCourseListData:(NSString *)type //身份类型
-                     sort:(NSString *)sort //DESC降序，ASC升序
                      page:(NSInteger)page //页码，默认为1
                 condition:(NSString *)condition //选择筛选条件
                     block:(void(^)(BOOL result, NSArray *array, BOOL nextPage))complectionBlock
@@ -78,7 +77,7 @@
     if (type.intValue == 1) {
         url = DM_User_Tcourse_List_Url;
     }
-    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:condition, @"condition", [NSString stringWithFormat:@"%ld",page], @"page", sort, @"sort", nil];
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:condition, @"condition", [NSString stringWithFormat:@"%ld",page], @"page", nil];
     
     [[DMHttpClient sharedInstance] initWithUrl:url
                                     parameters:dic

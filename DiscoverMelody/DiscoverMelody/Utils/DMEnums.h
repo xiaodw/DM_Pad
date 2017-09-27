@@ -7,9 +7,9 @@
 //
 
 typedef NS_ENUM(NSInteger, DMCourseListCondition) {
-    DMCourseListCondition_All = -1, // 全部课程
-    DMCourseListCondition_Finish = 0, // 已上课程
-    DMCourseListCondition_WillStart = 2, // 未上课程
+    DMCourseListCondition_All = 1, // 全部课程
+    DMCourseListCondition_Finish = 2, // 已上课程
+    DMCourseListCondition_WillStart = 3, // 未上课程
 };
 
 typedef NS_ENUM(NSInteger, DMSignalingCodeType) {
