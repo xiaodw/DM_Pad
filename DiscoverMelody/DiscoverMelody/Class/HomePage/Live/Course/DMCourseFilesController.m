@@ -219,7 +219,7 @@
     DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:DMTitleDeletedPhotos message:DMTitleDeletedPhotosMessage preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
     [alert showWithViewController:self IndexBlock:^(NSInteger index) {
         if (index == 1) { // 右侧
-            [DMActivityView showActivity:weakSelf.view];
+            [DMActivityView showActivityCover:weakSelf.view];
             NSMutableString *fileIDs = [NSMutableString string];
             for (int i = 0; i < weakSelf.selectedCpirses.count; i++) {
                 DMClassFileDataModel *fileDataModel = weakSelf.selectedCpirses[i];
