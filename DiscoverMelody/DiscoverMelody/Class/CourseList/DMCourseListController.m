@@ -213,6 +213,7 @@
         DMMoviePlayerViewController *movieVC = [[DMMoviePlayerViewController alloc] init];
         //movieVC.videoURL = [NSURL URLWithString:@"http://baobab.wdjcdn.com/1456316686552The.mp4"];
         movieVC.lessonID = model.lesson_id;
+        movieVC.lessonName = model.course_name;
         [self.navigationController pushViewController:movieVC animated:YES];
     }
 }

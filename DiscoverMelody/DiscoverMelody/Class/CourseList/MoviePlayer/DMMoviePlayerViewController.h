@@ -12,5 +12,6 @@
 /** 视频URL */
 
 @property (nonatomic, strong) NSString *lessonID;
+@property (nonatomic, strong) NSString *lessonName;
 
 @end

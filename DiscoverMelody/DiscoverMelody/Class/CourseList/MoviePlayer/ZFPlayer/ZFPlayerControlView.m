@@ -317,7 +317,7 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
         _titleLabel.textColor = [UIColor whiteColor];
         _titleLabel.font = DMFontPingFang_Medium(16);//[UIFont systemFontOfSize:15.0];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
-        _titleLabel.text = @"未来之星";
+        _titleLabel.text = @"";
         _titleLabel.backgroundColor = [UIColor clearColor];
     }
     return _titleLabel;
@@ -457,7 +457,7 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
 - (UIButton *)failBtn {
     if (!_failBtn) {
         _failBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-        [_failBtn setTitle:@"加载失败,点击重试" forState:UIControlStateNormal];
+        [_failBtn setTitle:DMTitleVedioRetry forState:UIControlStateNormal];
         [_failBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _failBtn.titleLabel.font = [UIFont systemFontOfSize:14.0];
         _failBtn.backgroundColor = RGBA(0, 0, 0, 0.7);

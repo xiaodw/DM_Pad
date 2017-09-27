@@ -56,8 +56,8 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
     _filesButton.enabled = YES;
     _questionnaireButton.enabled = YES;
     
-    if (live_status == DMCourseStatusEnd && !STR_IS_NIL(model.video_id)) {
-        //课程结束，并且 回顾id有值，则显示回顾按钮
+    if (live_status == DMCourseStatusEnd && [model.playback_status intValue] == 1) {
+        //课程结束，并且 可回放状态，则显示回顾按钮
         _statusLabel.hidden = YES;
     }
     _statusButton.hidden = !_statusLabel.hidden;

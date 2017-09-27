@@ -29,7 +29,7 @@ NSString * const DMTitleAllow = @"允许";
 NSString * const DMTitleYes = @"是"; // 有图片上传失败, 是否重新上传
 NSString * const DMTitleNO = @"否";
 NSString * const DMTitleExitLogin = @"退出登录";
-NSString * const DMTitleNetworkError = @"网络出错了";
+NSString * const DMTitleNetworkError = @"网络连接出错";
 NSString * const DMTitleNoTypeError = @"未知错误";
 NSString * const DMTitleLogin = @"登录";
 NSString * const DMTitleOK = @"确定";
@@ -85,7 +85,6 @@ NSString * const DMTextPlaceholderPassword = @"请输入密码";
 NSString * const DMTextPlaceholderMustFill = @"请填写";
 NSString * const DMAlertTitleCameraNotOpen = @"您的摄像头未开启";
 NSString * const DMAlertTitleVedioNotExist = @"视频资源不存在";
-NSString * const DMAlertTitleVedioError = @"视频连接出错";
 NSString * const DMAlertTitleNotSync = @"学生未上线, 不能同步操作";
 NSString * const DMKeyStatusNotStart = @"尚未开始";
 NSString * const DMKeyStatusInclass = @"上课中...";
@@ -113,4 +112,4 @@ NSString * const DMClassStartTimeYMDHM = @"MM月dd日 HH:mm";
 NSString * const DMQuestCommitStatusSuccess = @"提交成功";
 NSString * const DMQuestCommitStatusFailed = @"提交失败";
 
-
+NSString * const DMTitleVedioRetry = @"视频加载失败，点击重试";
