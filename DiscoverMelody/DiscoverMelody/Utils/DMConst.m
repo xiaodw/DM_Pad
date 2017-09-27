@@ -113,3 +113,19 @@ NSString * const DMQuestCommitStatusSuccess = @"提交成功";
 NSString * const DMQuestCommitStatusFailed = @"提交失败";
 
 NSString * const DMTitleVedioRetry = @"视频加载失败，点击重试";
+NSString * const DMRefreshHeaderIdleText = @"下拉可以刷新";
+NSString * const DMRefreshHeaderPullingText = @"松开立即刷新";
+NSString * const DMRefreshHeaderRefreshingText = @"正在刷新数据中...";
+
+NSString * const DMRefreshAutoFooterIdleText = @"点击或上拉加载更多";
+NSString * const DMRefreshAutoFooterRefreshingText = @"正在加载更多的数据...";
+NSString * const DMRefreshAutoFooterNoMoreDataText = @"已经全部加载完毕";
+
+NSString * const DMRefreshBackFooterIdleText = @"上拉可以加载更多";
+NSString * const DMRefreshBackFooterPullingText = @"松开立即加载更多";
+NSString * const DMRefreshBackFooterRefreshingText = @"正在加载更多的数据...";
+NSString * const DMRefreshBackFooterNoMoreDataText = @"已经全部加载完毕";
+
+NSString * const DMRefreshHeaderLastTimeText = @"最后更新：";
+NSString * const DMRefreshHeaderDateTodayText = @"今天";
+NSString * const DMRefreshHeaderNoneLastDateText = @"无记录";

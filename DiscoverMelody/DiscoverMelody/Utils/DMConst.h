@@ -111,7 +111,22 @@ UIKIT_EXTERN NSString * const DMQuestCommitStatusFailed;
 
 UIKIT_EXTERN NSString * const DMTitleVedioRetry;
 
+UIKIT_EXTERN NSString * const DMRefreshHeaderIdleText;
+UIKIT_EXTERN NSString * const DMRefreshHeaderPullingText;
+UIKIT_EXTERN NSString * const DMRefreshHeaderRefreshingText;
 
+UIKIT_EXTERN NSString * const DMRefreshAutoFooterIdleText;
+UIKIT_EXTERN NSString * const DMRefreshAutoFooterRefreshingText;
+UIKIT_EXTERN NSString * const DMRefreshAutoFooterNoMoreDataText;
+
+UIKIT_EXTERN NSString * const DMRefreshBackFooterIdleText;
+UIKIT_EXTERN NSString * const DMRefreshBackFooterPullingText;
+UIKIT_EXTERN NSString * const DMRefreshBackFooterRefreshingText;
+UIKIT_EXTERN NSString * const DMRefreshBackFooterNoMoreDataText;
+
+UIKIT_EXTERN NSString * const DMRefreshHeaderLastTimeText;
+UIKIT_EXTERN NSString * const DMRefreshHeaderDateTodayText;
+UIKIT_EXTERN NSString * const DMRefreshHeaderNoneLastDateText;
 
 
 
