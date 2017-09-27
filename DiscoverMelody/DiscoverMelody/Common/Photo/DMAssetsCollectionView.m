@@ -146,7 +146,7 @@
 #pragma mark - Functions
 - (void)didTapUpload:(UIButton *)sender {
     if (![self.delegate respondsToSelector:@selector(albrmsCollectionView:success:)]) return;
-    [DMActivityView showActivity:self];
+    [DMActivityView showActivityCover:self];
     [self uploadPhotos:self.selectedAssets];
 }
 

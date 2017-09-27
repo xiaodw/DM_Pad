@@ -78,7 +78,7 @@
         } else {
             //无课程
             self.iconImageView.image = [UIImage imageNamed:@"quest_no_teacher_com"];
-            self.titleLabel.text = DMTextNotClassInfo;
+            self.titleLabel.text = DMTextRecentNotClass;
             self.reloadButton.hidden = YES;
         }
     }

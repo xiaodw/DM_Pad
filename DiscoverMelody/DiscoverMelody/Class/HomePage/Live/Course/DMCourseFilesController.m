@@ -84,9 +84,9 @@
     
     NSString *identifier = userIdentity ? DMTitleStudentUploadFild : DMTitleTeacherUploadFild;
     self.tabBarView.titles = @[DMTitleMyUploadFild,identifier];
-    [DMActivityView showActivity:self.view];
     
     WS(weakSelf)
+    [DMActivityView showActivity:self.view];
     [DMApiModel getLessonList:self.lessonID block:^(BOOL result, NSArray *teachers, NSArray *students) {
         [DMActivityView hideActivity];
         NSMutableArray *teacherCourses = [NSMutableArray arrayWithArray:teachers];
@@ -248,17 +248,17 @@
     }
     
     NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_Start_Syn sourceData:self.selectedCpirses index:0];
+    WS(weakSelf)
     [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) {
-        if (![self.delegate respondsToSelector:@selector(courseFilesController:syncCourses:)]){
-            [self dismissController];
+        if (![weakSelf.delegate respondsToSelector:@selector(courseFilesController:syncCourses:)]){
+            [weakSelf dismissController];
             return;
         }
         
-        
-        [self.liveVC.presentVCs removeObject:self];
-        self.liveVC = nil;
-        [self dismissViewControllerAnimated:YES completion:^{
-            [self.delegate courseFilesController:self syncCourses:self.self.selectedCpirses];
+        [weakSelf.liveVC.presentVCs removeObject:weakSelf];
+        weakSelf.liveVC = nil;
+        [weakSelf dismissViewControllerAnimated:YES completion:^{
+            [weakSelf.delegate courseFilesController:weakSelf syncCourses:weakSelf.selectedCpirses];
         }];
     } faile:^(NSString *messageID, AgoraEcode ecode) {
         
@@ -548,7 +548,6 @@
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
         _collectionView.backgroundColor = UIColorFromRGB(0xf6f6f6);
-//        _collectionView.prefetchingEnabled = NO;
         _collectionView.contentInset = UIEdgeInsetsMake(20, 0, 20, 0);
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.showsHorizontalScrollIndicator = NO;
@@ -564,10 +563,10 @@
         _tabBarView = [DMTabBarView new];
         _tabBarView.delegate = self;
         _tabBarView.isFullScreen = self.isFullScreen;
-        _tabBarView.layer.shadowColor = [UIColor blackColor].CGColor; // shadowColor阴影颜色
-        _tabBarView.layer.shadowOffset = CGSizeMake(-3,7); // shadowOffset阴影偏移,x向右偏移，y向下偏移，默认(0, -3),这个跟shadowRadius配合使用
-        _tabBarView.layer.shadowOpacity = 0.07; // 阴影透明度，默认0
-        _tabBarView.layer.shadowRadius = 7; // 阴影半径，默认3
+        _tabBarView.layer.shadowColor = [UIColor blackColor].CGColor;
+        _tabBarView.layer.shadowOffset = CGSizeMake(-3,7);
+        _tabBarView.layer.shadowOpacity = 0.07;
+        _tabBarView.layer.shadowRadius = 7;
     }
     
     return _tabBarView;
@@ -577,10 +576,10 @@
     if (!_bottomBar) {
         _bottomBar = [DMBottomBarView new];
         _bottomBar.delegate = self;
-        _bottomBar.layer.shadowColor = [UIColor blackColor].CGColor; // shadowColor阴影颜色
-        _bottomBar.layer.shadowOffset = CGSizeMake(-3,-7); // shadowOffset阴影偏移,x向右偏移，y向下偏移，默认(0, -3),这个跟shadowRadius配合使用
-        _bottomBar.layer.shadowOpacity = 0.03; // 阴影透明度，默认0
-        _bottomBar.layer.shadowRadius = 7; // 阴影半径，默认3
+        _bottomBar.layer.shadowColor = [UIColor blackColor].CGColor;
+        _bottomBar.layer.shadowOffset = CGSizeMake(-3,-7);
+        _bottomBar.layer.shadowOpacity = 0.03;
+        _bottomBar.layer.shadowRadius = 7;
     }
     
     return _bottomBar;

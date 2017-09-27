@@ -124,16 +124,16 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
     NSString *accountString = _accountTextField.text;
     NSString *pwdString = _passwordTextField.text;
     [self touchesBegan:[NSSet set] withEvent:nil];
+    [DMActivityView showActivity:self.view];
     
     //请求登录
     [DMApiModel loginSystem:accountString psd:pwdString block:^(BOOL result) {
-        if (result) {
-            //登录成功
-            [[NSNotificationCenter defaultCenter] postNotificationName:DMNotification_Login_Success_Key object:nil userInfo:nil];
-            [APP_DELEGATE toggleRootView:NO];
-        } else {
-            //登录失败
-        }
+        [DMActivityView hideActivity];
+        if (!result) { return;} //登录失败
+        
+        //登录成功
+        [[NSNotificationCenter defaultCenter] postNotificationName:DMNotification_Login_Success_Key object:nil userInfo:nil];
+        [APP_DELEGATE toggleRootView:NO];
     }];
 }
 

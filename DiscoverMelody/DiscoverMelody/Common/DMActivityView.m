@@ -18,8 +18,18 @@ static DMActivityView *activiyView;
             activiyView = [[self alloc] init];
         }
     });
-//    [self hideActivity];
+
+    activiyView.backgroundColor = [UIColor clearColor];
     [activiyView showInView:supperView];
+}
+
++ (void)showActivity:(UIView *)supperView hudColor:(UIColor *)backgroundColor {
+    [self showActivity:supperView];
+    activiyView.backgroundColor = backgroundColor;
+}
+
++ (void)showActivityCover:(UIView *)supperView {
+    [self showActivity:supperView hudColor:[[UIColor blackColor] colorWithAlphaComponent:0.6]];
 }
 
 + (void)hideActivity {
@@ -37,7 +47,9 @@ static DMActivityView *activiyView;
 }
 
 - (void)setupMakeLayoutSubviews {
+    NSLog(@"bounds: %@", NSStringFromCGRect(self.superview.bounds));
     self.frame = self.superview.bounds;
+    NSLog(@"bounds: %@", NSStringFromCGPoint(self.center));
     self.contentView.center = self.center;
 }
 
