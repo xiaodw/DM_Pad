@@ -219,18 +219,21 @@
     DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:DMTitleDeletedPhotos message:DMTitleDeletedPhotosMessage preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
     [alert showWithViewController:self IndexBlock:^(NSInteger index) {
         if (index == 1) { // 右侧
+            [DMActivityView showActivity:weakSelf.view];
             NSMutableString *fileIDs = [NSMutableString string];
-            for (int i = 0; i < self.selectedCpirses.count; i++) {
-                DMClassFileDataModel *fileDataModel = self.selectedCpirses[i];
+            for (int i = 0; i < weakSelf.selectedCpirses.count; i++) {
+                DMClassFileDataModel *fileDataModel = weakSelf.selectedCpirses[i];
                 [fileIDs appendString:fileDataModel.ID];
-                if (i != self.selectedCpirses.count-1) [fileIDs appendString:@","];
+                if (i != weakSelf.selectedCpirses.count-1) [fileIDs appendString:@","];
             }
             
-            [DMApiModel removeLessonFiles:self.lessonID fileIds:fileIDs block:^(BOOL result) {
+            [DMApiModel removeLessonFiles:weakSelf.lessonID fileIds:fileIDs block:^(BOOL result) {
+                [DMActivityView hideActivity];
                 if (!result) return;
                 [weakSelf.currentCpirses removeObjectsInArray:weakSelf.selectedCpirses];
                 [weakSelf didTapSelect:weakSelf.rightBarButton];
             }];
+            
         }
     }]; 
 }

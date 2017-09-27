@@ -41,8 +41,10 @@
     DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:DMTitleDeletedPhoto message:DMTitleDeletedPhotoMessage preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
     [alert showWithViewController:self IndexBlock:^(NSInteger index) {
         if (index == 1) { // 右侧
-            DMClassFileDataModel *currentCourse = self.courses[self.currentIndexPath.row];
-            [DMApiModel removeLessonFiles:self.lessonID fileIds:currentCourse.ID block:^(BOOL result) {
+            DMClassFileDataModel *currentCourse = weakSelf.courses[weakSelf.currentIndexPath.row];
+            [DMActivityView showActivity:weakSelf.view];
+            [DMApiModel removeLessonFiles:weakSelf.lessonID fileIds:currentCourse.ID block:^(BOOL result) {
+                [DMActivityView hideActivity];
                 if (!result) return;
                 
                 [weakSelf.liveVC.presentVCs removeObject:weakSelf];

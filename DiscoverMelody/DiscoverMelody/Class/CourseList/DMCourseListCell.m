@@ -193,7 +193,7 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
     [_dateLabel makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(_detailDateLabel.mas_left).offset(-DMScaleWidth(10));
         make.centerY.equalTo(self.contentView);
-        make.width.equalTo(DMScaleWidth(100));
+        make.width.equalTo(DMScaleWidth(90));
     }];
 
     [_studentNameLabel makeConstraints:^(MASConstraintMaker *make) {

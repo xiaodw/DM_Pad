@@ -81,7 +81,7 @@
     [_dateLabel makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(_detailDateLabel.mas_left);
         make.centerY.equalTo(self);
-        make.width.equalTo(DMScaleWidth(110));
+        make.width.equalTo(DMScaleWidth(100));
     }];
     
     [_studentNameLabel makeConstraints:^(MASConstraintMaker *make) {

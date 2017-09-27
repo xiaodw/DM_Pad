@@ -112,6 +112,7 @@
         DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:DMTitleUploadFail message:DMTitleUploadFailMessage preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleNO otherTitle:DMTitleYes, nil];
         [alert showWithViewController:(UIViewController *)self.delegate IndexBlock:^(NSInteger index) {
             if (index == 1) { // 右侧
+                [DMActivityView showActivity:weakSelf];
                 [weakSelf uploadPhotos:weakSelf.fieldAssets];
                 return;
             }
@@ -145,8 +146,6 @@
 #pragma mark - Functions
 - (void)didTapUpload:(UIButton *)sender {
     if (![self.delegate respondsToSelector:@selector(albrmsCollectionView:success:)]) return;
-//    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
-//    [SVProgressHUD show];
     [DMActivityView showActivity:self];
     [self uploadPhotos:self.selectedAssets];
 }
