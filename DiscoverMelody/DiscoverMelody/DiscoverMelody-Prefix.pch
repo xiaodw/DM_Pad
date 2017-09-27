@@ -36,6 +36,7 @@
 #import "DMCustomerServiceViewController.h"
 #import "DMMenuViewController.h"
 #import "DMRootViewController.h"
+#import "DMRefreshNormalHeader.h"
 
 #import "UIViewController+DMRootViewController.h"
 #import "UIColor+Hex.h"
@@ -57,7 +58,6 @@
 #import <AVFoundation/AVMediaFormat.h>
 #import <AVFoundation/AVAudioSession.h>
 #import "DMActivityView.h"
-
 
 #import "DMEnums.h"
 
