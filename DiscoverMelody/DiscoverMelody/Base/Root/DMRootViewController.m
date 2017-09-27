@@ -131,11 +131,14 @@
     if (selected == 1) {
         DMCourseListController *clVC = [[DMCourseListController alloc] init];
         UINavigationController *navClVC = [_contentVCs objectAtIndex:selected];
-        navClVC = [navClVC initWithRootViewController:clVC];
+        [navClVC setViewControllers:@[clVC]];
+        //navClVC = [navClVC initWithRootViewController:clVC];
+        NSLog(@"%@", [_contentVCs objectAtIndex:selected]);
     } else if (selected == 2) {
         DMCustomerServiceViewController *ssVC = [[DMCustomerServiceViewController alloc] init];
         UINavigationController *navSsVC = [_contentVCs objectAtIndex:selected];
-        navSsVC = [navSsVC initWithRootViewController:ssVC];
+        //navSsVC = [navSsVC initWithRootViewController:ssVC];
+        [navSsVC setViewControllers:@[ssVC]];
     }
 }
 
