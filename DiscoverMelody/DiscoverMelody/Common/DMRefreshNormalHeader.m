@@ -14,8 +14,7 @@ const CGFloat DMRefreshHeaderTitleTopAndBottom = 13;
 
 @implementation DMRefreshNormalHeader
 
-- (void)prepare
-{
+- (void)prepare {
     [super prepare];
     
     // 设置key
@@ -23,6 +22,13 @@ const CGFloat DMRefreshHeaderTitleTopAndBottom = 13;
     
     // 设置高度
     self.mj_h = DMRefreshHeaderHeight;
+    
+    self.stateLabel.font = DMFontPingFang_Light(12);
+    self.lastUpdatedTimeLabel.font = self.stateLabel.font;
+    
+    // Set textColor
+    self.stateLabel.textColor = DMColorWithHexString(@"#999999");
+    self.lastUpdatedTimeLabel.textColor = self.stateLabel.textColor;
 }
 
 - (void)placeSubviews {

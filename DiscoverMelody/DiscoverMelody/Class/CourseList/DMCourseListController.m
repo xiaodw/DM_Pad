@@ -49,6 +49,8 @@
     [self setupMakeLayoutSubviews];
     [self setupMJRefresh];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updataCourseListData:) name:DMNotification_CourseList_Key object:nil];
+    [DMActivityView showActivity:self.view];
+    [self loadDataList:self.currentPageNumber];
 }
 
 - (void)updataCourseListData:(NSNotification *)notification {
@@ -67,26 +69,19 @@
         weakSelf.currentPageNumber = 1;
         [weakSelf loadDataList:weakSelf.currentPageNumber];
     }];
-    
-    header.stateLabel.font = DMFontPingFang_Light(12);
-    header.lastUpdatedTimeLabel.font = header.stateLabel.font;
-    
-    // Set textColor
-    header.stateLabel.textColor = DMColorWithHexString(@"#999999");
-    header.lastUpdatedTimeLabel.textColor = header.stateLabel.textColor;
     self.tableView.mj_header = header;
     
     MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         [weakSelf loadDataList:weakSelf.currentPageNumber];
     }];
-//    [footer setTitle:BDCommonLoadNomoreData forState:MJRefreshStateNoMoreData];
     self.tableView.mj_footer = footer;
+    footer.stateLabel.font = DMFontPingFang_Light(12);
+    footer.stateLabel.textColor = DMColorWithHexString(@"#999999");
     self.tableView.mj_footer.hidden = YES;
-    
-    [self.tableView.mj_header beginRefreshing];
 }
 
 - (void)endRefreshing {
+    [DMActivityView hideActivity];
     [self.tableView.mj_footer endRefreshing];
     [self.tableView.mj_header endRefreshing];
 }
@@ -289,6 +284,7 @@
 - (UIView *)noCourseView {
     if (!_noCourseView) {
         _noCourseView = [UIView new];
+        _noCourseView.hidden = YES;
         
         UIImageView *iconImageView = [UIImageView new];
         iconImageView.image = [UIImage imageNamed:@"quest_no_teacher_com"];
