@@ -353,9 +353,7 @@ static DMLiveVideoManager* _instance = nil;
 
 - (void)initializeSignaling {
     self.inst = [AgoraAPI getInstanceWithoutMedia:self.app_ID];
-    AgoraAPI * __weak weak_inst = _inst;
 
-//
     WS(weakSelf)
     [self.inst login2:self.app_ID
               account:[NSString stringWithFormat:@"%ld", self.uId]

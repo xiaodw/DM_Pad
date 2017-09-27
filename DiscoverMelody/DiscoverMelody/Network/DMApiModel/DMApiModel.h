@@ -16,6 +16,7 @@
 #import "DMAnswerData.h"
 #import "DMCloudConfigData.h"
 #import "DMSetConfigData.h"
+#import "DMEnums.h"
 @interface DMApiModel : NSObject
 
 //配置
@@ -32,7 +33,6 @@
 
 //课程列表(老师／学生)
 + (void)getCourseListData:(NSString *)type //身份类型
-                     sort:(NSString *)sort //DESC降序，ASC升序
                      page:(NSInteger)page //页码，默认为1
                 condition:(NSString *)condition //选择筛选条件
                     block:(void(^)(BOOL result, NSArray *array, BOOL nextPage))complectionBlock;
@@ -74,7 +74,23 @@
                    angle:(NSString *)angle
                    block:(void(^)(BOOL result, DMClassFileDataModel *obj))complectionBlock;
 
+//声网用户状态记录
++ (void)agoraUserStatusLog:(NSString *)lessonID
+                 targetUID:(NSString *)targetUid //动作用户的id
+                 uploadUID:(NSString *)uploadUID //上报用户的id
+                    action:(DMAgoraUserStatusLog)action
+                     block:(void(^)(BOOL result))complectionBlock;
+
 @end
+
+
+
+
+
+
+
+
+
 
 
 

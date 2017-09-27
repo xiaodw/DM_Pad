@@ -46,16 +46,13 @@
     [[DMRequestModel sharedInstance] requestWithPath:url method:requestMethod parameters:dic prepareExecute:^{
         
     } success:^(id responseObject) {
-//        NSString *string = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-//        NSLog(@"str = %@",string);
         id responseObj = responseObject;
-        
         if (![responseObject isKindOfClass:[NSDictionary class]]) {
             responseObj = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
         }
         NSLog(@"返回的数据 = %@",responseObj);
         
-        if (!STR_IS_NIL([responseObj objectForKey:Token_Key])) {
+        if (!STR_IS_NIL([responseObj objectForKey:Token_Key])) { //更新token
             [self updateTokenToLatest:[responseObj objectForKey:Token_Key]];
         }
         
@@ -79,7 +76,6 @@
             id responseDataModel = [dataModelClass mj_objectWithKeyValues:[responseObj objectForKey:Data_Key]];
             success(responseDataModel);
             
-            
         } else {
             if ([[responseObj objectForKey:Msg_Key] isKindOfClass:[NSString class]]) {
                 [self responseStatusCodeException:[[responseObj objectForKey:Code_Key] intValue]
@@ -97,6 +93,22 @@
         [DMTools showSVProgressHudCustom:@"" title:DMTitleNetworkError];
         failure(error);
     }];
+}
+
+-(void)initWithUrlForLog:(NSString*)url
+              parameters:(NSMutableDictionary*)parameters
+                  method:(DMHttpRequestType)requestMethod
+                 success:(void (^)(id responseObject))success
+                 failure:(void (^)( NSError *error))failure
+{
+    
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    if (OBJ_IS_NIL(parameters)) {
+        dic = [self fixedParameters:[NSMutableDictionary dictionary]];
+    } else {
+        dic = [self fixedParameters:parameters];
+    }
+    [[DMRequestModel sharedInstance] requestWithPath:url method:requestMethod parameters:dic prepareExecute:nil success:nil failure:nil];
 }
 
 -(void)didSuccessMsg:(BlockSuccessMsg)blockSuccessMsg {

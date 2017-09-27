@@ -21,4 +21,5 @@
 - (id)initWithFrame:(CGRect)frame delegate:(id<DMHomeVCDelegate>) delegate;
 - (void)reloadHomeTableView;
 - (void)disPlayNoCourseView:(BOOL)display isError:(BOOL)error;
+- (void)initSelectedIndexPath;
 @end

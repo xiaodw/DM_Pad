@@ -68,7 +68,6 @@
 
 //课程列表(老师／学生)
 + (void)getCourseListData:(NSString *)type //身份类型
-                     sort:(NSString *)sort //DESC降序，ASC升序
                      page:(NSInteger)page //页码，默认为1
                 condition:(NSString *)condition //选择筛选条件
                     block:(void(^)(BOOL result, NSArray *array, BOOL nextPage))complectionBlock
@@ -78,7 +77,7 @@
     if (type.intValue == 1) {
         url = DM_User_Tcourse_List_Url;
     }
-    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:condition, @"condition", [NSString stringWithFormat:@"%ld",page], @"page", sort, @"sort", nil];
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:condition, @"condition", [NSString stringWithFormat:@"%ld",page], @"page", nil];
     
     [[DMHttpClient sharedInstance] initWithUrl:url
                                     parameters:dic
@@ -303,6 +302,34 @@
      } failure:^(NSError *error) {
          complectionBlock(NO, nil);
      }];
+}
+
+//声网用户状态记录
++ (void)agoraUserStatusLog:(NSString *)lessonID
+                 targetUID:(NSString *)targetUid
+                 uploadUID:(NSString *)uploadUID
+                    action:(DMAgoraUserStatusLog)action
+                     block:(void(^)(BOOL result))complectionBlock
+{
+
+    NSString *actionStr = @"";
+    switch (action) {
+        case DMAgoraUserStatusLog_Enter:
+            actionStr = @"enter";
+            break;
+        case DMAgoraUserStatusLog_Exit:
+            actionStr = @"exit";
+            break;
+        case DMAgoraUserStatusLog_Neterr:
+            actionStr = @"neterr";
+            break;
+        default:
+            break;
+    }
+    NSMutableDictionary *dic = [NSMutableDictionary
+                                dictionaryWithObjectsAndKeys:lessonID, @"lesson_id",targetUid, @"target_uid",uploadUID, @"upload_uid", actionStr, @"action", nil];
+    [[DMHttpClient sharedInstance] initWithUrlForLog:DM_AgoraUserStatus_Log_Url parameters:dic method:DMHttpRequestPost success:nil failure:nil];
+
 }
 
 @end

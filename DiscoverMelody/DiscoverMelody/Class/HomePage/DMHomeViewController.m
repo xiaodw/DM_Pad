@@ -49,6 +49,7 @@
 }
 
 - (void)updateHomeData:(NSNotification *)notification {
+    [self.homeView initSelectedIndexPath];
     [self getDataFromServer];
 }
 

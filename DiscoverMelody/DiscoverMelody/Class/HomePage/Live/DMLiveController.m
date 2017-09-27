@@ -70,6 +70,15 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     }];
 }
 
+//声网用户状态统计
+- (void)agoraUserStatusLog:(NSString *)lessonID
+      targetUID:(NSString *)targetUid //动作用户的id
+      uploadUID:(NSString *)uploadUID //上报用户的id
+         action:(DMAgoraUserStatusLog)action
+{
+    [DMApiModel agoraUserStatusLog:lessonID targetUID:targetUid uploadUID:uploadUID action:action block:nil];
+}
+
 #pragma mark - Lifecycle Methods
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -84,6 +93,11 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(remoteVideoTapped)];
     [self.view addGestureRecognizer:tapGestureRecognizer];
+    
+    [self agoraUserStatusLog:self.lessonID
+                   targetUID:[DMAccount getUserID]
+                   uploadUID:[DMAccount getUserID]
+                      action:DMAgoraUserStatusLog_Enter];
     
     [self setupMakeAddSubviews];
     [self setupMakeLayoutSubviews];
@@ -134,11 +148,13 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     // 有用户离开
     self.liveVideoManager.blockDidOfflineOfUid = ^(NSUInteger uid) {
         weakSelf.isRemoteUserOnline = NO;
+        [weakSelf agoraUserStatusLog:weakSelf.lessonID targetUID:[NSString stringWithFormat:@"%lu",(unsigned long)uid] uploadUID:[DMAccount getUserID] action:DMAgoraUserStatusLog_Exit];
     };
     
     self.liveVideoManager.blockFirstRemoteVideoDecodedOfUid = ^(NSUInteger uid, CGSize size) {
         weakSelf.isRemoteUserOnline = YES;
         [weakSelf setShowPlaceholderView];
+        [weakSelf agoraUserStatusLog:weakSelf.lessonID targetUID:[NSString stringWithFormat:@"%lu",(unsigned long)uid] uploadUID:[DMAccount getUserID] action:DMAgoraUserStatusLog_Enter];
     };
 }
 
@@ -212,12 +228,16 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
                         [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) { } faile:^(NSString *messageID, AgoraEcode ecode) {}];
                     }
                 }];
+                [self agoraUserStatusLog:weakSelf.lessonID targetUID:[DMAccount getUserID] uploadUID:[DMAccount getUserID] action:DMAgoraUserStatusLog_Exit];
             }
         }];
         return;
     }
     
     [self.liveVideoManager quitLiveVideo:^(BOOL success) {
+        
+        [self agoraUserStatusLog:weakSelf.lessonID targetUID:[DMAccount getUserID] uploadUID:[DMAccount getUserID] action:DMAgoraUserStatusLog_Exit];
+        
         if (weakSelf.presentVCs.count == 0) {
             [weakSelf.navigationVC popViewControllerAnimated:YES];
             return;
