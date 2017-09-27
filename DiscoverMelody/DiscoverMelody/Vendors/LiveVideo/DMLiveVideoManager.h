@@ -16,7 +16,7 @@ typedef NS_ENUM(NSInteger, DMLiveVideoViewType) {
 
 typedef void (^BlockAudioVolume)(NSInteger totalVolume ,NSArray *speakers); //音量
 typedef void (^BlockTapVideoEvent)(DMLiveVideoViewType type);//屏幕点击事件
-typedef void (^BlockQuitLiveVideoEvent)(BOOL success);//退出直播事件
+typedef void (^BlockQuitLiveVideoEvent)(BOOL success);//自己退出直播事件
 
 typedef void (^BlockDidJoinedOfUid)(NSUInteger uid);//有用户加入
 typedef void (^BlockDidOfflineOfUid)(NSUInteger uid);//有用户离开

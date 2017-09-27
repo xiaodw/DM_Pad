@@ -91,6 +91,10 @@
 //百度云上传成功后的通知
 #define DM_Cloud_Upload_Success_Url [DM_Url stringByAppendingFormat:@"Attachment/uploadSuccess"]
 
+//声网用户状态
+#define DM_AgoraUserStatus_Log_Url [DM_Url stringByAppendingFormat:@"log/agoraLog"]
+
+
 #endif /* DMServerApiConfig_h */
 
 

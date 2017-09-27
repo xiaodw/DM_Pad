@@ -38,12 +38,16 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.delegate = delegate;
-        self.selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+        [self initSelectedIndexPath];
         [self configSubViews];
         [self setupMakeLayoutSubviews];
         //[self updateTopViewInfo:nil];
     }
     return self;
+}
+
+- (void)initSelectedIndexPath {
+    self.selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
 }
 
 - (void)updateTopViewInfo:(DMCourseDatasModel *)obj {

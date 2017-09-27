@@ -23,3 +23,11 @@ typedef NS_ENUM(NSInteger, DMFormatUploadFileType) {
     DMFormatUploadFileType_FileData = 0, //默认文件数据流
     DMFormatUploadFileType_FilePath = 1, //文件路径
 };
+
+
+//声网用户状态记录
+typedef NS_ENUM(NSInteger, DMAgoraUserStatusLog) {
+    DMAgoraUserStatusLog_Enter = 0, //进入
+    DMAgoraUserStatusLog_Exit,      //退出
+    DMAgoraUserStatusLog_Neterr,    //网络关闭
+};

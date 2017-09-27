@@ -68,9 +68,13 @@
                 [self.manager GET:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
                     
                 } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                    success(responseObject);
+                    if (success) {
+                        success(responseObject);
+                    }
                 } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                    failure(error);
+                    if (failure) {
+                        failure(error);
+                    }
                 }];
                 
             }
@@ -80,9 +84,15 @@
                 [self.manager POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
                     
                 } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                    success(responseObject);
+                    if (success) {
+                        success(responseObject);
+                    }
+                    
                 } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                    failure(error);
+                    if (failure) {
+                        failure(error);
+                    }
+                    
                 }];
                 
             }
@@ -90,9 +100,13 @@
             case DMHttpRequestDelete: {
                 
                 [self.manager DELETE:url parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                    success(responseObject);
+                    if (success) {
+                        success(responseObject);
+                    }
                 } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                    failure(error);
+                    if (failure) {
+                        failure(error);
+                    }
                 }];
                 
             }
@@ -100,9 +114,13 @@
             case DMHttpRequestPut: {
                 
                 [self.manager PUT:url parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                    success(responseObject);
+                    if (success) {
+                        success(responseObject);
+                    }
                 } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                    failure(error);
+                    if (failure) {
+                        failure(error);
+                    }
                 }];
                 
             }

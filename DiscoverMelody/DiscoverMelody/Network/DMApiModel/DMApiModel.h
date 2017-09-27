@@ -16,6 +16,7 @@
 #import "DMAnswerData.h"
 #import "DMCloudConfigData.h"
 #import "DMSetConfigData.h"
+#import "DMEnums.h"
 @interface DMApiModel : NSObject
 
 //配置
@@ -74,7 +75,23 @@
                    angle:(NSString *)angle
                    block:(void(^)(BOOL result, DMClassFileDataModel *obj))complectionBlock;
 
+//声网用户状态记录
++ (void)agoraUserStatusLog:(NSString *)lessonID
+                 targetUID:(NSString *)targetUid //动作用户的id
+                 uploadUID:(NSString *)uploadUID //上报用户的id
+                    action:(DMAgoraUserStatusLog)action
+                     block:(void(^)(BOOL result))complectionBlock;
+
 @end
+
+
+
+
+
+
+
+
+
 
 
 
