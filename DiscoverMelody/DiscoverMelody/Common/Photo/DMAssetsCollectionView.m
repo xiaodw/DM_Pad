@@ -112,7 +112,7 @@
         DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:DMTitleUploadFail message:DMTitleUploadFailMessage preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleNO otherTitle:DMTitleYes, nil];
         [alert showWithViewController:(UIViewController *)self.delegate IndexBlock:^(NSInteger index) {
             if (index == 1) { // 右侧
-                [DMActivityView showActivity:weakSelf];
+                [DMActivityView showActivityCover:weakSelf];
                 [weakSelf uploadPhotos:weakSelf.fieldAssets];
                 return;
             }

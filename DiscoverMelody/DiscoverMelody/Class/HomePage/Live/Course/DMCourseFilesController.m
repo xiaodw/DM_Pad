@@ -86,7 +86,7 @@
     self.tabBarView.titles = @[DMTitleMyUploadFild,identifier];
     
     WS(weakSelf)
-    [DMActivityView showActivity:self.view];
+    [DMActivityView showActivity:self.collectionView];
     [DMApiModel getLessonList:self.lessonID block:^(BOOL result, NSArray *teachers, NSArray *students) {
         [DMActivityView hideActivity];
         NSMutableArray *teacherCourses = [NSMutableArray arrayWithArray:teachers];

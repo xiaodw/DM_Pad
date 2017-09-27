@@ -90,20 +90,20 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     
     NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
     self.remotePlaceholderTitleLabel.text = userIdentity ? DMTextLiveStudentNotEnter : DMTextLiveTeacherNotEnter;
-    
+
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(remoteVideoTapped)];
     [self.view addGestureRecognizer:tapGestureRecognizer];
-    
+
     [self agoraUserStatusLog:self.lessonID
                    targetUID:[DMAccount getUserID]
                    uploadUID:[DMAccount getUserID]
                       action:DMAgoraUserStatusLog_Enter];
-    
+
     [self setupMakeAddSubviews];
     [self setupMakeLayoutSubviews];
     [self joinChannel];
     [self setupMakeLiveCallback];
-    
+
     [self timer];
 }
 
@@ -216,7 +216,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 // 离开
 - (void)liveButtonControlViewDidTapLeave:(DMLiveButtonControlView *)liveButtonControlView {
     WS(weakSelf)
-    
     if(self.alreadyTime < self.totalTime + self.delayTime) {
         DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:DMTitleExitLiveRoom message:DMTitleLiveAutoClose preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
         [alert showWithViewController:self IndexBlock:^(NSInteger index) {
@@ -228,15 +227,14 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
                         [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) { } faile:^(NSString *messageID, AgoraEcode ecode) {}];
                     }
                 }];
-                [self agoraUserStatusLog:weakSelf.lessonID targetUID:[DMAccount getUserID] uploadUID:[DMAccount getUserID] action:DMAgoraUserStatusLog_Exit];
+                [weakSelf agoraUserStatusLog:weakSelf.lessonID targetUID:[DMAccount getUserID] uploadUID:[DMAccount getUserID] action:DMAgoraUserStatusLog_Exit];
             }
         }];
         return;
     }
     
     [self.liveVideoManager quitLiveVideo:^(BOOL success) {
-        
-        [self agoraUserStatusLog:weakSelf.lessonID targetUID:[DMAccount getUserID] uploadUID:[DMAccount getUserID] action:DMAgoraUserStatusLog_Exit];
+        [weakSelf agoraUserStatusLog:weakSelf.lessonID targetUID:[DMAccount getUserID] uploadUID:[DMAccount getUserID] action:DMAgoraUserStatusLog_Exit];
         
         if (weakSelf.presentVCs.count == 0) {
             [weakSelf.navigationVC popViewControllerAnimated:YES];
@@ -322,10 +320,10 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self.view addSubview:self.timeView];
     [self.view addSubview:self.remoteMicrophoneView];
     [self.view addSubview:self.localMicrophoneView];
-    
+
     [self.localView addSubview:self.localPlaceholderView];
     [self.localView addSubview:self.localPlaceholderTitleLabel];
-    
+
     [self.view addSubview:self.willStartView];
 }
 

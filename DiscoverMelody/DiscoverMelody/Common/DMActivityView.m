@@ -18,7 +18,7 @@ static DMActivityView *activiyView;
             activiyView = [[self alloc] init];
         }
     });
-
+    
     activiyView.backgroundColor = [UIColor clearColor];
     [activiyView showInView:supperView];
 }
@@ -39,6 +39,7 @@ static DMActivityView *activiyView;
 - (void)showInView:(UIView *)supperView {
     [supperView addSubview:self];
     self.alpha = 1;
+    [self setupMakeLayoutSubviews];
 }
 
 - (void)layoutSubviews {
@@ -47,9 +48,8 @@ static DMActivityView *activiyView;
 }
 
 - (void)setupMakeLayoutSubviews {
-    NSLog(@"bounds: %@", NSStringFromCGRect(self.superview.bounds));
+    [self.superview layoutIfNeeded];
     self.frame = self.superview.bounds;
-    NSLog(@"bounds: %@", NSStringFromCGPoint(self.center));
     self.contentView.center = self.center;
 }
 
@@ -65,7 +65,7 @@ static DMActivityView *activiyView;
 {
     self = [super initWithFrame:frame];
     if (self) {
-//        self.showTimes = 0;
+        //        self.showTimes = 0;
         [self.contentView.layer addSublayer:self.reaplicator];
         [self addSubview:self.contentView];
         [self startAnimation];
@@ -95,12 +95,12 @@ static DMActivityView *activiyView;
 - (UIView *)contentView {
     if (_contentView == nil) {
         UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 90, 90)];
-//        contentView.layer.cornerRadius = 10.0f;
-//        contentView.layer.borderColor = [UIColor colorWithWhite:0.926 alpha:1.000].CGColor;
-//        contentView.layer.shadowColor = [UIColor blackColor].CGColor;
-//        contentView.layer.shadowOpacity = 0.1;
-//        contentView.layer.shadowOffset = CGSizeMake(1, 1);
-//        contentView.backgroundColor = [UIColor whiteColor];
+        //        contentView.layer.cornerRadius = 10.0f;
+        //        contentView.layer.borderColor = [UIColor colorWithWhite:0.926 alpha:1.000].CGColor;
+        //        contentView.layer.shadowColor = [UIColor blackColor].CGColor;
+        //        contentView.layer.shadowOpacity = 0.1;
+        //        contentView.layer.shadowOffset = CGSizeMake(1, 1);
+        //        contentView.backgroundColor = [UIColor whiteColor];
         _contentView = contentView;
     }
     return _contentView;
@@ -142,3 +142,4 @@ static DMActivityView *activiyView;
 }
 
 @end
+
