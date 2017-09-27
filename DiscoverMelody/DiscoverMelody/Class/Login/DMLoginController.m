@@ -4,10 +4,11 @@
 #import <IQKeyboardManager.h>
 
 const CGFloat kTextFieldHeight = 44;
-const CGFloat kTextfieldViewHeight = kTextFieldHeight * 2 + 16;
-const CGFloat kLogoHeight = 148;
-const CGFloat kLogoTop = 183;
-const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
+const CGFloat kTextfieldViewHeight = kTextFieldHeight * 2 + 15;
+const CGFloat kLogoHeight = 115;
+const CGFloat kLogoTop = 208;
+const CGFloat acctountToLogoTop = 75;
+const CGFloat kAccountTop = kLogoTop + kLogoHeight + acctountToLogoTop;
 
 @interface DMLoginController () <UITextFieldDelegate>
 
@@ -155,7 +156,7 @@ const CGFloat kAccountTop = 437; // kLogoTop + logHeight + acctountToLogoTop
     [_logoImageView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(kLogoTop);
         make.centerX.equalTo(self.view);
-        make.size.equalTo(CGSizeMake(178, kLogoHeight));
+        make.size.equalTo(CGSizeMake(200, kLogoHeight));
     }];
     
     [_textfieldView makeConstraints:^(MASConstraintMaker *make) {
