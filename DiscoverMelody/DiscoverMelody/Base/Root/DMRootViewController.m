@@ -16,6 +16,8 @@
 @property (strong, readwrite, nonatomic) UIPanGestureRecognizer *panGestureRecognizer;
 @property (assign, readwrite, nonatomic) BOOL automaticSize;
 @property (assign, readwrite, nonatomic) CGSize calculatedMenuViewSize;
+@property (nonatomic, strong) UINavigationController *selNav;
+@property (nonatomic, strong) UINavigationController *oldNav;
 
 @end
 
@@ -47,7 +49,12 @@
     [[UINavigationController alloc] initWithRootViewController:homeVC];
     DMMenuViewController *menuVC = [[DMMenuViewController alloc] init];
     _menuViewController = menuVC;
-    _contentVCs = [NSMutableArray arrayWithObjects:navHomeVC, nil];
+
+    UINavigationController *navClVC =
+    [[UINavigationController alloc] init];
+    UINavigationController *navSsVC =
+    [[UINavigationController alloc] init];
+    _contentVCs = [NSMutableArray arrayWithObjects:navHomeVC, navClVC, navSsVC, nil];
     
 /*  //原始
     DMHomeViewController *homeVC = [[DMHomeViewController alloc] init];
@@ -117,23 +124,18 @@
 }
 
 - (void)updateContentVCs:(NSInteger)selected {
-    
-    if (selected < _contentVCs.count) {
+    if (self.selectedIndex == self.oldSelectedIndex) {
         return;
     }
     
     if (selected == 1) {
         DMCourseListController *clVC = [[DMCourseListController alloc] init];
-        UINavigationController *navClVC =
-        [[UINavigationController alloc] initWithRootViewController:clVC];
-        [_contentVCs addObject:navClVC];
-        [self dm_addController:navClVC frame:self.view.bounds];
+        UINavigationController *navClVC = [_contentVCs objectAtIndex:selected];
+        navClVC = [navClVC initWithRootViewController:clVC];
     } else if (selected == 2) {
         DMCustomerServiceViewController *ssVC = [[DMCustomerServiceViewController alloc] init];
-        UINavigationController *navSsVC =
-        [[UINavigationController alloc] initWithRootViewController:ssVC];
-        [_contentVCs addObject:navSsVC];
-        [self dm_addController:navSsVC frame:self.view.bounds];
+        UINavigationController *navSsVC = [_contentVCs objectAtIndex:selected];
+        navSsVC = [navSsVC initWithRootViewController:ssVC];
     }
 }
 

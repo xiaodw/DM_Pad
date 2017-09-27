@@ -92,15 +92,9 @@
 }
 
 - (void)sectionClick:(BOOL)isfurled section:(NSInteger)section {
+    
     NSMutableIndexSet *set = [[NSMutableIndexSet alloc] initWithIndex:section];
     [self.tableView reloadSections:set withRowAnimation:UITableViewRowAnimationFade];
-    
-//    if (isfurled) {
-//        [self.tableView reloadData];
-//    } else {
-//        NSMutableIndexSet *set = [[NSMutableIndexSet alloc] initWithIndex:section];
-//        [self.tableView reloadSections:set withRowAnimation:UITableViewRowAnimationFade];
-//    }
 }
 
 #pragma mark -
