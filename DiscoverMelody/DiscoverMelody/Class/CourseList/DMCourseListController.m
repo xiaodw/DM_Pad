@@ -63,10 +63,17 @@
 
 - (void)setupMJRefresh {
     WS(weakSelf)
-     MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+     DMRefreshNormalHeader *header = [DMRefreshNormalHeader headerWithRefreshingBlock:^{
         weakSelf.currentPageNumber = 1;
         [weakSelf loadDataList:weakSelf.currentPageNumber];
     }];
+    
+    header.stateLabel.font = DMFontPingFang_Light(12);
+    header.lastUpdatedTimeLabel.font = header.stateLabel.font;
+    
+    // Set textColor
+    header.stateLabel.textColor = DMColorWithHexString(@"#999999");
+    header.lastUpdatedTimeLabel.textColor = header.stateLabel.textColor;
     self.tableView.mj_header = header;
     
     MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{

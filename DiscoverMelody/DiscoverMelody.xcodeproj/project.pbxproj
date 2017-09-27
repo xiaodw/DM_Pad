@@ -137,6 +137,7 @@
 		51D2D62E1F613B0900764130 /* DMButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D2D62C1F613B0900764130 /* DMButton.m */; };
 		51D2D6311F613E0800764130 /* DMCourseListHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D2D6301F613E0800764130 /* DMCourseListHeaderView.m */; };
 		51DCFA601F7A6A95007BC228 /* DMActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51DCFA5F1F7A6A95007BC228 /* DMActivityView.m */; };
+		51DCFA631F7B467C007BC228 /* DMRefreshNormalHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 51DCFA621F7B467C007BC228 /* DMRefreshNormalHeader.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -415,6 +416,8 @@
 		51D2D6301F613E0800764130 /* DMCourseListHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCourseListHeaderView.m; sourceTree = "<group>"; };
 		51DCFA5E1F7A6A94007BC228 /* DMActivityView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DMActivityView.h; sourceTree = "<group>"; };
 		51DCFA5F1F7A6A95007BC228 /* DMActivityView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DMActivityView.m; sourceTree = "<group>"; };
+		51DCFA611F7B467C007BC228 /* DMRefreshNormalHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DMRefreshNormalHeader.h; sourceTree = "<group>"; };
+		51DCFA621F7B467C007BC228 /* DMRefreshNormalHeader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DMRefreshNormalHeader.m; sourceTree = "<group>"; };
 		945FC02CD63525967FAFE213 /* libPods-DiscoverMelody.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DiscoverMelody.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -983,6 +986,8 @@
 				51DCFA5F1F7A6A95007BC228 /* DMActivityView.m */,
 				2A691A771F6F9DA3007293C5 /* DMCommonModel.h */,
 				2A691A781F6F9DA3007293C5 /* DMCommonModel.m */,
+				51DCFA611F7B467C007BC228 /* DMRefreshNormalHeader.h */,
+				51DCFA621F7B467C007BC228 /* DMRefreshNormalHeader.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1290,6 +1295,7 @@
 				2A4E96A11F66AA57000C4DFD /* DMPopCodeView.m in Sources */,
 				2A87F8841F6B68EC00DCC412 /* DMPullDownMenu.m in Sources */,
 				2A3D1D271F692A44005671B2 /* MMMaterialDesignSpinner.m in Sources */,
+				51DCFA631F7B467C007BC228 /* DMRefreshNormalHeader.m in Sources */,
 				2ABBAB811F728CD6004536DB /* DMAnswerData.m in Sources */,
 				5100E4641F6A6358000AB506 /* DMPresentationController.m in Sources */,
 				2AD2AB371F5D441D00EDA962 /* DMHomeViewController.m in Sources */,
