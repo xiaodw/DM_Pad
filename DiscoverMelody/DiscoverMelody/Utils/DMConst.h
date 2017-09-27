@@ -109,6 +109,8 @@ UIKIT_EXTERN NSString * const DMClassStartTimeYMDHM;
 UIKIT_EXTERN NSString * const DMQuestCommitStatusSuccess;
 UIKIT_EXTERN NSString * const DMQuestCommitStatusFailed;
 
+UIKIT_EXTERN NSString * const DMTitleVedioRetry;
+
 
 
 

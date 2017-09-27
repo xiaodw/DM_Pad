@@ -52,7 +52,7 @@
             }
         } else {
             //[DMTools showMessageToast:DMAlertTitleVedioError duration:2 position:CSToastPositionCenter];
-            [DMTools showSVProgressHudCustom:@"" title:DMAlertTitleVedioError];
+            //[DMTools showSVProgressHudCustom:@"" title:DMAlertTitleVedioError];
         }
     }];
     
@@ -91,7 +91,7 @@
 - (ZFPlayerModel *)playerModel {
     if (!_playerModel) {
         _playerModel                  = [[ZFPlayerModel alloc] init];
-        _playerModel.title            = DMTitleVedio;
+        _playerModel.title            = self.lessonName;//DMTitleVedio;
         _playerModel.videoURL         = self.videoURL;
         _playerModel.placeholderImage = [UIImage imageNamed:@"loading_bgView1.png"];
         _playerModel.fatherView       = self.view;
