@@ -30,6 +30,7 @@
 
 #import "DMConst.h"
 #import "DMMacros.h"
+#import "DMLayoutContst.h"
 #import "AppDelegate.h"
 #import "DMHomeViewController.h"
 #import "DMCourseListController.h"

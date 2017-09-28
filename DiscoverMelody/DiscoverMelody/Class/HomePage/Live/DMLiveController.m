@@ -388,7 +388,8 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     
     [_remotePlaceholderTitleLabel makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_remotePlaceholderView.mas_bottom).offset(45);
-        make.centerX.equalTo(_remotePlaceholderView);
+        make.left.equalTo(_remoteView).offset(10);
+        make.right.equalTo(_remoteView.mas_right).offset(-10);
     }];
     
     [_localPlaceholderView makeConstraints:^(MASConstraintMaker *make) {
@@ -519,8 +520,10 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 - (UILabel *)remotePlaceholderTitleLabel {
     if (!_remotePlaceholderTitleLabel) {
         _remotePlaceholderTitleLabel = [UILabel new];
+        _remotePlaceholderTitleLabel.numberOfLines = 0;
         _remotePlaceholderTitleLabel.textColor = DMColor102;
         _remotePlaceholderTitleLabel.font = DMFontPingFang_Light(20);
+        _remotePlaceholderTitleLabel.textAlignment = NSTextAlignmentCenter;
     }
     
     return _remotePlaceholderTitleLabel;
@@ -751,7 +754,8 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         
         [_remotePlaceholderTitleLabel remakeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_remotePlaceholderView.mas_bottom).offset(45);
-            make.centerX.equalTo(_remotePlaceholderView);
+            make.left.equalTo(_remoteView).offset(10);
+            make.right.equalTo(_remoteView.mas_right).offset(-10);
         }];
         _remotePlaceholderTitleLabel.font = DMFontPingFang_Light(20);
         
@@ -790,7 +794,8 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         
         [_remotePlaceholderTitleLabel remakeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_remotePlaceholderView.mas_bottom).offset(15);
-            make.centerX.equalTo(_remotePlaceholderView);
+            make.left.equalTo(_remoteView).offset(10);
+            make.right.equalTo(_remoteView.mas_right).offset(-10);
         }];
         _remotePlaceholderTitleLabel.font = DMFontPingFang_Light(16);
         _localView.userInteractionEnabled = NO;
@@ -828,7 +833,8 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
             
             [_remotePlaceholderTitleLabel remakeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(_remotePlaceholderView.mas_bottom).offset(28);
-                make.centerX.equalTo(_remotePlaceholderView);
+                make.left.equalTo(_remoteView).offset(10);
+                make.right.equalTo(_remoteView.mas_right).offset(-10);
             }];
             _remoteView.backgroundColor = kColor06;
             _remoteBackgroundView.backgroundColor = _remoteView.backgroundColor;
@@ -861,7 +867,8 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
             
             [_remotePlaceholderTitleLabel remakeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(_remotePlaceholderView.mas_bottom).offset(39);
-                make.centerX.equalTo(_remotePlaceholderView);
+                make.left.equalTo(_remoteView).offset(10);
+                make.right.equalTo(_remoteView.mas_right).offset(-10);
             }];
             _remotePlaceholderTitleLabel.font = DMFontPingFang_Light(16);
         }

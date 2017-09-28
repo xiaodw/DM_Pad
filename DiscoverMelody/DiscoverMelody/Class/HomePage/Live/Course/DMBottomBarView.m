@@ -28,8 +28,8 @@
 
 - (void)setupMakeLayoutSubviews {
     [_uploadButton makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(15);
-        make.width.equalTo(55);
+        make.left.equalTo(DMBottomBarViewUploadButtonLeft);
+        make.width.equalTo(DMBottomBarViewUploadButtonWidth);
         make.top.bottom.equalTo(self);
     }];
     
@@ -40,7 +40,7 @@
     
     [_deleteButton makeConstraints:^(MASConstraintMaker *make) {
         make.size.top.equalTo(_uploadButton);
-        make.right.equalTo(self.mas_right).offset(-15);
+        make.right.equalTo(self.mas_right).offset(DMBottomBarViewDeleteButtonRight);
     }];
     
     [_separaterView makeConstraints:^(MASConstraintMaker *make) {
