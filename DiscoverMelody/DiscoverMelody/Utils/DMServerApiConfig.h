@@ -16,7 +16,7 @@
 
 /*******************************************打包需要配置的信息***************************************************/
 
-#define App_Type @"cn_s" // @"cn_s"  @"cn_t" @"us_s"  @"us_t"
+//#define App_Type @"cn_s" // @"cn_s"  @"cn_t" @"us_s"  @"us_t"
 
 //服务器环境配置:  1开发，2测试，0正式， 默认为0
 #define SERVER_ENVIRONMENT   0
@@ -24,7 +24,15 @@
 //语言环境: 0 中文， 1 英文
 #define LANGUAGE_ENVIRONMENT 1
 
+
+#if LANGUAGE_ENVIRONMENT == 0 //中文
+#define App_Type @"cn_s"
+#elif LANGUAGE_ENVIRONMENT == 1 //英文
+#define App_Type @"us_s"
+#endif
+
 /**************************************************************************************************************/
+
 
 
 
