@@ -56,13 +56,13 @@
     if (userIdentity == 0) {
         //学生端
         [_headImageView sd_setImageWithURL:[NSURL URLWithString:obj.avatar] placeholderImage:HeadPlaceholderName];
-        _nameLabel.text = [[DMStringIDTeacher stringByAppendingString:@"："] stringByAppendingString:obj.teacher_name];
+        _nameLabel.text = [[DMStringIDTeacher stringByAppendingString:@"："] stringByAppendingString:STR_IS_NIL(obj.teacher_name)?@"":obj.teacher_name];
     } else {
-        _nameLabel.text = [[DMStringIDStudent stringByAppendingString:@"："] stringByAppendingString:obj.student_name];
+        _nameLabel.text = [[DMStringIDStudent stringByAppendingString:@"："] stringByAppendingString:STR_IS_NIL(obj.student_name)?@"":obj.student_name];
     }
-    _courseLabel.text = obj.course_name;
+    _courseLabel.text = STR_IS_NIL(obj.course_name)?@"":obj.course_name;
     _timeLabel.text = [DMTextStartClassTime stringByAppendingString:
-                       [DMTools timeFormatterYMDFromTs:obj.start_time format:DMClassStartTimeYMDHM]];//@"上课时间：9月8日 18:00";
+                       [DMTools timeFormatterYMDFromTs:STR_IS_NIL(obj.start_time)?@"":obj.start_time format:DMClassStartTimeYMDHM]];//@"上课时间：9月8日 18:00";
     if (_timeLabel.layer.cornerRadius == 0) {
         _timeLabel.layer.cornerRadius = 5;
         _timeLabel.layer.borderColor = [UIColor colorWithWhite:1 alpha:0.5].CGColor;
