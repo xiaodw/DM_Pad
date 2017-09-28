@@ -876,13 +876,13 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     
     [_remoteMicrophoneView remakeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(_remoteBackgroundView.mas_right).offset(-15);
-        make.size.equalTo(CGSizeMake(16, 25));
+        make.size.equalTo(CGSizeMake(17, 25));
         make.bottom.equalTo(_remoteBackgroundView.mas_bottom).offset(-20);
     }];
     
     [_localMicrophoneView remakeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(_localView.mas_right).offset(-15);
-        make.size.equalTo(CGSizeMake(16, 25));
+        make.size.equalTo(CGSizeMake(17, 25));
         make.bottom.equalTo(_localView.mas_bottom).offset(-20);
     }];
     

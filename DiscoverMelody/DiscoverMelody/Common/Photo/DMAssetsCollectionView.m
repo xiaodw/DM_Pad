@@ -339,7 +339,7 @@
         [_bottomBar addSubview:self.uploadButton];
         [_uploadButton makeConstraints:^(MASConstraintMaker *make) {
             make.center.equalTo(_bottomBar);
-            make.size.equalTo(CGSizeMake(60, 30));
+            make.size.equalTo(CGSizeMake(94, 30));
         }];
     }
     

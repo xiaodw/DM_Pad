@@ -85,6 +85,7 @@ NSString * const DMTitleSync = @"同步";
 NSString * const DMTitleImmediatelySync = @"立即同步";
 NSString * const DMTitleCloseSync = @"您确定要结束同步吗?";
 NSString * const DMTitleCloseSyncMessage = @"";
+NSString * const DMAlertTitleNotSync = @"学生未上线, 不能同步操作";
 //课件 删除确认 主副标题
 NSString * const DMTitleDeletedPhotos = @"确定要删除课件吗?";
 NSString * const DMTitleDeletedPhotosMessage = @"";
