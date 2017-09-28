@@ -93,7 +93,7 @@
         _playerModel                  = [[ZFPlayerModel alloc] init];
         _playerModel.title            = self.lessonName;//DMTitleVedio;
         _playerModel.videoURL         = self.videoURL;
-        _playerModel.placeholderImage = [UIImage imageNamed:@"loading_bgView1.png"];
+        _playerModel.placeholderImage = [UIImage imageNamed:@"image_login_background"];//[UIImage imageNamed:@"loading_bgView1.png"];
         _playerModel.fatherView       = self.view;
     }
     return _playerModel;
