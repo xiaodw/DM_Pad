@@ -262,7 +262,7 @@ NSString * const DMTitleUploadFailMessage = @"";
 
 //课件 本地相册
 NSString * const DMTitleAllPhotos = @"Camera Roll";
-NSString * const DMTitlePhoto = @"Photo Albums";
+NSString * const DMTitlePhoto = @"Albums";
 //课件 上传
 NSString * const DMTitleUploadCount = @"一次最多选择%d张图片";
 NSString * const DMTitlePhotoUpload = @"Upload Now";

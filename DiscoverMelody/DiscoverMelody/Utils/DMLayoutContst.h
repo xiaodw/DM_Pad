@@ -25,6 +25,7 @@ UIKIT_EXTERN CGFloat const DMBottomBarViewUploadButtonLeft;
 UIKIT_EXTERN CGFloat const DMBottomBarViewUploadButtonWidth;
 UIKIT_EXTERN CGFloat const DMBottomBarViewDeleteButtonRight;
 
+<<<<<<< HEAD
 //侧滑菜单的Logo
 UIKIT_EXTERN NSString * const DMMenu_Logo;
 
@@ -53,4 +54,15 @@ UIKIT_EXTERN CGFloat const DMHomeViewCellTimeLabelLeft;      //首页Cell 课程
 
 
 
+=======
+// DMAssetsCollectionView
+UIKIT_EXTERN CGFloat const DMAssetsCollectionUploadButtonWidth;
+
+// DMNavigationBar
+UIKIT_EXTERN CGFloat const DMNavigationBarLeftButtonWidth;
+
+// DMCourseFilesController
+UIKIT_EXTERN CGFloat const DMCourseFilesNavigationLeftButtonWidth;
+UIKIT_EXTERN CGFloat const DMCourseFilesNavigationRightButtonRight;
+>>>>>>> bf01d6e1f1be75bbbb8b2c1586d52d59980636a3
 

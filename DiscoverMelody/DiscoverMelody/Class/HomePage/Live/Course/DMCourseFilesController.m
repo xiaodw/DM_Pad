@@ -475,12 +475,12 @@
         
         [leftBarButton makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(16);
-            make.size.equalTo(CGSizeMake(44, 30));
+            make.size.equalTo(CGSizeMake(DMCourseFilesNavigationLeftButtonWidth, 30));
             make.bottom.equalTo(_navigationBar.mas_bottom).offset(-7);
         }];
         
         [_rightBarButton makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(_navigationBar.mas_right).offset(-5);
+            make.right.equalTo(_navigationBar.mas_right).offset(DMCourseFilesNavigationRightButtonRight);
             make.bottom.width.height.equalTo(leftBarButton);
         }];
         
