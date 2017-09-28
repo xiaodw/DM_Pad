@@ -28,8 +28,8 @@
         }];
         
         [_willStartDescribeLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(_willStartDescribeImageView.mas_bottom).offset(-80);
-            make.centerX.equalTo(self);
+            make.bottom.equalTo(_willStartDescribeImageView.mas_bottom).offset(DMLiveWillStartDescribeLabelBottom);
+            make.right.left.equalTo(self);
         }];
     }
     return self;
@@ -39,6 +39,8 @@
     if (!_willStartDescribeLabel) {
         _willStartDescribeLabel = [UILabel new];
         _willStartDescribeLabel.textColor = [UIColor whiteColor];
+        _willStartDescribeLabel.numberOfLines = 0;
+        _willStartDescribeLabel.textAlignment = NSTextAlignmentCenter;
         _willStartDescribeLabel.font = DMFontPingFang_Thin(15);
     }
     

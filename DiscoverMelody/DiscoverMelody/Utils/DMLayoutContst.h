@@ -53,6 +53,8 @@ UIKIT_EXTERN CGFloat const DMCourseFilesNavigationRightButtonRight;
 // DMCourseListCell
 UIKIT_EXTERN CGFloat const DMCourseListCellStatusButtonWidth;
 
+// DMLiveWillStartView
+UIKIT_EXTERN CGFloat const DMLiveWillStartDescribeLabelBottom;
 
 
 
