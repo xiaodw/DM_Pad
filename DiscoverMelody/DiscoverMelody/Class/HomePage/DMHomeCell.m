@@ -96,51 +96,26 @@
     }];
 
     
-#if LANGUAGE_ENVIRONMENT == 0 //中文
-    
     [_nameLabel makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_bottomView.mas_top).offset(0);
         make.left.equalTo(_bottomView.mas_left).offset(50);
         make.bottom.equalTo(_bottomView.mas_bottom).offset(0);
-        make.width.equalTo(298);
+        make.width.equalTo(DMHomeViewCellNameLabelWidth);
     }];
     
     [_statusLabel makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_bottomView.mas_top).offset(0);
         make.right.equalTo(_bottomView.mas_right).offset(-50);
         make.bottom.equalTo(_bottomView.mas_bottom).offset(0);
-        make.width.equalTo(298);
+        make.width.equalTo(DMHomeViewCellStatusLabelWidth);
     }];
     
     [_timeLabel makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_bottomView.mas_top).offset(0);
-        make.left.equalTo(_nameLabel.mas_right).offset(0);
+        make.left.equalTo(_nameLabel.mas_right).offset(DMHomeViewCellTimeLabelLeft);
         make.right.equalTo(_statusLabel.mas_left).offset(0);
         make.bottom.equalTo(_bottomView.mas_bottom).offset(0);
     }];
-#elif LANGUAGE_ENVIRONMENT == 1 //英文
-    
-    [_nameLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_bottomView.mas_top).offset(0);
-        make.left.equalTo(_bottomView.mas_left).offset(50);
-        make.bottom.equalTo(_bottomView.mas_bottom).offset(0);
-        make.width.equalTo(DMScreenWidth/2-80);
-    }];
-    
-    [_statusLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_bottomView.mas_top).offset(0);
-        make.right.equalTo(_bottomView.mas_right).offset(-50);
-        make.bottom.equalTo(_bottomView.mas_bottom).offset(0);
-        make.width.equalTo((DMScreenWidth/2-100)/3);
-    }];
-    
-    [_timeLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_bottomView.mas_top).offset(0);
-        make.left.equalTo(_nameLabel.mas_right).offset(45);
-        make.right.equalTo(_statusLabel.mas_left).offset(0);
-        make.bottom.equalTo(_bottomView.mas_bottom).offset(0);
-    }];
-#endif
     
 
     

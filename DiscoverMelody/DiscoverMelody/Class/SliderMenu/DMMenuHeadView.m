@@ -30,7 +30,7 @@
 - (void)configSubViews {
     [self addSubview:self.headImageView];
     //[self addSubview:self.nameLabel];
-    self.headImageView.image = [UIImage imageNamed:@"DM_LOGO"];
+    self.headImageView.image = [UIImage imageNamed:DMMenu_Logo];
     UILabel *lineLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.frame.size.height- .5, self.frame.size.width, .5)];
     lineLabel.backgroundColor = UIColorFromRGB(0xdddddd);
     [self addSubview:lineLabel];

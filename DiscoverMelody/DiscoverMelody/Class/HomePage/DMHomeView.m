@@ -301,8 +301,6 @@
     [_topView addSubview:crBtn];
     [_topView addSubview:crLabel];
 
-
-#if LANGUAGE_ENVIRONMENT == 0 //中文
     [_cfBtn makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_topView.mas_top).offset(117);
         make.right.equalTo(_topView.mas_right).offset(-46);
@@ -311,8 +309,8 @@
     
     [cfLabel makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_cfBtn.mas_bottom).offset(17);
-        make.right.equalTo(_topView.mas_right).offset(-46);
-        make.size.equalTo(CGSizeMake(70, 15));
+        make.right.equalTo(_topView.mas_right).offset(DMHomeViewTopViewRightLabelRight);
+        make.size.equalTo(CGSizeMake(DMHomeViewTopViewRightLabelWidth, 15));
     }];
     
     [crBtn makeConstraints:^(MASConstraintMaker *make) {
@@ -323,35 +321,9 @@
     
     [crLabel makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(crBtn.mas_bottom).offset(17);
-        make.right.equalTo(_topView.mas_right).offset(-46);
-        make.size.equalTo(CGSizeMake(70, 15));
+        make.right.equalTo(_topView.mas_right).offset(DMHomeViewTopViewRightLabelRight);
+        make.size.equalTo(CGSizeMake(DMHomeViewTopViewRightLabelWidth, 15));
     }];
-#elif LANGUAGE_ENVIRONMENT == 1 //英文
-    
-    [_cfBtn makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_topView.mas_top).offset(117);
-        make.right.equalTo(_topView.mas_right).offset(-46);
-        make.size.equalTo(CGSizeMake(70, 70));
-    }];
-    
-    [cfLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_cfBtn.mas_bottom).offset(17);
-        make.right.equalTo(_topView.mas_right).offset(0);
-        make.size.equalTo(CGSizeMake(162, 15));
-    }];
-    
-    [crBtn makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(cfLabel.mas_bottom).offset(42);
-        make.right.equalTo(_topView.mas_right).offset(-46);
-        make.size.equalTo(CGSizeMake(70, 70));
-    }];
-    
-    [crLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(crBtn.mas_bottom).offset(17);
-        make.right.equalTo(_topView.mas_right).offset(0);
-        make.size.equalTo(CGSizeMake(162, 15));
-    }];
-#endif
 
 }
 
