@@ -12,32 +12,52 @@
 #define DMServerApiConfig_h
 
 #define App_Version [[NSBundle mainBundle].infoDictionary objectForKey:@"CFBundleShortVersionString"]
+
+
+/*******************************************打包需要配置的信息***************************************************/
+
 #define App_Type @"cn_s" // @"cn_s"  @"cn_t" @"us_s"  @"us_t"
 
-//ENVIRONMENT  1开发，2测试，0正式， 默认为0
-#define ENVIRONMENT   [[[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"]] objectForKey:@"DMSeverCodeKey"] intValue]
-//
-//#define DM_Url    (ENVIRONMENT == 0) ? \
-//@"http://test.api.cn.discovermelody.com/" : ((ENVIRONMENT == 1) ? \
-//@"http://test.api.cn.discovermelody.com/" : ( (ENVIRONMENT == 2) ? \
-//@"http://api.cn.discovermelody.com/" : \
-//@"http://api.cn.discovermelody.com/"))
+//服务器环境配置:  1开发，2测试，0正式， 默认为0
+#define SERVER_ENVIRONMENT   0
+
+//语言环境: 0 中文， 1 英文
+#define LANGUAGE_ENVIRONMENT 0
+
+/**************************************************************************************************************/
 
 
-#define DMLog_Url    (ENVIRONMENT == 0) ? \
-[DMConfigManager shareInstance].logHost : ((ENVIRONMENT == 1) ? \
-@"http://test.api.cn.discovermelody.com/" : ( (ENVIRONMENT == 2) ? \
-@"http://api.cn.discovermelody.com/" : \
-@"http://api.cn.discovermelody.com/"))
+
+#if SERVER_ENVIRONMENT == 0 //正式
+
+#define DM_Local_Url                    @"http://test.api.cn.discovermelody.com/" //服务器访问地址
+#define DMLog_Local_Url                 @"http://test.api.cn.discovermelody.com/"//统计服务器访问地址
+#define DMAgoraAppID_Local_Config       @"2f4301adc17b415c98eba18b7f1066d4"//声网appID
+#define DMAgoraVideoProfile_Config      @"52"// 声网视频属性枚举值
+#define DMImage_Size_Config             2*1024*1024 // 图片大小界限，2兆
+
+#elif SERVER_ENVIRONMENT == 1 //开发
+
+#define DM_Local_Url                    @"http://test.api.cn.discovermelody.com/" //服务器访问地址
+#define DMLog_Local_Url                 @"http://test.api.cn.discovermelody.com/"//统计服务器访问地址
+#define DMAgoraAppID_Local_Config       @"2f4301adc17b415c98eba18b7f1066d4"//声网appID
+#define DMAgoraVideoProfile_Config      @"52"// 声网视频属性枚举值
+#define DMImage_Size_Config             2*1024*1024 // 图片大小界限，2兆
+
+#elif SERVER_ENVIRONMENT == 2 //测试
+
+#define DM_Local_Url                    @"http://test.api.cn.discovermelody.com/" //服务器访问地址
+#define DMLog_Local_Url                 @"http://test.api.cn.discovermelody.com/"//统计服务器访问地址
+#define DMAgoraAppID_Local_Config       @"2f4301adc17b415c98eba18b7f1066d4"//声网appID
+#define DMAgoraVideoProfile_Config      @"52"// 声网视频属性枚举值
+#define DMImage_Size_Config             2*1024*1024 // 图片大小界限，2兆
+
+#endif
 
 
-//#define DM_Url [DMConfigManager shareInstance].apiHost
 
-#define DM_Url    (ENVIRONMENT == 0) ? \
-([DMConfigManager shareInstance].apiHost) : ((ENVIRONMENT == 1) ? \
-@"http://test.api.cn.discovermelody.com/" : ( (ENVIRONMENT == 2) ? \
-@"http://api.cn.discovermelody.com/" : \
-@"http://api.cn.discovermelody.com/"))
+#define DMLog_Url   [DMConfigManager shareInstance].logHost
+#define DM_Url      [DMConfigManager shareInstance].apiHost
 
 //配置
 #define DM_Init_SetConfig_Url           [DM_Url stringByAppendingFormat:@"init/getConfig"]
