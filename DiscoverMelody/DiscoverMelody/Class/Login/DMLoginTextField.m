@@ -110,6 +110,7 @@
         _textField.textColor = [UIColor colorWithHexString:@"#FFFFFF" alpha:0.6];
         _textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         _textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        _textField.autocorrectionType = UITextAutocorrectionTypeNo;
         
         UIButton *clearButton = [_textField valueForKey:@"_clearButton"];;
         [clearButton setImage:[UIImage imageNamed:@"btn_clear_text"] forState:UIControlStateNormal];

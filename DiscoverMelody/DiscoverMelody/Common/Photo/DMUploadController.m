@@ -35,9 +35,10 @@
     _imagePickerHelp = [DMAlbumAssetHelp albumAssetHelpWithType:ALAssetsGroupAll filter:[ALAssetsFilter allPhotos] completionBlock:^(BOOL success, NSMutableArray *albums, BOOL first) {
         if(!success) {
             weakSelf.isPhotoSuccess = NO;
-            if (first) {
-                [weakSelf viewWillAppear:YES];
-            }
+            if (!first) return;
+            [weakSelf.liveVC.presentVCs removeObject:weakSelf];
+            weakSelf.liveVC = nil;
+            [weakSelf dismissViewControllerAnimated:YES completion:nil];
             return;
         }
         
@@ -59,7 +60,6 @@
             if ([[UIApplication sharedApplication]canOpenURL:url]) {
                 [[UIApplication sharedApplication]openURL:url];
             }
-            return ;
         }
         
         // 左侧
