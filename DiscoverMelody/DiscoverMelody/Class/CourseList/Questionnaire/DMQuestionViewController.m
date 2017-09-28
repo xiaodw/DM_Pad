@@ -223,7 +223,15 @@
     _classNameLabel.text = obj.course_name;//@"未来之星1v1--钢琴";
     
     NSString *timeStr = [DMTextStartClassTime stringByAppendingString:[DMTools timeFormatterYMDFromTs:obj.start_time format:DMDateFormatterYMD]];
-    NSString *typeName = [type stringByAppendingString: (userIdentity == 0)?obj.teacher_name:obj.student_name];
+    
+    NSString *nameStr = @"";
+    if (userIdentity == 0) {
+        nameStr = STR_IS_NIL(obj.teacher_name)?@"":obj.teacher_name;
+    } else {
+        nameStr = STR_IS_NIL(obj.student_name)?@"":obj.student_name;
+    }
+
+    NSString *typeName = [type stringByAppendingString: nameStr];
     _classInfoLabel.text = [[timeStr stringByAppendingString:@"         "] stringByAppendingString:typeName];//9个空格
 }
 
@@ -497,6 +505,7 @@
         _statusButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _statusButton.titleLabel.font = DMFontPingFang_Light(15);
         [_statusButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _statusButton.userInteractionEnabled = NO;
     }
     return _statusButton;
 }

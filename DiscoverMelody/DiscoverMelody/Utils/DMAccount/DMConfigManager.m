@@ -45,27 +45,27 @@ static DMConfigManager *configInstance = nil;
 
 - (NSString *)getApiHost {
     NSString *host = [DMUserDefaults getValueWithKey:DMConfig_Api_Host];
-    return STR_IS_NIL(host) ? @"http://test.api.cn.discovermelody.com/": host;
+    return STR_IS_NIL(host) ? DM_Local_Url: host;
 }
 
 - (NSString *)getLogHost {
     NSString *host = [DMUserDefaults getValueWithKey:DMConfig_Log_Host];
-    return STR_IS_NIL(host) ? @"": host;
+    return STR_IS_NIL(host) ? DMLog_Local_Url: host;
 }
 
 - (NSString *)getAgoraAppID {
     NSString *pid = [DMUserDefaults getValueWithKey:DMConfig_AgoraAppId];
-    return STR_IS_NIL(pid) ? @"2f4301adc17b415c98eba18b7f1066d4": pid;
+    return STR_IS_NIL(pid) ? DMAgoraAppID_Local_Config: pid;
 }
 
 - (NSString *)getAgoraVideoProfile {
     NSString *aP = [DMUserDefaults getValueWithKey:DMConfig_AgoraVideoProfile];
-    return STR_IS_NIL(aP) ? @"52": aP;
+    return STR_IS_NIL(aP) ? DMAgoraVideoProfile_Config: aP;
 }
 
 - (NSString *)getUploadMaxSize {
     NSString *ms = [DMUserDefaults getValueWithKey:DMConfig_UploadMaxSize];
-    return STR_IS_NIL(ms) ? [NSString stringWithFormat:@"%d",2*1024*1024]: ms;
+    return STR_IS_NIL(ms) ? [NSString stringWithFormat:@"%d",DMImage_Size_Config]: ms;
 }
 
 //保存APi Url
