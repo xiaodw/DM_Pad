@@ -42,7 +42,7 @@
     [alert showWithViewController:self IndexBlock:^(NSInteger index) {
         if (index == 1) { // 右侧
             DMClassFileDataModel *currentCourse = weakSelf.courses[weakSelf.currentIndexPath.row];
-            [DMActivityView showActivity:weakSelf.view];
+            [DMActivityView showActivityCover:weakSelf.view];
             [DMApiModel removeLessonFiles:weakSelf.lessonID fileIds:currentCourse.ID block:^(BOOL result) {
                 [DMActivityView hideActivity];
                 if (!result) return;
