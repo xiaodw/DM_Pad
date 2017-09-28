@@ -8,6 +8,7 @@
 
 #import "DMPullDownMenu.h"
 #import "DMPullDownCell.h"
+#import "DMCustomENButton.h"
 
 #define VIEW_CENTER(aView)       ((aView).center)
 #define VIEW_CENTER_X(aView)     ((aView).center.x)
@@ -70,6 +71,8 @@
 - (void)createMainBtnWithFrame:(CGRect)frame{
     if (self.mainBtn) {
         
+        
+#if LANGUAGE_ENVIRONMENT == 0 //中文
         _mainBtn.layer.cornerRadius = 5;
         _mainBtn.layer.borderColor = [UIColor colorWithWhite:1 alpha:0.5].CGColor;
         _mainBtn.layer.borderWidth = 1;
@@ -77,6 +80,22 @@
         [_mainBtn setTitleEdgeInsets:UIEdgeInsetsMake(0.0, -20, 0, 30.0)];
         [_mainBtn setImageEdgeInsets:UIEdgeInsetsMake(0, 65, 0.0, -65)];
         [_mainBtn setImage:[UIImage imageNamed:@"btn_menu_arrow_top"] forState:UIControlStateSelected];
+#elif LANGUAGE_ENVIRONMENT == 1 //英文
+        _mainBtn.layer.cornerRadius = 5;
+        _mainBtn.layer.borderColor = [UIColor colorWithWhite:1 alpha:0.5].CGColor;
+        _mainBtn.layer.borderWidth = 1;
+        _mainBtn.backgroundColor = DMColorWithRGBA(56, 56, 56, 1);
+
+        [_mainBtn setImage:[UIImage imageNamed:@"btn_menu_arrow_top"] forState:UIControlStateSelected];
+        
+        _mainBtn.contentHorizontalAlignment =UIControlContentHorizontalAlignmentCenter;
+        _mainBtn.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+//        [_mainBtn setTitleEdgeInsets:UIEdgeInsetsMake(0.0, -20, 0, 20.0)];
+        [_mainBtn setImageEdgeInsets:UIEdgeInsetsMake(0, 70, 0.0, -70)];
+        
+#endif
+        
+
         
     } else {
         //创建
@@ -220,7 +239,14 @@
 //    [_mainBtn setTitle:cell.textLabel.text forState:UIControlStateNormal];
     
     if (indexPath.row < _titleArr.count) {
+        
+#if LANGUAGE_ENVIRONMENT == 0 //中文
         [self.mainBtn setTitle:[_titleArr objectAtIndex:indexPath.row] forState:UIControlStateNormal];
+#elif LANGUAGE_ENVIRONMENT == 1 //英文
+        UILabel *titleLabel = [self.mainBtn viewWithTag:10001];
+        titleLabel.text = [_titleArr objectAtIndex:indexPath.row];
+        
+#endif        
         if ([self.delegate respondsToSelector:@selector(pulldownMenu:selectedCellNumber:)]) {
             [self.delegate pulldownMenu:self selectedCellNumber:indexPath.row]; // 回调代理
         }

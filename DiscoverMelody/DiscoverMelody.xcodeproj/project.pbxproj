@@ -42,6 +42,7 @@
 		2A3D1D2C1F692A44005671B2 /* ZFPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A3D1D1D1F692A44005671B2 /* ZFPlayerView.m */; };
 		2A3D1D301F695C5F005671B2 /* DMQuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A3D1D2F1F695C5F005671B2 /* DMQuestionViewController.m */; };
 		2A40302A1F677CBA00663C72 /* DMSignalingKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A4030291F677CBA00663C72 /* DMSignalingKey.m */; };
+		2A4139441F7CE59C003C5A2A /* DMCustomENButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A4139431F7CE59C003C5A2A /* DMCustomENButton.m */; };
 		2A4143891F5FF5F300E6B4E1 /* DMHomeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A4143881F5FF5F300E6B4E1 /* DMHomeView.m */; };
 		2A4143901F600D6F00E6B4E1 /* DMHomeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A41438F1F600D6F00E6B4E1 /* DMHomeCell.m */; };
 		2A44FC071F6BD19D00A1D574 /* DMAlertMananger.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A44FC061F6BD19D00A1D574 /* DMAlertMananger.m */; };
@@ -233,6 +234,8 @@
 		2A3D1D2F1F695C5F005671B2 /* DMQuestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMQuestionViewController.m; sourceTree = "<group>"; };
 		2A4030281F677CBA00663C72 /* DMSignalingKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMSignalingKey.h; sourceTree = "<group>"; };
 		2A4030291F677CBA00663C72 /* DMSignalingKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMSignalingKey.m; sourceTree = "<group>"; };
+		2A4139421F7CE59C003C5A2A /* DMCustomENButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCustomENButton.h; sourceTree = "<group>"; };
+		2A4139431F7CE59C003C5A2A /* DMCustomENButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCustomENButton.m; sourceTree = "<group>"; };
 		2A4143871F5FF5F300E6B4E1 /* DMHomeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMHomeView.h; sourceTree = "<group>"; };
 		2A4143881F5FF5F300E6B4E1 /* DMHomeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMHomeView.m; sourceTree = "<group>"; };
 		2A41438E1F600D6F00E6B4E1 /* DMHomeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMHomeCell.h; sourceTree = "<group>"; };
@@ -988,6 +991,8 @@
 				2A691A781F6F9DA3007293C5 /* DMCommonModel.m */,
 				51DCFA611F7B467C007BC228 /* DMRefreshNormalHeader.h */,
 				51DCFA621F7B467C007BC228 /* DMRefreshNormalHeader.m */,
+				2A4139421F7CE59C003C5A2A /* DMCustomENButton.h */,
+				2A4139431F7CE59C003C5A2A /* DMCustomENButton.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1289,6 +1294,7 @@
 				2A8782541F61438E004F9184 /* DMRequestModel.m in Sources */,
 				5169FF211F6A9E6600396EFA /* DMCourseFileCell.m in Sources */,
 				51CC24661F711FEC00D951D9 /* DMAlbumCell.m in Sources */,
+				2A4139441F7CE59C003C5A2A /* DMCustomENButton.m in Sources */,
 				5169FFD81F6E912100396EFA /* DMAsset.m in Sources */,
 				2A5EA6BF1F73AF7A0041CBD2 /* DMCommitAnswerData.m in Sources */,
 				5169FF361F6BA38C00396EFA /* DMBrowseCourseController.m in Sources */,
