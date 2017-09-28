@@ -232,6 +232,7 @@
                 if (!result) return;
                 [weakSelf.currentCpirses removeObjectsInArray:weakSelf.selectedCpirses];
                 [weakSelf didTapSelect:weakSelf.rightBarButton];
+                weakSelf.notFileView.hidden = weakSelf.currentCpirses.count;
             }];
             
         }
