@@ -123,6 +123,7 @@
 		5169FFE41F6E9ACB00396EFA /* DMClassDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A44FC091F6BF22A00A1D574 /* DMClassDataModel.m */; };
 		51B471391F62506D004FACC8 /* DMLiveController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B471381F62506D004FACC8 /* DMLiveController.m */; };
 		51B471481F62760E004FACC8 /* DMLiveButtonControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B471471F62760E004FACC8 /* DMLiveButtonControlView.m */; };
+		51B71C941F7CEF8600F9D83C /* DMLayoutContst.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B71C931F7CEF8600F9D83C /* DMLayoutContst.m */; };
 		51CC243D1F70CB9900D951D9 /* DMBrowseCourseFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 51CC243C1F70CB9900D951D9 /* DMBrowseCourseFlowLayout.m */; };
 		51CC24661F711FEC00D951D9 /* DMAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 51CC24651F711FEC00D951D9 /* DMAlbumCell.m */; };
 		51D2D54D1F5EA73C00764130 /* DMConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D2D54C1F5EA73C00764130 /* DMConst.m */; };
@@ -387,6 +388,8 @@
 		51B471431F62717A004FACC8 /* DMConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMConfig.h; sourceTree = "<group>"; };
 		51B471461F62760E004FACC8 /* DMLiveButtonControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMLiveButtonControlView.h; sourceTree = "<group>"; };
 		51B471471F62760E004FACC8 /* DMLiveButtonControlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMLiveButtonControlView.m; sourceTree = "<group>"; };
+		51B71C921F7CEF8600F9D83C /* DMLayoutContst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DMLayoutContst.h; sourceTree = "<group>"; };
+		51B71C931F7CEF8600F9D83C /* DMLayoutContst.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DMLayoutContst.m; sourceTree = "<group>"; };
 		51CC243B1F70CB9900D951D9 /* DMBrowseCourseFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMBrowseCourseFlowLayout.h; sourceTree = "<group>"; };
 		51CC243C1F70CB9900D951D9 /* DMBrowseCourseFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMBrowseCourseFlowLayout.m; sourceTree = "<group>"; };
 		51CC24641F711FEC00D951D9 /* DMAlbumCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMAlbumCell.h; sourceTree = "<group>"; };
@@ -684,6 +687,8 @@
 				2A27E0CE1F5E46EC00865644 /* DMTools.m */,
 				2A68AF061F6624B300EECEF3 /* DMServerApiConfig.h */,
 				2A32BC8D1F6E6B36001F6264 /* DMEnums.h */,
+				51B71C921F7CEF8600F9D83C /* DMLayoutContst.h */,
+				51B71C931F7CEF8600F9D83C /* DMLayoutContst.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1222,6 +1227,7 @@
 				2A2273E31F6A38340029D8CA /* DMTitleView.m in Sources */,
 				2A87F8871F6B873600DCC412 /* DMPullDownCell.m in Sources */,
 				2A870FB11F722177000975BE /* DMSendSignalingMsg.m in Sources */,
+				51B71C941F7CEF8600F9D83C /* DMLayoutContst.m in Sources */,
 				515DCF091F67C5A500AA9465 /* DMLiveCoursewareCell.m in Sources */,
 				51D2D5651F5EC00B00764130 /* DMLoginTextField.m in Sources */,
 				5169FF1E1F6A8FF600396EFA /* DMBottomBarView.m in Sources */,
