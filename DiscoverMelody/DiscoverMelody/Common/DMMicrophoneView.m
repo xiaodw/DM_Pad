@@ -1,4 +1,8 @@
 #import "DMMicrophoneView.h"
+#define kCircleMargin 4
+#define kCircleWidth 1
+#define kCircleAdjust 0.25
+#define kEllipseStemHeight 16
 
 @interface DMMicrophoneView ()
 
@@ -8,17 +12,63 @@
 
 @implementation DMMicrophoneView
 
+- (void)setVoiceValue:(CGFloat)voiceValue {
+    _voiceValue = voiceValue;
+    [self setNeedsDisplay];
+}
+
+- (void)drawRect:(CGRect)rect {
+    [super drawRect:rect];
+    
+    // 图片
+    // 17 * 25
+    CGSize imageSize = self.voiceImage.size;
+    CGFloat imageWidth = imageSize.width;
+    
+    // 圆
+    CGFloat y = kCircleWidth;
+    CGFloat circleCenterX = imageWidth * 0.5 + kCircleAdjust; // 圆心X = 图片总width * 0.5
+    CGFloat diametral = imageWidth - kCircleMargin * 2; // 圆心直径 = 图片总width - 左右间距(4*2)
+    CGFloat radius = diametral * 0.5; // 圆心半径 = 圆心直径 * 0.5
+    CGFloat circleStartY = y + radius; // 圆起始位置Y = 外侧圆边框的width + 半径
+    CGFloat ellipseStemHeight = kEllipseStemHeight - diametral; // 椭圆的长度 = 椭圆的茎高 - 直径
+    
+    // 矩形
+    CGFloat rectHeight = y+kEllipseStemHeight+kCircleAdjust;
+    CGFloat rectTopY = rectHeight * (1 - self.voiceValue);
+    CGFloat lineStartX = circleCenterX - radius; // 矩形的起始位置X
+    
+    // 画图片
+    [self.voiceImage drawInRect:CGRectMake(0, 0, imageWidth, imageSize.height)];
+    CGContextRef ref = UIGraphicsGetCurrentContext(); // 拿到当前画板，在这个画板上画就是在视图上画
+    
+    // 画椭圆
+    CGContextBeginPath(ref); // 开始绘画
+    CGContextMoveToPoint(ref, lineStartX, y);
+    CGContextAddLineToPoint(ref, lineStartX, circleStartY+ellipseStemHeight);
+    CGContextAddArc(ref, circleCenterX, circleStartY+ellipseStemHeight, radius, M_PI, 0, YES);
+    CGContextAddLineToPoint(ref, lineStartX+diametral, circleStartY);
+    CGContextAddArc(ref, circleCenterX, circleStartY, radius, 0, M_PI, YES);
+    CGContextClosePath(ref);
+    [[UIColor clearColor] setFill];
+    CGContextClip(ref); // 裁剪
+    CGContextFillPath(ref);
+    
+    // 画矩形
+    CGContextBeginPath(ref); // 开始绘画
+    CGContextMoveToPoint(ref, lineStartX+radius, rectTopY); // 画线
+    CGContextAddLineToPoint(ref, lineStartX+radius, rectHeight);
+    CGContextSetLineWidth(ref, diametral);
+    CGContextSetStrokeColorWithColor(ref, DMColorBaseMeiRed.CGColor);
+    CGContextStrokePath(ref);
+}
+
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
     }
     return self;
-}
-
-- (void)setVoiceValue:(CGFloat)voiceValue {
-    _voiceValue = voiceValue;
-    [self setNeedsDisplay];
 }
 
 - (UIImage *)voiceImage {
@@ -29,49 +79,5 @@
     return _voiceImage;
 }
 
-- (void)drawRect:(CGRect)rect {
-    [super drawRect:rect];
-    
-    CGSize imageSize = self.voiceImage.size;
-    CGFloat lineWidth = imageSize.width - 8;
-    CGFloat r = lineWidth * 0.5;
-    CGFloat x = imageSize.width * 0.5;
-    CGFloat y = 1;
-    CGFloat height = 16;
-    CGFloat rectY = y - 0.5;
-    CGFloat rectHeight = (y + height + 0.5) * (1 - self.voiceValue);
-    
-    [self.voiceImage drawInRect:CGRectMake(0, 0, imageSize.width, imageSize.height)];
-    CGContextRef ref = UIGraphicsGetCurrentContext(); // 拿到当前画板，在这个画板上画就是在视图上画
-    // 椭圆
-    CGContextBeginPath(ref); // 开始绘画
-    CGContextMoveToPoint(ref, x-r-0.5, y+r); // 0.5为了让底层裁剪部分扩充这样周围没有虚线
-    CGContextAddLineToPoint(ref, x-r-0.5, height+y-r);
-    CGContextAddArc(ref, x, height+y-r, r+0.5, M_PI, 0, YES);
-    CGContextAddLineToPoint(ref, x+r+0.5, y+r);
-    CGContextAddArc(ref, x, y+r, r+0.5, 0, M_PI, YES);
-    CGContextClosePath(ref);
-    CGContextClip(ref); // 加上就不显示
-    CGContextFillPath(ref);
-    
-    CGContextBeginPath(ref); // 开始绘画
-    CGContextMoveToPoint(ref, x-r, y+r);
-    CGContextAddLineToPoint(ref, x-r, height+y-r);
-    CGContextAddArc(ref, x, height+y-r, r, M_PI, 0, YES);
-    CGContextAddLineToPoint(ref, x+r, y+r);
-    CGContextAddArc(ref, x, y+r, r, 0, M_PI, YES);
-    CGContextClosePath(ref);
-    [DMColorBaseMeiRed setFill];
-    CGContextFillPath(ref);
-    
-    // 矩形
-    CGContextBeginPath(ref); // 开始绘画
-    CGContextMoveToPoint(ref, x, rectY); // 画线
-    CGContextAddLineToPoint(ref, x, rectHeight);
-    CGContextSetLineWidth(ref, lineWidth);
-    CGContextSetLineCap(ref, kCGLineCapButt);
-    UIColor *whiteColor = [UIColor whiteColor];
-    CGContextSetStrokeColorWithColor(ref, whiteColor.CGColor);
-    CGContextStrokePath(ref); // 对移动的路径画线
-}
 @end
+
