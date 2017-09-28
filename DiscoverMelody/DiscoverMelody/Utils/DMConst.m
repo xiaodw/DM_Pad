@@ -98,7 +98,7 @@ NSString * const DMTitleUploadFail = @"有图片上传失败, 是否重新上传
 NSString * const DMTitleUploadFailMessage = @"";
 
 //课件 本地相册
-NSString * const DMTitleAllPhotos = @"所有照片";
+NSString * const DMTitleAllPhotos = @"相册";
 NSString * const DMTitlePhoto = @"相册";
 //课件 上传
 NSString * const DMTitleUploadCount = @"一次最多选择%d张图片";
@@ -261,7 +261,7 @@ NSString * const DMTitleUploadFail = @"有图片上传失败, 是否重新上传
 NSString * const DMTitleUploadFailMessage = @"";
 
 //课件 本地相册
-NSString * const DMTitleAllPhotos = @"Camera Roll";
+NSString * const DMTitleAllPhotos = @"Albums";
 NSString * const DMTitlePhoto = @"Albums";
 //课件 上传
 NSString * const DMTitleUploadCount = @"一次最多选择%d张图片";
@@ -281,9 +281,9 @@ NSString * const DMTextStudentName = @"Student";
 NSString * const DMTextTeacherName = @"Teacher";
 NSString * const DMTextDate = @"Date";
 NSString * const DMTextDetailDate = @"Time";
-NSString * const DMTextPeriod = @"Session Length";
+NSString * const DMTextPeriod = @"Length";
 NSString * const DMTextStauts = @"Status";
-NSString * const DMTextFiles = @"Session Document";
+NSString * const DMTextFiles = @"Document";
 NSString * const DMTextQuestionnaire = @"Survey";
 NSString * const DMTextMinutes = @" mins";
 NSString * const DMTitleClassRelook = @"Review";
