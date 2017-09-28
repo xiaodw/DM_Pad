@@ -31,7 +31,7 @@
 - (void)setupMakeLayoutSubviews {
     [_leftBarButton makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(16);
-        make.size.equalTo(CGSizeMake(54, 30));
+        make.size.equalTo(CGSizeMake(DMNavigationBarLeftButtonWidth, 30));
         make.bottom.equalTo(self.mas_bottom).offset(-7);
     }];
     
