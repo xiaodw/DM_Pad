@@ -175,7 +175,7 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
 
     [_statusButton makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(_statusLabel);
-        make.size.equalTo(CGSizeMake(DMScaleWidth(63), 30));
+        make.size.equalTo(CGSizeMake(DMScaleWidth(DMCourseListCellStatusButtonWidth), 30));
     }];
 
     [_periodLabel makeConstraints:^(MASConstraintMaker *make) {

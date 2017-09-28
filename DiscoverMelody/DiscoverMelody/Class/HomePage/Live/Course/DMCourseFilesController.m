@@ -141,7 +141,7 @@
 - (void)tabBarView:(DMTabBarView *)tabBarView didTapBarButton:(UIButton *)button{
     self.editorMode = NO;
     self.bottomBar.syncButton.hidden = _isFullScreen || !self.userIdentity;
-    self.rightBarButton.hidden = button.tag && !self.userIdentity;
+    self.rightBarButton.hidden = button.tag && (!self.userIdentity || _isFullScreen);
     self.bottomBar.deleteButton.hidden = button.tag;
     self.bottomBar.uploadButton.hidden = button.tag;
     self.bottomBar.hidden = NO;
