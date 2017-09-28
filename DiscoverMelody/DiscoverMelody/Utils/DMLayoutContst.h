@@ -20,3 +20,5 @@ UIKIT_EXTERN CGFloat const DMNavigationBarLeftButtonWidth;
 UIKIT_EXTERN CGFloat const DMCourseFilesNavigationLeftButtonWidth;
 UIKIT_EXTERN CGFloat const DMCourseFilesNavigationRightButtonRight;
 
+// DMCourseListCell
+UIKIT_EXTERN CGFloat const DMCourseListCellStatusButtonWidth;

@@ -21,6 +21,9 @@ CGFloat const DMNavigationBarLeftButtonWidth = 54;
 CGFloat const DMCourseFilesNavigationLeftButtonWidth = 44;
 CGFloat const DMCourseFilesNavigationRightButtonRight = -5;
 
+// DMCourseListCell
+CGFloat const DMCourseListCellStatusButtonWidth = 63;
+
 #elif LANGUAGE_ENVIRONMENT == 1 //英文
 // DMBottomBarView
 CGFloat const DMBottomBarViewUploadButtonLeft = 0;
@@ -36,6 +39,9 @@ CGFloat const DMNavigationBarLeftButtonWidth = 90;
 // DMCourseFilesController
 CGFloat const DMCourseFilesNavigationLeftButtonWidth = 54;
 CGFloat const DMCourseFilesNavigationRightButtonRight = -16;
+
+// DMCourseListCell
+CGFloat const DMCourseListCellStatusButtonWidth = 73;
 
 #endif
 
