@@ -31,7 +31,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self.navigationController setNavigationBarHidden:YES];
-
+    self.view.backgroundColor = [UIColor blackColor];
     
     [self.view addSubview:self.playerView];
     
@@ -44,6 +44,7 @@
         if (result) {
             if (obj) {
                 weakSelf.videoURL = [NSURL URLWithString:obj.video_url];
+                [weakSelf.playerView playerControlView:nil playerModel:weakSelf.playerModel];
                 // 自动播放，默认不自动播放
                 [weakSelf.playerView autoPlayTheVideo];
             } else {
@@ -110,7 +111,7 @@
          *   // 控制层传nil，默认使用ZFPlayerControlView(如自定义可传自定义的控制层)
          *   // 等效于 [_playerView playerModel:self.playerModel];
          ******************************************************************************************/
-        [_playerView playerControlView:nil playerModel:self.playerModel];
+        //[_playerView playerControlView:nil playerModel:self.playerModel];
         
         // 设置代理
         _playerView.delegate = self;
@@ -123,6 +124,8 @@
         
         // 打开预览图
         self.playerView.hasPreviewView = YES;
+        
+        self.playerView.backgroundColor = [UIColor blackColor];
         
     }
     return _playerView;

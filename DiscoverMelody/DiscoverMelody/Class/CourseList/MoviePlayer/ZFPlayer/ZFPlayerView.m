@@ -228,6 +228,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
         self.controlView = controlView;
     }
     self.playerModel = playerModel;
+    
 }
 
 /**
@@ -401,6 +402,15 @@ typedef NS_ENUM(NSInteger, PanDirection){
     // 开始播放
     [self play];
     self.isPauseByUser = NO;
+    
+    
+    UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
+    if (orientation == UIDeviceOrientationLandscapeRight) {
+        [self interfaceOrientation:UIInterfaceOrientationLandscapeLeft];
+    } else {
+        [self interfaceOrientation:UIInterfaceOrientationLandscapeRight];
+    }
+    self.isFullScreen = YES;
 }
 
 /**
@@ -647,6 +657,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
 - (void)setOrientationLandscapeConstraint:(UIInterfaceOrientation)orientation {
     [self toOrientation:orientation];
     self.isFullScreen = YES;
+    NSLog(@"设置横屏的约束");
 }
 
 /**
@@ -680,7 +691,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
     }
     
     [self toOrientation:UIInterfaceOrientationPortrait];
-    self.isFullScreen = NO;
+    self.isFullScreen = NO;NSLog(@"设置竖屏的约束");
 }
 
 - (void)toOrientation:(UIInterfaceOrientation)orientation {
@@ -723,6 +734,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
  * @return 角度
  */
 - (CGAffineTransform)getTransformRotationAngle {
+    NSLog(@"获取变换的旋转角度");
     // 状态条的方向已经设置过,所以这个就是你想要旋转的方向
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     // 根据要进行旋转的方向来计算旋转的角度
@@ -757,6 +769,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
  *  屏幕方向发生变化会调用这里
  */
 - (void)onDeviceOrientationChange {
+    NSLog(@"屏幕方向发生变化会调用这里");
     if (!self.player) { return; }
     if (ZFPlayerShared.isLockScreen) { return; }
     if (self.didEnterBackground) { return; };
@@ -767,16 +780,19 @@ typedef NS_ENUM(NSInteger, PanDirection){
     
     switch (interfaceOrientation) {
         case UIInterfaceOrientationPortraitUpsideDown:{
+            NSLog(@"down");
         }
             break;
         case UIInterfaceOrientationPortrait:{
-            if (self.isFullScreen) {
-                [self toOrientation:UIInterfaceOrientationPortrait];
-                
-            }
+            NSLog(@"po");
+//            if (self.isFullScreen) {
+//                [self toOrientation:UIInterfaceOrientationPortrait];
+//                
+//            }
         }
             break;
         case UIInterfaceOrientationLandscapeLeft:{
+            NSLog(@"左");
             if (self.isFullScreen == NO) {
                 [self toOrientation:UIInterfaceOrientationLandscapeLeft];
                 self.isFullScreen = YES;
@@ -787,6 +803,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
         }
             break;
         case UIInterfaceOrientationLandscapeRight:{
+            NSLog(@"右");
             if (self.isFullScreen == NO) {
                 [self toOrientation:UIInterfaceOrientationLandscapeRight];
                 self.isFullScreen = YES;
@@ -857,6 +874,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
  *  解锁屏幕方向锁定
  */
 - (void)unLockTheScreen {
+    NSLog(@"解锁屏幕方向锁定");
     // 调用AppDelegate单例记录播放状态是否锁屏
     ZFPlayerShared.isLockScreen = NO;
     [self.controlView zf_playerLockBtnState:NO];
