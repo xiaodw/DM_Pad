@@ -93,6 +93,10 @@ static DMLiveVideoManager* _instance = nil;
     self.blockFirstRemoteVideoDecodedOfUid = blockFirstRemoteVideoDecodedOfUid;
 }
 
+-(void)rtcEngineConnectionDidLostDidInterrupted:(BlockRtcEngineConnectionDidLostDidInterrupted)blockRtcEngineConnectionDidLostDidInterrupted {
+    self.blockRtcEngineConnectionDidLostDidInterrupted = blockRtcEngineConnectionDidLostDidInterrupted;
+}
+
 - (void)startLiveVideo:(UIView *)localView
                 remote:(UIView *)remoteView
             isTapVideo:(BOOL)isTap
@@ -324,28 +328,35 @@ static DMLiveVideoManager* _instance = nil;
 
 //统计数据
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine reportRtcStats:(AgoraRtcStats*)stats {
-
+NSLog(@"统计数据");
 }
 
 //本地视频统计 - 2秒触发一次
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine localVideoStats:(AgoraRtcLocalVideoStats*)stats {
-
+NSLog(@"本地视频统计 - 2秒触发一次");
 }
 
 //远程视频统计 - 2秒触发一次
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine remoteVideoStats:(AgoraRtcRemoteVideoStats*)stats {
-
+NSLog(@"远程视频统计 - 2秒触发一次");
 }
 
 //网络连接中断 - SDK会一直自动重连，除非主动离开频道
 - (void)rtcEngineConnectionDidInterrupted:(AgoraRtcEngineKit *)engine {
     NSLog(@"网络中断连接");
+    if (self.blockRtcEngineConnectionDidLostDidInterrupted) {
+        self.blockRtcEngineConnectionDidLostDidInterrupted();
+    }
+    //[self agoraUserStatusLog:self.lessonID targetUID:[DMAccount getUserID] uploadUID:[DMAccount getUserID] action:DMAgoraUserStatusLog_Neterr];
 }
 
 //网络连接丢失 -》在一定时间内（默认 10 秒）如果没有重连成功，触发 rtcEngineConnectionDidLost 回调。
 //除非 APP 主动调用 leaveChannel，SDK 仍然会自动重连。
 - (void)rtcEngineConnectionDidLost:(AgoraRtcEngineKit *)engine {
     NSLog(@"网络连接丢失");
+    if (self.blockRtcEngineConnectionDidLostDidInterrupted) {
+        self.blockRtcEngineConnectionDidLostDidInterrupted();
+    }
 }
 
 #pragma mark -

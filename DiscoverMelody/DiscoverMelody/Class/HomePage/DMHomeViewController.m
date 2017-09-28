@@ -176,25 +176,25 @@
 }
 
 - (void)joinClassRoom {
-//    DMLiveController *liveVC = [DMLiveController new];
-//    liveVC.navigationVC = self.navigationController;
-//    liveVC.lessonID = self.courseObj.lesson_id;
-//    liveVC.totalTime = [self.classJoinData.duration intValue];
-//    liveVC.alreadyTime = [DMTools computationsClassTimeDifference:self.classJoinData.start_time
-//                                                       accessTime:[DMAccount getUserJoinClassTime]];
-//    liveVC.warningTime = self.classJoinData.countdown.longLongValue;
-//    liveVC.delayTime = self.classJoinData.forceclose.longLongValue;
-//    [self.navigationController pushViewController:liveVC animated:YES];
-    
     DMLiveController *liveVC = [DMLiveController new];
     liveVC.navigationVC = self.navigationController;
     liveVC.lessonID = self.courseObj.lesson_id;
-    liveVC.totalTime = 1 * 60;
-    liveVC.alreadyTime = 60;
-    liveVC.warningTime = 30;
-    liveVC.delayTime = 1*60;
-    
+    liveVC.totalTime = [self.classJoinData.duration intValue];
+    liveVC.alreadyTime = [DMTools computationsClassTimeDifference:self.classJoinData.start_time
+                                                       accessTime:[DMAccount getUserJoinClassTime]];
+    liveVC.warningTime = self.classJoinData.countdown.intValue;
+    liveVC.delayTime = self.classJoinData.forceclose.intValue;
     [self.navigationController pushViewController:liveVC animated:YES];
+    
+//    DMLiveController *liveVC = [DMLiveController new];
+//    liveVC.navigationVC = self.navigationController;
+//    liveVC.lessonID = self.courseObj.lesson_id;
+//    liveVC.totalTime = 1 * 60;
+//    liveVC.alreadyTime = 60;
+//    liveVC.warningTime = 30;
+//    liveVC.delayTime = 1*60;
+//    
+//    [self.navigationController pushViewController:liveVC animated:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

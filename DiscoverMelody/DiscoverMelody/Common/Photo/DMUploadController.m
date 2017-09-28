@@ -41,9 +41,9 @@
             return;
         }
         
-        self.albums = albums;
-        self.albumsView.albums = albums;
-        self.assetsView.album = albums.lastObject;;
+        weakSelf.albums = albums;
+        weakSelf.albumsView.albums = albums;
+        weakSelf.assetsView.album = albums.lastObject;;
     }];
 }
 
