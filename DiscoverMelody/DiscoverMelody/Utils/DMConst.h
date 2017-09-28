@@ -127,6 +127,3 @@ UIKIT_EXTERN NSString * const DMRefreshBackFooterNoMoreDataText;
 UIKIT_EXTERN NSString * const DMRefreshHeaderLastTimeText;
 UIKIT_EXTERN NSString * const DMRefreshHeaderDateTodayText;
 UIKIT_EXTERN NSString * const DMRefreshHeaderNoneLastDateText;
-
-
-
