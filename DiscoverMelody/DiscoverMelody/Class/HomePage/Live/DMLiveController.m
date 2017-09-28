@@ -140,7 +140,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 - (void)setupMakeLiveCallback {
     // 有用户加入
     WS(weakSelf)
-    // 退出直播事件
+    // 自己退出直播事件
     self.liveVideoManager.blockQuitLiveVideoEvent = ^(BOOL success) {
         weakSelf.isRemoteUserOnline = NO;
     };
@@ -151,10 +151,16 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         [weakSelf agoraUserStatusLog:weakSelf.lessonID targetUID:[NSString stringWithFormat:@"%lu",(unsigned long)uid] uploadUID:[DMAccount getUserID] action:DMAgoraUserStatusLog_Exit];
     };
     
+    //有用户重新加入
     self.liveVideoManager.blockFirstRemoteVideoDecodedOfUid = ^(NSUInteger uid, CGSize size) {
         weakSelf.isRemoteUserOnline = YES;
         [weakSelf setShowPlaceholderView];
         [weakSelf agoraUserStatusLog:weakSelf.lessonID targetUID:[NSString stringWithFormat:@"%lu",(unsigned long)uid] uploadUID:[DMAccount getUserID] action:DMAgoraUserStatusLog_Enter];
+    };
+    
+    //声网SDK连接中断
+    self.liveVideoManager.blockRtcEngineConnectionDidLostDidInterrupted = ^{
+        [weakSelf agoraUserStatusLog:weakSelf.lessonID targetUID:[DMAccount getUserID] uploadUID:[DMAccount getUserID] action:DMAgoraUserStatusLog_Neterr];
     };
 }
 
@@ -428,6 +434,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         self.willStartView.willStartDescribeLabel.text = [NSString stringWithFormat:DMTextLiveStartTimeInterval, -_alreadyTime/60 + 1];
         return;
     }
+    
     if (_willStartView != nil) {
         [_willStartView removeFromSuperview];
         _willStartView = nil;

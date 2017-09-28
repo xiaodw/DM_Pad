@@ -39,11 +39,33 @@
     self.view.backgroundColor = DMColorWithRGBA(246, 246, 246, 1);
     self.selArray = @[DMTitleAllCourse,DMTitleAlreadyCourse,DMTitleNotStartCourse];
     
+#if LANGUAGE_ENVIRONMENT == 0 //中文
+    
     [self setRigthBtn:CGRectMake(0, 4.5, 135, 35)
                 title:[self.selArray lastObject]
           titileColor:DMColorWithRGBA(246, 246, 246, 1)
             imageName:@"btn_menu_arrow_bottom"
                  font:DMFontPingFang_Thin(14)];
+#elif LANGUAGE_ENVIRONMENT == 1 //英文
+    
+    [self setRigthBtn:CGRectMake(0, 4.5, 135+45, 35)
+                title:@""
+          titileColor:nil
+            imageName:@"btn_menu_arrow_bottom"
+                 font:nil];
+    self.rightButton.contentHorizontalAlignment =UIControlContentHorizontalAlignmentCenter;
+    self.rightButton.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    
+    UILabel *titleBtnLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, self.rightButton.frame.size.width-21-24/2, self.rightButton.frame.size.height)];
+    titleBtnLabel.textColor = DMColorWithRGBA(246, 246, 246, 1);
+    titleBtnLabel.font = DMFontPingFang_Thin(14);
+    titleBtnLabel.text =[self.selArray lastObject];
+    titleBtnLabel.textAlignment = NSTextAlignmentCenter;
+    titleBtnLabel.tag = 10001;
+    [self.rightButton addSubview:titleBtnLabel];
+    
+#endif
+
     self.clCondition = DMCourseListCondition_WillStart;
     [self setupMakeAddSubviews];
     [self setupMakeLayoutSubviews];
@@ -318,7 +340,12 @@
         //初始化下拉表
         _pullDownMenu = [[DMPullDownMenu alloc] init];
         _pullDownMenu.mainBtn = self.rightButton;
+#if LANGUAGE_ENVIRONMENT == 0 //中文
         _pullDownMenu.frame = CGRectMake((self.view.frame.size.width-135-15), 64-self.rightButton.frame.origin.y-4.5, 135, 0);
+#elif LANGUAGE_ENVIRONMENT == 1 //英文
+        _pullDownMenu.frame = CGRectMake((self.view.frame.size.width-135-45-15), 64-self.rightButton.frame.origin.y-4.5, 135+45, 0);
+#endif
+
         [_pullDownMenu setMenuTitles:self.selArray rowHeight:35];
         _pullDownMenu.delegate = self;
     }
