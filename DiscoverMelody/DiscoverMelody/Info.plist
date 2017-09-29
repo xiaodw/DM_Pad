@@ -33,8 +33,6 @@
 	<string>访问您的麦克风</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>请点击“允许”，以允许访问</string>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string></string>
 	<key>UIRequiredDeviceCapabilities</key>
