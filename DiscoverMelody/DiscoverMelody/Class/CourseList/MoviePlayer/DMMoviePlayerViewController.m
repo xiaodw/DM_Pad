@@ -23,6 +23,9 @@
 
 @property (nonatomic, copy) NSURL *videoURL;
 
+@property (nonatomic, strong) UIButton *retryButton;
+@property (nonatomic, assign) BOOL isMoreClick;
+
 @end
 
 @implementation DMMoviePlayerViewController
@@ -32,9 +35,9 @@
     // Do any additional setup after loading the view.
     [self.navigationController setNavigationBarHidden:YES];
     self.view.backgroundColor = [UIColor blackColor];
-    
     [self.view addSubview:self.playerView];
-    
+    [self.view addSubview:self.retryButton];
+    [self.playerView playerModel:self.playerModel];
     [self getVideReplayUrl];
 }
 
@@ -44,16 +47,21 @@
         if (result) {
             if (obj) {
                 weakSelf.videoURL = [NSURL URLWithString:obj.video_url];
-                [weakSelf.playerView playerControlView:nil playerModel:weakSelf.playerModel];
+                weakSelf.playerModel.videoURL         = weakSelf.videoURL;
+                weakSelf.playerModel.placeholderImage = [UIImage imageNamed:@"image_login_background"];
+                [weakSelf.playerView playerModel:weakSelf.playerModel];
                 // 自动播放，默认不自动播放
                 [weakSelf.playerView autoPlayTheVideo];
             } else {
-                //[DMTools showMessageToast:DMAlertTitleVedioNotExist duration:2 position:CSToastPositionCenter];
                 [DMTools showSVProgressHudCustom:@"" title:DMAlertTitleVedioNotExist];
+                [weakSelf.playerView playerModel:weakSelf.playerModel];
             }
+
         } else {
-            //[DMTools showMessageToast:DMAlertTitleVedioError duration:2 position:CSToastPositionCenter];
-            //[DMTools showSVProgressHudCustom:@"" title:DMAlertTitleVedioError];
+            [weakSelf.playerView updateShowPlayerCtr];
+            
+            weakSelf.retryButton.hidden = NO;
+            [weakSelf.view bringSubviewToFront:weakSelf.retryButton];
         }
     }];
     
@@ -130,6 +138,26 @@
     }
     return _playerView;
 }
+
+- (UIButton *)retryButton {
+    if (!_retryButton) {
+        _retryButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _retryButton.frame = CGRectMake(0, 64, DMScreenWidth, DMScreenHeight-64);
+        [_retryButton setTitle:DMTitleVedioRetry forState:UIControlStateNormal];
+        [_retryButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_retryButton.titleLabel setFont:DMFontPingFang_Regular(14)];
+        _retryButton.hidden = YES;
+        [_retryButton addTarget:self action:@selector(clickRetryButton:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _retryButton;
+}
+
+- (void)clickRetryButton:(id)sender {
+    self.retryButton.hidden = YES;
+    _isMoreClick = YES;
+    [self getVideReplayUrl];
+}
+
 
 - (void)zf_playerBackAction {
     [self.navigationController popViewControllerAnimated:YES];

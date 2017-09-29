@@ -40,6 +40,8 @@
 - (void)zf_playerModel:(ZFPlayerModel *)playerModel {}
 
 - (void)zf_playerShowOrHideControlView {}
+
+- (void)zf_playerShowTopControlView {}
 /**
  * 显示top、bottom、lockBtn
  */

@@ -184,11 +184,11 @@ typedef NS_ENUM(NSInteger, PanDirection){
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(audioRouteChangeListenerCallback:) name:AVAudioSessionRouteChangeNotification object:nil];
     
     // 监测设备方向
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(onDeviceOrientationChange)
-                                                 name:UIDeviceOrientationDidChangeNotification
-                                               object:nil];
+//    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(onDeviceOrientationChange)
+//                                                 name:UIDeviceOrientationDidChangeNotification
+//                                               object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(onStatusBarOrientationChange)
@@ -228,7 +228,10 @@ typedef NS_ENUM(NSInteger, PanDirection){
         self.controlView = controlView;
     }
     self.playerModel = playerModel;
-    
+    //[self.controlView zf_playerShowControlView];
+}
+- (void)updateShowPlayerCtr {
+      [self.controlView zf_playerShowTopControlView];
 }
 
 /**
@@ -298,10 +301,10 @@ typedef NS_ENUM(NSInteger, PanDirection){
     // cell上播放视频 && 不是重播时
     if (self.isCellVideo && !self.repeatToPlay) {
         // vicontroller中页面消失
-        self.viewDisappear = YES;
-        self.isCellVideo   = NO;
+        self.viewDisappear  = YES;
+        self.isCellVideo    = NO;
         self.scrollView     = nil;
-        self.indexPath     = nil;
+        self.indexPath      = nil;
     }
 }
 
@@ -319,6 +322,8 @@ typedef NS_ENUM(NSInteger, PanDirection){
  *  播放
  */
 - (void)play {
+    
+    [self.controlView zf_playerActivity:YES];
     [self.controlView zf_playerPlayBtnState:YES];
     if (self.state == ZFPlayerStatePause) { self.state = ZFPlayerStatePlaying; }
     self.isPauseByUser = NO;
@@ -329,6 +334,10 @@ typedef NS_ENUM(NSInteger, PanDirection){
  * 暂停
  */
 - (void)pause {
+    
+    //隐藏菊花
+    [self.controlView zf_playerActivity:NO];
+    
     [self.controlView zf_playerPlayBtnState:NO];
     if (self.state == ZFPlayerStatePlaying) { self.state = ZFPlayerStatePause;}
     self.isPauseByUser = YES;
@@ -340,7 +349,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
 /**
  *  用于cell上播放player
  *
- *  @param tableView tableView
+ *  @param scrollView tableView
  *  @param indexPath indexPath
  */
 - (void)cellVideoWithScrollView:(UIScrollView *)scrollView
@@ -425,17 +434,17 @@ typedef NS_ENUM(NSInteger, PanDirection){
     [self addGestureRecognizer:self.singleTap];
     
     // 双击(播放/暂停)
-    self.doubleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(doubleTapAction:)];
-    self.doubleTap.delegate                = self;
-    self.doubleTap.numberOfTouchesRequired = 1; //手指数
-    self.doubleTap.numberOfTapsRequired    = 2;
-    [self addGestureRecognizer:self.doubleTap];
+//    self.doubleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(doubleTapAction:)];
+//    self.doubleTap.delegate                = self;
+//    self.doubleTap.numberOfTouchesRequired = 1; //手指数
+//    self.doubleTap.numberOfTapsRequired    = 2;
+//    [self addGestureRecognizer:self.doubleTap];
 
     // 解决点击当前view时候响应其他控件事件
     [self.singleTap setDelaysTouchesBegan:YES];
-    [self.doubleTap setDelaysTouchesBegan:YES];
-    // 双击失败响应单击事件
-    [self.singleTap requireGestureRecognizerToFail:self.doubleTap];
+//    [self.doubleTap setDelaysTouchesBegan:YES];
+//    // 双击失败响应单击事件
+//    [self.singleTap requireGestureRecognizerToFail:self.doubleTap];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -655,7 +664,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
  *  设置横屏的约束
  */
 - (void)setOrientationLandscapeConstraint:(UIInterfaceOrientation)orientation {
-    [self toOrientation:orientation];
+    //[self toOrientation:orientation];
     self.isFullScreen = YES;
     NSLog(@"设置横屏的约束");
 }
@@ -756,13 +765,15 @@ typedef NS_ENUM(NSInteger, PanDirection){
  *  @param orientation 屏幕方向
  */
 - (void)interfaceOrientation:(UIInterfaceOrientation)orientation {
+    NSLog(@"屏幕转屏");
     if (orientation == UIInterfaceOrientationLandscapeRight || orientation == UIInterfaceOrientationLandscapeLeft) {
         // 设置横屏
         [self setOrientationLandscapeConstraint:orientation];
-    } else if (orientation == UIInterfaceOrientationPortrait) {
-        // 设置竖屏
-        [self setOrientationPortraitConstraint];
     }
+//    else if (orientation == UIInterfaceOrientationPortrait) {
+//        // 设置竖屏
+//        [self setOrientationPortraitConstraint];
+//    }
 }
 
 /**
@@ -770,51 +781,55 @@ typedef NS_ENUM(NSInteger, PanDirection){
  */
 - (void)onDeviceOrientationChange {
     NSLog(@"屏幕方向发生变化会调用这里");
-    if (!self.player) { return; }
-    if (ZFPlayerShared.isLockScreen) { return; }
-    if (self.didEnterBackground) { return; };
-    if (self.playerPushedOrPresented) { return; }
-    UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
-    UIInterfaceOrientation interfaceOrientation = (UIInterfaceOrientation)orientation;
-    if (orientation == UIDeviceOrientationFaceUp || orientation == UIDeviceOrientationFaceDown || orientation == UIDeviceOrientationUnknown ) { return; }
-    
-    switch (interfaceOrientation) {
-        case UIInterfaceOrientationPortraitUpsideDown:{
-            NSLog(@"down");
-        }
-            break;
-        case UIInterfaceOrientationPortrait:{
-            NSLog(@"po");
-//            if (self.isFullScreen) {
-//                [self toOrientation:UIInterfaceOrientationPortrait];
-//                
+    return;
+//    if (!self.player) {
+//        NSLog(@"player");
+//        return;
+//    }
+//    if (ZFPlayerShared.isLockScreen) { return; }
+//    if (self.didEnterBackground) { return; };
+//    if (self.playerPushedOrPresented) { return; }
+//    UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
+//    UIInterfaceOrientation interfaceOrientation = (UIInterfaceOrientation)orientation;
+//    if (orientation == UIDeviceOrientationFaceUp || orientation == UIDeviceOrientationFaceDown || orientation == UIDeviceOrientationUnknown ) { return; }
+//    
+//    switch (interfaceOrientation) {
+//        case UIInterfaceOrientationPortraitUpsideDown:{
+//            NSLog(@"down");
+//        }
+//            break;
+//        case UIInterfaceOrientationPortrait:{
+//            NSLog(@"po");
+////            if (self.isFullScreen) {
+////                [self toOrientation:UIInterfaceOrientationPortrait];
+////                
+////            }
+//        }
+//            break;
+//        case UIInterfaceOrientationLandscapeLeft:{
+//            NSLog(@"左");
+//            if (self.isFullScreen == NO) {
+//                [self toOrientation:UIInterfaceOrientationLandscapeLeft];
+//                self.isFullScreen = YES;
+//            } else {
+//                [self toOrientation:UIInterfaceOrientationLandscapeLeft];
 //            }
-        }
-            break;
-        case UIInterfaceOrientationLandscapeLeft:{
-            NSLog(@"左");
-            if (self.isFullScreen == NO) {
-                [self toOrientation:UIInterfaceOrientationLandscapeLeft];
-                self.isFullScreen = YES;
-            } else {
-                [self toOrientation:UIInterfaceOrientationLandscapeLeft];
-            }
-            
-        }
-            break;
-        case UIInterfaceOrientationLandscapeRight:{
-            NSLog(@"右");
-            if (self.isFullScreen == NO) {
-                [self toOrientation:UIInterfaceOrientationLandscapeRight];
-                self.isFullScreen = YES;
-            } else {
-                [self toOrientation:UIInterfaceOrientationLandscapeRight];
-            }
-        }
-            break;
-        default:
-            break;
-    }
+//            
+//        }
+//            break;
+//        case UIInterfaceOrientationLandscapeRight:{
+//            NSLog(@"右");
+//            if (self.isFullScreen == NO) {
+//                [self toOrientation:UIInterfaceOrientationLandscapeRight];
+//                self.isFullScreen = YES;
+//            } else {
+//                [self toOrientation:UIInterfaceOrientationLandscapeRight];
+//            }
+//        }
+//            break;
+//        default:
+//            break;
+//    }
 }
 
 // 状态条变化通知（在前台播放才去处理）

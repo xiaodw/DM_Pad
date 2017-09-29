@@ -257,7 +257,7 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
 - (void)onDeviceOrientationChange {
     //if (!self.isShrink && !self.isPlayEnd && !self.showing) {
         // 显示、隐藏控制层
-        [self zf_playerShowOrHideControlView];
+        //[self zf_playerShowOrHideControlView];
     //}
 }
 
@@ -600,6 +600,17 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
         [self zf_playerShowControlView];
     }
 }
+
+- (void)zf_playerShowTopControlView {
+    self.showing = YES;
+    
+    self.topImageView.alpha    = 1;
+    
+    self.backgroundColor           = RGBA(0, 0, 0, 0.3);
+    self.bottomProgressView.alpha  = 0;
+    ZFPlayerShared.isStatusBarHidden = NO;
+}
+
 /**
  *  显示控制层
  */
