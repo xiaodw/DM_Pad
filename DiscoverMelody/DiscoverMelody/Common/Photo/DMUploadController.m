@@ -53,7 +53,7 @@
     
     if (_isPhotoSuccess) return;
     WS(weakSelf)
-    DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:Photo_Msg message:Capture_Msg preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleDonAllow otherTitle:DMTitleAllow, nil];
+    DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"" message:Photo_Msg preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleGoSetting, nil];
     [alert showWithViewController:self IndexBlock:^(NSInteger index) {
         if (index == 1) { // 右侧
             NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];

@@ -13,7 +13,7 @@
 //权限
 NSString * const Capture_Msg = @"“寻律”需要访问您的摄像头";
 NSString * const Audio_Msg = @"“寻律”需要访问您的麦克风";
-NSString * const Photo_Msg = @"“寻律”需要访问您的相册, 是否允许?";
+NSString * const Photo_Msg = @"“寻律”需要访问您的相册";
 //弹窗选项 权限
 NSString * const DMTitleDonAllow = @"不允许";
 NSString * const DMTitleAllow = @"允许";
