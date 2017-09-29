@@ -27,6 +27,7 @@ CGFloat const DMRightPullDownMenuCellRight = -15;
 CGFloat const DMHomeViewTopViewRightLabelWidth = 70;
 CGFloat const DMHomeViewTopViewRightLabelRight = -46;
 CGFloat const DMHomeViewCellTimeLabelLeft = 0;      //首页Cell 课程时间label的左间距
+CGFloat const DMHomeViewReloadButtonWidth = 70;
 
 // DMAssetsCollectionView
 CGFloat const DMAssetsCollectionUploadButtonWidth = 94;
@@ -64,6 +65,7 @@ CGFloat const DMRightPullDownMenuCellRight = -33;
 CGFloat const DMHomeViewTopViewRightLabelWidth = 162;
 CGFloat const DMHomeViewTopViewRightLabelRight = 0;
 CGFloat const DMHomeViewCellTimeLabelLeft = 45;      //首页Cell 课程时间label的左间距
+CGFloat const DMHomeViewReloadButtonWidth = 90;
 
 // DMAssetsCollectionView
 CGFloat const DMAssetsCollectionUploadButtonWidth = 120;

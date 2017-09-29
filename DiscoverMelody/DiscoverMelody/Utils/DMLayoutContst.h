@@ -38,6 +38,7 @@ UIKIT_EXTERN CGFloat const DMRightPullDownMenuCellRight;//cell的右间距
 UIKIT_EXTERN CGFloat const DMHomeViewTopViewRightLabelWidth; //右侧label的宽度
 UIKIT_EXTERN CGFloat const DMHomeViewTopViewRightLabelRight; //右侧label的右间距
 UIKIT_EXTERN CGFloat const DMHomeViewCellTimeLabelLeft;      //首页Cell 课程时间label的左间距
+UIKIT_EXTERN CGFloat const DMHomeViewReloadButtonWidth;      //点击重试按钮
 
 
 // DMAssetsCollectionView

@@ -379,7 +379,7 @@
         [_reloadButton makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_titleLabel.mas_bottom).offset(10);
             make.centerX.equalTo(_iconImageView);
-            make.size.equalTo(CGSizeMake(70, 35));
+            make.size.equalTo(CGSizeMake(DMHomeViewReloadButtonWidth, 35));
         }];
     }
     
