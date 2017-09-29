@@ -43,7 +43,7 @@
     // Override point for customization after application launch.
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
-    
+    sleep(1.5);
     [[DMConfigManager shareInstance] initConfigInformation];//初始化
     [self updateConfigInfo];
     return YES;
