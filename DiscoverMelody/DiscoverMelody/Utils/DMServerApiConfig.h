@@ -47,30 +47,29 @@
 
 #if SERVER_ENVIRONMENT == 0 //正式
 
-#define DM_Local_Url                    @"http://test.api.cn.discovermelody.com/" //服务器访问地址
-#define DMLog_Local_Url                 @"http://test.api.cn.discovermelody.com/"//统计服务器访问地址
+#define DM_Local_Url                    @"http://api.dm.1900m.com/" //服务器访问地址 //@"http://test.api.cn.discovermelody.com/"
+#define DMLog_Local_Url                 @"http://log.cn.discovermelody.com/"//统计服务器访问地址
 #define DMAgoraAppID_Local_Config       @"2f4301adc17b415c98eba18b7f1066d4"//声网appID
 #define DMAgoraVideoProfile_Config      @"52"// 声网视频属性枚举值
 #define DMImage_Size_Config             2*1024*1024 // 图片大小界限，2兆
 
 #elif SERVER_ENVIRONMENT == 1 //开发
 
-#define DM_Local_Url                    @"http://test.api.cn.discovermelody.com/" //服务器访问地址
-#define DMLog_Local_Url                 @"http://test.api.cn.discovermelody.com/"//统计服务器访问地址
+#define DM_Local_Url                    @"http://api.dm.1900m.com/" //服务器访问地址
+#define DMLog_Local_Url                 @"http://log.cn.discovermelody.com/"//统计服务器访问地址
 #define DMAgoraAppID_Local_Config       @"2f4301adc17b415c98eba18b7f1066d4"//声网appID
 #define DMAgoraVideoProfile_Config      @"52"// 声网视频属性枚举值
 #define DMImage_Size_Config             2*1024*1024 // 图片大小界限，2兆
 
 #elif SERVER_ENVIRONMENT == 2 //测试
 
-#define DM_Local_Url                    @"http://test.api.cn.discovermelody.com/" //服务器访问地址
-#define DMLog_Local_Url                 @"http://test.api.cn.discovermelody.com/"//统计服务器访问地址
+#define DM_Local_Url                    @"http://api.dm.1900m.com/" //服务器访问地址
+#define DMLog_Local_Url                 @"http://log.cn.discovermelody.com/"//统计服务器访问地址
 #define DMAgoraAppID_Local_Config       @"2f4301adc17b415c98eba18b7f1066d4"//声网appID
 #define DMAgoraVideoProfile_Config      @"52"// 声网视频属性枚举值
 #define DMImage_Size_Config             2*1024*1024 // 图片大小界限，2兆
 
 #endif
-
 
 
 #define DMLog_Url   [DMConfigManager shareInstance].logHost
@@ -100,11 +99,11 @@
 #define DM_Teacher_Access_Url           [DM_Url stringByAppendingFormat:@"lesson/teacherAccess"]
 
 //获取课件列表
-#define DM_Attachment_FileList_Url          [DM_Url stringByAppendingFormat:@"Attachment/getList"]
+#define DM_Attachment_FileList_Url      [DM_Url stringByAppendingFormat:@"Attachment/getList"]
 //课件上传
 #define DM_User_Attachment_Upload_Url   [DM_Url stringByAppendingFormat:@"attachment/upload"]
 //删除课件
-#define DM_Attachment_fileMove_Url          [DM_Url stringByAppendingFormat:@"Attachment/move"]
+#define DM_Attachment_fileMove_Url      [DM_Url stringByAppendingFormat:@"Attachment/move"]
 
 //客服
 #define DM_Customer_Url                 [DM_Url stringByAppendingFormat:@"customer/index"]
@@ -124,12 +123,12 @@
 #define DM_Survey_TeacherSurvey_Url     [DM_Url stringByAppendingFormat:@"survey/teacherSurvey"]
 
 //获取百度云配置信息
-#define DM_Cloud_Config_Url [DM_Url stringByAppendingFormat:@"Attachment/getUploadConf"]
+#define DM_Cloud_Config_Url             [DM_Url stringByAppendingFormat:@"Attachment/getUploadConf"]
 //百度云上传成功后的通知
-#define DM_Cloud_Upload_Success_Url [DM_Url stringByAppendingFormat:@"Attachment/uploadSuccess"]
+#define DM_Cloud_Upload_Success_Url     [DM_Url stringByAppendingFormat:@"Attachment/uploadSuccess"]
 
 //声网用户状态
-#define DM_AgoraUserStatus_Log_Url [DM_Url stringByAppendingFormat:@"log/agoraLog"]
+#define DM_AgoraUserStatus_Log_Url      [DM_Url stringByAppendingFormat:@"log/agoraLog"]
 
 
 #endif /* DMServerApiConfig_h */
