@@ -16,13 +16,22 @@
 
 /*******************************************打包需要配置的信息***************************************************/
 
+/**     发布打包步骤
+ *  1，检查修改服务器环境配置
+ *  2，检查修改语言环境配置
+ *  3，检查修改对应的APP_Type
+ *  4，检查修改LaunchScreen对应的版本
+ *  5，检查修改发布版本号
+ *  6，检查相关证书
+ */
+
 //#define App_Type @"cn_s" // @"cn_s"  @"cn_t" @"us_s"  @"us_t"
 
 //服务器环境配置:  1开发，2测试，0正式， 默认为0
 #define SERVER_ENVIRONMENT   0
 
 //语言环境: 0 中文， 1 英文
-#define LANGUAGE_ENVIRONMENT 1
+#define LANGUAGE_ENVIRONMENT 0
 
 
 #if LANGUAGE_ENVIRONMENT == 0 //中文
