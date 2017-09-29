@@ -58,7 +58,7 @@
     [_nameLabel makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_tipImageView.mas_bottom).offset(10);
         make.centerX.equalTo(self);
-        make.size.equalTo(CGSizeMake(self.frame.size.width, 13));
+        make.size.equalTo(CGSizeMake(self.frame.size.width, 16));
     }];
     
     [_redView makeConstraints:^(MASConstraintMaker *make) {
