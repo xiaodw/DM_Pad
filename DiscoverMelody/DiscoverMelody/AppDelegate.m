@@ -83,6 +83,9 @@
 
 - (void)upgradeMustForApp:(DMAppUpgradeData *)obj {
     if (!OBJ_IS_NIL(obj)) {
+        if ([obj.update intValue] == 0) {
+            return;
+        }
         DMAlertMananger *alert = [DMAlertMananger shareManager];
         if (obj.update.intValue == 1) {
             [alert creatAlertWithTitle:@""
