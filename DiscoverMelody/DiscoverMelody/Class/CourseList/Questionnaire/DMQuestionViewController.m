@@ -106,12 +106,15 @@
 - (void)updateTableStatus:(DMQuestData *)obj isNetCallback:(BOOL)netCallBack {
     
     if (obj) {
-        if (obj.survey.intValue == 1 || obj.survey.intValue == 2 || _currentSegmentTeachSurvey) {
+        self.questionList = obj.list;
+        
+        if (obj.survey.intValue == 1 || obj.survey.intValue == 2 || _currentSegmentTeachSurvey || self.questionList.count==0) {
             self.isEditQuest = NO;
         } else {
             self.isEditQuest = YES;
         }
-        self.questionList = obj.list;
+        
+        
         [self.bTableView reloadData];
         if (self.bTableView.tableFooterView == nil && _bottomView) {
             self.bTableView.tableFooterView = _bottomView;
