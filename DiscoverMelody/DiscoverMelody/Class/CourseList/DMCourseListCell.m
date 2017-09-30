@@ -40,7 +40,6 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
 @implementation DMCourseListCell
 
 - (void)setModel:(DMCourseDatasModel *)model {
-    
     //课程状态
     NSInteger live_status = [model.live_status intValue];
     
@@ -170,7 +169,7 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
     [_statusLabel makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(_filesPositionView.mas_left);
         make.centerY.equalTo(self.contentView);
-        make.width.equalTo(DMScaleWidth(120));
+        make.width.equalTo(DMScaleWidth(100));
     }];
 
     [_statusButton makeConstraints:^(MASConstraintMaker *make) {
@@ -199,7 +198,7 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
     [_studentNameLabel makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(_dateLabel.mas_left).offset(-DMScaleWidth(20));
         make.centerY.equalTo(self.contentView);
-        make.width.equalTo(DMScaleWidth(70));
+        make.width.equalTo(DMScaleWidth(120));
     }];
 
     [_nameLabel makeConstraints:^(MASConstraintMaker *make) {
@@ -300,7 +299,8 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
 
 - (UIView *)setupPositionView {
     UIView *positionView = [UIView new];
-    positionView.hidden = YES;
+    positionView.backgroundColor = [UIColor randomColor];
+//    positionView.hidden = YES;
     
     return positionView;
 }
