@@ -299,8 +299,7 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
 
 - (UIView *)setupPositionView {
     UIView *positionView = [UIView new];
-    positionView.backgroundColor = [UIColor randomColor];
-//    positionView.hidden = YES;
+    positionView.hidden = YES;
     
     return positionView;
 }
