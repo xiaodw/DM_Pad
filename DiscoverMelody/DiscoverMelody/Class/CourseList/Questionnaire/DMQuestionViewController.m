@@ -106,11 +106,18 @@
 - (void)updateTableStatus:(DMQuestData *)obj isNetCallback:(BOOL)netCallBack {
     
     if (obj) {
+        
         self.questionList = obj.list;
         
-        if (obj.survey.intValue == 1 || obj.survey.intValue == 2 || _currentSegmentTeachSurvey || self.questionList.count==0) {
+        if (obj.survey.intValue == 1 ||
+            obj.survey.intValue == 2 ||
+            _currentSegmentTeachSurvey ||
+            self.questionList.count==0)
+        {
             self.isEditQuest = NO;
-        } else {
+        }
+        else
+        {
             self.isEditQuest = YES;
         }
         
