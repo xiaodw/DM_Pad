@@ -32,6 +32,8 @@
             DMLoginDataModel *model = (DMLoginDataModel *)responseObject;
             [DMAccount saveAccountInfo:model];
             complectionBlock(YES);
+        } else {
+            complectionBlock(NO);
         }
     } failure:^(NSError *error) {
         complectionBlock (NO);

@@ -46,11 +46,17 @@
     [[DMRequestModel sharedInstance] requestWithPath:url method:requestMethod parameters:dic prepareExecute:^{
         
     } success:^(id responseObject) {
+       
         id responseObj = responseObject;
         if (![responseObject isKindOfClass:[NSDictionary class]]) {
             responseObj = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
         }
         NSLog(@"返回的数据 = %@",responseObj);
+        if (OBJ_IS_NIL(responseObj)) {
+            [DMTools showSVProgressHudCustom:@"hud_failed_icon" title:DMTitleNoTypeError];
+            success(nil);
+            return;
+        }
         
         if (!STR_IS_NIL([responseObj objectForKey:Token_Key])) { //更新token
             [self updateTokenToLatest:[responseObj objectForKey:Token_Key]];
