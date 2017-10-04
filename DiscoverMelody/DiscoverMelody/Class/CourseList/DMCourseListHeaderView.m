@@ -63,7 +63,7 @@
     [_statusLabel makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(_filesLabel.mas_left);
         make.centerY.equalTo(self);
-        make.width.equalTo(DMScaleWidth(120));
+        make.width.equalTo(DMScaleWidth(100));
     }];
     
     [_periodLabel makeConstraints:^(MASConstraintMaker *make) {
@@ -81,13 +81,13 @@
     [_dateLabel makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(_detailDateLabel.mas_left);
         make.centerY.equalTo(self);
-        make.width.equalTo(DMScaleWidth(100));
+        make.width.equalTo(DMScaleWidth(110));
     }];
     
     [_studentNameLabel makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(_dateLabel.mas_left);
         make.centerY.equalTo(self);
-        make.width.equalTo(DMScaleWidth(90));
+        make.width.equalTo(DMScaleWidth(130));
     }];
 
     [_nameLabel makeConstraints:^(MASConstraintMaker *make) {
