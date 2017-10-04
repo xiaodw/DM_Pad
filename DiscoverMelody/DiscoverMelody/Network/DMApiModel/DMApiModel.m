@@ -60,8 +60,13 @@
     }
     
     [[DMHttpClient sharedInstance] initWithUrl:url parameters:nil method:DMHttpRequestPost dataModelClass:[DMHomeDataModel class] isMustToken:YES success:^(id responseObject) {
-        DMHomeDataModel *model = (DMHomeDataModel *)responseObject;
-        complectionBlock(YES, model.list);
+        if (!OBJ_IS_NIL(responseObject)) {
+            DMHomeDataModel *model = (DMHomeDataModel *)responseObject;
+            complectionBlock(YES, model.list);
+        } else {
+            complectionBlock(YES, nil);
+        }
+        
     } failure:^(NSError *error) {
         complectionBlock(NO, nil);
     }];
@@ -88,6 +93,10 @@
                                    isMustToken:YES
                                        success:^(id responseObject)
     {
+        if (OBJ_IS_NIL(responseObject)) {
+            complectionBlock(NO, nil, NO);
+            return;
+        }
         DMHomeDataModel *model = (DMHomeDataModel *)responseObject;
         BOOL isHave = YES;
         if (model.page_next.intValue == 0) {
