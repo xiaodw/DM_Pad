@@ -331,7 +331,11 @@
         //初始化下拉表
         _pullDownMenu = [[DMPullDownMenu alloc] init];
         _pullDownMenu.mainBtn = self.rightButton;
-        _pullDownMenu.frame = CGRectMake((self.view.frame.size.width-135-DMRightPullDownMenuRectX-15), 64-self.rightButton.frame.origin.y-4.5, DMRightPullDownMenuRectWidth, 0);
+        if (DM_SystemVersion_11) {
+            _pullDownMenu.frame = CGRectMake((self.view.frame.size.width-135-DMRightPullDownMenuRectX-20), 64-self.rightButton.frame.origin.y-4.5, DMRightPullDownMenuRectWidth, 0);
+        } else {
+            _pullDownMenu.frame = CGRectMake((self.view.frame.size.width-135-DMRightPullDownMenuRectX-15), 64-self.rightButton.frame.origin.y-4.5, DMRightPullDownMenuRectWidth, 0);
+        }
         [_pullDownMenu setMenuTitles:self.selArray rowHeight:35];
         _pullDownMenu.delegate = self;
     }
