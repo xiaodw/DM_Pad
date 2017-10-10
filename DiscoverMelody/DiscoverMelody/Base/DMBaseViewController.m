@@ -198,12 +198,16 @@
     if (!STR_IS_NIL(imageName)) {
         [btn setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
         [btn setImageEdgeInsets:UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)];
+        if (DM_SystemVersion_11) {
+            btn.contentHorizontalAlignment =UIControlContentHorizontalAlignmentLeft;
+            btn.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+        }
     }
     [btn addTarget:self action:@selector(leftOneAction:) forControlEvents:UIControlEventTouchUpInside];
     
     UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     fixedSpace.width = -15;
-    
+    //btn.backgroundColor = [UIColor randomColor];
     self.navigationItem.leftBarButtonItems = @[fixedSpace, [[UIBarButtonItem alloc] initWithCustomView:btn]];
 
 }

@@ -39,7 +39,7 @@
     self.view.backgroundColor = DMColorWithRGBA(246, 246, 246, 1);
     self.selArray = @[DMTitleAllCourse,DMTitleAlreadyCourse,DMTitleNotStartCourse];
     [self setRigthBtn:CGRectMake(0, 4.5, DMRightPullDownMenuRectWidth, 35)
-                title:[self.selArray lastObject]
+                title:[self.selArray firstObject]
           titileColor:DMColorWithRGBA(246, 246, 246, 1)
             imageName:@"btn_menu_arrow_bottom"
                  font:DMFontPingFang_Thin(14)];
@@ -57,7 +57,7 @@
     
 #endif
 
-    self.clCondition = DMCourseListCondition_WillStart;
+    self.clCondition = DMCourseListCondition_All;//DMCourseListCondition_WillStart;
     [self setupMakeAddSubviews];
     [self setupMakeLayoutSubviews];
     [self setupMJRefresh];
@@ -331,7 +331,11 @@
         //初始化下拉表
         _pullDownMenu = [[DMPullDownMenu alloc] init];
         _pullDownMenu.mainBtn = self.rightButton;
-        _pullDownMenu.frame = CGRectMake((self.view.frame.size.width-135-DMRightPullDownMenuRectX-15), 64-self.rightButton.frame.origin.y-4.5, DMRightPullDownMenuRectWidth, 0);
+        if (DM_SystemVersion_11) {
+            _pullDownMenu.frame = CGRectMake((self.view.frame.size.width-135-DMRightPullDownMenuRectX-20), 64-self.rightButton.frame.origin.y-4.5, DMRightPullDownMenuRectWidth, 0);
+        } else {
+            _pullDownMenu.frame = CGRectMake((self.view.frame.size.width-135-DMRightPullDownMenuRectX-15), 64-self.rightButton.frame.origin.y-4.5, DMRightPullDownMenuRectWidth, 0);
+        }
         [_pullDownMenu setMenuTitles:self.selArray rowHeight:35];
         _pullDownMenu.delegate = self;
     }

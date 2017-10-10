@@ -49,6 +49,9 @@ blue:(((rgbValue) & 0xFF))/255.f alpha:1.0]
 
 #pragma mark - Other
 
+//系统版本是否大于等于11
+#define DM_SystemVersion_11  (([[UIDevice currentDevice].systemVersion integerValue] >= 11)?1:0)
+
 #define HeadPlaceholderName [UIImage imageNamed:@"image_head_placeholder_icon"]
 
 #define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
