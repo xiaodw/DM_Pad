@@ -444,27 +444,29 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         return;
     }
     
+    // 能到这里就代表上课ing
     if (_willStartView != nil) {
         [_willStartView removeFromSuperview];
         _willStartView = nil;
         _timeView.hidden = NO;
     }
-    
+    // 更新UI
     self.alreadyTimeLabel.text = [NSString stringWithTimeToHHmmss:_alreadyTime];
     
+    /** 一节课按 totalTime = 45 分钟 warningTime = 5 分钟 delayTime = 15 分钟算 */
+    // 0 < alreadyTime < 40
     if (0 < _alreadyTime && _alreadyTime < self.totalTime - _warningTime) {
         return;
     }
     
-    /* 一节课按t=45分钟算 */
-    // 40 < t < 45
+    // 40 < alreadyTime < 45
     if (_alreadyTime > self.totalTime - _warningTime && _alreadyTime < self.totalTime) {
         _timeButton.selected = YES;
         _alreadyTimeLabel.textColor = DMColorBaseMeiRed;
         return;
     }
     
-    // 45 < t < 60
+    // 45 < alreadyTime < 60
     if (_alreadyTime > self.totalTime && _alreadyTime/60 < self.totalTime/60 + _delayTime/60) {
         _timeButton.selected = YES;
         _alreadyTimeLabel.textColor = DMColorBaseMeiRed;
@@ -472,7 +474,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         return;
     }
     
-    //  t >= 60，视频聊天强制退出
+    //  alreadyTime >= 60，直播强制退出
     if (_alreadyTime >= self.totalTime + _delayTime) {
         [self invalidate];
         [self liveButtonControlViewDidTapLeave:nil];
