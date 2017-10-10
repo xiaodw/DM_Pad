@@ -49,6 +49,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 @property (strong, nonatomic) UIImageView *alreadyTimeShadowImageView; // 底部时间条阴影
 @property (strong, nonatomic) UILabel *describeTimeLabel; // 底部时间条: 提示
 @property (strong, nonatomic) DMLiveWillStartView *willStartView; // 即将开始的View
+@property (strong, nonatomic) UILabel *recordingLabel; // 录制中...
 
 #pragma mark - Other property
 @property (strong, nonatomic) NSMutableArray *syncCourseFiles;
@@ -105,6 +106,8 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self setupMakeLiveCallback];
 
     [self timer];
+    
+    // [self.liveVideoManager switchSound:NO block:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -331,10 +334,16 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self.localView addSubview:self.localPlaceholderTitleLabel];
 
     [self.view addSubview:self.willStartView];
+    [self.view addSubview:self.recordingLabel];
 }
 
 #pragma mark - LayoutSubviews
 - (void)setupMakeLayoutSubviews {
+    [_recordingLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.view.mas_right).offset(-44);
+        make.bottom.equalTo(self.view.mas_bottom).offset(-22);
+    }];
+    
     [_controlView makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.bottom.equalTo(self.view);
         make.width.equalTo(225);
@@ -377,13 +386,13 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [_remoteMicrophoneView makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(_remoteView.mas_right).offset(-15);
         make.size.equalTo(CGSizeMake(17, 25));
-        make.bottom.equalTo(_remoteView.mas_bottom).offset(-20);
+        make.bottom.equalTo(_remoteView.mas_bottom).offset(-15);
     }];
     
     [_localMicrophoneView makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(_localView.mas_right).offset(-15);
         make.size.equalTo(_remoteMicrophoneView);
-        make.bottom.equalTo(_localView.mas_bottom).offset(-20);
+        make.bottom.equalTo(_localView.mas_bottom).offset(-15);
     }];
     
     [_remotePlaceholderView makeConstraints:^(MASConstraintMaker *make) {
@@ -435,27 +444,29 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         return;
     }
     
+    // 能到这里就代表上课ing
     if (_willStartView != nil) {
         [_willStartView removeFromSuperview];
         _willStartView = nil;
         _timeView.hidden = NO;
     }
-    
+    // 更新UI
     self.alreadyTimeLabel.text = [NSString stringWithTimeToHHmmss:_alreadyTime];
     
+    /** 一节课按 totalTime = 45 分钟 warningTime = 5 分钟 delayTime = 15 分钟算 */
+    // 0 < alreadyTime < 40
     if (0 < _alreadyTime && _alreadyTime < self.totalTime - _warningTime) {
         return;
     }
     
-    /* 一节课按t=45分钟算 */
-    // 40 < t < 45
+    // 40 < alreadyTime < 45
     if (_alreadyTime > self.totalTime - _warningTime && _alreadyTime < self.totalTime) {
         _timeButton.selected = YES;
         _alreadyTimeLabel.textColor = DMColorBaseMeiRed;
         return;
     }
     
-    // 45 < t < 60
+    // 45 < alreadyTime < 60
     if (_alreadyTime > self.totalTime && _alreadyTime/60 < self.totalTime/60 + _delayTime/60) {
         _timeButton.selected = YES;
         _alreadyTimeLabel.textColor = DMColorBaseMeiRed;
@@ -463,7 +474,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         return;
     }
     
-    //  t >= 60，视频聊天强制退出
+    //  alreadyTime >= 60，直播强制退出
     if (_alreadyTime >= self.totalTime + _delayTime) {
         [self invalidate];
         [self liveButtonControlViewDidTapLeave:nil];
@@ -713,6 +724,17 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     return _coursewareView;
 }
 
+- (UILabel *)recordingLabel {
+    if (!_recordingLabel) {
+        _recordingLabel = [UILabel new];
+        _recordingLabel.text = @"录制中...";
+        _recordingLabel.textColor = [UIColor whiteColor];
+        _recordingLabel.font = DMFontPingFang_Light(14);
+    }
+    
+    return _recordingLabel;
+}
+
 - (NSMutableArray *)presentVCs {
     if (!_presentVCs) {
         _presentVCs = [NSMutableArray array];
@@ -891,13 +913,13 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [_remoteMicrophoneView remakeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(_remoteBackgroundView.mas_right).offset(-15);
         make.size.equalTo(CGSizeMake(17, 25));
-        make.bottom.equalTo(_remoteBackgroundView.mas_bottom).offset(-20);
+        make.bottom.equalTo(_remoteBackgroundView.mas_bottom).offset(-15);
     }];
     
     [_localMicrophoneView remakeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(_localView.mas_right).offset(-15);
         make.size.equalTo(CGSizeMake(17, 25));
-        make.bottom.equalTo(_localView.mas_bottom).offset(-20);
+        make.bottom.equalTo(_localView.mas_bottom).offset(-15);
     }];
     
     [UIView animateWithDuration:0.25 animations:^{
