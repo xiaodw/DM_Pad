@@ -39,7 +39,7 @@
     self.view.backgroundColor = DMColorWithRGBA(246, 246, 246, 1);
     self.selArray = @[DMTitleAllCourse,DMTitleAlreadyCourse,DMTitleNotStartCourse];
     [self setRigthBtn:CGRectMake(0, 4.5, DMRightPullDownMenuRectWidth, 35)
-                title:[self.selArray lastObject]
+                title:[self.selArray firstObject]
           titileColor:DMColorWithRGBA(246, 246, 246, 1)
             imageName:@"btn_menu_arrow_bottom"
                  font:DMFontPingFang_Thin(14)];
@@ -57,7 +57,7 @@
     
 #endif
 
-    self.clCondition = DMCourseListCondition_WillStart;
+    self.clCondition = DMCourseListCondition_All;//DMCourseListCondition_WillStart;
     [self setupMakeAddSubviews];
     [self setupMakeLayoutSubviews];
     [self setupMJRefresh];
