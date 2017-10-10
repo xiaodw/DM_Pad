@@ -40,8 +40,7 @@
     
     self.view.backgroundColor = UIColorFromRGB(0xf6f6f6);
     [self.view addSubview:self.homeView];
-    
-    [self getDataFromServer];
+    //[self getDataFromServer];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(updateHomeData:)
                                                  name:DMNotification_HomePage_Key
@@ -49,6 +48,10 @@
 }
 
 - (void)updateHomeData:(NSNotification *)notification {
+    //[self refreshHomeData];
+}
+
+- (void)refreshHomeData {
     [self.homeView initSelectedIndexPath];
     [self getDataFromServer];
 }
@@ -200,6 +203,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self setNavigationBarTransparence];
+    //NSLog(@"自动刷新不");
+    [self refreshHomeData];
 }
 
 
