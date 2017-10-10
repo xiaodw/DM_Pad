@@ -467,7 +467,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     }
     
     // 45 < alreadyTime < 60
-    if (_alreadyTime > self.totalTime && _alreadyTime/60 < self.totalTime/60 + _delayTime/60) {
+    if (_alreadyTime > self.totalTime && _alreadyTime < self.totalTime + _delayTime) {
         _timeButton.selected = YES;
         _alreadyTimeLabel.textColor = DMColorBaseMeiRed;
         _describeTimeLabel.text = [NSString stringWithFormat:DMTextLiveDelayTime, (_delayTime/60 - (_alreadyTime/60-self.totalTime/60))];
