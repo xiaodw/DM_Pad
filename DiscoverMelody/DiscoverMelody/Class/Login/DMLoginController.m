@@ -204,6 +204,10 @@ const CGFloat kAccountTop = kLogoTop + kLogoHeight + acctountToLogoTop;
         _accountTextField.delegate = self;
         _accountTextField.keyboardType = UIKeyboardTypeASCIICapable;
         _accountTextField.placeholderColor = [DMColorWithHexString(@"#FFFFFF") colorWithAlphaComponent:0.2];
+        NSString *account = [DMAccount getLatestLoginAccount];
+        if (!STR_IS_NIL(account)) {
+            _accountTextField.textField.text = [DMAccount getLatestLoginAccount];
+        }
     }
     
     return _accountTextField;
