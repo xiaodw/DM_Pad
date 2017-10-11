@@ -57,6 +57,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 @property (assign, nonatomic) NSInteger tapLayoutCount; // 点击布局按钮次数
 @property (assign, nonatomic) BOOL isCoursewareMode; // 是否是课件布局模式
 @property (assign, nonatomic) DMLayoutMode beforeLayoutMode; // 课件布局模式之前的模式
+@property (assign, nonatomic) NSInteger userIdentity; // 当前身份 0: 学生, 1: 老师
 
 @end
 
@@ -90,6 +91,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     self.tapLayoutCount = 3;
     
     NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
+    _userIdentity = userIdentity;
     self.remotePlaceholderTitleLabel.text = userIdentity ? DMTextLiveStudentNotEnter : DMTextLiveTeacherNotEnter;
 
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(remoteVideoTapped)];
@@ -455,7 +457,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     
     /** 一节课按 totalTime = 45 分钟 warningTime = 5 分钟 delayTime = 15 分钟算 */
     // 0 < alreadyTime < 40
-    if (0 < _alreadyTime && _alreadyTime < self.totalTime - _warningTime) {
+    if ((0 < _alreadyTime && _alreadyTime < self.totalTime - _warningTime) || _userIdentity == 0) { // 0: 学生
         return;
     }
     
