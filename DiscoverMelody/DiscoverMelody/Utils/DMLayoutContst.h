@@ -27,7 +27,8 @@ UIKIT_EXTERN CGFloat const DMBottomBarViewDeleteButtonRight;
 
 //侧滑菜单的Logo
 UIKIT_EXTERN NSString * const DMMenu_Logo;
-
+//登录logo
+UIKIT_EXTERN NSString * const DMLogin_Logo;
 //课程列表右上角的筛选列表
 UIKIT_EXTERN CGFloat const DMRightPullDownMenuRectWidth;//列表的宽度
 UIKIT_EXTERN CGFloat const DMRightPullDownMenuRectX;    //列表的X

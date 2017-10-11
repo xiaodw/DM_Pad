@@ -190,7 +190,9 @@ const CGFloat kAccountTop = kLogoTop + kLogoHeight + acctountToLogoTop;
 - (UIImageView *)logoImageView {
     if (!_logoImageView) {
         _logoImageView = [UIImageView new];
-        _logoImageView.image = [UIImage imageNamed:@"image_logo"];
+        _logoImageView.image = [UIImage imageNamed:DMLogin_Logo];
+        _logoImageView.clipsToBounds = YES;
+        _logoImageView.contentMode = UIViewContentModeScaleAspectFit;
     }
     
     return _logoImageView;

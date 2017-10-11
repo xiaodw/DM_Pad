@@ -17,6 +17,9 @@ CGFloat const DMBottomBarViewDeleteButtonRight = -15;
 //侧滑菜单的LOGO
 NSString * const DMMenu_Logo = @"DM_LOGO";
 
+//登录logo
+NSString * const DMLogin_Logo = @"image_logo_cn";
+
 //课程列表右上角的筛选列表
 CGFloat const DMRightPullDownMenuRectWidth = 135;
 CGFloat const DMRightPullDownMenuRectX = 0;
@@ -54,6 +57,8 @@ CGFloat const DMBottomBarViewDeleteButtonRight = 0;
 
 //侧滑菜单的LOGO
 NSString * const DMMenu_Logo = @"DM_LOGO_EN";
+//登录logo
+NSString * const DMLogin_Logo = @"image_logo";
 
 //课程列表右上角的筛选列表
 CGFloat const DMRightPullDownMenuRectWidth = 135+45;
