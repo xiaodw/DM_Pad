@@ -4,7 +4,6 @@
 
 @property (strong, nonatomic) UIImageView *cornerImageView;
 @property (strong, nonatomic) UIImageView *imageView;
-@property (strong, nonatomic) UITextField *textField;
 
 @end
 

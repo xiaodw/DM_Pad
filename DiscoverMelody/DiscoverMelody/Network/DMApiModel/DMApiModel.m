@@ -31,6 +31,7 @@
             //保存数据
             DMLoginDataModel *model = (DMLoginDataModel *)responseObject;
             [DMAccount saveAccountInfo:model];
+            [DMAccount saveLatestLoginAccount:account];
             complectionBlock(YES);
         } else {
             complectionBlock(NO);

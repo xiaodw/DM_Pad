@@ -10,6 +10,9 @@
 #import "DMLoginDataModel.h"
 @interface DMAccount : NSObject
 
+//读取最后一次登录成功的账号
++ (NSString *)getLatestLoginAccount;
+
 //读取账号信息
 + (id)getAccountInfo;
 
@@ -28,6 +31,8 @@
 //读取uid
 + (NSString *)getUserID;
 
+//保存最新的登录账号
++ (void)saveLatestLoginAccount:(NSString *)account;
 
 //保存账号信息
 + (void)saveAccountInfo:(DMLoginDataModel *)obj;

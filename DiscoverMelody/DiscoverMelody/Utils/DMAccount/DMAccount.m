@@ -17,10 +17,21 @@
 #define U_UID @"uid"
 #define U_C_TIME @"ctime"
 
-//读取账号信息
-+ (id)getAccountInfo {
+#define U_L_ACCOUNT @"login_account"
 
-    return nil;
++ (NSString *)getLatestLoginAccount {
+    return [DMUserDefaults getValueWithKey:U_L_ACCOUNT];
+}
+
+//读取账号信息
++ (DMLoginDataModel *)getAccountInfo {
+    DMLoginDataModel *model = [[DMLoginDataModel alloc] init];
+    model.token = [DMAccount getToken];
+    model.name = [DMAccount getUserName];
+    model.avatar = [DMAccount getUserHeadUrl];
+    model.user_id = [DMAccount getUserID];
+    model.user_type = [DMAccount getUserIdentity];
+    return model;
 }
 
 //读取token信息
@@ -47,6 +58,11 @@
 //读取uid
 + (NSString *)getUserID {
     return [DMUserDefaults getValueWithKey:U_UID];
+}
+
+//保存最新的登录账号
++ (void)saveLatestLoginAccount:(NSString *)account {
+    [DMUserDefaults setValue:account forKey:U_L_ACCOUNT];
 }
 
 //保存账号信息
