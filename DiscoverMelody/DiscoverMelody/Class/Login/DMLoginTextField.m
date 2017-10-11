@@ -1,9 +1,12 @@
 #import "DMLoginTextField.h"
 
-@interface DMLoginTextField()
+@interface DMLoginTextField(){
+    NSString *_text;
+}
 
 @property (strong, nonatomic) UIImageView *cornerImageView;
 @property (strong, nonatomic) UIImageView *imageView;
+@property (strong, nonatomic) UITextField *textField;
 
 @end
 
@@ -42,6 +45,11 @@
 - (void)setImage:(UIImage *)image {
     _image = image;
     _imageView.image = image;
+}
+
+- (void)setText:(NSString *)text {
+    _text = text;
+    _textField.text = text;
 }
 
 - (NSString *)text {
