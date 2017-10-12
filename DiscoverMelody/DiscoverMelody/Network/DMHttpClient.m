@@ -71,12 +71,10 @@
             if (self.blockSuccessMsg) {
                 if ([[responseObj objectForKey:Msg_Key] isKindOfClass:[NSString class]]) {
                     self.blockSuccessMsg([responseObj objectForKey:Msg_Key]);
-                    self.blockSuccessMsg = nil;
                 } else {
                     self.blockSuccessMsg(DMTitleNoTypeError);
-                    self.blockSuccessMsg = nil;
                 }
-                
+                self.blockSuccessMsg = nil;
             }
             
             id responseDataModel = [dataModelClass mj_objectWithKeyValues:[responseObj objectForKey:Data_Key]];
@@ -129,6 +127,7 @@
 }
 
 - (void)responseStatusCodeException:(NSInteger)code msg:(NSString *)message {
+    self.blockSuccessMsg = nil;
     switch (code) {
         case DMHttpResponseCodeType_NotLogin: //未登录，需要重新登录
             //to-do 1，取消所有网络请求，2，清除用户所有信息，3，退到登录界面
