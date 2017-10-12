@@ -149,7 +149,7 @@
         DMCommitAnswerData *obj = [[DMCommitAnswerData alloc] init];
         obj.lesson_id = self.courseObj.lesson_id;
         obj.question_id = data.question_id;
-        obj.content = data.answer_content;
+        obj.content = STR_IS_NIL(data.answer_content)?@"":data.answer_content;
         [array addObject:obj];
     }
     NSArray *dicArray = [DMCommitAnswerData mj_keyValuesArrayWithObjectArray:array];
