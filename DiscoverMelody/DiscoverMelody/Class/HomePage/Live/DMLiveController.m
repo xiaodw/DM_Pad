@@ -457,7 +457,8 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     
     /** 一节课按 totalTime = 45 分钟 warningTime = 5 分钟 delayTime = 15 分钟算 */
     // 0 < alreadyTime < 40
-    if ((0 < _alreadyTime && _alreadyTime < self.totalTime - _warningTime) || _userIdentity == 0) { // 0: 学生
+    if ((0 < _alreadyTime && _alreadyTime < self.totalTime - _warningTime) ||
+        (_userIdentity == 0 && _alreadyTime < self.totalTime + _delayTime)) { // _userIdentity = 0: 学生, 如果超出拖堂范围退出
         return;
     }
     
