@@ -343,7 +343,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 - (void)setupMakeLayoutSubviews {
     [_recordingLabel makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.view.mas_right).offset(-44);
-        make.bottom.equalTo(self.view.mas_bottom).offset(-22);
+        make.bottom.equalTo(self.view.mas_bottom).offset(-18);
     }];
     
     [_controlView makeConstraints:^(MASConstraintMaker *make) {
@@ -451,6 +451,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         [_willStartView removeFromSuperview];
         _willStartView = nil;
         _timeView.hidden = NO;
+        _recordingLabel.hidden = NO;
     }
     // 更新UI
     self.alreadyTimeLabel.text = [NSString stringWithTimeToHHmmss:_alreadyTime];
@@ -733,6 +734,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         _recordingLabel.text = @"录制中...";
         _recordingLabel.textColor = [UIColor whiteColor];
         _recordingLabel.font = DMFontPingFang_Light(14);
+        _recordingLabel.hidden = YES;
     }
     
     return _recordingLabel;
