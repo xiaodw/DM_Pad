@@ -1,15 +1,18 @@
 #import "DMLiveController.h"
-#import "DMButton.h"
 #import "DMLiveVideoManager.h"
 #import "DMLiveButtonControlView.h"
 #import "DMLiveWillStartView.h"
 #import "DMLiveCoursewareView.h"
+#import "DMLivingTimeView.h"
+#import "DMLiveView.h"
 #import "NSString+Extension.h"
 #import "DMCourseFilesController.h"
 #import "DMMicrophoneView.h"
 #import "DMSecretKeyManager.h"
 #import "DMSignalingMsgData.h"
 #import "DMSendSignalingMsg.h"
+#import "DMButton.h"
+
 #import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
 
 #define kSmallSize CGSizeMake(DMScaleWidth(240), DMScaleHeight(180))
@@ -33,7 +36,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 @property (strong, nonatomic) DMMicrophoneView *remoteMicrophoneView; // 远端麦克风音量
 @property (strong, nonatomic) UIImageView *remotePlaceholderView; // 远端没有人占位图
 @property (strong, nonatomic) UILabel *remotePlaceholderTitleLabel; // 远端没有人占位图远端说明
-@property (strong, nonatomic) DMLiveCoursewareView *coursewareView; // 课件视图
 
 @property (strong, nonatomic) UIView *localView; // 本地窗口
 @property (strong, nonatomic) DMMicrophoneView *localMicrophoneView; // 本地麦克风音量
@@ -41,13 +43,11 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 @property (strong, nonatomic) UILabel *localPlaceholderTitleLabel; // 本地没有人占位图远端说明
 
 @property (strong, nonatomic) DMLiveButtonControlView *controlView; // 左侧按钮们
+@property (strong, nonatomic) DMLiveCoursewareView *coursewareView; // 课件视图
 @property (strong, nonatomic) UIImageView *shadowImageView;
 @property (strong, nonatomic) UIImageView *shadowRightImageView;
-@property (strong, nonatomic) UIView *timeView; // 底部时间条
-@property (strong, nonatomic) DMButton *timeButton; // 底部时间条: 图标
-@property (strong, nonatomic) UILabel *alreadyTimeLabel; // 底部时间条: 过了多少时间
-@property (strong, nonatomic) UIImageView *alreadyTimeShadowImageView; // 底部时间条阴影
-@property (strong, nonatomic) UILabel *describeTimeLabel; // 底部时间条: 提示
+
+@property (strong, nonatomic) DMLivingTimeView *timeView;
 @property (strong, nonatomic) DMLiveWillStartView *willStartView; // 即将开始的View
 @property (strong, nonatomic) UILabel *recordingLabel; // 录制中...
 
@@ -326,15 +326,14 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self.view addSubview:self.shadowRightImageView];
     [self.view addSubview:self.localView];
     [self.view addSubview:self.shadowImageView];
-    [self.view addSubview:self.controlView];
-    [self.view addSubview:self.alreadyTimeShadowImageView];
-    [self.view addSubview:self.timeView];
     [self.view addSubview:self.remoteMicrophoneView];
     [self.view addSubview:self.localMicrophoneView];
 
     [self.localView addSubview:self.localPlaceholderView];
     [self.localView addSubview:self.localPlaceholderTitleLabel];
 
+    [self.view addSubview:self.controlView];
+    [self.view addSubview:self.timeView];
     [self.view addSubview:self.willStartView];
     [self.view addSubview:self.recordingLabel];
 }
@@ -361,15 +360,8 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     }];
     
     [_timeView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(23);
-        make.bottom.equalTo(self.view.mas_bottom).offset(-18);
-        make.height.equalTo(20);
-        make.right.equalTo(self.view);
-    }];
-    
-    [_alreadyTimeShadowImageView makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.bottom.equalTo(self.view);
-        make.top.equalTo(_timeView);
+        make.height.equalTo(38);
     }];
     
     [_remoteBackgroundView makeConstraints:^(MASConstraintMaker *make) {
@@ -454,27 +446,25 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         _recordingLabel.hidden = NO;
     }
     // 更新UI
-    self.alreadyTimeLabel.text = [NSString stringWithTimeToHHmmss:_alreadyTime];
+    self.timeView.alreadyTime = [NSString stringWithTimeToHHmmss:_alreadyTime];
     
     /** 一节课按 totalTime = 45 分钟 warningTime = 5 分钟 delayTime = 15 分钟算 */
     // 0 < alreadyTime < 40
-    if ((0 < _alreadyTime && _alreadyTime < self.totalTime - _warningTime) ||
+    if ((0 <= _alreadyTime && _alreadyTime < self.totalTime - _warningTime) ||
         (_userIdentity == 0 && _alreadyTime < self.totalTime + _delayTime)) { // _userIdentity = 0: 学生, 如果超出拖堂范围退出
         return;
     }
     
     // 40 < alreadyTime < 45
+    _timeView.timeButton.selected = YES;
+    _timeView.alreadyTimeColor = DMColorBaseMeiRed;
     if (_alreadyTime > self.totalTime - _warningTime && _alreadyTime < self.totalTime) {
-        _timeButton.selected = YES;
-        _alreadyTimeLabel.textColor = DMColorBaseMeiRed;
         return;
     }
     
     // 45 < alreadyTime < 60
     if (_alreadyTime > self.totalTime && _alreadyTime < self.totalTime + _delayTime) {
-        _timeButton.selected = YES;
-        _alreadyTimeLabel.textColor = DMColorBaseMeiRed;
-        _describeTimeLabel.text = [NSString stringWithFormat:DMTextLiveDelayTime, (_delayTime/60 - (_alreadyTime/60-self.totalTime/60))];
+        _timeView.describeTime = [NSString stringWithFormat:DMTextLiveDelayTime, (_delayTime/60 - (_alreadyTime/60-self.totalTime/60))];
         return;
     }
     
@@ -644,71 +634,12 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     return _controlView;
 }
 
-- (UIView *)timeView {
+- (DMLivingTimeView *)timeView {
     if (!_timeView) {
-        _timeView = [UIView new];
-        _timeView.hidden = YES;
-        
-        [_timeView addSubview:self.timeButton];
-        [_timeView addSubview:self.alreadyTimeLabel];
-        [_timeView addSubview:self.describeTimeLabel];
-        
-        [_timeButton makeConstraints:^(MASConstraintMaker *make) {
-            make.left.centerY.equalTo(_timeView);
-            make.size.equalTo(CGSizeMake(19, 19));
-        }];
-        
-        [_alreadyTimeLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(_timeButton.mas_right).offset(10);
-            make.centerY.equalTo(_timeButton);
-        }];
-        
-        [_describeTimeLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(106);
-            make.centerY.equalTo(_timeButton);
-        }];
+        _timeView = [DMLivingTimeView new];
     }
     
     return _timeView;
-}
-
-- (DMButton *)timeButton {
-    if (!_timeButton) {
-        _timeButton = [DMNotHighlightedButton new];
-        [_timeButton setImage:[UIImage imageNamed:@"icon_time_white"] forState:UIControlStateNormal];
-        [_timeButton setImage:[UIImage imageNamed:@"icon_time_red"] forState:UIControlStateSelected];
-    }
-    
-    return _timeButton;
-}
-
-- (UIImageView *)alreadyTimeShadowImageView {
-    if (!_alreadyTimeShadowImageView) {
-        _alreadyTimeShadowImageView = [UIImageView new];
-        _alreadyTimeShadowImageView.image = [UIImage imageNamed:@"image_shadowBottomToTop"];
-    }
-    
-    return _alreadyTimeShadowImageView;
-}
-
-- (UILabel *)alreadyTimeLabel {
-    if (!_alreadyTimeLabel) {
-        _alreadyTimeLabel = [UILabel new];
-        _alreadyTimeLabel.textColor = [UIColor whiteColor];
-        _alreadyTimeLabel.font = DMFontPingFang_Light(14);
-    }
-    
-    return _alreadyTimeLabel;
-}
-
-- (UILabel *)describeTimeLabel {
-    if (!_describeTimeLabel) {
-        _describeTimeLabel = [UILabel new];
-        _describeTimeLabel.textColor = DMColorBaseMeiRed;
-        _describeTimeLabel.font = DMFontPingFang_Light(14);
-    }
-    
-    return _describeTimeLabel;
 }
 
 - (DMLiveWillStartView *)willStartView {
