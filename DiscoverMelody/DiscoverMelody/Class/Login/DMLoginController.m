@@ -1,6 +1,6 @@
 #import "DMLoginController.h"
 #import "DMLoginTextField.h"
-
+#import "UILabel+YBAttributeTextTapAction.h"
 #import <IQKeyboardManager.h>
 
 const CGFloat kTextFieldHeight = 44;
@@ -10,7 +10,7 @@ const CGFloat kLogoTop = 208;
 const CGFloat acctountToLogoTop = 75;
 const CGFloat kAccountTop = kLogoTop + kLogoHeight + acctountToLogoTop;
 
-@interface DMLoginController () <UITextFieldDelegate>
+@interface DMLoginController () <UITextFieldDelegate, YBAttributeTapActionDelegate>
 
 @property (strong, nonatomic) UIImageView *backgroundImageView; // 背景图片
 @property (strong, nonatomic) UIImageView *logoImageView; // 登录logo图片
@@ -272,15 +272,23 @@ const CGFloat kAccountTop = kLogoTop + kLogoHeight + acctountToLogoTop;
         _descriptionLabel.font = DMFontPingFang_UltraLight(12);
         _descriptionLabel.textColor = [UIColor colorWithHexString:@"#FFFFFF" ];
         
-        NSString *urlString = @"www.DiscoverMelody.com";
+        NSString *urlString = @"www.discovermelody.com";
         NSString *textString = [NSString stringWithFormat:DMTextLoginDescribe, urlString];
         NSRange urlRange = [textString rangeOfString:urlString];
         NSMutableAttributedString *attributeString = [[NSMutableAttributedString alloc] initWithString:textString];
         [attributeString setAttributes:@{NSFontAttributeName: DMFontPingFang_Light(12), NSForegroundColorAttributeName: [UIColor colorWithHexString:@"#F6087A"] } range:urlRange];
         _descriptionLabel.attributedText = attributeString;
+        
+        [_descriptionLabel yb_addAttributeTapActionWithStrings:@[urlString] delegate:self];
+        _descriptionLabel.enabledTapEffect = NO;
     }
     
     return _descriptionLabel;
+}
+- (void)yb_attributeTapReturnString:(NSString *)string range:(NSRange)range index:(NSInteger)index {
+    NSLog(@"点击链接了");
+    NSString *urlString = [@"https://" stringByAppendingString:string];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
 }
 
 #pragma mark - Other
