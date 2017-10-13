@@ -67,8 +67,8 @@ NSString * const DMTextLiveStudentNotEnter = @"学生尚未进入课堂";
 NSString * const DMTextLiveTeacherNotEnter = @"老师尚未进入课堂";
 NSString * const DMTextLiveDelayTime = @"本课将于%zd分钟后自动关闭";
 //关闭视频 主副标题
-NSString * const DMTitleExitLiveRoom = @"确定要退出课程吗?";
-NSString * const DMTitleLiveAutoClose = @"确定后视频将自动关闭, 并结束课程";
+NSString * const DMTitleExitLiveRoom = @"确定要退出课程吗？";
+NSString * const DMTitleLiveAutoClose = @"确定后视频将自动关闭，并结束课程";
 
 NSString * const DMAlertTitleCameraNotOpen = @"您的摄像头未开启"; //作废文案，不会出现
 
@@ -94,7 +94,7 @@ NSString * const DMTitleDeletedPhotosMessage = @"";
 NSString * const DMTitleDeletedPhoto = @"确定要删除课件吗?";
 NSString * const DMTitleDeletedPhotoMessage = @"";
 //课件 上传重传 主副标题
-NSString * const DMTitleUploadFail = @"有图片上传失败, 是否重新上传";
+NSString * const DMTitleUploadFail = @"有图片上传失败，是否重新上传";
 NSString * const DMTitleUploadFailMessage = @"";
 
 //课件 本地相册
@@ -134,10 +134,8 @@ NSString * const DMTitleTeacherQuestionFild = @"老师小结";
 
 NSString * const DMTextPlaceholderMustFill = @"请填写";
 NSString * const DMTitleSubmit = @"提交";
-NSString * const DMQuestCommitStatusSuccess = @"提交成功";
-NSString * const DMQuestCommitStatusFailed = @"提交失败";
-NSString * const DMTitleNoTeacherQuestionComFild = @"老师暂未填写问卷";
-//老师问卷状态
+NSString * const DMTitleNoTeacherQuestionComFild = @"老师暂未填写总结";
+//老师总结状态
 NSString * const DMTitleTeacherQuestionReviewFild = @"  正在审核中...";
 NSString * const DMTitleTeacherQuestionFailedFild = @"  审核未通过，请修改后重新提交";
 NSString * const DMTitleTeacherQuestionSuccessFild = @"  审核通过";
@@ -176,11 +174,11 @@ NSString * const DMRefreshHeaderNoneLastDateText = @"无记录";
 //权限
 NSString * const Capture_Msg = @"Discover Melody will need to access your camera.";
 NSString * const Audio_Msg = @"Discover Melody will need to access your microphone.";
-NSString * const Photo_Msg = @"Discover Melody would like to access your photos";
+NSString * const Photo_Msg = @"Discover Melody would like to access your photos.";
 //弹窗选项 权限
 NSString * const DMTitleDonAllow = @"Don’t Allow";
 NSString * const DMTitleAllow = @"OK";
-NSString * const DMTitleGoSetting = @"去设置";
+NSString * const DMTitleGoSetting = @"Settings";
 //弹窗选项 是否 比如是否重传
 NSString * const DMTitleYes = @"Yes";
 NSString * const DMTitleNO = @"No";
@@ -188,12 +186,12 @@ NSString * const DMTitleNO = @"No";
 NSString * const DMTitleOK = @"Confirm";
 NSString * const DMTitleCancel = @"Cancel";
 //弹窗选项 建议升级、强制升级
-NSString * const DMTitleUpgrade = @"升级";
-NSString * const DMTitleMustUpgrade = @"立即升级";
+NSString * const DMTitleUpgrade = @"Update";
+NSString * const DMTitleMustUpgrade = @"Update Now";
 //网络/错误
-NSString * const DMTitleNetworkError = @"网络连接错误";
-NSString * const DMTitleNoTypeError = @"未知错误";
-NSString * const DMTextDataLoaddingError = @"数据加载失败";
+NSString * const DMTitleNetworkError = @"Network connection error";
+NSString * const DMTitleNoTypeError = @"Unexpected error";
+NSString * const DMTextDataLoaddingError = @"Error: Unable to load data from server";
 NSString * const DMTitleRefresh = @"REFRESH";
 //通用术语
 NSString * const DMStringIDStudent = @"Student";
@@ -209,12 +207,12 @@ NSString * const DMTitleHome = @"Home Page";
 NSString * const DMTitleCourseList = @"Course List";
 NSString * const DMTitleContactCustomerService = @"Contact Us";
 NSString * const DMTitleExitLogin = @"Log Out";
-NSString * const Logout_Msg = @"Are you sure you want to log out?";	//退出登录的二次确认
+NSString * const Logout_Msg = @"Are you sure you want to log out?";    //退出登录的二次确认
 
 /////////////////////////////////////////////////////////////////////////// 登陆页
 NSString * const DMTextPlaceholderAccount = @"Username";
 NSString * const DMTextPlaceholderPassword = @"Password";
-NSString * const DMTitleLogin = @"LOGIN";
+NSString * const DMTitleLogin = @"Log In";
 NSString * const DMTextLoginDescribe = @"This BETA version is for registered student only. For more information, please visit www.discovermelody.com";
 
 /////////////////////////////////////////////////////////////////////////// 首页
@@ -222,7 +220,7 @@ NSString * const DMTextThisClassFile = @"Session Document";
 NSString * const DMTextJoinClass = @"Start Session";
 NSString * const DMTextStartClassTime = @"Session Time: ";
 NSString * const DMClassStartTimeYMDHM = @"MM/dd HH:mm";
-NSString * const DMTextRecentNotClass = @"您暂时还没有课程哦";
+NSString * const DMTextRecentNotClass = @"No sessions at this time";
 
 /////////////////////////////////////////////////////////////////////////// 视频上课页
 NSString * const DMTextLiveStartTimeInterval = @"Your session will start in %zd minutes";
@@ -233,7 +231,7 @@ NSString * const DMTextLiveDelayTime = @"You session will be disconnected in %zd
 NSString * const DMTitleExitLiveRoom = @"Are you sure you want to end the session?";
 NSString * const DMTitleLiveAutoClose = @"After confirmation, your session will be disconnected";
 
-NSString * const DMAlertTitleCameraNotOpen = @"您的摄像头未开启"; //作废文案，不会出现
+NSString * const DMAlertTitleCameraNotOpen = @"Need to access your camera."; //作废文案，不会出现
 
 /////////////////////////////////////////////////////////////////////////// 课件
 NSString * const DMTextNotCourse = @"No document at this time";
@@ -247,7 +245,7 @@ NSString * const DMTitleUpload = @"Upload";
 NSString * const DMTitleDeleted = @"Delete";
 NSString * const DMTitleSync = @"Synchronize";
 //课件 同步
-NSString * const DMAlertTitleNotSync = @"学生未上线, 不能同步操作";
+NSString * const DMAlertTitleNotSync = @"Unable to synchronize at this time";
 NSString * const DMTitleImmediatelySync = @"Synchronize Now";
 NSString * const DMTitleCloseSync = @"Are you sure you want to end the synchronize?";
 NSString * const DMTitleCloseSyncMessage = @"";
@@ -257,14 +255,14 @@ NSString * const DMTitleDeletedPhotosMessage = @"";
 NSString * const DMTitleDeletedPhoto = @"Are you sure you want to delete the document?";
 NSString * const DMTitleDeletedPhotoMessage = @"";
 //课件 上传重传 主副标题
-NSString * const DMTitleUploadFail = @"有图片上传失败, 是否重新上传";
+NSString * const DMTitleUploadFail = @"Upload failed. Would you like to try again?";
 NSString * const DMTitleUploadFailMessage = @"";
 
 //课件 本地相册
 NSString * const DMTitleAllPhotos = @"Albums";
 NSString * const DMTitlePhoto = @"Albums";
 //课件 上传
-NSString * const DMTitleUploadCount = @"一次最多选择%d张图片";
+NSString * const DMTitleUploadCount = @"Select a maximum of %d photos";
 NSString * const DMTitlePhotoUpload = @"Upload Now";
 NSString * const DMTitlePhotoUploadCount = @"Upload Now(%zd)";
 
@@ -284,7 +282,7 @@ NSString * const DMTextDetailDate = @"Time";
 NSString * const DMTextPeriod = @"Length";
 NSString * const DMTextStauts = @"Status";
 NSString * const DMTextFiles = @"Document";
-NSString * const DMTextQuestionnaire = @"Survey";
+NSString * const DMTextQuestionnaire = @"Summary";
 NSString * const DMTextMinutes = @" mins";
 NSString * const DMTitleClassRelook = @"Review";
 
@@ -292,18 +290,16 @@ NSString * const DMTitleClassRelook = @"Review";
 
 NSString * const DMDateFormatterYMD = @"MM/dd/YYYY";
 
-NSString * const DMTitleStudentQuestionFild = @"My Survey";
-NSString * const DMTitleTeacherQuestionFild = @"Teacher's Survey";
+NSString * const DMTitleStudentQuestionFild = @"My Summary";
+NSString * const DMTitleTeacherQuestionFild = @"Teacher's Summary";
 
-NSString * const DMTextPlaceholderMustFill = @"请填写";
+NSString * const DMTextPlaceholderMustFill = @"Please fill out the summary";
 NSString * const DMTitleSubmit = @"Submit";
-NSString * const DMQuestCommitStatusSuccess = @"提交成功";
-NSString * const DMQuestCommitStatusFailed = @"提交失败";
-NSString * const DMTitleNoTeacherQuestionComFild = @"老师暂未填写问卷";
+NSString * const DMTitleNoTeacherQuestionComFild = @"Summary not available at this moment";
 //老师问卷状态
-NSString * const DMTitleTeacherQuestionReviewFild = @"  正在审核中...";
-NSString * const DMTitleTeacherQuestionFailedFild = @"  审核未通过，请修改后重新提交";
-NSString * const DMTitleTeacherQuestionSuccessFild = @"  审核通过";
+NSString * const DMTitleTeacherQuestionReviewFild = @"  Summary pending…";
+NSString * const DMTitleTeacherQuestionFailedFild = @"  Summary pending…";
+NSString * const DMTitleTeacherQuestionSuccessFild = @"  Summary submission successful";
 
 
 /////////////////////////////////////////////////////////////////////////// 客服页
@@ -311,8 +307,8 @@ NSString * const DMStringWeChatNumber = @"WeChat: %@";
 NSString * const DMTextCustomerServiceDescribe = @"Contact our customer service team for any support";
 
 /////////////////////////////////////////////////////////////////////////// 点播
-NSString * const DMAlertTitleVedioNotExist = @"视频资源不存在";
-NSString * const DMTitleVedioRetry = @"视频加载失败，点击重试";
+NSString * const DMAlertTitleVedioNotExist = @"Resources do not exist";
+NSString * const DMTitleVedioRetry = @"Load failed，click Retry";
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 后加
@@ -334,3 +330,4 @@ NSString * const DMRefreshHeaderDateTodayText = @"今天";
 NSString * const DMRefreshHeaderNoneLastDateText = @"无记录";
 
 #endif
+

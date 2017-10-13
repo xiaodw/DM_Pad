@@ -126,8 +126,8 @@ UIKIT_EXTERN NSString * const DMTitleTeacherQuestionFild;
 
 UIKIT_EXTERN NSString * const DMTextPlaceholderMustFill;
 UIKIT_EXTERN NSString * const DMTitleSubmit;
-UIKIT_EXTERN NSString * const DMQuestCommitStatusSuccess;
-UIKIT_EXTERN NSString * const DMQuestCommitStatusFailed;
+//UIKIT_EXTERN NSString * const DMQuestCommitStatusSuccess;
+//UIKIT_EXTERN NSString * const DMQuestCommitStatusFailed;
 UIKIT_EXTERN NSString * const DMTitleNoTeacherQuestionComFild;
 //老师问卷状态
 UIKIT_EXTERN NSString * const DMTitleTeacherQuestionReviewFild;
