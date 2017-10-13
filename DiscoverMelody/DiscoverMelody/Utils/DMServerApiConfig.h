@@ -31,7 +31,7 @@
 #define SERVER_ENVIRONMENT   0
 
 //语言环境: 0 中文， 1 英文
-#define LANGUAGE_ENVIRONMENT 1
+#define LANGUAGE_ENVIRONMENT 0
 
 
 #if LANGUAGE_ENVIRONMENT == 0 //中文

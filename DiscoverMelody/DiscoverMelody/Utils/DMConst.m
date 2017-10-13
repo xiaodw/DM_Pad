@@ -213,7 +213,7 @@ NSString * const Logout_Msg = @"Are you sure you want to log out?";    //退出�
 NSString * const DMTextPlaceholderAccount = @"Username";
 NSString * const DMTextPlaceholderPassword = @"Password";
 NSString * const DMTitleLogin = @"Log In";
-NSString * const DMTextLoginDescribe = @"This BETA version is for registered student only. For more information, please visit www.discovermelody.com";
+NSString * const DMTextLoginDescribe = @"This BETA version is for registered student only. For more information, please visit %@";
 
 /////////////////////////////////////////////////////////////////////////// 首页
 NSString * const DMTextThisClassFile = @"Session Document";
