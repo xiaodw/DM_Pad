@@ -122,6 +122,8 @@
 		5169FFDB1F6E912100396EFA /* DMAssetTIFF.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FFD11F6E912100396EFA /* DMAssetTIFF.m */; };
 		5169FFE21F6E9A9A00396EFA /* DMClassFileDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A44FC0C1F6BF72500A1D574 /* DMClassFileDataModel.m */; };
 		5169FFE41F6E9ACB00396EFA /* DMClassDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A44FC091F6BF22A00A1D574 /* DMClassDataModel.m */; };
+		5197D7401F904DEA001AFD23 /* DMLiveView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5197D73F1F904DEA001AFD23 /* DMLiveView.m */; };
+		5197D7431F905948001AFD23 /* DMLivingTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5197D7421F905948001AFD23 /* DMLivingTimeView.m */; };
 		51B471391F62506D004FACC8 /* DMLiveController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B471381F62506D004FACC8 /* DMLiveController.m */; };
 		51B471481F62760E004FACC8 /* DMLiveButtonControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B471471F62760E004FACC8 /* DMLiveButtonControlView.m */; };
 		51B71C941F7CEF8600F9D83C /* DMLayoutContst.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B71C931F7CEF8600F9D83C /* DMLayoutContst.m */; };
@@ -386,6 +388,10 @@
 		5169FFCF1F6E912100396EFA /* DMAssetExif.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMAssetExif.m; sourceTree = "<group>"; };
 		5169FFD01F6E912100396EFA /* DMAssetTIFF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMAssetTIFF.h; sourceTree = "<group>"; };
 		5169FFD11F6E912100396EFA /* DMAssetTIFF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMAssetTIFF.m; sourceTree = "<group>"; };
+		5197D73E1F904DEA001AFD23 /* DMLiveView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DMLiveView.h; sourceTree = "<group>"; };
+		5197D73F1F904DEA001AFD23 /* DMLiveView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DMLiveView.m; sourceTree = "<group>"; };
+		5197D7411F905948001AFD23 /* DMLivingTimeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DMLivingTimeView.h; sourceTree = "<group>"; };
+		5197D7421F905948001AFD23 /* DMLivingTimeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DMLivingTimeView.m; sourceTree = "<group>"; };
 		51B471371F62506D004FACC8 /* DMLiveController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMLiveController.h; sourceTree = "<group>"; };
 		51B471381F62506D004FACC8 /* DMLiveController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMLiveController.m; sourceTree = "<group>"; };
 		51B471431F62717A004FACC8 /* DMConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMConfig.h; sourceTree = "<group>"; };
@@ -943,6 +949,10 @@
 				515DCF051F67A7D200AA9465 /* DMLiveCoursewareView.m */,
 				515DCF071F67C5A500AA9465 /* DMLiveCoursewareCell.h */,
 				515DCF081F67C5A500AA9465 /* DMLiveCoursewareCell.m */,
+				5197D73E1F904DEA001AFD23 /* DMLiveView.h */,
+				5197D73F1F904DEA001AFD23 /* DMLiveView.m */,
+				5197D7411F905948001AFD23 /* DMLivingTimeView.h */,
+				5197D7421F905948001AFD23 /* DMLivingTimeView.m */,
 				5100E42B1F6A4B8F000AB506 /* Course */,
 			);
 			path = Live;
@@ -1102,7 +1112,6 @@
 				TargetAttributes = {
 					2A03AF411F555FA80088DBF4 = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = BR9B47C6A9;
 						ProvisioningStyle = Automatic;
 					};
 					2A03AF5A1F555FA80088DBF4 = {
@@ -1264,6 +1273,7 @@
 				51D2D62E1F613B0900764130 /* DMButton.m in Sources */,
 				2A3D1D261F692A44005671B2 /* UIWindow+CurrentViewController.m in Sources */,
 				2A5EA6BC1F73527E0041CBD2 /* DMCloudConfigData.m in Sources */,
+				5197D7401F904DEA001AFD23 /* DMLiveView.m in Sources */,
 				2A9D91671F6690FC00DF4A3B /* DMCustomerCell.m in Sources */,
 				2A3D1D251F692A44005671B2 /* UIViewController+ZFPlayerRotation.m in Sources */,
 				5100E4701F6A7662000AB506 /* DMTabBarView.m in Sources */,
@@ -1284,6 +1294,7 @@
 				51DCFA601F7A6A95007BC228 /* DMActivityView.m in Sources */,
 				515DCF061F67A7D200AA9465 /* DMLiveCoursewareView.m in Sources */,
 				5113D7BA1F7915A3004E3E9B /* DMBarButtonItem.m in Sources */,
+				5197D7431F905948001AFD23 /* DMLivingTimeView.m in Sources */,
 				2AB7DD711F6A37DA00270C03 /* DMRadioView.m in Sources */,
 				2A8426A71F6A757D005BA6EC /* DMLoginDataModel.m in Sources */,
 				2A27E0CF1F5E46EC00865644 /* DMTools.m in Sources */,
@@ -1503,7 +1514,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = BR9B47C6A9;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1516,7 +1527,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/DiscoverMelody/Vendors/LiveVideo/SignalingSDK",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.discovermelody.DiscoverMelody;
+				PRODUCT_BUNDLE_IDENTIFIER = com.discovermelody.DiscoverMelody2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 2;
@@ -1531,7 +1542,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = BR9B47C6A9;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1544,7 +1555,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/DiscoverMelody/Vendors/LiveVideo/SignalingSDK",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.discovermelody.DiscoverMelody;
+				PRODUCT_BUNDLE_IDENTIFIER = com.discovermelody.DiscoverMelody2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 2;
