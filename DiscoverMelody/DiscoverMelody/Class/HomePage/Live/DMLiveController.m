@@ -31,7 +31,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 
 #pragma mark - UI property
 @property (strong, nonatomic) DMLiveVideoManager *liveVideoManager; // 声网SDK Manager
-@property (strong, nonatomic) UIView *remoteView; // 远端窗口
+@property (strong, nonatomic) DMLiveView *remoteView; // 远端窗口
 @property (strong, nonatomic) UIView *remoteBackgroundView; // 远端窗口
 @property (strong, nonatomic) DMMicrophoneView *remoteMicrophoneView; // 远端麦克风音量
 @property (strong, nonatomic) UIImageView *remotePlaceholderView; // 远端没有人占位图
@@ -44,7 +44,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 
 @property (strong, nonatomic) DMLiveButtonControlView *controlView; // 左侧按钮们
 @property (strong, nonatomic) DMLiveCoursewareView *coursewareView; // 课件视图
-@property (strong, nonatomic) UIImageView *shadowImageView;
 @property (strong, nonatomic) UIImageView *shadowRightImageView;
 
 @property (strong, nonatomic) DMLivingTimeView *timeView;
@@ -325,7 +324,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self.view addSubview:self.remotePlaceholderTitleLabel];
     [self.view addSubview:self.shadowRightImageView];
     [self.view addSubview:self.localView];
-    [self.view addSubview:self.shadowImageView];
     [self.view addSubview:self.remoteMicrophoneView];
     [self.view addSubview:self.localMicrophoneView];
 
@@ -348,10 +346,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [_controlView makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.bottom.equalTo(self.view);
         make.width.equalTo(225);
-    }];
-    
-    [_shadowImageView makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(_controlView);
     }];
     
     [_shadowRightImageView makeConstraints:^(MASConstraintMaker *make) {
@@ -605,16 +599,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     
     return _localView;
 }
-
-- (UIImageView *)shadowImageView {
-    if (!_shadowImageView) {
-        _shadowImageView = [UIImageView new];
-        _shadowImageView.image = [UIImage imageNamed:@"image_shadow"];
-    }
-    
-    return _shadowImageView;
-}
-
 
 - (UIImageView *)shadowRightImageView {
     if (!_shadowRightImageView) {
