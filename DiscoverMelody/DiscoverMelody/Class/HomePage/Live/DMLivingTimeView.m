@@ -62,7 +62,7 @@
     }];
     
     [_describeTimeLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(106);
+        make.left.equalTo(120);
         make.centerY.equalTo(_timeButton);
     }];
 }
