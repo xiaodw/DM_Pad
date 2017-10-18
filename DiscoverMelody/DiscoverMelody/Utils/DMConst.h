@@ -56,6 +56,7 @@ UIKIT_EXTERN NSString * const DMClassStartTimeYMDHM;
 UIKIT_EXTERN NSString * const DMTextRecentNotClass;
 
 /////////////////////////////////////////////////////////////////////////// 视频上课页
+UIKIT_EXTERN NSString * const DMTextLiveRecording;
 UIKIT_EXTERN NSString * const DMTextLiveStartTimeInterval;
 UIKIT_EXTERN NSString * const DMTextLiveStudentNotEnter;
 UIKIT_EXTERN NSString * const DMTextLiveTeacherNotEnter;

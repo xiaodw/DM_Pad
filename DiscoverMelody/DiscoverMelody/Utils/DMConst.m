@@ -62,6 +62,7 @@ NSString * const DMClassStartTimeYMDHM = @"MM月dd日 HH:mm";
 NSString * const DMTextRecentNotClass = @"您暂时还没有课程哦";
 
 /////////////////////////////////////////////////////////////////////////// 视频上课页
+NSString * const DMTextLiveRecording = @"录制中...";
 NSString * const DMTextLiveStartTimeInterval = @"距离上课还有%zd分钟";
 NSString * const DMTextLiveStudentNotEnter = @"学生尚未进入课堂";
 NSString * const DMTextLiveTeacherNotEnter = @"老师尚未进入课堂";
@@ -223,10 +224,11 @@ NSString * const DMClassStartTimeYMDHM = @"MM/dd HH:mm";
 NSString * const DMTextRecentNotClass = @"No sessions at this time";
 
 /////////////////////////////////////////////////////////////////////////// 视频上课页
+NSString * const DMTextLiveRecording = @"Recording";
 NSString * const DMTextLiveStartTimeInterval = @"Your session will start in %zd minutes";
 NSString * const DMTextLiveStudentNotEnter = @"The student hasn’t entered the session";
 NSString * const DMTextLiveTeacherNotEnter = @"The teacher hasn’t entered the session";
-NSString * const DMTextLiveDelayTime = @"You session will be disconnected in %zd minutes";
+NSString * const DMTextLiveDelayTime = @"Your session will be disconnected in %zd minutes";
 //关闭视频 主副标题
 NSString * const DMTitleExitLiveRoom = @"Are you sure you want to end the session?";
 NSString * const DMTitleLiveAutoClose = @"After confirmation, your session will be disconnected";

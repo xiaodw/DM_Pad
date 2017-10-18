@@ -646,7 +646,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 - (UILabel *)recordingLabel {
     if (!_recordingLabel) {
         _recordingLabel = [UILabel new];
-        _recordingLabel.text = @"录制中...";
+        _recordingLabel.text = DMTextLiveRecording;
         _recordingLabel.textColor = [UIColor whiteColor];
         _recordingLabel.font = DMFontPingFang_Light(14);
         _recordingLabel.hidden = YES;
