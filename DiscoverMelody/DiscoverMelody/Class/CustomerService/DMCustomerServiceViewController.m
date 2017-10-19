@@ -153,7 +153,7 @@
     
     if (section-1 < self.customerArray.count) {
         DMCustomerTeacher *cT = [self.customerArray objectAtIndex:section-1];
-        return cT.isFurled ? 0 : cT.customer_list.count;
+        return cT.auto_open == false ? 0 : cT.customer_list.count;
     }
     
     return 0;
@@ -216,11 +216,11 @@
     DMCustomerTeacher *cT = [self.customerArray objectAtIndex:section-1];
     infoV.blockTapEvent = ^{
         if (section-1 < self.customerArray.count) {
-            cT.isFurled = !cT.isFurled;
-            [weakSelf sectionClick:cT.isFurled section:section];
+            cT.auto_open = !cT.auto_open;
+            [weakSelf sectionClick:cT.auto_open section:section];
         }
     };
-    [infoV updateSubViewsObj:cT.customer_region isFurled:cT.isFurled];
+    [infoV updateSubViewsObj:cT.customer_region isFurled:cT.auto_open];
     infoV.tag = section;
 
     return infoV;

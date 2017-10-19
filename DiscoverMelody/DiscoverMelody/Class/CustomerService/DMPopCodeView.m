@@ -9,10 +9,10 @@
 #import "DMPopCodeView.h"
 
 @interface DMPopCodeView()
-@property(nonatomic, strong)UIView *blackView;
-@property(nonatomic, strong)UILabel *titleLabel;
-@property(nonatomic, strong)UILabel *messageLabel;
-@property(nonatomic, strong)UIImageView *imageView;
+@property (nonatomic, strong) UIView *blackView;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UILabel *messageLabel;
+@property (nonatomic, strong) UIImageView *imageView;
 
 @property (nonatomic, strong) NSString *titleStr;
 @property (nonatomic, strong) NSString *msgStr;
