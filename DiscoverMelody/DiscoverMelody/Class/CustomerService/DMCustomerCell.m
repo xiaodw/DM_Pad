@@ -10,7 +10,7 @@
 #import "DMCustomerDataModel.h"
 @interface DMCustomerCell ()
 @property (nonatomic, strong) UILabel *teachLabel;
-@property (nonatomic, strong) UILabel *wecatAccountLabel;
+//@property (nonatomic, strong) UILabel *wecatAccountLabel;
 @property (nonatomic, strong) UIImageView *bgCodeImageView;
 @property (nonatomic, strong) UIImageView *codeImageView;
 @property (nonatomic, strong) UILabel *lineLabel;
@@ -37,12 +37,12 @@
     self.teachLabel.textAlignment = NSTextAlignmentLeft;
     [self addSubview:self.teachLabel];
     
-    self.wecatAccountLabel = [[UILabel alloc] init];
-    self.wecatAccountLabel.textColor = DMColorWithRGBA(153, 153, 153, 1);
-    self.wecatAccountLabel.font = DMFontPingFang_Thin(12);
-    self.wecatAccountLabel.textAlignment = NSTextAlignmentLeft;
-    [self addSubview:self.wecatAccountLabel];
-    
+//    self.wecatAccountLabel = [[UILabel alloc] init];
+//    self.wecatAccountLabel.textColor = DMColorWithRGBA(153, 153, 153, 1);
+//    self.wecatAccountLabel.font = DMFontPingFang_Thin(12);
+//    self.wecatAccountLabel.textAlignment = NSTextAlignmentLeft;
+//    [self addSubview:self.wecatAccountLabel];
+//
     self.bgCodeImageView = [[UIImageView alloc] init];
     [self addSubview:self.bgCodeImageView];
     
@@ -55,19 +55,19 @@
     
     [self.teachLabel makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self).offset(33);
-        make.top.equalTo(self).offset(20);
-        make.width.equalTo(DMScreenWidth/3);
-        make.height.equalTo(18);
-        
+        make.top.equalTo(self).offset(0);//20
+        make.width.equalTo(DMScreenWidth/2);
+        //make.height.equalTo(18);
+        make.bottom.equalTo(self);
     }];
     
-    [self.wecatAccountLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self).offset(33);
-        make.top.equalTo(self.teachLabel.mas_bottom).offset(6);
-        make.width.equalTo(DMScreenWidth/3);
-        make.height.equalTo(12);
-        
-    }];
+//    [self.wecatAccountLabel makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(self).offset(33);
+//        make.top.equalTo(self.teachLabel.mas_bottom).offset(6);
+//        make.width.equalTo(DMScreenWidth/3);
+//        make.height.equalTo(12);
+//
+//    }];
     
     [self.bgCodeImageView makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self).offset(-18);
@@ -92,7 +92,7 @@
 - (void)configObj:(id)obj {
     DMCustomerTeacherInfo *infoObj = (DMCustomerTeacherInfo *)obj;
     self.teachLabel.text = infoObj.name;
-    self.wecatAccountLabel.text = [NSString stringWithFormat:DMStringWeChatNumber, infoObj.webchat];
+    //self.wecatAccountLabel.text = [NSString stringWithFormat:DMStringWeChatNumber, infoObj.webchat];
     self.bgCodeImageView.image = [UIImage imageNamed:@"customer_code"];
     [self.codeImageView sd_setImageWithURL:[NSURL URLWithString:infoObj.img_url] placeholderImage:[UIImage imageNamed:@""]];
 }
