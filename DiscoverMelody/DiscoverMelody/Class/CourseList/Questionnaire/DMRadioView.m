@@ -38,8 +38,9 @@
     [self.selButton makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.radioView).offset(10);
         make.top.bottom.equalTo(self.radioView);
-        make.size.equalTo(92);
+        make.right.equalTo(self.radioView);
     }];
+
 }
 
 - (UIButton *)createRadioButton:(NSString *)title {

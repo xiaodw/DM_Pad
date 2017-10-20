@@ -50,7 +50,7 @@
                               CGRectMake(5, 0, self.rightButton.frame.size.width-21-24/2, self.rightButton.frame.size.height)];
     titleBtnLabel.textColor = DMColorWithRGBA(246, 246, 246, 1);
     titleBtnLabel.font = DMFontPingFang_Thin(14);
-    titleBtnLabel.text =[self.selArray lastObject];
+    titleBtnLabel.text =[self.selArray firstObject];
     titleBtnLabel.textAlignment = NSTextAlignmentCenter;
     titleBtnLabel.tag = 10001;
     [self.rightButton addSubview:titleBtnLabel];
