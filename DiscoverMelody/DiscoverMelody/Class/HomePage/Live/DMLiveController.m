@@ -31,7 +31,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 
 #pragma mark - UI property
 @property (strong, nonatomic) DMLiveVideoManager *liveVideoManager; // 声网SDK Manager
-@property (strong, nonatomic) DMLiveView *remoteView; // 远端窗口
+@property (strong, nonatomic) UIView *remoteView; // 远端窗口
 @property (strong, nonatomic) UIView *remoteBackgroundView; // 远端窗口
 @property (strong, nonatomic) DMMicrophoneView *remoteMicrophoneView; // 远端麦克风音量
 @property (strong, nonatomic) UIImageView *remotePlaceholderView; // 远端没有人占位图
@@ -65,10 +65,11 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 #pragma mark - Set Methods
 - (void)setIsRemoteUserOnline:(BOOL)isRemoteUserOnline {
     _isRemoteUserOnline = isRemoteUserOnline;
-    
-    [UIView animateWithDuration:0.15 animations:^{
-        self.remoteView.alpha = isRemoteUserOnline ? 1 : 0;;
-    }];
+    if (isRemoteUserOnline) return;
+    for (int i = 0; i < self.remoteView.subviews.count; i++) {
+        UIView *subview = self.remoteView.subviews[i];
+        [subview removeFromSuperview];
+    }
 }
 
 //声网用户状态统计
