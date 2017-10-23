@@ -156,6 +156,10 @@
     [DMApiModel commitQuestAnswer:self.lessonID answers:dicArray block:^(BOOL result) {
         if (result) {
             weakSelf.myQuestObj.survey = @"1";
+            NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
+            if (userIdentity != 0) {
+                [weakSelf updateUIStatus:weakSelf.myQuestObj.survey.intValue];
+            }
             [weakSelf updateTableStatus:weakSelf.myQuestObj isNetCallback:NO];
         }
     }];
