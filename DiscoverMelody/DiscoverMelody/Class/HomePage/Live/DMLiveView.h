@@ -1,25 +1,19 @@
 #import <UIKit/UIKit.h>
 
-@class DMLiveView;
-
-@protocol DMLiveViewDelegate
-
-@optional
-- (void)liveViewShouldSmallDidTapView:(DMLiveView *)view;
-
-@end
-
 typedef NS_ENUM(NSInteger, DMLiveViewMode) {
     DMLiveViewSmall, // 本地
-    DMLiveViewBalance, //
+    DMLiveViewBalanceTB, // 上下
+    DMLiveViewBalanceLR, // 左右
     DMLiveViewFull // 远端
 };
 
 @interface DMLiveView : UIView
 
-@property (weak, nonatomic) id<DMLiveViewDelegate> delegate;
-
+@property (strong, nonatomic, readonly) UIView *view;
 @property (assign, nonatomic) CGFloat voiceValue;
 @property (assign, nonatomic) DMLiveViewMode mode;
+@property (strong, nonatomic) NSString *placeholderText;
+@property (strong, nonatomic) UIImage *placeholderImage;
+@property (assign, nonatomic) BOOL showPlaceholder;
 
 @end
