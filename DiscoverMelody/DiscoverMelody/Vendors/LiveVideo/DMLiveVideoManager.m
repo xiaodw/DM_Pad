@@ -177,6 +177,8 @@ static DMLiveVideoManager* _instance = nil;
     self.remoteVideoCanvas = [[AgoraRtcVideoCanvas alloc] init];
     //初始化声网
     self.agoraKit = [AgoraRtcEngineKit sharedEngineWithAppId:self.app_ID delegate:self];
+    //开始sdk日志
+    [self enableAgoraLog];
     //设置频道模式，默认通信
     [self.agoraKit setChannelProfile:AgoraRtc_ChannelProfile_Communication];
     //打开视频模式
@@ -191,6 +193,12 @@ static DMLiveVideoManager* _instance = nil;
     [self.agoraKit startPreview];
     //加入频道
     [self joinChannel];
+}
+
+- (void)enableAgoraLog {
+    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *aLogFilePath = [path stringByAppendingPathComponent:@"agorakitLog.txt"];
+    [self.agoraKit setLogFile:aLogFilePath];
 }
 
 - (void)setupLocalVideoDisplay {
