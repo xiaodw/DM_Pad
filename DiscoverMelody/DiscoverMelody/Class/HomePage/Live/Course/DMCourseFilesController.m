@@ -10,13 +10,13 @@
 #import "DMLiveVideoManager.h"
 #import "DMSendSignalingMsg.h"
 #import "DMBarButtonItem.h"
+#import "DMNavigationBar.h"
 
 #define kCourseFileCellID @"Courseware"
 
 @interface DMCourseFilesController () <DMBottomBarViewDelegate, DMTabBarViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, DMBrowseCourseControllerDelegate, DMBrowseViewDelegate, DMUploadControllerDelegate>
 
-@property (strong, nonatomic) UIButton *rightBarButton;
-@property (strong, nonatomic) UIView *navigationBar;
+@property (strong, nonatomic) DMNavigationBar *navigationBar;
 @property (strong, nonatomic) UIView *backgroundView;
 @property (strong, nonatomic) UIView *closeBackgroundView;
 @property (strong, nonatomic) UIView *notFileView;
@@ -55,7 +55,7 @@
     if (self.bottomBar.uploadButton.enabled) {
         // 复原处理
         [self reinstateSelectedCpirses];
-        self.rightBarButton.selected = NO;
+        self.navigationBar.rightBarButton.selected = NO;
     }
     
     if (_isSyncBrowsing) {
@@ -141,7 +141,7 @@
 - (void)tabBarView:(DMTabBarView *)tabBarView didTapBarButton:(UIButton *)button{
     self.editorMode = NO;
     self.bottomBar.syncButton.hidden = _isFullScreen || !self.userIdentity;
-    self.rightBarButton.hidden = button.tag && (!self.userIdentity || _isFullScreen);
+    self.navigationBar.rightBarButton.hidden = button.tag && (!self.userIdentity || _isFullScreen);
     self.bottomBar.deleteButton.hidden = button.tag;
     self.bottomBar.uploadButton.hidden = button.tag;
     self.bottomBar.hidden = NO;
@@ -231,7 +231,7 @@
                 [DMActivityView hideActivity];
                 if (!result) return;
                 [weakSelf.currentCpirses removeObjectsInArray:weakSelf.selectedCpirses];
-                [weakSelf didTapSelect:weakSelf.rightBarButton];
+                [weakSelf didTapSelect:weakSelf.navigationBar.rightBarButton];
                 weakSelf.notFileView.hidden = weakSelf.currentCpirses.count;
             }];
             
@@ -455,39 +455,18 @@
 }
 
 #pragma mark - Lazy
-- (UIView *)navigationBar {
+- (DMNavigationBar *)navigationBar {
     if (!_navigationBar) {
-        _navigationBar = [UIView new];
-        _navigationBar.backgroundColor = DMColor33(1);
+        _navigationBar = [DMNavigationBar new];
         
-        UIButton *leftBarButton = [DMBarButtonItem new];
-        [leftBarButton setImage:[UIImage imageNamed:@"back_icon"] forState:UIControlStateNormal];
-        [leftBarButton addTarget:self action:@selector(didTapBack) forControlEvents:UIControlEventTouchUpInside];
-     
-        UILabel *titleLabel = [UILabel new];
-        titleLabel.text = DMTextThisClassFile;
-        titleLabel.textColor = [UIColor whiteColor];
-        titleLabel.font = DMFontPingFang_Medium(16);
-        
-        [_navigationBar addSubview:leftBarButton];
-        [_navigationBar addSubview:self.rightBarButton];
-        [_navigationBar addSubview:titleLabel];
-        
-        [leftBarButton makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(16);
-            make.size.equalTo(CGSizeMake(DMCourseFilesNavigationLeftButtonWidth, 30));
-            make.bottom.equalTo(_navigationBar.mas_bottom).offset(-7);
-        }];
-        
-        [_rightBarButton makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(_navigationBar.mas_right).offset(DMCourseFilesNavigationRightButtonRight);
-            make.bottom.width.height.equalTo(leftBarButton);
-        }];
-        
-        [titleLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(leftBarButton);
-            make.centerX.equalTo(_navigationBar);
-        }];
+        [_navigationBar.leftBarButton setTitle:DMTitlePhoto forState:UIControlStateNormal];
+        [_navigationBar.leftBarButton addTarget:self action:@selector(didTapBack) forControlEvents:UIControlEventTouchUpInside];
+        _navigationBar.titleLabel.text = DMTextThisClassFile;
+        _navigationBar.rightBarButton.selected = YES;
+        [_navigationBar.rightBarButton setTitle:DMTitleSelected forState:UIControlStateNormal];
+        [_navigationBar.rightBarButton setTitle:DMTitleCancel forState:UIControlStateSelected];
+        [_navigationBar.rightBarButton setTitleColor:DMColorBaseMeiRed forState:UIControlStateNormal];
+        [_navigationBar.rightBarButton addTarget:self action:@selector(didTapSelect:) forControlEvents:UIControlEventTouchUpInside];
     }
     
     return _navigationBar;
@@ -500,20 +479,6 @@
     }
     
     return _browseView;
-}
-
-- (UIButton *)rightBarButton {
-    if (!_rightBarButton) {
-        _rightBarButton = [UIButton new];
-        _rightBarButton.titleLabel.font = DMFontPingFang_Medium(16);
-        _rightBarButton.selected = YES;
-        [_rightBarButton setTitle:DMTitleSelected forState:UIControlStateNormal];
-        [_rightBarButton setTitle:DMTitleCancel forState:UIControlStateSelected];
-        [_rightBarButton setTitleColor:DMColorBaseMeiRed forState:UIControlStateNormal];
-        [_rightBarButton addTarget:self action:@selector(didTapSelect:) forControlEvents:UIControlEventTouchUpInside];
-    }
-    
-    return _rightBarButton;
 }
 
 - (UIView *)backgroundView {
