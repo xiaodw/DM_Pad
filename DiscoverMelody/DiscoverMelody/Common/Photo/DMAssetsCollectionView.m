@@ -38,7 +38,7 @@
     
     [self.collectionView reloadData];
     self.navigationBar.titleLabel.text = album.name;
-    if (_assets.count == 0) return;
+    [self resetUploadButton];
     [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:_assets.count-1 inSection:0] atScrollPosition:UICollectionViewScrollPositionBottom animated:NO];
 }
 
@@ -350,17 +350,21 @@
     return _bottomBar;
 }
 
+- (void)resetUploadButton {
+    _uploadButton.enabled = NO;
+    _uploadButton.backgroundColor = DMColorWithRGBA(221, 221, 221, 1);
+    [_uploadButton setTitle:DMTitlePhotoUpload forState:UIControlStateNormal];
+}
+
 - (UIButton *)uploadButton {
     if (!_uploadButton) {
         _uploadButton = [UIButton new];
         _uploadButton.layer.cornerRadius = 5;
-        _uploadButton.enabled = NO;
         _uploadButton.titleLabel.font = DMFontPingFang_Regular(14);
-        _uploadButton.backgroundColor = DMColorWithRGBA(221, 221, 221, 1);
         [_uploadButton setTitleColor:DMColorWithHexString(@"#999999") forState:UIControlStateDisabled];
         [_uploadButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [self resetUploadButton];
         
-        [_uploadButton setTitle:DMTitlePhotoUpload forState:UIControlStateNormal];
         [_uploadButton addTarget:self action:@selector(didTapUpload:) forControlEvents:UIControlEventTouchUpInside];
     }
     
