@@ -103,14 +103,14 @@
     WS(weakSelf)
     NSMutableArray *surplusPhotos = [surplus mutableCopy];
     if (surplusPhotos.count == 0) {
-         [DMActivityView hideActivity];
-        if (self.fieldAssets.count == 0) {
-            [self.delegate albrmsCollectionView:weakSelf success:weakSelf.successAssets];
+        [DMActivityView hideActivity];
+        if (weakSelf.fieldAssets.count == 0) {
+            [weakSelf.delegate albrmsCollectionView:weakSelf success:weakSelf.successAssets];
             return;
         }
-        
+
         DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:DMTitleUploadFail message:DMTitleUploadFailMessage preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleNO otherTitle:DMTitleYes, nil];
-        [alert showWithViewController:(UIViewController *)self.delegate IndexBlock:^(NSInteger index) {
+        [alert showWithViewController:(UIViewController *)weakSelf.delegate IndexBlock:^(NSInteger index) {
             if (index == 1) { // 右侧
                 [DMActivityView showActivityCover:weakSelf];
                 [weakSelf uploadPhotos:weakSelf.fieldAssets];
@@ -123,23 +123,27 @@
     
     DMAsset *asset = surplusPhotos.firstObject;
     asset.status = DMAssetStatusUploading;
-    [self.uploadBrowseView refrenshAssetStatus:asset];
+    [weakSelf.uploadBrowseView refrenshAssetStatus:asset];
     [surplusPhotos removeObject:asset];
     NSData *imgData = UIImageJPEGRepresentation(asset.fullResolutionImage, 1.0);
-    [self.bosManager startUploadFileToBD:self.lessonID formatType:DMFormatUploadFileType_FileData fileData:imgData filePath:nil fileExt:@".png" angle:(UIImageOrientation)asset.orientation];
+    [weakSelf.bosManager startUploadFileToBD:weakSelf.lessonID formatType:DMFormatUploadFileType_FileData fileData:imgData filePath:nil fileExt:@".png" angle:(UIImageOrientation)asset.orientation];
     
-    self.bosManager.blockUploadFailed = ^(NSError *error) {
-        asset.status = DMAssetStatusFail;
-        [weakSelf.uploadBrowseView refrenshAssetStatus:asset];
-        [weakSelf uploadPhotos:surplusPhotos];
+    weakSelf.bosManager.blockUploadFailed = ^(NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            asset.status = DMAssetStatusFail;
+            [weakSelf.uploadBrowseView refrenshAssetStatus:asset];
+            [weakSelf uploadPhotos:surplusPhotos];
+        });
     };
     
-    self.bosManager.blockUploadSuccess = ^(BOOL result, DMClassFileDataModel *obj) {
-        asset.status = DMAssetStatusSuccess;
-        [weakSelf.successAssets addObject:obj];
-        [weakSelf.fieldAssets removeObject:asset];
-        [weakSelf.uploadBrowseView refrenshAssetStatus:asset];
-        [weakSelf uploadPhotos:surplusPhotos];
+    weakSelf.bosManager.blockUploadSuccess = ^(BOOL result, DMClassFileDataModel *obj) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            asset.status = DMAssetStatusSuccess;
+            [weakSelf.successAssets addObject:obj];
+            [weakSelf.fieldAssets removeObject:asset];
+            [weakSelf.uploadBrowseView refrenshAssetStatus:asset];
+            [weakSelf uploadPhotos:surplusPhotos];
+        });
     };
 }
 
