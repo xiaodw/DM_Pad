@@ -38,7 +38,7 @@
     
     [self.collectionView reloadData];
     self.navigationBar.titleLabel.text = album.name;
-    if (_assets.count == 0) return;
+    [self resetUploadButton];
     [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:_assets.count-1 inSection:0] atScrollPosition:UICollectionViewScrollPositionBottom animated:NO];
 }
 
@@ -103,14 +103,14 @@
     WS(weakSelf)
     NSMutableArray *surplusPhotos = [surplus mutableCopy];
     if (surplusPhotos.count == 0) {
-         [DMActivityView hideActivity];
-        if (self.fieldAssets.count == 0) {
-            [self.delegate albrmsCollectionView:weakSelf success:weakSelf.successAssets];
+        [DMActivityView hideActivity];
+        if (weakSelf.fieldAssets.count == 0) {
+            [weakSelf.delegate albrmsCollectionView:weakSelf success:weakSelf.successAssets];
             return;
         }
-        
+
         DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:DMTitleUploadFail message:DMTitleUploadFailMessage preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleNO otherTitle:DMTitleYes, nil];
-        [alert showWithViewController:(UIViewController *)self.delegate IndexBlock:^(NSInteger index) {
+        [alert showWithViewController:(UIViewController *)weakSelf.delegate IndexBlock:^(NSInteger index) {
             if (index == 1) { // 右侧
                 [DMActivityView showActivityCover:weakSelf];
                 [weakSelf uploadPhotos:weakSelf.fieldAssets];
@@ -123,23 +123,27 @@
     
     DMAsset *asset = surplusPhotos.firstObject;
     asset.status = DMAssetStatusUploading;
-    [self.uploadBrowseView refrenshAssetStatus:asset];
+    [weakSelf.uploadBrowseView refrenshAssetStatus:asset];
     [surplusPhotos removeObject:asset];
     NSData *imgData = UIImageJPEGRepresentation(asset.fullResolutionImage, 1.0);
-    [self.bosManager startUploadFileToBD:self.lessonID formatType:DMFormatUploadFileType_FileData fileData:imgData filePath:nil fileExt:@".png" angle:(UIImageOrientation)asset.orientation];
+    [weakSelf.bosManager startUploadFileToBD:weakSelf.lessonID formatType:DMFormatUploadFileType_FileData fileData:imgData filePath:nil fileExt:@".png" angle:(UIImageOrientation)asset.orientation];
     
-    self.bosManager.blockUploadFailed = ^(NSError *error) {
-        asset.status = DMAssetStatusFail;
-        [weakSelf.uploadBrowseView refrenshAssetStatus:asset];
-        [weakSelf uploadPhotos:surplusPhotos];
+    weakSelf.bosManager.blockUploadFailed = ^(NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            asset.status = DMAssetStatusFail;
+            [weakSelf.uploadBrowseView refrenshAssetStatus:asset];
+            [weakSelf uploadPhotos:surplusPhotos];
+        });
     };
     
-    self.bosManager.blockUploadSuccess = ^(BOOL result, DMClassFileDataModel *obj) {
-        asset.status = DMAssetStatusSuccess;
-        [weakSelf.successAssets addObject:obj];
-        [weakSelf.fieldAssets removeObject:asset];
-        [weakSelf.uploadBrowseView refrenshAssetStatus:asset];
-        [weakSelf uploadPhotos:surplusPhotos];
+    weakSelf.bosManager.blockUploadSuccess = ^(BOOL result, DMClassFileDataModel *obj) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            asset.status = DMAssetStatusSuccess;
+            [weakSelf.successAssets addObject:obj];
+            [weakSelf.fieldAssets removeObject:asset];
+            [weakSelf.uploadBrowseView refrenshAssetStatus:asset];
+            [weakSelf uploadPhotos:surplusPhotos];
+        });
     };
 }
 
@@ -346,17 +350,21 @@
     return _bottomBar;
 }
 
+- (void)resetUploadButton {
+    _uploadButton.enabled = NO;
+    _uploadButton.backgroundColor = DMColorWithRGBA(221, 221, 221, 1);
+    [_uploadButton setTitle:DMTitlePhotoUpload forState:UIControlStateNormal];
+}
+
 - (UIButton *)uploadButton {
     if (!_uploadButton) {
         _uploadButton = [UIButton new];
         _uploadButton.layer.cornerRadius = 5;
-        _uploadButton.enabled = NO;
         _uploadButton.titleLabel.font = DMFontPingFang_Regular(14);
-        _uploadButton.backgroundColor = DMColorWithRGBA(221, 221, 221, 1);
         [_uploadButton setTitleColor:DMColorWithHexString(@"#999999") forState:UIControlStateDisabled];
         [_uploadButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [self resetUploadButton];
         
-        [_uploadButton setTitle:DMTitlePhotoUpload forState:UIControlStateNormal];
         [_uploadButton addTarget:self action:@selector(didTapUpload:) forControlEvents:UIControlEventTouchUpInside];
     }
     
