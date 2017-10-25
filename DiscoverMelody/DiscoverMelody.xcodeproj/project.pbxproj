@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		278E0AA565593E7438FEDB99 /* libPods-NotificationService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FFA0CA4CA41B009759EFAF54 /* libPods-NotificationService.a */; };
 		2A03AF471F555FA80088DBF4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A03AF461F555FA80088DBF4 /* main.m */; };
 		2A03AF4A1F555FA80088DBF4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A03AF491F555FA80088DBF4 /* AppDelegate.m */; };
 		2A03AF521F555FA80088DBF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A03AF511F555FA80088DBF4 /* Assets.xcassets */; };
@@ -24,6 +25,9 @@
 		2A27E0D41F5E95C600865644 /* DMHttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A27E0D31F5E95C600865644 /* DMHttpClient.m */; };
 		2A27E0D91F5EA65300865644 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2A27E0DB1F5EA65300865644 /* InfoPlist.strings */; };
 		2A32BC901F6E766F001F6264 /* DMSecretKeyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A32BC8F1F6E766F001F6264 /* DMSecretKeyManager.m */; };
+		2A3CA02A1F9F1C2B00783757 /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A3CA0291F9F1C2B00783757 /* NotificationService.m */; };
+		2A3CA02E1F9F1C2B00783757 /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 2A3CA0261F9F1C2B00783757 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		2A3CA0361F9F1E3A00783757 /* AppDelegate+DMPushNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A3CA0351F9F1E3A00783757 /* AppDelegate+DMPushNotification.m */; };
 		2A3D1CFA1F690AD1005671B2 /* DMMoviePlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A3D1CF91F690AD1005671B2 /* DMMoviePlayerViewController.m */; };
 		2A3D1D1E1F692A44005671B2 /* ASValuePopUpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A3D1CFF1F692A44005671B2 /* ASValuePopUpView.m */; };
 		2A3D1D1F1F692A44005671B2 /* ASValueTrackingSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A3D1D011F692A44005671B2 /* ASValueTrackingSlider.m */; };
@@ -159,7 +163,28 @@
 			remoteGlobalIDString = 2A03AF411F555FA80088DBF4;
 			remoteInfo = DiscoverMelody;
 		};
+		2A3CA02C1F9F1C2B00783757 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A03AF3A1F555FA80088DBF4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2A3CA0251F9F1C2B00783757;
+			remoteInfo = NotificationService;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2A3CA0321F9F1C2B00783757 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				2A3CA02E1F9F1C2B00783757 /* NotificationService.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1E620A6E158816600EA0CFFE /* Pods-DiscoverMelody.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DiscoverMelody.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DiscoverMelody/Pods-DiscoverMelody.debug.xcconfig"; sourceTree = "<group>"; };
@@ -200,6 +225,13 @@
 		2A32BC8D1F6E6B36001F6264 /* DMEnums.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMEnums.h; sourceTree = "<group>"; };
 		2A32BC8E1F6E766F001F6264 /* DMSecretKeyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMSecretKeyManager.h; sourceTree = "<group>"; };
 		2A32BC8F1F6E766F001F6264 /* DMSecretKeyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMSecretKeyManager.m; sourceTree = "<group>"; };
+		2A3CA0261F9F1C2B00783757 /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		2A3CA0281F9F1C2B00783757 /* NotificationService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationService.h; sourceTree = "<group>"; };
+		2A3CA0291F9F1C2B00783757 /* NotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationService.m; sourceTree = "<group>"; };
+		2A3CA02B1F9F1C2B00783757 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2A3CA0331F9F1D5700783757 /* NotificationService.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotificationService.entitlements; sourceTree = "<group>"; };
+		2A3CA0341F9F1E3A00783757 /* AppDelegate+DMPushNotification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+DMPushNotification.h"; sourceTree = "<group>"; };
+		2A3CA0351F9F1E3A00783757 /* AppDelegate+DMPushNotification.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+DMPushNotification.m"; sourceTree = "<group>"; };
 		2A3D1CF81F690AD1005671B2 /* DMMoviePlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMMoviePlayerViewController.h; sourceTree = "<group>"; };
 		2A3D1CF91F690AD1005671B2 /* DMMoviePlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMMoviePlayerViewController.m; sourceTree = "<group>"; };
 		2A3D1CFE1F692A44005671B2 /* ASValuePopUpView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASValuePopUpView.h; sourceTree = "<group>"; };
@@ -257,6 +289,7 @@
 		2A4E96A01F66AA57000C4DFD /* DMPopCodeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMPopCodeView.m; sourceTree = "<group>"; };
 		2A4FB8861F629C7900CD670D /* agorasdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = agorasdk.h; sourceTree = "<group>"; };
 		2A4FB8871F629C7900CD670D /* libagora_fat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libagora_fat.a; sourceTree = "<group>"; };
+		2A560FE11F9F15A200BA43EC /* DiscoverMelody.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DiscoverMelody.entitlements; sourceTree = "<group>"; };
 		2A5EA6BA1F73527E0041CBD2 /* DMCloudConfigData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCloudConfigData.h; sourceTree = "<group>"; };
 		2A5EA6BB1F73527E0041CBD2 /* DMCloudConfigData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCloudConfigData.m; sourceTree = "<group>"; };
 		2A5EA6BD1F73AF7A0041CBD2 /* DMCommitAnswerData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCommitAnswerData.h; sourceTree = "<group>"; };
@@ -329,6 +362,7 @@
 		2AF695271F6149070078DC71 /* DMBaseDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMBaseDataModel.h; sourceTree = "<group>"; };
 		2AF695281F6149070078DC71 /* DMBaseDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMBaseDataModel.m; sourceTree = "<group>"; };
 		2BF41B440646DC59DC6A7EC6 /* Pods-DiscoverMelody.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DiscoverMelody.release.xcconfig"; path = "Pods/Target Support Files/Pods-DiscoverMelody/Pods-DiscoverMelody.release.xcconfig"; sourceTree = "<group>"; };
+		3E0791CD34E3507B5D7BCED2 /* Pods-NotificationService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationService.release.xcconfig"; path = "Pods/Target Support Files/Pods-NotificationService/Pods-NotificationService.release.xcconfig"; sourceTree = "<group>"; };
 		5100E42C1F6A4C1A000AB506 /* DMCourseFilesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCourseFilesController.h; sourceTree = "<group>"; };
 		5100E42D1F6A4C1A000AB506 /* DMCourseFilesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMCourseFilesController.m; sourceTree = "<group>"; };
 		5100E45F1F6A6358000AB506 /* DMTransitioningAnimationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMTransitioningAnimationHelper.h; sourceTree = "<group>"; };
@@ -431,6 +465,8 @@
 		51DCFA611F7B467C007BC228 /* DMRefreshNormalHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DMRefreshNormalHeader.h; sourceTree = "<group>"; };
 		51DCFA621F7B467C007BC228 /* DMRefreshNormalHeader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DMRefreshNormalHeader.m; sourceTree = "<group>"; };
 		945FC02CD63525967FAFE213 /* libPods-DiscoverMelody.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DiscoverMelody.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DC8793E7EB2436BD26F548EF /* Pods-NotificationService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationService.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NotificationService/Pods-NotificationService.debug.xcconfig"; sourceTree = "<group>"; };
+		FFA0CA4CA41B009759EFAF54 /* libPods-NotificationService.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NotificationService.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -469,6 +505,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2A3CA0231F9F1C2B00783757 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				278E0AA565593E7438FEDB99 /* libPods-NotificationService.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -478,6 +522,7 @@
 				2A03AF441F555FA80088DBF4 /* DiscoverMelody */,
 				2A03AF5E1F555FA80088DBF4 /* DiscoverMelodyTests */,
 				2A03AF691F555FA80088DBF4 /* DiscoverMelodyUITests */,
+				2A3CA0271F9F1C2B00783757 /* NotificationService */,
 				2A03AF431F555FA80088DBF4 /* Products */,
 				68F3B91CEBABB74BAD9DF5AA /* Pods */,
 				ECE8EBFEEC0F26A03517179E /* Frameworks */,
@@ -490,6 +535,7 @@
 				2A03AF421F555FA80088DBF4 /* DiscoverMelody.app */,
 				2A03AF5B1F555FA80088DBF4 /* DiscoverMelodyTests.xctest */,
 				2A03AF661F555FA80088DBF4 /* DiscoverMelodyUITests.xctest */,
+				2A3CA0261F9F1C2B00783757 /* NotificationService.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -497,6 +543,7 @@
 		2A03AF441F555FA80088DBF4 /* DiscoverMelody */ = {
 			isa = PBXGroup;
 			children = (
+				2A560FE11F9F15A200BA43EC /* DiscoverMelody.entitlements */,
 				2A4FB8831F628E1200CD670D /* Vendors */,
 				51D2D62B1F613ACA00764130 /* Common */,
 				51D2D55B1F5EBFDD00764130 /* Categories */,
@@ -599,6 +646,24 @@
 				2A87F8861F6B873600DCC412 /* DMPullDownCell.m */,
 			);
 			path = PullDownMenu;
+			sourceTree = "<group>";
+		};
+		2A3CA0271F9F1C2B00783757 /* NotificationService */ = {
+			isa = PBXGroup;
+			children = (
+				2A3CA0331F9F1D5700783757 /* NotificationService.entitlements */,
+				2A3CA0281F9F1C2B00783757 /* NotificationService.h */,
+				2A3CA0291F9F1C2B00783757 /* NotificationService.m */,
+				2A3CA02B1F9F1C2B00783757 /* Info.plist */,
+			);
+			path = NotificationService;
+			sourceTree = "<group>";
+		};
+		2A3CA0371F9F46F200783757 /* LocalNotification */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = LocalNotification;
 			sourceTree = "<group>";
 		};
 		2A3D1CF71F690AAC005671B2 /* MoviePlayer */ = {
@@ -971,6 +1036,8 @@
 				51D2D5D11F60DDED00764130 /* UIColor+Extension.m */,
 				51D2D5DC1F6123DE00764130 /* NSString+Extension.h */,
 				51D2D5DD1F6123DE00764130 /* NSString+Extension.m */,
+				2A3CA0341F9F1E3A00783757 /* AppDelegate+DMPushNotification.h */,
+				2A3CA0351F9F1E3A00783757 /* AppDelegate+DMPushNotification.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -991,6 +1058,7 @@
 		51D2D62B1F613ACA00764130 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				2A3CA0371F9F46F200783757 /* LocalNotification */,
 				2A87F8881F6BC8FF00DCC412 /* BlockAlertView */,
 				2A34E7FC1F6B68C0002B4B15 /* PullDownMenu */,
 				2A84269E1F6A644F005BA6EC /* DMUserDefaults */,
@@ -1017,6 +1085,8 @@
 			children = (
 				1E620A6E158816600EA0CFFE /* Pods-DiscoverMelody.debug.xcconfig */,
 				2BF41B440646DC59DC6A7EC6 /* Pods-DiscoverMelody.release.xcconfig */,
+				DC8793E7EB2436BD26F548EF /* Pods-NotificationService.debug.xcconfig */,
+				3E0791CD34E3507B5D7BCED2 /* Pods-NotificationService.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -1037,6 +1107,7 @@
 				515DCEC51F62980800AA9465 /* libresolv.tbd */,
 				515DCEC31F62980000AA9465 /* libc++.tbd */,
 				945FC02CD63525967FAFE213 /* libPods-DiscoverMelody.a */,
+				FFA0CA4CA41B009759EFAF54 /* libPods-NotificationService.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1054,10 +1125,12 @@
 				2A03AF401F555FA80088DBF4 /* Resources */,
 				0DA333F7C47FCCB3972E89E5 /* [CP] Embed Pods Frameworks */,
 				45516BBEF71FD306F71245CE /* [CP] Copy Pods Resources */,
+				2A3CA0321F9F1C2B00783757 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				2A3CA02D1F9F1C2B00783757 /* PBXTargetDependency */,
 			);
 			name = DiscoverMelody;
 			productName = DiscoverMelody;
@@ -1100,6 +1173,25 @@
 			productReference = 2A03AF661F555FA80088DBF4 /* DiscoverMelodyUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		2A3CA0251F9F1C2B00783757 /* NotificationService */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2A3CA0311F9F1C2B00783757 /* Build configuration list for PBXNativeTarget "NotificationService" */;
+			buildPhases = (
+				EA72E4BFA52486C33321BE02 /* [CP] Check Pods Manifest.lock */,
+				2A3CA0221F9F1C2B00783757 /* Sources */,
+				2A3CA0231F9F1C2B00783757 /* Frameworks */,
+				2A3CA0241F9F1C2B00783757 /* Resources */,
+				8DFDBEEE8A666EB1D92C8B87 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NotificationService;
+			productName = NotificationService;
+			productReference = 2A3CA0261F9F1C2B00783757 /* NotificationService.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1114,6 +1206,14 @@
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = BR9B47C6A9;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					2A03AF5A1F555FA80088DBF4 = {
 						CreatedOnToolsVersion = 8.3.3;
@@ -1124,6 +1224,16 @@
 						CreatedOnToolsVersion = 8.3.3;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2A03AF411F555FA80088DBF4;
+					};
+					2A3CA0251F9F1C2B00783757 = {
+						CreatedOnToolsVersion = 9.0.1;
+						DevelopmentTeam = BR9B47C6A9;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -1144,6 +1254,7 @@
 				2A03AF411F555FA80088DBF4 /* DiscoverMelody */,
 				2A03AF5A1F555FA80088DBF4 /* DiscoverMelodyTests */,
 				2A03AF651F555FA80088DBF4 /* DiscoverMelodyUITests */,
+				2A3CA0251F9F1C2B00783757 /* NotificationService */,
 			);
 		};
 /* End PBXProject section */
@@ -1168,6 +1279,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		2A03AF641F555FA80088DBF4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2A3CA0241F9F1C2B00783757 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1230,6 +1348,39 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DiscoverMelody/Pods-DiscoverMelody-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		8DFDBEEE8A666EB1D92C8B87 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NotificationService/Pods-NotificationService-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EA72E4BFA52486C33321BE02 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-NotificationService-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1280,6 +1431,7 @@
 				5100E4701F6A7662000AB506 /* DMTabBarView.m in Sources */,
 				2A40302A1F677CBA00663C72 /* DMSignalingKey.m in Sources */,
 				2ABBAB7E1F728CC3004536DB /* DMQuestData.m in Sources */,
+				2A3CA0361F9F1E3A00783757 /* AppDelegate+DMPushNotification.m in Sources */,
 				515DCF031F66B63800AA9465 /* DMLiveWillStartView.m in Sources */,
 				2A3D1D221F692A44005671B2 /* UINavigationController+ZFPlayerRotation.m in Sources */,
 				2A4A1D311F906F9D0089FE52 /* UILabel+YBAttributeTextTapAction.m in Sources */,
@@ -1371,6 +1523,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2A3CA0221F9F1C2B00783757 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A3CA02A1F9F1C2B00783757 /* NotificationService.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1383,6 +1543,11 @@
 			isa = PBXTargetDependency;
 			target = 2A03AF411F555FA80088DBF4 /* DiscoverMelody */;
 			targetProxy = 2A03AF671F555FA80088DBF4 /* PBXContainerItemProxy */;
+		};
+		2A3CA02D1F9F1C2B00783757 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2A3CA0251F9F1C2B00783757 /* NotificationService */;
+			targetProxy = 2A3CA02C1F9F1C2B00783757 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1514,6 +1679,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = DiscoverMelody/DiscoverMelody.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = BR9B47C6A9;
 				ENABLE_BITCODE = NO;
@@ -1528,7 +1694,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/DiscoverMelody/Vendors/LiveVideo/SignalingSDK",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.discovermelody.DiscoverMelody;
+				PRODUCT_BUNDLE_IDENTIFIER = com.discovermelody.DiscoverMelodyLJ;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 2;
@@ -1541,6 +1707,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = DiscoverMelody/DiscoverMelody.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = BR9B47C6A9;
@@ -1556,7 +1723,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/DiscoverMelody/Vendors/LiveVideo/SignalingSDK",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.discovermelody.DiscoverMelody;
+				PRODUCT_BUNDLE_IDENTIFIER = com.discovermelody.DiscoverMelodyLJ;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 2;
@@ -1609,6 +1776,62 @@
 			};
 			name = Release;
 		};
+		2A3CA02F1F9F1C2B00783757 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DC8793E7EB2436BD26F548EF /* Pods-NotificationService.debug.xcconfig */;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = BR9B47C6A9;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = NotificationService/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.discovermelody.DiscoverMelodyLJ.NotificationService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2A3CA0301F9F1C2B00783757 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3E0791CD34E3507B5D7BCED2 /* Pods-NotificationService.release.xcconfig */;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = BR9B47C6A9;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = NotificationService/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.discovermelody.DiscoverMelodyLJ.NotificationService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1644,6 +1867,15 @@
 			buildConfigurations = (
 				2A03AF761F555FA80088DBF4 /* Debug */,
 				2A03AF771F555FA80088DBF4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2A3CA0311F9F1C2B00783757 /* Build configuration list for PBXNativeTarget "NotificationService" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2A3CA02F1F9F1C2B00783757 /* Debug */,
+				2A3CA0301F9F1C2B00783757 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

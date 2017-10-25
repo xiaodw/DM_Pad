@@ -12,6 +12,8 @@
 #import "DMLoginController.h"
 #import "DMLiveController.h"
 #import "DMConfigManager.h"
+#import "AppDelegate+DMPushNotification.h"
+
 @interface AppDelegate ()
 
 @end
@@ -43,6 +45,7 @@
     // Override point for customization after application launch.
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+    [self initGTServer];
     sleep(1.5);
     [[DMConfigManager shareInstance] initConfigInformation];//初始化
     [self updateConfigInfo];
