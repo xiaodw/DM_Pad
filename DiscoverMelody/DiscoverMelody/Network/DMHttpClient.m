@@ -62,7 +62,7 @@
             [self updateTokenToLatest:[responseObj objectForKey:Token_Key]];
         }
         
-        if ([[responseObj objectForKey:@"code"] intValue] == 0) {
+        if ([[responseObj objectForKey:@"code"] intValue] == DMHttpResponseCodeType_Success) {
             //进入课堂接口，单独取出访问时间
             if (dataModelClass == [DMClassDataModel class]) {
                 [DMAccount saveUserJoinClassTime:[responseObj objectForKey:Time_Key]];
@@ -130,9 +130,7 @@
     self.blockSuccessMsg = nil;
     switch (code) {
         case DMHttpResponseCodeType_NotLogin: //未登录，需要重新登录
-            //to-do 1，取消所有网络请求，2，清除用户所有信息，3，退到登录界面
-            [DMCommonModel removeUserAllDataAndOperation];
-            [APP_DELEGATE toggleRootView:YES];
+            [self logoutToLoginPage];
             break;
         case DMHttpResponseCodeType_Failed:
             if ([message isKindOfClass:[NSString class]]) {
@@ -142,6 +140,10 @@
                 [DMTools showSVProgressHudCustom:@"hud_failed_icon" title:DMTitleNoTypeError];
             }
             break;
+        case DMHttpResponseCodeType_MustLogout:
+            [self showAlertLogout:message];
+            [self logoutToLoginPage];
+            break;
         default:
             if ([message isKindOfClass:[NSString class]]) {
                 [DMTools showSVProgressHudCustom:@"" title:message];
@@ -150,6 +152,23 @@
             }
             break;
     }
+}
+
+- (void)logoutToLoginPage {
+    //to-do 1，取消所有网络请求，2，清除用户所有信息，3，退到登录界面
+    [DMCommonModel removeUserAllDataAndOperation];
+    [APP_DELEGATE toggleRootView:YES];
+}
+
+- (void)showAlertLogout:(NSString *)msg {
+    DMAlertMananger *alert = [DMAlertMananger shareManager];
+
+    [alert creatAlertWithTitle:@""
+                       message:msg
+                preferredStyle:UIAlertControllerStyleAlert
+                   cancelTitle:DMTitleOK
+                    otherTitle:nil];
+    [alert showWithViewController:APP_DELEGATE.dmrVC IndexBlock:nil];
 }
 
 /**

@@ -72,8 +72,9 @@
     
     NSString *cancelTitle = self.actionTitles[0];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:cancelTitle style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        self.indexBlock(0);
-        
+        if (self.indexBlock) {
+            self.indexBlock(0);
+        }
     }];
 
     [cancelAction setValue:DMColorBaseMeiRed forKey:@"_titleTextColor"];

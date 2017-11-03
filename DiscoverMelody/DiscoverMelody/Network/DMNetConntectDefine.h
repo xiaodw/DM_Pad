@@ -22,6 +22,7 @@ typedef NS_ENUM(NSInteger, DMHttpResponseCodeType) {
     DMHttpResponseCodeType_Error                = 1, //错误
     DMHttpResponseCodeType_NotLogin             = 2, //未登录，需要到登录界面
     DMHttpResponseCodeType_Failed               = 3, //失败弹框，带图标
+    DMHttpResponseCodeType_MustLogout           = 8, //等登陆界面，并进行弹出框提示
 };
 
 

@@ -68,6 +68,7 @@
         [self getSurveyTeacher];
     }
     [self updateTopViewInfo:self.courseObj];
+    NSLog(@"addchild = %@", self.childViewControllers);
 }
 
 - (void)getQuestionList {

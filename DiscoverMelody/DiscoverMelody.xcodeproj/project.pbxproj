@@ -25,6 +25,8 @@
 		2A27E0D41F5E95C600865644 /* DMHttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A27E0D31F5E95C600865644 /* DMHttpClient.m */; };
 		2A27E0D91F5EA65300865644 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2A27E0DB1F5EA65300865644 /* InfoPlist.strings */; };
 		2A32BC901F6E766F001F6264 /* DMSecretKeyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A32BC8F1F6E766F001F6264 /* DMSecretKeyManager.m */; };
+		2A37E2D21FA8537F0067D226 /* DMGeTuiManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37E2D11FA8537F0067D226 /* DMGeTuiManager.m */; };
+		2A37E2D51FA8750B0067D226 /* DMMsgWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37E2D41FA8750B0067D226 /* DMMsgWebViewController.m */; };
 		2A3CA02A1F9F1C2B00783757 /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A3CA0291F9F1C2B00783757 /* NotificationService.m */; };
 		2A3CA02E1F9F1C2B00783757 /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 2A3CA0261F9F1C2B00783757 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2A3CA0361F9F1E3A00783757 /* AppDelegate+DMPushNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A3CA0351F9F1E3A00783757 /* AppDelegate+DMPushNotification.m */; };
@@ -225,6 +227,10 @@
 		2A32BC8D1F6E6B36001F6264 /* DMEnums.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMEnums.h; sourceTree = "<group>"; };
 		2A32BC8E1F6E766F001F6264 /* DMSecretKeyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMSecretKeyManager.h; sourceTree = "<group>"; };
 		2A32BC8F1F6E766F001F6264 /* DMSecretKeyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMSecretKeyManager.m; sourceTree = "<group>"; };
+		2A37E2D01FA8537F0067D226 /* DMGeTuiManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DMGeTuiManager.h; sourceTree = "<group>"; };
+		2A37E2D11FA8537F0067D226 /* DMGeTuiManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DMGeTuiManager.m; sourceTree = "<group>"; };
+		2A37E2D31FA8750B0067D226 /* DMMsgWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DMMsgWebViewController.h; sourceTree = "<group>"; };
+		2A37E2D41FA8750B0067D226 /* DMMsgWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DMMsgWebViewController.m; sourceTree = "<group>"; };
 		2A3CA0261F9F1C2B00783757 /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A3CA0281F9F1C2B00783757 /* NotificationService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationService.h; sourceTree = "<group>"; };
 		2A3CA0291F9F1C2B00783757 /* NotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationService.m; sourceTree = "<group>"; };
@@ -770,6 +776,7 @@
 		2A4FB8831F628E1200CD670D /* Vendors */ = {
 			isa = PBXGroup;
 			children = (
+				2A69B2E81FA8534600738DE2 /* GeTui */,
 				2A87F2491F74B3CA0063830C /* BaiDuCloudUpload */,
 				2A4FB8841F628E7A00CD670D /* LiveVideo */,
 			);
@@ -813,6 +820,24 @@
 				5169FF2F1F6B778600396EFA /* DMBaseMoreController.m */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		2A69B2E71FA8524F00738DE2 /* MsgWebView */ = {
+			isa = PBXGroup;
+			children = (
+				2A37E2D31FA8750B0067D226 /* DMMsgWebViewController.h */,
+				2A37E2D41FA8750B0067D226 /* DMMsgWebViewController.m */,
+			);
+			path = MsgWebView;
+			sourceTree = "<group>";
+		};
+		2A69B2E81FA8534600738DE2 /* GeTui */ = {
+			isa = PBXGroup;
+			children = (
+				2A37E2D01FA8537F0067D226 /* DMGeTuiManager.h */,
+				2A37E2D11FA8537F0067D226 /* DMGeTuiManager.m */,
+			);
+			path = GeTui;
 			sourceTree = "<group>";
 		};
 		2A84269A1F6A63C9005BA6EC /* DMAccount */ = {
@@ -1058,6 +1083,7 @@
 		51D2D62B1F613ACA00764130 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				2A69B2E71FA8524F00738DE2 /* MsgWebView */,
 				2A3CA0371F9F46F200783757 /* LocalNotification */,
 				2A87F8881F6BC8FF00DCC412 /* BlockAlertView */,
 				2A34E7FC1F6B68C0002B4B15 /* PullDownMenu */,
@@ -1204,7 +1230,7 @@
 				TargetAttributes = {
 					2A03AF411F555FA80088DBF4 = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = BR9B47C6A9;
+						DevelopmentTeam = D496CTUFNL;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -1227,7 +1253,7 @@
 					};
 					2A3CA0251F9F1C2B00783757 = {
 						CreatedOnToolsVersion = 9.0.1;
-						DevelopmentTeam = BR9B47C6A9;
+						DevelopmentTeam = D496CTUFNL;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
@@ -1468,6 +1494,7 @@
 				5169FFD81F6E912100396EFA /* DMAsset.m in Sources */,
 				2A5EA6BF1F73AF7A0041CBD2 /* DMCommitAnswerData.m in Sources */,
 				5169FF361F6BA38C00396EFA /* DMBrowseCourseController.m in Sources */,
+				2A37E2D21FA8537F0067D226 /* DMGeTuiManager.m in Sources */,
 				2A4E96A11F66AA57000C4DFD /* DMPopCodeView.m in Sources */,
 				2A87F8841F6B68EC00DCC412 /* DMPullDownMenu.m in Sources */,
 				2A3D1D271F692A44005671B2 /* MMMaterialDesignSpinner.m in Sources */,
@@ -1475,6 +1502,7 @@
 				2ABBAB811F728CD6004536DB /* DMAnswerData.m in Sources */,
 				5100E4641F6A6358000AB506 /* DMPresentationController.m in Sources */,
 				2AD2AB371F5D441D00EDA962 /* DMHomeViewController.m in Sources */,
+				2A37E2D51FA8750B0067D226 /* DMMsgWebViewController.m in Sources */,
 				2A45F9701F60F6D50077CBA5 /* DMHomeDataModel.m in Sources */,
 				5169FFD71F6E912100396EFA /* DMAlbum.m in Sources */,
 				2ABBAB781F726890004536DB /* DMCustomerDataModel.m in Sources */,
@@ -1596,7 +1624,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -1649,8 +1677,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1680,8 +1708,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = DiscoverMelody/DiscoverMelody.entitlements;
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = BR9B47C6A9;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = D496CTUFNL;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1694,7 +1724,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/DiscoverMelody/Vendors/LiveVideo/SignalingSDK",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.discovermelody.DiscoverMelodyLJ;
+				PRODUCT_BUNDLE_IDENTIFIER = com.discovermelody.DiscoverMelodyiPad;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 2;
@@ -1708,9 +1738,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = DiscoverMelody/DiscoverMelody.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = BR9B47C6A9;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = D496CTUFNL;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1723,7 +1754,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/DiscoverMelody/Vendors/LiveVideo/SignalingSDK",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.discovermelody.DiscoverMelodyLJ;
+				PRODUCT_BUNDLE_IDENTIFIER = com.discovermelody.DiscoverMelodyiPad;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 2;
@@ -1789,15 +1820,15 @@
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = BR9B47C6A9;
+				DEVELOPMENT_TEAM = D496CTUFNL;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = NotificationService/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.discovermelody.DiscoverMelodyLJ.NotificationService;
+				PRODUCT_BUNDLE_IDENTIFIER = com.discovermelody.DiscoverMelodyiPad.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1817,15 +1848,15 @@
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = BR9B47C6A9;
+				DEVELOPMENT_TEAM = D496CTUFNL;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = NotificationService/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.discovermelody.DiscoverMelodyLJ.NotificationService;
+				PRODUCT_BUNDLE_IDENTIFIER = com.discovermelody.DiscoverMelodyiPad.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";

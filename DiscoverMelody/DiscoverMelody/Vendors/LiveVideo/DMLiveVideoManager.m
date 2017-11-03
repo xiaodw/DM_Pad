@@ -334,6 +334,11 @@ static DMLiveVideoManager* _instance = nil;
     }
 }
 
+
+- (void)rtcEngine:(AgoraRtcEngineKit *)engine videoSizeChangedOfUid:(NSUInteger)uid size:(CGSize)size rotation:(NSInteger)rotation {
+    NSLog(@"摄像头旋转角度 = %ld", rotation);
+}
+
 //统计数据
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine reportRtcStats:(AgoraRtcStats*)stats {
 NSLog(@"统计数据");
