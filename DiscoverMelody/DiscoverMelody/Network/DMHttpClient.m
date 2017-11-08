@@ -156,8 +156,7 @@
 
 - (void)logoutToLoginPage {
     //to-do 1，取消所有网络请求，2，清除用户所有信息，3，退到登录界面
-    [DMCommonModel removeUserAllDataAndOperation];
-    [APP_DELEGATE toggleRootView:YES];
+    [(DMMenuViewController *)APP_DELEGATE.dmrVC.menuViewController logoutSystem];
 }
 
 - (void)showAlertLogout:(NSString *)msg {

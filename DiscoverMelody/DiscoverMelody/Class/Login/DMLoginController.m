@@ -131,7 +131,6 @@ const CGFloat kAccountTop = kLogoTop + kLogoHeight + acctountToLogoTop;
     [DMApiModel loginSystem:accountString psd:pwdString block:^(BOOL result) {
         [DMActivityView hideActivity];
         if (!result) { return;} //登录失败
-        
         //登录成功
         [[NSNotificationCenter defaultCenter] postNotificationName:DMNotification_Login_Success_Key object:nil userInfo:nil];
         [APP_DELEGATE toggleRootView:NO];

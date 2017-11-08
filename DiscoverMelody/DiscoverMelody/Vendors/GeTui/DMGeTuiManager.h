@@ -12,9 +12,10 @@
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
 #import <UserNotifications/UserNotifications.h>
 #endif
+#import "DMTransitioningAnimationHelper.h"
 @interface DMGeTuiManager : NSObject <GeTuiSdkDelegate, UNUserNotificationCenterDelegate>
 + (instancetype)shareInstance;
-
+@property (nonatomic, strong) DMTransitioningAnimationHelper *animationHelper;
 - (void)registerLocationAndRemoteNotification;
 - (void)startGeTuiSDK;
 - (void)destroyGeTuiSDK;

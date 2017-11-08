@@ -9,7 +9,8 @@
 #import "DMMenuViewController.h"
 #import "DMMenuHeadView.h"
 #import "DMMenuCell.h"
-
+#import "DMSignalingKey.h"
+#import "DMGeTuiManager.h"
 @interface DMMenuViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) DMMenuHeadView *headView;
@@ -58,6 +59,11 @@
     
     [DMApiModel logoutSystem:^(BOOL result) {
         if (result) {
+            
+            [[DMGeTuiManager shareInstance] unbindAliasGT:[DMSignalingKey MD5:[DMAccount getUserID]]
+                                           andSequenceNum:[[DMGeTuiManager shareInstance] clientIdGT]
+                                                andIsSelf:YES];
+            
             [DMCommonModel removeUserAllDataAndOperation];
             [APP_DELEGATE toggleRootView:YES];
         }
@@ -69,7 +75,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self.dmRootViewController togglePage:indexPath.row]; //0 主页 ，1 课表，2 客服
-    [tableView reloadData];
+    [self refreshTable];
+}
+
+- (void)refreshTable {
+    [self.tableView reloadData];
 }
 
 #pragma mark -

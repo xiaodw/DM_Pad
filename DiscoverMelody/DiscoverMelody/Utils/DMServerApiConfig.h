@@ -82,7 +82,8 @@
 #define DM_User_Loing_Url               [DM_Url stringByAppendingFormat:@"user/login"]
 //退出登录
 #define DM_User_Logout_Url              [DM_Url stringByAppendingFormat:@"user/logout"]
-
+//检测登录
+#define DM_User_Check_Login_Url         [DM_Url stringByAppendingFormat:@"userCenter/checkLogin"]
 //老师课程列表
 #define DM_User_Tcourse_List_Url        [DM_Url stringByAppendingFormat:@"lesson/tcourseList"]
 //个人课程列表

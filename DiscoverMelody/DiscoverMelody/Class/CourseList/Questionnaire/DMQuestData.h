@@ -30,4 +30,10 @@
 @interface DMQuestData : DMBaseDataModel
 @property (nonatomic ,strong) NSArray *list;
 @property (nonatomic, copy) NSString *survey; //0 未回答，1 已回答 ---学生。  0-未回答，1-已回答未审核，2-审核通过，3-审核不通过 ---老师
+
+@property (nonatomic, copy) NSString *teacher_name;
+@property (nonatomic, copy) NSString *student_name;
+@property (nonatomic, copy) NSString *start_time;
+@property (nonatomic, copy) NSString *course_name;
+
 @end

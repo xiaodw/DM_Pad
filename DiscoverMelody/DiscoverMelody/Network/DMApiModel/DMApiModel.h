@@ -24,7 +24,8 @@
 
 //登录
 + (void)loginSystem:(NSString *)account psd:(NSString *)password block:(void(^)(BOOL result))complectionBlock;
-
+//检测登录
++ (void)checkLoginRequest:(void(^)(BOOL result))complectionBlock;
 //退出登录
 + (void)logoutSystem:(void(^)(BOOL result))complectionBlock;
 

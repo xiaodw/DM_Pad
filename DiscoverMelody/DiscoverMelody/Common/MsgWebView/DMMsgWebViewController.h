@@ -6,8 +6,9 @@
 //  Copyright © 2017年 Discover Melody. All rights reserved.
 //
 
-#import "DMBaseViewController.h"
+#import "DMBaseMoreController.h"
 
-@interface DMMsgWebViewController : DMBaseViewController
+@interface DMMsgWebViewController : DMBaseMoreController
 @property (nonatomic, copy) NSString *msgUrl;
+@property (nonatomic, assign) BOOL isHaveToken;
 @end

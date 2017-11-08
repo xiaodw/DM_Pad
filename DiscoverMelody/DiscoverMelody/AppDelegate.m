@@ -83,6 +83,7 @@
         self.window.rootViewController = self.dmrVC;
     }
     [self.window makeKeyAndVisible];
+    
 }
 
 - (void)upgradeMustForApp:(DMAppUpgradeData *)obj {

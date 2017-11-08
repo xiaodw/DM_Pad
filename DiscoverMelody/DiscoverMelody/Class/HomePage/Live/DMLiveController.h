@@ -12,5 +12,5 @@
 @property (assign, nonatomic) BOOL isRemoteUserOnline; // 远端是否上线
 
 @property (weak, nonatomic) UINavigationController *navigationVC;
-
+- (void)quitLiveVideoClickSure; //消息通知需要
 @end

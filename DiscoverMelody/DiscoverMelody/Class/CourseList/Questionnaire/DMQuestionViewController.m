@@ -55,7 +55,7 @@
     // Do any additional setup after loading the view.
     self.title = DMTextQuestionnaire;
     self.view.backgroundColor = [UIColor whiteColor];
-    [self setNavigationBarTransparence];
+    
     [IQKeyboardManager sharedManager].enable = YES;
     self.isEditQuest = YES;
     self.questionList = [NSArray array];
@@ -70,6 +70,10 @@
     [self updateTopViewInfo:self.courseObj];
     NSLog(@"addchild = %@", self.childViewControllers);
 }
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self setNavigationBarTransparence];
+}
 
 - (void)getQuestionList {
     WS(weakSelf);
@@ -80,6 +84,13 @@
             if (userIdentity != 0) {
                 [weakSelf updateUIStatus:obj.survey.intValue];
             }
+            DMCourseDatasModel *userInfo = [[DMCourseDatasModel alloc] init];
+            userInfo.course_name = obj.course_name;
+            userInfo.start_time = obj.start_time;
+            userInfo.teacher_name = obj.teacher_name;
+            userInfo.student_name = obj.student_name;
+            [weakSelf updateTopViewInfo:userInfo];
+            
             [weakSelf updateTableStatus:obj isNetCallback:YES];
         } else {
             [weakSelf updateTableStatus:obj isNetCallback:NO];
@@ -235,9 +246,9 @@
     if (userIdentity != 0) {
         type = [NSString stringWithFormat:@"%@：", DMStringIDStudent];
     }
-    _classNameLabel.text = obj.course_name;//@"未来之星1v1--钢琴";
+    _classNameLabel.text = STR_IS_NIL(obj.course_name)?@"":obj.course_name;//@"未来之星1v1--钢琴";
     
-    NSString *timeStr = [DMTextStartClassTime stringByAppendingString:[DMTools timeFormatterYMDFromTs:obj.start_time format:DMDateFormatterYMD]];
+    NSString *timeStr = STR_IS_NIL(obj.start_time)?@"": [DMTextStartClassTime stringByAppendingString:[DMTools timeFormatterYMDFromTs:obj.start_time format:DMDateFormatterYMD]];
     
     NSString *nameStr = @"";
     if (userIdentity == 0) {

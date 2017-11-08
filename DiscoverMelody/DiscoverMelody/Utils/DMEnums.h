@@ -34,7 +34,8 @@ typedef NS_ENUM(NSInteger, DMAgoraUserStatusLog) {
 
 //推送消息类型
 typedef NS_ENUM(NSInteger, DMPushMessageType) {
-    DMPushMessageType_Nor   = 1,         //纯文字消息
-    DMPushMessageType_Web   = 2,         //web消息
-    DMPushMessageType_Nav   = 3,         //nav消息
+    DMPushMessageType_Nor           = 1,         //纯文字消息
+    DMPushMessageType_Web           = 2,         //web消息
+    DMPushMessageType_Nav           = 3,         //nav消息
+    DMPushMessageType_CheckLogin    = 4,         //验证登录
 };

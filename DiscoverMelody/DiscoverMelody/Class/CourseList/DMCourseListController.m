@@ -259,10 +259,14 @@
     NSIndexPath *indexPath = [self.tableView indexPathForCell:courseListCell];
     if (indexPath.row < self.courses.count) {
         DMCourseDatasModel *model = [self.courses objectAtIndex:indexPath.row];
-        DMQuestionViewController *qtVC = [[DMQuestionViewController alloc] init];
-        qtVC.courseObj = model;
-        [self.navigationController pushViewController:qtVC animated:YES];
+        [self gotoDMQuestion:model];
     }
+}
+
+- (void)gotoDMQuestion:(DMCourseDatasModel *)model {
+    DMQuestionViewController *qtVC = [[DMQuestionViewController alloc] init];
+    qtVC.courseObj = model;
+    [self.navigationController pushViewController:qtVC animated:YES];
 }
 
 - (UITableView *)tableView {

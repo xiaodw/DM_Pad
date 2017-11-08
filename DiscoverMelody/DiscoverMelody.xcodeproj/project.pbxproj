@@ -18,6 +18,7 @@
 		2A05C4601F5D544100FC4D9A /* UIViewController+DMRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A05C45E1F5D544100FC4D9A /* UIViewController+DMRootViewController.m */; };
 		2A05C4631F5D545D00FC4D9A /* DMRootContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A05C4621F5D545D00FC4D9A /* DMRootContainerViewController.m */; };
 		2A152C581F72A3A000CA2309 /* DMQuestionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A152C571F72A3A000CA2309 /* DMQuestionCell.m */; };
+		2A21499E1FB0400F00D98BF9 /* DMGeTuiMsg.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A21499D1FB0400F00D98BF9 /* DMGeTuiMsg.m */; };
 		2A2273E31F6A38340029D8CA /* DMTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A2273E21F6A38340029D8CA /* DMTitleView.m */; };
 		2A23C9711F665AAD0097F91B /* DMCustomerInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A23C9701F665AAD0097F91B /* DMCustomerInfoView.m */; };
 		2A23C9741F665F110097F91B /* DMCustomerPhoneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A23C9731F665F110097F91B /* DMCustomerPhoneCell.m */; };
@@ -211,6 +212,8 @@
 		2A05C4621F5D545D00FC4D9A /* DMRootContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMRootContainerViewController.m; sourceTree = "<group>"; };
 		2A152C561F72A3A000CA2309 /* DMQuestionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMQuestionCell.h; sourceTree = "<group>"; };
 		2A152C571F72A3A000CA2309 /* DMQuestionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMQuestionCell.m; sourceTree = "<group>"; };
+		2A21499C1FB0400F00D98BF9 /* DMGeTuiMsg.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DMGeTuiMsg.h; sourceTree = "<group>"; };
+		2A21499D1FB0400F00D98BF9 /* DMGeTuiMsg.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DMGeTuiMsg.m; sourceTree = "<group>"; };
 		2A2273E11F6A38340029D8CA /* DMTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMTitleView.h; sourceTree = "<group>"; };
 		2A2273E21F6A38340029D8CA /* DMTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMTitleView.m; sourceTree = "<group>"; };
 		2A23C96F1F665AAD0097F91B /* DMCustomerInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMCustomerInfoView.h; sourceTree = "<group>"; };
@@ -836,6 +839,8 @@
 			children = (
 				2A37E2D01FA8537F0067D226 /* DMGeTuiManager.h */,
 				2A37E2D11FA8537F0067D226 /* DMGeTuiManager.m */,
+				2A21499C1FB0400F00D98BF9 /* DMGeTuiMsg.h */,
+				2A21499D1FB0400F00D98BF9 /* DMGeTuiMsg.m */,
 			);
 			path = GeTui;
 			sourceTree = "<group>";
@@ -1502,6 +1507,7 @@
 				2ABBAB811F728CD6004536DB /* DMAnswerData.m in Sources */,
 				5100E4641F6A6358000AB506 /* DMPresentationController.m in Sources */,
 				2AD2AB371F5D441D00EDA962 /* DMHomeViewController.m in Sources */,
+				2A21499E1FB0400F00D98BF9 /* DMGeTuiMsg.m in Sources */,
 				2A37E2D51FA8750B0067D226 /* DMMsgWebViewController.m in Sources */,
 				2A45F9701F60F6D50077CBA5 /* DMHomeDataModel.m in Sources */,
 				5169FFD71F6E912100396EFA /* DMAlbum.m in Sources */,

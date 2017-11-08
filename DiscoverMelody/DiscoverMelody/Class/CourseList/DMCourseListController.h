@@ -9,5 +9,5 @@
 #import "DMBaseViewController.h"
 
 @interface DMCourseListController : DMBaseViewController
-
+- (void)gotoDMQuestion:(DMCourseDatasModel *)model;
 @end

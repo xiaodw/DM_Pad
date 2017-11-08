@@ -9,6 +9,8 @@
 #import "DMApiModel.h"
 #import "DMLoginDataModel.h"
 #import "DMSecretKeyManager.h"
+#import "DMGeTuiManager.h"
+#import "DMSignalingKey.h"
 @implementation DMApiModel
 
 //配置
@@ -24,12 +26,14 @@
 
 //登录
 + (void)loginSystem:(NSString *)account psd:(NSString *)password block:(void(^)(BOOL result))complectionBlock {
-    
-    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:account, @"account", password, @"password", nil];
+    NSString *cID = [[DMGeTuiManager shareInstance] clientIdGT]; //个推生成的clientID
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:account, @"account", password, @"password", cID, @"cid",nil];
     [[DMHttpClient sharedInstance] initWithUrl:DM_User_Loing_Url parameters:dic method:DMHttpRequestPost dataModelClass:[DMLoginDataModel class] isMustToken:NO success:^(id responseObject) {
         if (!OBJ_IS_NIL(responseObject)) {
             //保存数据
             DMLoginDataModel *model = (DMLoginDataModel *)responseObject;
+            NSLog(@"MD5 = %@", [DMSignalingKey MD5:model.user_id]);
+            [[DMGeTuiManager shareInstance] bindAliasGT:[DMSignalingKey MD5: model.user_id] andSequenceNum:cID];
             [DMAccount saveAccountInfo:model];
             [DMAccount saveLatestLoginAccount:account];
             complectionBlock(YES);
@@ -40,7 +44,14 @@
         complectionBlock (NO);
     }];
 }
-
+//检测登陆
++ (void)checkLoginRequest:(void(^)(BOOL result))complectionBlock {
+    [[DMHttpClient sharedInstance] initWithUrl:DM_User_Check_Login_Url parameters:nil method:DMHttpRequestPost dataModelClass:[NSObject class] isMustToken:YES success:^(id responseObject) {
+        complectionBlock(YES);
+    } failure:^(NSError *error) {
+        complectionBlock(NO);
+    }];
+}
 //退出登录
 + (void)logoutSystem:(void(^)(BOOL result))complectionBlock {
     [[DMHttpClient sharedInstance] initWithUrl:DM_User_Logout_Url parameters:nil method:DMHttpRequestPost dataModelClass:[NSObject class] isMustToken:YES success:^(id responseObject) {

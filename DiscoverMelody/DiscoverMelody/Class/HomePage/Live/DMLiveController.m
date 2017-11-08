@@ -220,14 +220,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:DMTitleExitLiveRoom message:DMTitleLiveAutoClose preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
         [alert showWithViewController:self IndexBlock:^(NSInteger index) {
             if (index == 1) { // 右侧
-                [weakSelf.liveVideoManager quitLiveVideo:^(BOOL success) {
-                    [weakSelf.navigationVC popViewControllerAnimated:YES];
-                    if ([[DMAccount getUserIdentity] integerValue]) {
-                        NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_End_Syn sourceData:nil index:0];
-                        [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) { } faile:^(NSString *messageID, AgoraEcode ecode) {}];
-                    }
-                }];
-                [weakSelf agoraUserStatusLog:weakSelf.lessonID targetUID:[DMAccount getUserID] uploadUID:[DMAccount getUserID] action:DMAgoraUserStatusLog_Exit];
+                [weakSelf quitLiveVideoClickSure];
             }
         }];
         return;
@@ -250,6 +243,18 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
             }];
         }
     }];
+}
+
+- (void)quitLiveVideoClickSure {
+    [self.liveVideoManager quitLiveVideo:^(BOOL success) {
+        [self.navigationVC popViewControllerAnimated:YES];
+        if ([[DMAccount getUserIdentity] integerValue]) {
+            NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_End_Syn sourceData:nil index:0];
+            [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) { } faile:^(NSString *messageID, AgoraEcode ecode) {}];
+        }
+    }];
+    [self agoraUserStatusLog:self.lessonID targetUID:[DMAccount getUserID] uploadUID:[DMAccount getUserID] action:DMAgoraUserStatusLog_Exit];
+    
 }
 
 // 切换摄像头

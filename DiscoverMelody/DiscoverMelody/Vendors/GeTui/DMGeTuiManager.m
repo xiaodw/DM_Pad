@@ -8,6 +8,10 @@
 
 #import "DMGeTuiManager.h"
 #import "AppDelegate.h"
+#import "DMGeTuiMsg.h"
+#import "DMLiveController.h"
+#import "DMMsgWebViewController.h"
+
 static DMGeTuiManager *bosinstance = nil;
 @implementation DMGeTuiManager
 
@@ -138,7 +142,7 @@ static DMGeTuiManager *bosinstance = nil;
 - (void)GeTuiSdkDidRegisterClient:(NSString *)clientId {
     NSLog(@"\n>>[GTSdk RegisterClient]:%@\n\n", clientId);
     //绑定别名
-    [GeTuiSdk bindAlias:@"321" andSequenceNum:clientId];
+    //[GeTuiSdk bindAlias:@"321" andSequenceNum:clientId];
 }
 - (void)GeTuiSdkDidReceivePayloadData:(NSData *)payloadData andTaskId:(NSString *)taskId andMsgId:(NSString *)msgId andOffLine:(BOOL)offLine fromGtAppId:(NSString *)appId {
     // [ GTSdk ]：汇报个推自定义事件(反馈透传消息)
@@ -153,7 +157,7 @@ static DMGeTuiManager *bosinstance = nil;
     // 控制台打印日志
     NSString *msg = [NSString stringWithFormat:@"taskId=%@,messageId:%@,payloadMsg:%@%@", taskId, msgId, payloadMsg, offLine ? @"<离线消息>" : @""];
     NSLog(@"\n>>[GTSdk ReceivePayload]:%@\n\n", msg);
-    
+
     //    NSError *error=nil;
     //    NSDictionary *dic=[NSJSONSerialization JSONObjectWithData:payloadData options:NSJSONReadingMutableContainers error:&error];
     //    NSString *title=[NSString stringWithFormat:@"%@",dic[@"title"]];
@@ -165,11 +169,19 @@ static DMGeTuiManager *bosinstance = nil;
     // 判断app是否是点击通知栏消息进行唤醒或开启
     // 如果是点击icon图标使得app进入前台，则不做操作，并且同一条推送通知，此方法只执行一次
     if (!offLine) {//  离线消息已经有苹果的apns推过消息了，避免上线后再次受到消息
-        if ([[UIDevice currentDevice].systemVersion floatValue] >= 10.0){
-            [self registerNotification:1 andTitle:@"1" andMess:@"1"];
-        }else{
-            [self registerLocalNotificationInOldWay:1 andTitle:@"1" andMess:@"1"];
+        
+        DMGeTuiMsg *msgObj = [DMGeTuiMsg mj_objectWithKeyValues:payloadMsg];
+        if (msgObj.type == 4) {
+            [self checkLoginForUser];
+        } else {
+            if ([[UIDevice currentDevice].systemVersion floatValue] >= 10.0){
+                [self registerNotification:1 andTitle:msgObj.title andMess:msgObj.body];
+            }else{
+                [self registerLocalNotificationInOldWay:1 andTitle:msgObj.title andMess:msgObj.body];
+            }
         }
+        
+
     } else {
 //        //app后台时，点击通知栏或者app进入
 //        DMAlertMananger *alert = [DMAlertMananger shareManager];
@@ -184,6 +196,15 @@ static DMGeTuiManager *bosinstance = nil;
 //        [alert showWithViewController:APP_DELEGATE.window.rootViewController IndexBlock:^(NSInteger index) {
 //        }];
     }
+
+//    NSDictionary *dicData = [NSDictionary dictionaryWithObjectsAndKeys:@"1",@"native",@"1803",@"lesson_id", nil];
+//
+//    NSDictionary *userDic = [NSDictionary dictionaryWithObjectsAndKeys:@"3" ,@"type", dicData, @"data", nil];
+//
+//    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:userDic,@"payload", nil];
+//
+//    [self pageJump:dic];
+
 }
 
 - (void)GeTuiSdkDidSendMessage:(NSString *)messageId result:(int)result {
@@ -237,27 +258,127 @@ static DMGeTuiManager *bosinstance = nil;
     
     // [ GTSdk ]：将收到的APNs信息传给个推统计
     [GeTuiSdk handleRemoteNotification:response.notification.request.content.userInfo]; //是否需要消息统计，根据业务来定
-    
-    UIViewController *dd = [APP_DELEGATE.dmrVC.childViewControllers objectAtIndex:1];
-    NSLog(@"dd = %@", dd.childViewControllers);
-    
-    [APP_DELEGATE.dmrVC togglePage:0];
-    
-//    //app后台时，点击通知栏或者app进入
-//    DMAlertMananger *alert = [DMAlertMananger shareManager];
-//    [alert creatAlertWithTitle:@""
-//                       message:@"启动进来的"
-//                preferredStyle:UIAlertControllerStyleAlert
-//                   cancelTitle:DMTitleMustUpgrade
-//                    otherTitle: nil];
-//
-//
-//    [alert showWithViewController:APP_DELEGATE.window.rootViewController IndexBlock:^(NSInteger index) {
-//    }];
-//
+
+    [self pageJump:response.notification.request.content.userInfo];
+
     completionHandler();
 }
 #endif
+
+- (void)pageJump:(NSDictionary *)userInfo {
+    
+    DMGeTuiMsg *msgObj = [DMGeTuiMsg mj_objectWithKeyValues:[userInfo objectForKey:@"payload"]];
+    if (!OBJ_IS_NIL(msgObj)) {
+        switch (msgObj.type) {
+            case DMPushMessageType_Web: //文字通知 --> 点击 webview打开网页（可post提交token）
+                [self gotoWebVC:msgObj];
+                break;
+            case DMPushMessageType_Nav: //文字通知 --> 点击打开Native页：1）个人主页；2）某节课的老师/学生课后总结；
+                [self gotoNativePage:msgObj];
+                break;
+            case DMPushMessageType_CheckLogin: //验证登录
+                [self checkLoginForUser];
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+- (void)checkLoginForUser {
+    [DMApiModel checkLoginRequest:^(BOOL result) { }];
+}
+
+- (void)gotoWebVC:(DMGeTuiMsg *)obj {
+    
+    DMMsgWebViewController *msgWebVC = [[DMMsgWebViewController alloc] init];
+    UINavigationController *webNav = [[UINavigationController alloc] initWithRootViewController:msgWebVC];
+    msgWebVC.msgUrl = obj.data.url;
+    msgWebVC.isHaveToken = (obj.data.is_token == 2 ? YES : NO);
+    UIViewController *resVC = [self getCurrentVC];
+    if (resVC) {
+        DMTransitioningAnimationHelper *animationHelper = [DMTransitioningAnimationHelper new];
+        animationHelper.animationType = DMTransitioningAnimationRight;
+        animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight);
+        webNav.transitioningDelegate = animationHelper;
+        webNav.modalPresentationStyle = UIModalPresentationCustom;
+        self.animationHelper = animationHelper;//注意
+        [resVC presentViewController:webNav animated:YES completion:nil];
+    }
+    
+}
+
+- (void)gotoNativePage:(DMGeTuiMsg *)obj {
+    
+    UIViewController *rootVC = APP_DELEGATE.window.rootViewController;
+    if ([rootVC isKindOfClass:[DMRootViewController class]]) {
+        DMRootViewController *nav = (DMRootViewController *)rootVC;
+        NSLog(@"dd =======--- >>>> %@",nav.contentViewController.childViewControllers);
+        if (nav.contentViewController) {
+            if (nav.contentViewController.childViewControllers.count > 0) {
+                UIViewController *v = [nav.contentViewController.childViewControllers lastObject];
+                UIViewController *v1 = [nav.contentViewController.childViewControllers firstObject];
+                if (v.presentedViewController != nil) {
+                    [v dismissViewControllerAnimated:NO completion:nil];
+                } else {
+                    if ([v isKindOfClass:[DMLiveController class]]) {
+                        DMLiveController *vv = (DMLiveController *)v;
+                        [vv quitLiveVideoClickSure];
+                    } else {
+                        [v.navigationController popToViewController:v1 animated:NO];
+                    }
+                }
+                
+                if (obj.data.native == 1) {
+                    if (APP_DELEGATE.dmrVC.selectedIndex != 0) {
+                        [APP_DELEGATE.dmrVC togglePage:0];
+                    }
+                } else if (obj.data.native == 2) {
+                    if (APP_DELEGATE.dmrVC.selectedIndex != 1) {
+                        [APP_DELEGATE.dmrVC togglePage:1];
+                    }
+                    [self performSelector:@selector(goToDMQuestionViewController:) withObject:obj.data.lesson_id afterDelay:0];
+
+                } else {}
+                [(DMMenuViewController *)APP_DELEGATE.dmrVC.menuViewController refreshTable];
+            }
+        }
+    }
+}
+
+- (void)goToDMQuestionViewController:(NSString *)lID {
+    DMRootViewController *nav = (DMRootViewController *)APP_DELEGATE.window.rootViewController;
+    DMCourseListController *listVC = (DMCourseListController *)[nav.contentViewController.childViewControllers firstObject];
+    DMCourseDatasModel *model = [[DMCourseDatasModel alloc] init];
+    model.lesson_id = lID;
+    [listVC gotoDMQuestion:model];
+}
+
+//获取当前屏幕显示的viewcontroller
+- (UIViewController *)getCurrentVC {
+    UIViewController *resultVC = nil;
+    UIViewController *rootVC = APP_DELEGATE.window.rootViewController;
+    if ([rootVC isKindOfClass:[DMRootViewController class]]) {
+        DMRootViewController *nav = (DMRootViewController *)rootVC;
+        NSLog(@"dd =======--- >>>> %@",nav.contentViewController.childViewControllers);
+        UIViewController *v = [nav.contentViewController.childViewControllers lastObject];
+        resultVC = [self getSubVC:v];
+        if ([resultVC isKindOfClass:[UINavigationController class]]) {
+            UINavigationController *nav = (UINavigationController *)resultVC;
+            UIViewController *v = [nav.viewControllers lastObject];
+            resultVC = v;
+        }
+    }
+    return resultVC;
+}
+
+- (UIViewController *)getSubVC:(UIViewController *)vc {
+    UIViewController *resVC = vc;
+    if (vc.presentedViewController != nil) {
+        resVC = [self getSubVC:vc.presentedViewController];
+    }
+    return resVC;
+}
 
 
 #pragma mark注册本地通知

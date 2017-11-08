@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface DMMenuViewController : UIViewController
-
+- (void)refreshTable;
+- (void)logoutSystem;
 @end
