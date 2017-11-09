@@ -11,6 +11,7 @@
 #import "DMMenuCell.h"
 #import "DMSignalingKey.h"
 #import "DMGeTuiManager.h"
+#import "DMLiveController.h"
 @interface DMMenuViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) DMMenuHeadView *headView;
@@ -57,13 +58,10 @@
 
 - (void)logoutSystem:(NSString *)msg {
     
+    WS(weakSelf)
     [DMApiModel logoutSystem:^(BOOL result) {
         if (result) {
-            
-            [[DMGeTuiManager shareInstance] unbindAliasGT:[DMSignalingKey MD5:[DMAccount getUserID]]
-                                           andSequenceNum:[[DMGeTuiManager shareInstance] clientIdGT]
-                                                andIsSelf:YES];
-            
+            [weakSelf checkLiveVc];
             [DMCommonModel removeUserAllDataAndOperation];
             [APP_DELEGATE toggleRootView:YES];
             if (!STR_IS_NIL(msg)) {
@@ -71,6 +69,14 @@
             }
         }
     }];
+}
+
+- (void)checkLiveVc {
+    UIViewController *v = [[DMGeTuiManager shareInstance] getCurrentVC];
+    if ([v isKindOfClass:[DMLiveController class]]) {
+        DMLiveController *vv = (DMLiveController *)v;
+        [vv quitLiveVideoClickSure];
+    }
 }
 
 #pragma mark -

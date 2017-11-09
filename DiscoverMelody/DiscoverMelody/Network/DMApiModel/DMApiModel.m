@@ -45,8 +45,10 @@
     }];
 }
 //检测登陆
-+ (void)checkLoginRequest:(void(^)(BOOL result))complectionBlock {
-    [[DMHttpClient sharedInstance] initWithUrl:DM_User_Check_Login_Url parameters:nil method:DMHttpRequestPost dataModelClass:[NSObject class] isMustToken:YES success:^(id responseObject) {
++ (void)checkLoginRequest:(NSString *)status block:(void(^)(BOOL result))complectionBlock {
+    
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:status, @"show_status_8", nil];
+    [[DMHttpClient sharedInstance] initWithUrl:DM_User_Check_Login_Url parameters:dic method:DMHttpRequestPost dataModelClass:[NSObject class] isMustToken:YES success:^(id responseObject) {
         complectionBlock(YES);
     } failure:^(NSError *error) {
         complectionBlock(NO);
@@ -55,6 +57,10 @@
 //退出登录
 + (void)logoutSystem:(void(^)(BOOL result))complectionBlock {
     [[DMHttpClient sharedInstance] initWithUrl:DM_User_Logout_Url parameters:nil method:DMHttpRequestPost dataModelClass:[NSObject class] isMustToken:YES success:^(id responseObject) {
+        NSLog(@"userID = %@",[DMAccount getUserID]);
+        [[DMGeTuiManager shareInstance] unbindAliasGT:[DMSignalingKey MD5:[DMAccount getUserID]]
+                                       andSequenceNum:[[DMGeTuiManager shareInstance] clientIdGT]
+                                            andIsSelf:true];
         //清除用户数据
         [DMAccount removeUserAllInfo];
         complectionBlock(YES);

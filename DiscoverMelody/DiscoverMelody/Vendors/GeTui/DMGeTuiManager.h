@@ -52,4 +52,6 @@
 - (void)handleRemoteNotificationGT:(NSDictionary *)userInfo;
 //清空通知
 - (void)clearAllNotificationForNotificationBar;
+//获取当前屏幕显示的viewcontroller
+- (UIViewController *)getCurrentVC;
 @end

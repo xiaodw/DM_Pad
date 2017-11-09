@@ -157,13 +157,6 @@ static DMGeTuiManager *bosinstance = nil;
     // 控制台打印日志
     NSString *msg = [NSString stringWithFormat:@"taskId=%@,messageId:%@,payloadMsg:%@%@", taskId, msgId, payloadMsg, offLine ? @"<离线消息>" : @""];
     NSLog(@"\n>>[GTSdk ReceivePayload]:%@\n\n", msg);
-
-    //    NSError *error=nil;
-    //    NSDictionary *dic=[NSJSONSerialization JSONObjectWithData:payloadData options:NSJSONReadingMutableContainers error:&error];
-    //    NSString *title=[NSString stringWithFormat:@"%@",dic[@"title"]];
-    //    NSString *detail=[NSString stringWithFormat:@"%@",dic[@"text"]];
-    //    _webTitle=[NSString stringWithFormat:@"%@",dic[@"messageTitle"]];
-    //    _webUrl=[NSString stringWithFormat:@"%@",dic[@"messageUrl"]];
     
     // 当app不在前台时，接收到的推送消息offLine值均为YES
     // 判断app是否是点击通知栏消息进行唤醒或开启
@@ -182,26 +175,8 @@ static DMGeTuiManager *bosinstance = nil;
         }
     } else {
 //        //app后台时，点击通知栏或者app进入
-//        DMAlertMananger *alert = [DMAlertMananger shareManager];
-//
-//            [alert creatAlertWithTitle:@""
-//                               message:@"启动进来的"
-//                        preferredStyle:UIAlertControllerStyleAlert
-//                           cancelTitle:DMTitleMustUpgrade
-//                            otherTitle: nil];
-//        
-//        
-//        [alert showWithViewController:APP_DELEGATE.window.rootViewController IndexBlock:^(NSInteger index) {
-//        }];
     }
 
-//    NSDictionary *dicData = [NSDictionary dictionaryWithObjectsAndKeys:@"1",@"native",@"1803",@"lesson_id", nil];
-//
-//    NSDictionary *userDic = [NSDictionary dictionaryWithObjectsAndKeys:@"3" ,@"type", dicData, @"data", nil];
-//
-//    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:userDic,@"payload", nil];
-//
-//    [self pageJump:dic];
 
 }
 
@@ -275,7 +250,7 @@ static DMGeTuiManager *bosinstance = nil;
                 [self gotoNativePage:msgObj];
                 break;
             case DMPushMessageType_CheckLogin: //验证登录
-                [self checkLoginForUser];
+                //[self checkLoginForUser];
                 break;
             default:
                 break;
@@ -284,7 +259,7 @@ static DMGeTuiManager *bosinstance = nil;
 }
 
 - (void)checkLoginForUser {
-    [DMApiModel checkLoginRequest:^(BOOL result) { }];
+    [DMApiModel checkLoginRequest:@"" block:^(BOOL result) { }];
 }
 
 - (void)gotoWebVC:(DMGeTuiMsg *)obj {
