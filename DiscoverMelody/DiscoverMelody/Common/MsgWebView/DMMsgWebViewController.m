@@ -29,8 +29,53 @@
     [self loadWebView];
 }
 
+- (void)rightOneAction:(id)sender {
+    [self dismissWeb];
+}
+
+- (void)leftOneAction:(id)sender {
+    //[self.navigationController popViewControllerAnimated:YES];
+    if (self.mWebView.canGoBack) {
+        [self.mWebView goBack];
+        return;
+    }
+    [self dismissWeb];
+}
+
+- (void)dismissWeb {
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)loadWebView {
+    self.mWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, DMScreenWidth, DMScreenHeight-64)];
+    self.mWebView.delegate = self;
+    [self.view addSubview: self.mWebView];
+
+    NSMutableURLRequest *requestShare = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:self.msgUrl]];
+    if (self.isHaveToken) {
+        [requestShare setHTTPMethod: @"POST"];
+        NSString *tokenApp = [DMAccount getToken];
+        if (!STR_IS_NIL(tokenApp)) {
+            [requestShare setHTTPBody:[tokenApp dataUsingEncoding: NSUTF8StringEncoding]];
+        }
+    }
+    [self.mWebView loadRequest:requestShare];
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    self.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+}
+
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
 - (void)setNavigationbar {
     [self setLeftBtn:CGRectMake(0, 0, 44, 44) title:@"" titileColor:nil imageName:@"back_icon" font:nil];
+    [self setRigthBtn:CGRectMake(0, 0, 44, 44) title:@"关闭" titileColor:[UIColor whiteColor] imageName:@"" font:DMFontPingFang_Thin(14)];
 }
 
 - (void)setLeftBtn:(CGRect)frame title:(NSString *)title titileColor:(UIColor *)titleColor imageName:(NSString *)imageName font:(UIFont *)font {
@@ -62,31 +107,31 @@
     
 }
 
-- (void)leftOneAction:(id)sender {
-    //[self.navigationController popViewControllerAnimated:YES];
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
 
-- (void)loadWebView {
-    self.mWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, DMScreenWidth, DMScreenHeight-64)];
-    [self.view addSubview: self.mWebView];
-
-    NSMutableURLRequest *requestShare = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:self.msgUrl]];
-    if (self.isHaveToken) {
-        [requestShare setHTTPMethod: @"POST"];
-        NSString *tokenApp = [DMAccount getToken];
-        if (!STR_IS_NIL(tokenApp)) {
-            [requestShare setHTTPBody:[tokenApp dataUsingEncoding: NSUTF8StringEncoding]];
-        }
+- (void)setRigthBtn:(CGRect)frame title:(NSString *)title titileColor:(UIColor *)titleColor imageName:(NSString *)imageName font:(UIFont *)font {
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = frame;
+    [btn setTitle:title forState:UIControlStateNormal];
+    [btn setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
+    if (!STR_IS_NIL(title)) {
+        [btn setTitleColor:titleColor forState:UIControlStateNormal];
+        [btn.titleLabel setFont:font];
+        [btn setTitle:title forState:UIControlStateNormal];
+        [btn setTitleEdgeInsets:UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)];
+        btn.contentEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0);
     }
-    [self.mWebView loadRequest:requestShare];
+    if (!STR_IS_NIL(imageName)) {
+        [btn setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
+        [btn setImageEdgeInsets:UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)];
+    }
+    [btn addTarget:self action:@selector(rightOneAction:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    fixedSpace.width = -5;
+    
+    //self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
+    self.navigationItem.rightBarButtonItems = @[fixedSpace, [[UIBarButtonItem alloc] initWithCustomView:btn]];
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 /*
 #pragma mark - Navigation
 

@@ -175,13 +175,11 @@ static DMGeTuiManager *bosinstance = nil;
             [self checkLoginForUser];
         } else {
             if ([[UIDevice currentDevice].systemVersion floatValue] >= 10.0){
-                [self registerNotification:1 andTitle:msgObj.title andMess:msgObj.body];
+                [self registerNotification:1 andTitle:msgObj.data.title andMess:msgObj.data.body dic:msgObj.mj_keyValues];
             }else{
-                [self registerLocalNotificationInOldWay:1 andTitle:msgObj.title andMess:msgObj.body];
+                [self registerLocalNotificationInOldWay:1 andTitle:msgObj.data.title andMess:msgObj.data.body dic:msgObj.mj_keyValues];
             }
         }
-        
-
     } else {
 //        //app后台时，点击通知栏或者app进入
 //        DMAlertMananger *alert = [DMAlertMananger shareManager];
@@ -474,7 +472,7 @@ static DMGeTuiManager *bosinstance = nil;
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
 //使用 UNNotification 本地通知
--(void)registerNotification:(NSInteger )alerTime andTitle:(NSString*)title andMess:(NSString*)mes{
+-(void)registerNotification:(NSInteger )alerTime andTitle:(NSString*)title andMess:(NSString*)mes dic:(NSDictionary *)dicUserInfo {
     
     // 使用 UNUserNotificationCenter 来管理通知
     UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
@@ -485,8 +483,8 @@ static DMGeTuiManager *bosinstance = nil;
     content.body = [NSString localizedUserNotificationStringForKey:mes
                                                          arguments:nil];
     content.sound = [UNNotificationSound defaultSound];
-    //content.userInfo=@{@"webTitle":_webTitle,@"webUrl":_webUrl};
-    content.userInfo=@{@"webTitle":@"",@"webUrl":@""};
+    content.userInfo=@{@"payload":dicUserInfo};
+    //content.userInfo= dicUserInfo;
     
     // 在 alertTime 后推送本地推送
     UNTimeIntervalNotificationTrigger* trigger = [UNTimeIntervalNotificationTrigger
@@ -503,7 +501,7 @@ static DMGeTuiManager *bosinstance = nil;
 }
 #endif
 
-- (void)registerLocalNotificationInOldWay:(NSInteger)alertTime andTitle:(NSString*)title andMess:(NSString*)mes{
+- (void)registerLocalNotificationInOldWay:(NSInteger)alertTime andTitle:(NSString*)title andMess:(NSString*)mes dic:(NSDictionary *)dicUserInfo {
     
     UILocalNotification *notification = [[UILocalNotification alloc] init];
     // 设置触发通知的时间
@@ -517,12 +515,13 @@ static DMGeTuiManager *bosinstance = nil;
     notification.repeatInterval = kCFCalendarUnitEra;
     
     // 通知内容
-    notification.alertBody = title;
+    notification.alertTitle = title;
+    notification.alertBody = mes;
     notification.applicationIconBadgeNumber = 1;
     // 通知被触发时播放的声音
     notification.soundName = UILocalNotificationDefaultSoundName;
     // 通知参数
-    NSDictionary *userDict = [NSDictionary dictionaryWithObject:mes forKey:@"key"];
+    NSDictionary *userDict = [NSDictionary dictionaryWithObject:dicUserInfo forKey:@"payload"];
     notification.userInfo = userDict;
     
     // ios8后，需要添加这个注册，才能得到授权
