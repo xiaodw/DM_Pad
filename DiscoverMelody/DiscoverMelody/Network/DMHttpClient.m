@@ -130,7 +130,7 @@
     self.blockSuccessMsg = nil;
     switch (code) {
         case DMHttpResponseCodeType_NotLogin: //未登录，需要重新登录
-            [self logoutToLoginPage];
+            [self logoutToLoginPage:@""];
             break;
         case DMHttpResponseCodeType_Failed:
             if ([message isKindOfClass:[NSString class]]) {
@@ -141,8 +141,8 @@
             }
             break;
         case DMHttpResponseCodeType_MustLogout:
-            [self showAlertLogout:message];
-            [self logoutToLoginPage];
+            [self logoutToLoginPage:message];
+            //[self showAlertLogout:message];
             break;
         default:
             if ([message isKindOfClass:[NSString class]]) {
@@ -154,9 +154,9 @@
     }
 }
 
-- (void)logoutToLoginPage {
+- (void)logoutToLoginPage:(NSString *)msg {
     //to-do 1，取消所有网络请求，2，清除用户所有信息，3，退到登录界面
-    [(DMMenuViewController *)APP_DELEGATE.dmrVC.menuViewController logoutSystem];
+    [(DMMenuViewController *)APP_DELEGATE.dmrVC.menuViewController logoutSystem:msg];
 }
 
 - (void)showAlertLogout:(NSString *)msg {
@@ -167,7 +167,7 @@
                 preferredStyle:UIAlertControllerStyleAlert
                    cancelTitle:DMTitleOK
                     otherTitle:nil];
-    [alert showWithViewController:APP_DELEGATE.dmrVC IndexBlock:nil];
+    [alert showWithViewController:APP_DELEGATE.window.rootViewController IndexBlock:nil];
 }
 
 /**

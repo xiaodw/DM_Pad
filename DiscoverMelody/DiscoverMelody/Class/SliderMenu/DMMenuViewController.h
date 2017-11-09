@@ -10,5 +10,5 @@
 
 @interface DMMenuViewController : UIViewController
 - (void)refreshTable;
-- (void)logoutSystem;
+- (void)logoutSystem:(NSString *)msg;
 @end

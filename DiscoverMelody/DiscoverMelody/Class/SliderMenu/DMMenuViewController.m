@@ -49,13 +49,13 @@
     [alert showWithViewController:self IndexBlock:^(NSInteger index) {
         NSLog(@"%ld",index);
         if (index == 1) {
-            [weakSelf logoutSystem];
+            [weakSelf logoutSystem:@""];
         }
     }];
 
 }
 
-- (void)logoutSystem {
+- (void)logoutSystem:(NSString *)msg {
     
     [DMApiModel logoutSystem:^(BOOL result) {
         if (result) {
@@ -66,6 +66,9 @@
             
             [DMCommonModel removeUserAllDataAndOperation];
             [APP_DELEGATE toggleRootView:YES];
+            if (!STR_IS_NIL(msg)) {
+                [DMTools showAlertLogout:msg];
+            }
         }
     }];
 }

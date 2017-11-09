@@ -59,7 +59,7 @@
 
 //成功/失败 提示框
 +(void)showSVProgressHudCustom:(NSString *)imageName title:(NSString *)title;
-
++ (void)showAlertLogout:(NSString *)msg;
 @end
 
 

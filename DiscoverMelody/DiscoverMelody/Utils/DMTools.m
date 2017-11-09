@@ -254,4 +254,21 @@
     [SVProgressHUD showImage:[UIImage imageNamed:imageName] status:title];
 }
 
++ (void)showAlertLogout:(NSString *)msg {
+    DMAlertMananger *alert = [DMAlertMananger shareManager];
+    
+    [alert creatAlertWithTitle:@""
+                       message:msg
+                preferredStyle:UIAlertControllerStyleAlert
+                   cancelTitle:DMTitleOK
+                    otherTitle:nil];
+    [alert showWithViewController:APP_DELEGATE.window.rootViewController IndexBlock:nil];
+}
+
+
 @end
+
+
+
+
+
