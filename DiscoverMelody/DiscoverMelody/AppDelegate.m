@@ -137,7 +137,9 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     NSLog(@"前台");
-    [DMApiModel checkLoginRequest:@"1" block:^(BOOL result) { }];
+    if (!STR_IS_NIL([DMAccount getToken])) {
+        [DMApiModel checkLoginRequest:@"1" block:^(BOOL result) { }];
+    }
 }
 
 
