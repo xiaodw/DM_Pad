@@ -460,6 +460,7 @@ static DMGeTuiManager *bosinstance = nil;
     content.sound = [UNNotificationSound defaultSound];
     content.userInfo=@{@"payload":dicUserInfo};
     //content.userInfo= dicUserInfo;
+    content.badge = 0;
     
     // 在 alertTime 后推送本地推送
     UNTimeIntervalNotificationTrigger* trigger = [UNTimeIntervalNotificationTrigger
@@ -471,8 +472,9 @@ static DMGeTuiManager *bosinstance = nil;
     //添加推送成功后的处理！
     [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
     }];
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[UIApplication sharedApplication].applicationIconBadgeNumber+1];
-    [GeTuiSdk setBadge:[UIApplication sharedApplication].applicationIconBadgeNumber];
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+    //[[UIApplication sharedApplication] setApplicationIconBadgeNumber:[UIApplication sharedApplication].applicationIconBadgeNumber+1];
+    //[GeTuiSdk setBadge:[UIApplication sharedApplication].applicationIconBadgeNumber];
 }
 #endif
 
@@ -514,8 +516,9 @@ static DMGeTuiManager *bosinstance = nil;
     
     // 执行通知注册
     [[UIApplication sharedApplication] scheduleLocalNotification:notification];
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[UIApplication sharedApplication].applicationIconBadgeNumber+1];
-    [GeTuiSdk setBadge:[UIApplication sharedApplication].applicationIconBadgeNumber];
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+//    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[UIApplication sharedApplication].applicationIconBadgeNumber+1];
+//    [GeTuiSdk setBadge:[UIApplication sharedApplication].applicationIconBadgeNumber];
 }
 
 @end
