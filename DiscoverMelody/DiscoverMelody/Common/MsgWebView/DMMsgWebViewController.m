@@ -52,14 +52,21 @@
     self.mWebView.delegate = self;
     [self.view addSubview: self.mWebView];
 
-    NSMutableURLRequest *requestShare = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:self.msgUrl]];
     if (self.isHaveToken) {
-        [requestShare setHTTPMethod: @"POST"];
         NSString *tokenApp = [DMAccount getToken];
         if (!STR_IS_NIL(tokenApp)) {
-            [requestShare setHTTPBody:[tokenApp dataUsingEncoding: NSUTF8StringEncoding]];
+            self.msgUrl = [NSString stringWithFormat:@"%@&token=%@", self.msgUrl, tokenApp];
         }
     }
+    NSMutableURLRequest *requestShare = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:self.msgUrl]];
+//    NSMutableURLRequest *requestShare = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:self.msgUrl]];
+//    if (self.isHaveToken) {
+//        [requestShare setHTTPMethod: @"POST"];
+//        NSString *tokenApp = [DMAccount getToken];
+//        if (!STR_IS_NIL(tokenApp)) {
+//            [requestShare setHTTPBody:[tokenApp dataUsingEncoding: NSUTF8StringEncoding]];
+//        }
+//    }
     [self.mWebView loadRequest:requestShare];
 }
 

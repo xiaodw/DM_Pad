@@ -47,7 +47,7 @@
 
 #if SERVER_ENVIRONMENT == 0 //正式
 
-#define DM_Local_Url                    @"http://test.api.cn.discovermelody.com/"//服务器访问地址 //@"http://test.api.cn.discovermelody.com/"
+#define DM_Local_Url                    @"http://api.cn.discovermelody-app.com/"//服务器访问地址 //@"http://test.api.cn.discovermelody.com/"
 #define DMLog_Local_Url                 @"http://log.cn.discovermelody.com/"//统计服务器访问地址
 #define DMAgoraAppID_Local_Config       @"2f4301adc17b415c98eba18b7f1066d4"//声网appID
 #define DMAgoraVideoProfile_Config      @"52"// 声网视频属性枚举值
@@ -55,7 +55,7 @@
 
 #elif SERVER_ENVIRONMENT == 1 //开发
 
-#define DM_Local_Url                    @"http://api.dm.1900m.com/" //服务器访问地址
+#define DM_Local_Url                    @"http://api.cn.discovermelody-app.com/" //服务器访问地址
 #define DMLog_Local_Url                 @"http://log.cn.discovermelody.com/"//统计服务器访问地址
 #define DMAgoraAppID_Local_Config       @"2f4301adc17b415c98eba18b7f1066d4"//声网appID
 #define DMAgoraVideoProfile_Config      @"52"// 声网视频属性枚举值
@@ -63,7 +63,7 @@
 
 #elif SERVER_ENVIRONMENT == 2 //测试
 
-#define DM_Local_Url                    @"http://api.dm.1900m.com/" //服务器访问地址
+#define DM_Local_Url                    @"http://api.cn.discovermelody-app.com/" //服务器访问地址
 #define DMLog_Local_Url                 @"http://log.cn.discovermelody.com/"//统计服务器访问地址
 #define DMAgoraAppID_Local_Config       @"2f4301adc17b415c98eba18b7f1066d4"//声网appID
 #define DMAgoraVideoProfile_Config      @"52"// 声网视频属性枚举值
