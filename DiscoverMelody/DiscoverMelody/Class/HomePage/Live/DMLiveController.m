@@ -98,7 +98,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self setupMakeLiveCallback];
     
     [self timer];
-     [self.liveVideoManager switchSound:NO block:nil];
+    // [self.liveVideoManager switchSound:NO block:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
