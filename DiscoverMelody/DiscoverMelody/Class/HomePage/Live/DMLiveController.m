@@ -247,8 +247,9 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 }
 
 - (void)quitLiveVideoClickSure {
+    WS(weakSelf)
     [self.liveVideoManager quitLiveVideo:^(BOOL success) {
-        [self.navigationVC popViewControllerAnimated:YES];
+        [weakSelf.navigationVC popViewControllerAnimated:YES];
         if ([[DMAccount getUserIdentity] integerValue]) {
             NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_End_Syn sourceData:nil index:0];
             [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) { } faile:^(NSString *messageID, AgoraEcode ecode) {}];
