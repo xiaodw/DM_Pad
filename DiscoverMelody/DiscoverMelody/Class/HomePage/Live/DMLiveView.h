@@ -12,7 +12,6 @@ typedef NS_ENUM(NSInteger, DMLiveViewMode) {
 @property (strong, nonatomic, readonly) UIView *view;
 @property (assign, nonatomic) CGFloat voiceValue;
 @property (assign, nonatomic) DMLiveViewMode mode;
-@property (strong, nonatomic) NSString *placeholderText;
 @property (strong, nonatomic) UIImage *placeholderImage;
 @property (assign, nonatomic) BOOL showPlaceholder;
 

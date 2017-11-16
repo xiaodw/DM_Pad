@@ -82,7 +82,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     
     NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
     _userIdentity = userIdentity;
-    self.remoteView.placeholderText = userIdentity ? DMTextLiveStudentNotEnter : DMTextLiveTeacherNotEnter;
     
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(remoteVideoTapped)];
     [self.view addGestureRecognizer:tapGestureRecognizer];
@@ -143,6 +142,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     self.liveVideoManager.blockDidOfflineOfUid = ^(NSUInteger uid) {
         [weakSelf liveCoursewareViewDidTapClose:nil];
         weakSelf.isRemoteUserOnline = NO;
+        [weakSelf setShowPlaceholderView];
         [weakSelf agoraUserStatusLog:weakSelf.lessonID targetUID:[NSString stringWithFormat:@"%lu",(unsigned long)uid] uploadUID:[DMAccount getUserID] action:DMAgoraUserStatusLog_Exit];
     };
     
@@ -469,7 +469,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     if (!_localView) {
         _localView = [DMLiveView new];
         _localView.mode = DMLiveViewSmall;
-        _localView.placeholderText = DMAlertTitleCameraNotOpen;
         _localView.placeholderImage = [UIImage imageNamed:@"icon_unturnedCamera"];
         _localView.showPlaceholder = NO;
     }
