@@ -13,6 +13,8 @@
 #import "DMSendSignalingMsg.h"
 #import "DMButton.h"
 
+#import "DMQuestionViewController.h"
+
 #import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
 
 #define kSmallSize CGSizeMake(DMScaleWidth(240), DMScaleHeight(180))
@@ -217,16 +219,29 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 // 离开
 - (void)liveButtonControlViewDidTapLeave:(DMLiveButtonControlView *)liveButtonControlView {
     WS(weakSelf)
-    if(self.alreadyTime < self.totalTime + self.delayTime) {
+    if(self.alreadyTime < self.totalTime + self.delayTime) {//
         DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:DMTitleExitLiveRoom message:DMTitleLiveAutoClose preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
         [alert showWithViewController:self IndexBlock:^(NSInteger index) {
             if (index == 1) { // 右侧
-                [weakSelf quitLiveVideoClickSure];
+                //判断 是否到正常结束时间,并且 需要跳转到 问题页面 字段为1
+                if ((weakSelf.alreadyTime > weakSelf.totalTime) && weakSelf.isToQuestionPage == 1) {
+                    DMQuestionViewController *qtVC = [[DMQuestionViewController alloc] init];
+                    DMCourseDatasModel *model = [[DMCourseDatasModel alloc] init];
+                    model.lesson_id = weakSelf.lessonID;
+                    qtVC.courseObj = model;
+                    [weakSelf.navigationController pushViewController:qtVC animated:YES];
+                    
+                    [weakSelf quitLiveVideoClickSure:NO];
+                    
+                } else {
+                    [weakSelf quitLiveVideoClickSure:YES];
+                }
             }
         }];
         return;
     }
     
+    //以下代码自动强制退出逻辑
     [self.liveVideoManager quitLiveVideo:^(BOOL success) {
         [weakSelf agoraUserStatusLog:weakSelf.lessonID targetUID:[DMAccount getUserID] uploadUID:[DMAccount getUserID] action:DMAgoraUserStatusLog_Exit];
         
@@ -246,10 +261,12 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     }];
 }
 
-- (void)quitLiveVideoClickSure {
+- (void)quitLiveVideoClickSure:(BOOL)isPop {
     WS(weakSelf)
     [self.liveVideoManager quitLiveVideo:^(BOOL success) {
-        [weakSelf.navigationVC popViewControllerAnimated:YES];
+        if (isPop) {
+            [weakSelf.navigationVC popViewControllerAnimated:YES];
+        }
         if ([[DMAccount getUserIdentity] integerValue]) {
             NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_End_Syn sourceData:nil index:0];
             [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) { } faile:^(NSString *messageID, AgoraEcode ecode) {}];

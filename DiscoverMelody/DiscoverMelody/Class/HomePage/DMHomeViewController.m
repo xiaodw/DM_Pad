@@ -128,7 +128,7 @@
         //无权限-摄像头
         DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"" message:Capture_Msg preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleGoSetting, nil];
         [alert showWithViewController:self IndexBlock:^(NSInteger index) {
-            NSLog(@"%ld",index);
+            NSLog(@"%ld",(long)index);
             if (index == 1) {
                 NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
                 if ([[UIApplication sharedApplication]canOpenURL:url]) {
@@ -144,7 +144,7 @@
         //无权限-麦克风
         DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"" message:Audio_Msg preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleGoSetting, nil];
         [alert showWithViewController:self IndexBlock:^(NSInteger index) {
-            NSLog(@"%ld",index);
+            NSLog(@"%ld",(long)index);
             if (index == 1) {
                 NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
                 if ([[UIApplication sharedApplication]canOpenURL:url]) {
@@ -187,6 +187,7 @@
                                                        accessTime:[DMAccount getUserJoinClassTime]];
     liveVC.warningTime = self.classJoinData.countdown.intValue;
     liveVC.delayTime = self.classJoinData.forceclose.intValue;
+    liveVC.isToQuestionPage = self.classJoinData.to_answer;
     [self.navigationController pushViewController:liveVC animated:YES];
     
 //    DMLiveController *liveVC = [DMLiveController new];
