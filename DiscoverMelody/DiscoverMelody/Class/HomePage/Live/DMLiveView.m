@@ -10,7 +10,6 @@
 @property (strong, nonatomic) UIImageView *shadowImageView; // 右侧的阴影
 @property (strong, nonatomic) DMMicrophoneView *microphoneView; // 麦克风
 @property (strong, nonatomic) UIImageView *placeholderIconView; // 占位图标
-@property (strong, nonatomic) UILabel *placeholderTitleLabel; // 占位文字
 
 @end
 
@@ -19,7 +18,6 @@
 - (void)setShowPlaceholder:(BOOL)showPlaceholder {
     _showPlaceholder = showPlaceholder;
     self.placeholderIconView.hidden = !showPlaceholder;
-    self.placeholderTitleLabel.hidden = self.placeholderIconView.hidden;
 }
 
 - (void)setPlaceholderImage:(UIImage *)placeholderImage {
@@ -27,79 +25,28 @@
     self.placeholderIconView.image = placeholderImage;
 }
 
-- (void)setPlaceholderText:(NSString *)placeholderText {
-    _placeholderText = placeholderText;
-    self.placeholderTitleLabel.text = placeholderText;
-}
-
 - (void)setMode:(DMLiveViewMode)mode {
     _mode = mode;
     
-    UIFont *titleFont = DMFontPingFang_Light(20);
-    UIColor *backgroundColor = kColor33;
+    UIFont *titleFont = DMFontPingFang_Light(16);
+    UIColor *backgroundColor = kColor06;
+    CGSize size = CGSizeMake(154, 154);
     
     if (mode == DMLiveViewSmall) {
-        [_placeholderIconView remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(52);
-            make.size.equalTo(CGSizeMake(45, 45));
-            make.centerX.equalTo(self);
-        }];
-        
-        [_placeholderTitleLabel remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_placeholderIconView.mas_bottom).offset(15);
-            make.left.equalTo(10);
-            make.right.equalTo(self.mas_right).offset(-10);
-        }];
-        titleFont = DMFontPingFang_Light(16);
-        backgroundColor = kColor06;
-        
-    } else if (mode == DMLiveViewFull) {
-        [_placeholderIconView remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(290);
-            make.size.equalTo(CGSizeMake(154, 154));
-            make.centerX.equalTo(self);
-        }];
-        
-        [_placeholderTitleLabel remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_placeholderIconView.mas_bottom).offset(45);
-            make.left.equalTo(self).offset(10);
-            make.right.equalTo(self.mas_right).offset(-10);
-        }];
-        
-    } else if (mode == DMLiveViewBalanceTB) {
-        CGFloat remotePHVTop = (DMScreenHeight - DMScaleWidth(385)) * 0.5 + 95;
-        [_placeholderIconView remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(remotePHVTop);
-            make.size.equalTo(CGSizeMake(154, 154));
-            make.centerX.equalTo(self);
-        }];
-        
-        [_placeholderTitleLabel remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_placeholderIconView.mas_bottom).offset(39);
-            make.left.equalTo(self).offset(10);
-            make.right.equalTo(self.mas_right).offset(-10);
-        }];
-        titleFont = DMFontPingFang_Light(16);
-        backgroundColor = kColor06;
-        
-    } else if (mode == DMLiveViewBalanceLR) {
-        [_placeholderIconView remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(100);
-            make.size.equalTo(CGSizeMake(154, 154));
-            make.centerX.equalTo(self);
-        }];
-        
-        [_placeholderTitleLabel remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_placeholderIconView.mas_bottom).offset(28);
-            make.left.equalTo(self).offset(10);
-            make.right.equalTo(self.mas_right).offset(-10);
-        }];
-        titleFont = DMFontPingFang_Light(16);
-        backgroundColor = kColor06;
-        
+        size = CGSizeMake(65, 65);
     }
+    
+    if (mode == DMLiveViewFull) {
+        titleFont = DMFontPingFang_Light(20);
+        backgroundColor = kColor33;
+    }
+    
+    [_placeholderIconView remakeConstraints:^(MASConstraintMaker *make) {
+        make.size.equalTo(size);
+        make.center.equalTo(self);
+    }];
+    
     self.userInteractionEnabled = mode != DMLiveViewFull;
-    _placeholderTitleLabel.font = titleFont;
     self.backgroundColor = backgroundColor;
     _view.backgroundColor = self.backgroundColor;
 }
@@ -121,7 +68,6 @@
 - (void)setupMakeAddSubviews {
     [self addSubview:self.view];
     [self addSubview:self.placeholderIconView];
-    [self addSubview:self.placeholderTitleLabel];
     [self addSubview:self.shadowImageView];
     [self addSubview:self.microphoneView];
 }
@@ -175,17 +121,6 @@
     }
     
     return _placeholderIconView;
-}
-
-- (UILabel *)placeholderTitleLabel {
-    if (!_placeholderTitleLabel) {
-        _placeholderTitleLabel = [UILabel new];
-        _placeholderTitleLabel.numberOfLines = 0;
-        _placeholderTitleLabel.textColor = DMColor102;
-        _placeholderTitleLabel.textAlignment = NSTextAlignmentCenter;
-    }
-    
-    return _placeholderTitleLabel;
 }
 
 @end
