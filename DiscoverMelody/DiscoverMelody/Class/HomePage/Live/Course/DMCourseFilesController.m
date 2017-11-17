@@ -459,7 +459,6 @@
     if (!_navigationBar) {
         _navigationBar = [DMNavigationBar new];
         
-        [_navigationBar.leftBarButton setTitle:DMTitlePhoto forState:UIControlStateNormal];
         [_navigationBar.leftBarButton addTarget:self action:@selector(didTapBack) forControlEvents:UIControlEventTouchUpInside];
         _navigationBar.titleLabel.text = DMTextThisClassFile;
         _navigationBar.rightBarButton.selected = YES;
