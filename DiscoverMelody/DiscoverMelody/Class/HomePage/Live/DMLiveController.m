@@ -220,21 +220,19 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 - (void)liveButtonControlViewDidTapLeave:(DMLiveButtonControlView *)liveButtonControlView {
     WS(weakSelf)
     if(self.alreadyTime < self.totalTime + self.delayTime) {//
-        DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:DMTitleExitLiveRoom message:DMTitleLiveAutoClose preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
+        DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:DMTitleExitLiveRoom
+                                                                             message:DMTitleLiveAutoClose
+                                                                      preferredStyle:UIAlertControllerStyleAlert
+                                                                         cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
         [alert showWithViewController:self IndexBlock:^(NSInteger index) {
             if (index == 1) { // 右侧
                 //判断 是否到正常结束时间,并且 需要跳转到 问题页面 字段为1
+                
                 if ((weakSelf.alreadyTime > weakSelf.totalTime) && weakSelf.isToQuestionPage == 1) {
-                    DMQuestionViewController *qtVC = [[DMQuestionViewController alloc] init];
-                    DMCourseDatasModel *model = [[DMCourseDatasModel alloc] init];
-                    model.lesson_id = weakSelf.lessonID;
-                    qtVC.courseObj = model;
-                    [weakSelf.navigationController pushViewController:qtVC animated:YES];
-                    
-                    [weakSelf quitLiveVideoClickSure:NO];
-                    
+                    [weakSelf desSubVC:NO];
+                    [weakSelf gotoQuestionPage];
                 } else {
-                    [weakSelf quitLiveVideoClickSure:YES];
+                    [weakSelf desSubVC:YES];
                 }
             }
         }];
@@ -242,37 +240,75 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     }
     
     //以下代码自动强制退出逻辑
-    [self.liveVideoManager quitLiveVideo:^(BOOL success) {
-        [weakSelf agoraUserStatusLog:weakSelf.lessonID targetUID:[DMAccount getUserID] uploadUID:[DMAccount getUserID] action:DMAgoraUserStatusLog_Exit];
-        
-        if (weakSelf.presentVCs.count == 0) {
-            [weakSelf.navigationVC popViewControllerAnimated:YES];
-            return;
-        }
-        
-        [DMActivityView hideActivity];
-        for (int i = (int)weakSelf.presentVCs.count-1; i >= 0; i--) {
-            UIViewController *presentVC = weakSelf.presentVCs[i];
-            [weakSelf.presentVCs removeObject:presentVC];
-            [presentVC dismissViewControllerAnimated:NO completion:^{
-                [weakSelf.navigationVC popViewControllerAnimated:YES];
-            }];
-        }
-    }];
+    [DMActivityView hideActivity];
+    if (weakSelf.isToQuestionPage == 1) {
+        [weakSelf desSubVC:NO];
+        [weakSelf gotoQuestionPage];
+    } else {
+        [weakSelf desSubVC:YES];
+    }
+    
+//    [self.liveVideoManager quitLiveVideo:^(BOOL success) {
+//        [weakSelf agoraUserStatusLog:weakSelf.lessonID targetUID:[DMAccount getUserID] uploadUID:[DMAccount getUserID] action:DMAgoraUserStatusLog_Exit];
+//        if (weakSelf.presentVCs.count == 0) {
+//            [weakSelf.navigationVC popViewControllerAnimated:YES];
+//            return;
+//        }
+//
+//        [DMActivityView hideActivity];
+//        for (int i = (int)weakSelf.presentVCs.count-1; i >= 0; i--) {
+//            UIViewController *presentVC = weakSelf.presentVCs[i];
+//            [weakSelf.presentVCs removeObject:presentVC];
+//            [presentVC dismissViewControllerAnimated:NO completion:^{
+//                [weakSelf.navigationVC popViewControllerAnimated:YES];
+//            }];
+//        }
+//    }];
 }
 
-- (void)quitLiveVideoClickSure:(BOOL)isPop {
+- (void)desSubVC:(BOOL)isPop {
     WS(weakSelf)
     [self.liveVideoManager quitLiveVideo:^(BOOL success) {
-        if (isPop) {
-            [weakSelf.navigationVC popViewControllerAnimated:YES];
-        }
+        [weakSelf desLastVC:weakSelf.presentVCs isPop:isPop];
         if ([[DMAccount getUserIdentity] integerValue]) {
             NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_End_Syn sourceData:nil index:0];
             [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) { } faile:^(NSString *messageID, AgoraEcode ecode) {}];
         }
+         [weakSelf agoraUserStatusLog:weakSelf.lessonID targetUID:[DMAccount getUserID] uploadUID:[DMAccount getUserID] action:DMAgoraUserStatusLog_Exit];
     }];
-    [self agoraUserStatusLog:self.lessonID targetUID:[DMAccount getUserID] uploadUID:[DMAccount getUserID] action:DMAgoraUserStatusLog_Exit];
+}
+
+- (void)desLastVC:(NSMutableArray *)objs isPop:(BOOL)isPop {
+    UIViewController *presentVC = [objs lastObject];
+    if (presentVC) {
+        [objs removeObject:presentVC];
+        if (objs.count > 0) {
+            [presentVC dismissViewControllerAnimated:NO completion:nil];
+            [self desLastVC:objs isPop:isPop];
+        } else {
+            [presentVC dismissViewControllerAnimated:NO completion:^{
+                if (isPop) {
+                    [self.navigationVC popViewControllerAnimated:YES];
+                }
+            }];
+        }
+    } else {
+        if (isPop) {
+            [self.navigationVC popViewControllerAnimated:YES];
+        }
+    }
+}
+
+- (void)quitLiveVideoClickSure {
+    [self desSubVC:YES];
+}
+
+- (void)gotoQuestionPage {
+    DMQuestionViewController *qtVC = [[DMQuestionViewController alloc] init];
+    DMCourseDatasModel *model = [[DMCourseDatasModel alloc] init];
+    model.lesson_id = self.lessonID;
+    qtVC.courseObj = model;
+    [self.navigationController pushViewController:qtVC animated:YES];
 }
 
 // 切换摄像头

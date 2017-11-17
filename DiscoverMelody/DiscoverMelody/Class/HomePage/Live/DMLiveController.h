@@ -14,5 +14,5 @@
 @property (assign, nonatomic) NSInteger isToQuestionPage;//1 进入问题页，否则返回主页
 
 @property (weak, nonatomic) UINavigationController *navigationVC;
-- (void)quitLiveVideoClickSure:(BOOL)isPop; //消息通知需要
+- (void)quitLiveVideoClickSure; //消息通知需要
 @end

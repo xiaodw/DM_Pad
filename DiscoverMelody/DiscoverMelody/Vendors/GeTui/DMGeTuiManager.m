@@ -296,7 +296,7 @@ static DMGeTuiManager *bosinstance = nil;
                 } else {
                     if ([v isKindOfClass:[DMLiveController class]]) {
                         DMLiveController *vv = (DMLiveController *)v;
-                        [vv quitLiveVideoClickSure:YES];
+                        [vv quitLiveVideoClickSure];
                     } else {
                         [v.navigationController popToViewController:v1 animated:NO];
                     }

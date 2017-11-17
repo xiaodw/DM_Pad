@@ -75,7 +75,7 @@
     UIViewController *v = [[DMGeTuiManager shareInstance] getCurrentVC];
     if ([v isKindOfClass:[DMLiveController class]]) {
         DMLiveController *vv = (DMLiveController *)v;
-        [vv quitLiveVideoClickSure:YES];
+        [vv quitLiveVideoClickSure];
     }
 }
 
