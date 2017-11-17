@@ -11,7 +11,7 @@
 #import "DMGeTuiMsg.h"
 #import "DMLiveController.h"
 #import "DMMsgWebViewController.h"
-
+#import "DMMsgNavViewController.h"
 static DMGeTuiManager *bosinstance = nil;
 @implementation DMGeTuiManager
 
@@ -157,7 +157,7 @@ static DMGeTuiManager *bosinstance = nil;
     // 控制台打印日志
     NSString *msg = [NSString stringWithFormat:@"taskId=%@,messageId:%@,payloadMsg:%@%@", taskId, msgId, payloadMsg, offLine ? @"<离线消息>" : @""];
     NSLog(@"\n>>[GTSdk ReceivePayload]:%@\n\n", msg);
-    
+
     // 当app不在前台时，接收到的推送消息offLine值均为YES
     // 判断app是否是点击通知栏消息进行唤醒或开启
     // 如果是点击icon图标使得app进入前台，则不做操作，并且同一条推送通知，此方法只执行一次
@@ -283,6 +283,14 @@ static DMGeTuiManager *bosinstance = nil;
 
 - (void)gotoNativePage:(DMGeTuiMsg *)obj {
     
+    if (obj.data.native == 1) {
+        [self goToHomePage:obj];
+    } else if (obj.data.native == 2) {
+        [self goToDMQuestionViewController:obj.data.lesson_id];
+    } else { }
+}
+
+- (void)goToHomePage:(DMGeTuiMsg *)obj  {
     UIViewController *rootVC = APP_DELEGATE.window.rootViewController;
     if ([rootVC isKindOfClass:[DMRootViewController class]]) {
         DMRootViewController *nav = (DMRootViewController *)rootVC;
@@ -301,18 +309,11 @@ static DMGeTuiManager *bosinstance = nil;
                         [v.navigationController popToViewController:v1 animated:NO];
                     }
                 }
-                
-                if (obj.data.native == 1) {
-                    if (APP_DELEGATE.dmrVC.selectedIndex != 0) {
-                        [APP_DELEGATE.dmrVC togglePage:0];
-                    }
-                } else if (obj.data.native == 2) {
-                    if (APP_DELEGATE.dmrVC.selectedIndex != 1) {
-                        [APP_DELEGATE.dmrVC togglePage:1];
-                    }
-                    [self performSelector:@selector(goToDMQuestionViewController:) withObject:obj.data.lesson_id afterDelay:0];
 
-                } else {}
+                if (APP_DELEGATE.dmrVC.selectedIndex != 0) {
+                    [APP_DELEGATE.dmrVC togglePage:0];
+                }
+ 
                 [(DMMenuViewController *)APP_DELEGATE.dmrVC.menuViewController refreshTable];
             }
         }
@@ -320,11 +321,27 @@ static DMGeTuiManager *bosinstance = nil;
 }
 
 - (void)goToDMQuestionViewController:(NSString *)lID {
-    DMRootViewController *nav = (DMRootViewController *)APP_DELEGATE.window.rootViewController;
-    DMCourseListController *listVC = (DMCourseListController *)[nav.contentViewController.childViewControllers firstObject];
-    DMCourseDatasModel *model = [[DMCourseDatasModel alloc] init];
-    model.lesson_id = lID;
-    [listVC gotoDMQuestion:model];
+    DMMsgNavViewController *qtVC = [[DMMsgNavViewController alloc] init];
+    qtVC.lessonID = lID;
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:qtVC];
+
+    UIViewController *resVC = [self getCurrentVC];
+    if (resVC) {
+        DMTransitioningAnimationHelper *animationHelper = [DMTransitioningAnimationHelper new];
+        animationHelper.animationType = DMTransitioningAnimationRight;
+        animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight);
+        nav.transitioningDelegate = animationHelper;
+        nav.modalPresentationStyle = UIModalPresentationCustom;
+        self.animationHelper = animationHelper;//注意
+        [resVC presentViewController:nav animated:YES completion:nil];
+    }
+    
+//
+//    DMRootViewController *nav = (DMRootViewController *)APP_DELEGATE.window.rootViewController;
+//    DMCourseListController *listVC = (DMCourseListController *)[nav.contentViewController.childViewControllers firstObject];
+//    DMCourseDatasModel *model = [[DMCourseDatasModel alloc] init];
+//    model.lesson_id = lID;
+//    [listVC gotoDMQuestion:model];
 }
 
 //获取当前屏幕显示的viewcontroller

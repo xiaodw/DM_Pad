@@ -50,8 +50,18 @@
 #define Top_H 180
 #define Space_H 42
 
+- (void)clickBackQuestion:(BlockQuestionBack)blockQuestionBack {
+    self.blockQuestionBack = blockQuestionBack;
+}
+
 - (void)leftOneAction:(id)sender {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    if (self.blockQuestionBack) {//推送消息的使用
+        //[self.navigationController popViewControllerAnimated:YES];
+        self.blockQuestionBack();
+    }
+    else {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
 }
 
 - (void)viewDidLoad {

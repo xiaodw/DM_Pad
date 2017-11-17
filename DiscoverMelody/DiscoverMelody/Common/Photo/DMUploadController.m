@@ -50,7 +50,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+    [self.navigationController setNavigationBarHidden:YES];
     if (_isPhotoSuccess) return;
     WS(weakSelf)
     DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"" message:Photo_Msg preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleGoSetting, nil];
