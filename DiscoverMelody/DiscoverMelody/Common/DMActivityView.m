@@ -120,14 +120,15 @@ static DMActivityView *activiyView;
         repelicator.instanceTransform = CATransform3DMakeRotation(M_PI * 2.0 / 10.0, 0, 0, 1);
         //创建repelicator对象的子图层，repelicator会利用此子图层进行高效复制。并绘制到自身图层上
         CALayer *layer = [CALayer layer];
-        layer.frame = CGRectMake(0, 0, 8, 8);
+        CGFloat layerWH = 8;
+        layer.frame = CGRectMake(0, 0, layerWH, layerWH);
         //子图层的仿射变换是基于repelicator图层的锚点，因此这里将子图层的位置摆放到此
         CGPoint point = [repelicator convertPoint:repelicator.position fromLayer:self.layer];
         layer.position = CGPointMake(point.x, point.y - 20);
 #warning 修改等待提示颜色
         layer.backgroundColor = DMColorWithHexString(@"#999999").CGColor;
         
-        layer.cornerRadius = 5;
+        layer.cornerRadius = layerWH * 0.5;
         layer.transform = CATransform3DMakeScale(0.01, 0.01, 1);
         _showlayer = layer;
         //将子图层添加到repelicator上
