@@ -15,6 +15,8 @@
 @property (nonatomic, copy) NSString *uid;
 @property (nonatomic, copy) NSString *other_uid;
 
+@property (nonatomic, assign) NSInteger to_answer;//1 跳问题页
+
 @property (nonatomic, copy) NSString *start_time;//课程开始时间，时间戳，秒
 @property (nonatomic, copy) NSString *duration;//课程时长，秒
 @property (nonatomic, copy) NSString *countdown;//课程结束前的提前多久提醒，秒

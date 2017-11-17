@@ -101,7 +101,7 @@
 
 - (void)loadDataList:(NSInteger)currentPageNumber {
     WS(weakSelf);
-    [DMApiModel getCourseListData:[DMAccount getUserIdentity] page:currentPageNumber condition:[NSString stringWithFormat:@"%ld",self.clCondition] block:^(BOOL result, NSArray *array, BOOL nextPage) {
+    [DMApiModel getCourseListData:[DMAccount getUserIdentity] page:currentPageNumber condition:[NSString stringWithFormat:@"%ld",(long)self.clCondition] block:^(BOOL result, NSArray *array, BOOL nextPage) {
         if (!result) {
             [weakSelf endRefreshing];
             [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];

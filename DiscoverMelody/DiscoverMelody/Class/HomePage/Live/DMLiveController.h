@@ -11,6 +11,8 @@
 @property (strong, nonatomic) NSMutableArray *presentVCs; // 上层显示的所有controller
 @property (assign, nonatomic) BOOL isRemoteUserOnline; // 远端是否上线
 
+@property (assign, nonatomic) NSInteger isToQuestionPage;//1 进入问题页，否则返回主页
+
 @property (weak, nonatomic) UINavigationController *navigationVC;
-- (void)quitLiveVideoClickSure; //消息通知需要
+- (void)quitLiveVideoClickSure:(BOOL)isPop; //消息通知需要
 @end

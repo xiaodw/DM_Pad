@@ -42,13 +42,17 @@
 @property (nonatomic, strong)DMQuestData *teachSurveyObj;
 
 @property (nonatomic, assign) BOOL currentSegmentTeachSurvey;
-
+@property (nonatomic, strong) NSString *lessonID;
 @end
 
 @implementation DMQuestionViewController
 
 #define Top_H 180
 #define Space_H 42
+
+- (void)leftOneAction:(id)sender {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

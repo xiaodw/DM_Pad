@@ -29,7 +29,7 @@ static DMConfigManager *configInstance = nil;
 - (void)saveConfigInfo:(DMSetConfigData *)configObj {
     if (!OBJ_IS_NIL(configObj)) {
         
-        [DMConfigManager saveApiHost:configObj.apiHost];
+        //[DMConfigManager saveApiHost:configObj.apiHost];
         [DMConfigManager saveLogHost:configObj.logHost];
         [DMConfigManager saveAgoraAppID:configObj.agoraAppId];
         [DMConfigManager saveUploadMaxSize:configObj.uploadMaxSize];
