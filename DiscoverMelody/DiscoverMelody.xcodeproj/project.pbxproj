@@ -668,13 +668,6 @@
 			path = NotificationService;
 			sourceTree = "<group>";
 		};
-		2A3CA0371F9F46F200783757 /* LocalNotification */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = LocalNotification;
-			sourceTree = "<group>";
-		};
 		2A3D1CF71F690AAC005671B2 /* MoviePlayer */ = {
 			isa = PBXGroup;
 			children = (
@@ -1089,7 +1082,6 @@
 			isa = PBXGroup;
 			children = (
 				2A69B2E71FA8524F00738DE2 /* MsgWebView */,
-				2A3CA0371F9F46F200783757 /* LocalNotification */,
 				2A87F8881F6BC8FF00DCC412 /* BlockAlertView */,
 				2A34E7FC1F6B68C0002B4B15 /* PullDownMenu */,
 				2A84269E1F6A644F005BA6EC /* DMUserDefaults */,
