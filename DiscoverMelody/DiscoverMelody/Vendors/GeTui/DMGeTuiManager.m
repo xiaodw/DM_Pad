@@ -266,8 +266,8 @@ static DMGeTuiManager *bosinstance = nil;
     
     DMMsgWebViewController *msgWebVC = [[DMMsgWebViewController alloc] init];
     UINavigationController *webNav = [[UINavigationController alloc] initWithRootViewController:msgWebVC];
-    msgWebVC.msgUrl = @"http://www.baidu.com";//obj.data.url;
-    msgWebVC.isHaveToken = NO;//(obj.data.is_token == 2 ? YES : NO);
+    msgWebVC.msgUrl = obj.data.url;
+    msgWebVC.isHaveToken = (obj.data.is_token == 2 ? YES : NO);
     UIViewController *resVC = [self getCurrentVC];
     if (resVC) {
         DMTransitioningAnimationHelper *animationHelper = [DMTransitioningAnimationHelper new];
