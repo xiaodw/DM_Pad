@@ -7,9 +7,11 @@
 //
 
 #import "DMBaseViewController.h"
+
 typedef void (^BlockQuestionBack)();
 @interface DMQuestionViewController : DMBaseViewController
 @property (nonatomic, strong) BlockQuestionBack blockQuestionBack;
 @property (nonatomic, strong) DMCourseDatasModel *courseObj;
+
 - (void)clickBackQuestion:(BlockQuestionBack)blockQuestionBack;
 @end

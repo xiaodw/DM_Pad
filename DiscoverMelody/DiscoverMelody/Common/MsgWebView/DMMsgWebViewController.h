@@ -7,8 +7,9 @@
 //
 
 #import "DMBaseMoreController.h"
-
+//#import "DMTransitioningAnimationHelper.h"
 @interface DMMsgWebViewController : DMBaseMoreController
 @property (nonatomic, copy) NSString *msgUrl;
 @property (nonatomic, assign) BOOL isHaveToken;
+//@property (nonatomic, strong) DMTransitioningAnimationHelper *animationHelper;
 @end

@@ -266,8 +266,8 @@ static DMGeTuiManager *bosinstance = nil;
     
     DMMsgWebViewController *msgWebVC = [[DMMsgWebViewController alloc] init];
     UINavigationController *webNav = [[UINavigationController alloc] initWithRootViewController:msgWebVC];
-    msgWebVC.msgUrl = obj.data.url;
-    msgWebVC.isHaveToken = (obj.data.is_token == 2 ? YES : NO);
+    msgWebVC.msgUrl = @"http://www.baidu.com";//obj.data.url;
+    msgWebVC.isHaveToken = NO;//(obj.data.is_token == 2 ? YES : NO);
     UIViewController *resVC = [self getCurrentVC];
     if (resVC) {
         DMTransitioningAnimationHelper *animationHelper = [DMTransitioningAnimationHelper new];
@@ -275,7 +275,11 @@ static DMGeTuiManager *bosinstance = nil;
         animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight);
         webNav.transitioningDelegate = animationHelper;
         webNav.modalPresentationStyle = UIModalPresentationCustom;
-        self.animationHelper = animationHelper;//注意
+        if ([resVC isKindOfClass:[DMMsgWebViewController class]]) {
+            msgWebVC.animationHelper = animationHelper;
+        } else {
+            self.animationHelper = animationHelper;//注意
+        }
         [resVC presentViewController:webNav animated:YES completion:nil];
     }
     
@@ -332,7 +336,11 @@ static DMGeTuiManager *bosinstance = nil;
         animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight);
         nav.transitioningDelegate = animationHelper;
         nav.modalPresentationStyle = UIModalPresentationCustom;
-        self.animationHelper = animationHelper;//注意
+        if ([resVC isKindOfClass:[DMMsgNavViewController class]]) {
+            qtVC.animationHelper = animationHelper;
+        } else {
+            self.animationHelper = animationHelper;//注意
+        }
         [resVC presentViewController:nav animated:YES completion:nil];
     }
     

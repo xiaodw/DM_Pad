@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "DMTransitioningAnimationHelper.h"
 @interface DMMsgNavViewController : UIViewController
 @property (nonatomic, copy) NSString *lessonID;
+@property (nonatomic, strong) DMTransitioningAnimationHelper *animationHelper;
 @end
