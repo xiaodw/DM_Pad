@@ -157,7 +157,7 @@ static DMGeTuiManager *bosinstance = nil;
     // 控制台打印日志
     NSString *msg = [NSString stringWithFormat:@"taskId=%@,messageId:%@,payloadMsg:%@%@", taskId, msgId, payloadMsg, offLine ? @"<离线消息>" : @""];
     NSLog(@"\n>>[GTSdk ReceivePayload]:%@\n\n", msg);
-    [self goToHomePage:nil];return;
+
     // 当app不在前台时，接收到的推送消息offLine值均为YES
     // 判断app是否是点击通知栏消息进行唤醒或开启
     // 如果是点击icon图标使得app进入前台，则不做操作，并且同一条推送通知，此方法只执行一次
