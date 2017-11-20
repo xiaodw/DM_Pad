@@ -286,11 +286,10 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
             [presentVC dismissViewControllerAnimated:NO completion:nil];
             [self desLastVC:objs isPop:isPop];
         } else {
-            [presentVC dismissViewControllerAnimated:NO completion:^{
-                if (isPop) {
-                    [self.navigationVC popViewControllerAnimated:YES];
-                }
-            }];
+            [presentVC dismissViewControllerAnimated:NO completion:nil];
+            if (isPop) {
+                [self.navigationVC popViewControllerAnimated:YES];
+            }
         }
     } else {
         if (isPop) {
