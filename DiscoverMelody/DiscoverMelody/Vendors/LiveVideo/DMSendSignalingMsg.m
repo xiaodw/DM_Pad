@@ -28,7 +28,7 @@
     }
     NSArray *dicArray = [DMClassDataModel mj_keyValuesArrayWithObjectArray:resultArray];
     NSMutableDictionary *dics = [NSMutableDictionary dictionaryWithObjectsAndKeys:dicArray, @"list", nil];
-    NSMutableDictionary *sourceDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld", code], @"code", dics, @"data", nil];
+    NSMutableDictionary *sourceDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld", (long)code], @"code", dics, @"data", nil];
     
     NSError *parseError = nil;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:sourceDic options:NSJSONWritingPrettyPrinted error:&parseError];
