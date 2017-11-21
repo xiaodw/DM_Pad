@@ -19,10 +19,11 @@
 /**     发布打包步骤
  *  1，检查修改服务器环境配置
  *  2，检查修改语言环境配置
- *  3，检查修改对应的APP_Type
+ *  3，检查修改对应的APP_NAME_Type
  *  4，检查修改LaunchScreen对应的版本
  *  5，检查修改发布版本号
- *  6，检查相关证书
+ *  6，检查对应的bundleID。
+ *  7，检查相关证书
  */
 
 //#define App_Type @"cn_s" // @"cn_s"  @"cn_t" @"us_s"  @"us_t"
@@ -30,16 +31,20 @@
 //服务器环境配置:  1开发，2测试，0正式， 默认为0
 #define SERVER_ENVIRONMENT   0
 
-//语言环境: 0 学生中文， 1 学生英文， 2 老师英文
+//语言环境: 0 中文， 1 英文
 #define LANGUAGE_ENVIRONMENT 0
 
+//0 学生中文， 1 学生英文， 2 老师英文    -1, 开发测试使用
+#define APP_NAME_TYPE  -1
 
-#if LANGUAGE_ENVIRONMENT == 0 //中文
+#if APP_NAME_TYPE == 0 //中文
     #define App_Type @"cn_s"
-#elif LANGUAGE_ENVIRONMENT == 1 //英文
+#elif APP_NAME_TYPE == 1 //英文
     #define App_Type @"us_s"
-#elif LANGUAGE_ENVIRONMENT == 2 //英文
+#elif APP_NAME_TYPE == 2 //英文
     #define App_Type @"us_t"
+#elif APP_NAME_TYPE == -1
+    #define App_Type @"cn_s"
 #endif
 
 /**************************************************************************************************************/
@@ -51,7 +56,7 @@
 
     #if LANGUAGE_ENVIRONMENT == 0 //中文
         #define DM_Local_Url                    @"http://api.cn.discovermelody-app.com/"//服务器访问地址
-    #elif
+    #elif LANGUAGE_ENVIRONMENT == 1
         #define DM_Local_Url                    @"http://api.us.discovermelody-app.com/"//
     #endif
 

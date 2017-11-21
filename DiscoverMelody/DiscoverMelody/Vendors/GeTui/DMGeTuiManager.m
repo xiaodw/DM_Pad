@@ -12,12 +12,39 @@
 #import "DMLiveController.h"
 #import "DMMsgWebViewController.h"
 #import "DMMsgNavViewController.h"
+
 static DMGeTuiManager *bosinstance = nil;
+
 @implementation DMGeTuiManager
+
+#if APP_NAME_TYPE == 0 //中文
+
+#define dmGtAppId           @"lvKZxIHhF78prsos2rFyn2"
+#define dmGtAppKey          @"r5HyE3js2e8k6qNkcJVoQ4"
+#define dmGtAppSecret       @"AM0BNmDTlG6CH3PpWMzWH3"
+
+#elif APP_NAME_TYPE == 1 //英文学生
+
+#define dmGtAppId           @"A4WylAgftm93Ttw8fyXRU3"
+#define dmGtAppKey          @"j1TGdDpf2H7gikRvifAwHA"
+#define dmGtAppSecret       @"rzecg5zBzB9KCerFS6dg59"
+
+#elif APP_NAME_TYPE == 2 //英文老师
+
+#define dmGtAppId           @"nUaZfzSb8190RtKfpuxSe5"
+#define dmGtAppKey          @"UBKHQLcG0iA79YwGkwC3eA"
+#define dmGtAppSecret       @"IIgZ4dLN0x7s9rh1usLwu8"
+
+#elif APP_NAME_TYPE == -1 //开发测试使用
 
 #define dmGtAppId           @"4XfInsObYx80NTAJntlsjA"
 #define dmGtAppKey          @"uyjoM5KvJB9W2oXTroMxT9"
 #define dmGtAppSecret       @"bgL0jYZXnA9Js04JlNXGOA"
+
+#endif
+
+
+
 + (instancetype)shareInstance {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -164,15 +191,35 @@ static DMGeTuiManager *bosinstance = nil;
     if (!offLine) {//  离线消息已经有苹果的apns推过消息了，避免上线后再次受到消息
         
         DMGeTuiMsg *msgObj = [DMGeTuiMsg mj_objectWithKeyValues:payloadMsg];
-        if (msgObj.type == 4) {
-            [self checkLoginForUser];
+        
+        if (!OBJ_IS_NIL(msgObj)) {
+            if (msgObj.type == 4) {
+                [self checkLoginForUser];
+            } else {
+                if ([[UIDevice currentDevice].systemVersion floatValue] >= 10.0){
+                    [self registerNotification:1 andTitle:msgObj.data.title andMess:msgObj.data.body dic:msgObj.mj_keyValues];
+                }else{
+                    [self registerLocalNotificationInOldWay:1 andTitle:msgObj.data.title andMess:msgObj.data.body dic:msgObj.mj_keyValues];
+                }
+            }
         } else {
+            
+            DMGeTuiMsg *msgObjCustom = [[DMGeTuiMsg alloc] init];
+            msgObjCustom.type = 1;
+            msgObjCustom.title = STR_IS_NIL(payloadMsg)?@"":payloadMsg;
+            msgObjCustom.body = STR_IS_NIL(payloadMsg)?@"":payloadMsg;
+            DMGeTuiMsgData *dataObj = [[DMGeTuiMsgData alloc] init];
+            dataObj.title = STR_IS_NIL(payloadMsg)?@"":payloadMsg;
+            dataObj.body = STR_IS_NIL(payloadMsg)?@"":payloadMsg;
+            msgObjCustom.data = dataObj;
+            
             if ([[UIDevice currentDevice].systemVersion floatValue] >= 10.0){
-                [self registerNotification:1 andTitle:msgObj.data.title andMess:msgObj.data.body dic:msgObj.mj_keyValues];
+                [self registerNotification:1 andTitle:msgObjCustom.data.title andMess:msgObjCustom.data.body dic:msgObjCustom.mj_keyValues];
             }else{
-                [self registerLocalNotificationInOldWay:1 andTitle:msgObj.data.title andMess:msgObj.data.body dic:msgObj.mj_keyValues];
+                [self registerLocalNotificationInOldWay:1 andTitle:msgObjCustom.data.title andMess:msgObjCustom.data.body dic:msgObjCustom.mj_keyValues];
             }
         }
+        
     } else {
 //        //app后台时，点击通知栏或者app进入
     }
@@ -488,7 +535,10 @@ static DMGeTuiManager *bosinstance = nil;
     content.body = [NSString localizedUserNotificationStringForKey:mes
                                                          arguments:nil];
     content.sound = [UNNotificationSound defaultSound];
-    content.userInfo=@{@"payload":dicUserInfo};
+    if (dicUserInfo) {
+        content.userInfo=@{@"payload":dicUserInfo};
+    }
+    
     //content.userInfo= dicUserInfo;
     content.badge = 0;
     
@@ -528,9 +578,11 @@ static DMGeTuiManager *bosinstance = nil;
     // 通知被触发时播放的声音
     notification.soundName = UILocalNotificationDefaultSoundName;
     // 通知参数
-    NSDictionary *userDict = [NSDictionary dictionaryWithObject:dicUserInfo forKey:@"payload"];
-    notification.userInfo = userDict;
-    
+    if (dicUserInfo) {
+        NSDictionary *userDict = [NSDictionary dictionaryWithObject:dicUserInfo forKey:@"payload"];
+        notification.userInfo = userDict;
+    }
+
     // ios8后，需要添加这个注册，才能得到授权
     if ([[UIApplication sharedApplication] respondsToSelector:@selector(registerUserNotificationSettings:)]) {
         UIUserNotificationType type = UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound;
