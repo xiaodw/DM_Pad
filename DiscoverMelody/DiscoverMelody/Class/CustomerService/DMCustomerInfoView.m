@@ -99,9 +99,9 @@
 - (void)updateSubViewsObj:(id)obj isFurled: (BOOL)isFurled {
     self.titleLabel.text = (NSString *)obj;//@"寻律微信客服";
     if (isFurled) {
-        [self.infoButton setImage:[UIImage imageNamed:@"customer_bottom_arrow"] forState:UIControlStateNormal];
-    } else {
         [self.infoButton setImage:[UIImage imageNamed:@"customer_top_arrow"] forState:UIControlStateNormal];
+    } else {
+        [self.infoButton setImage:[UIImage imageNamed:@"customer_bottom_arrow"] forState:UIControlStateNormal];
     }
     
 }
