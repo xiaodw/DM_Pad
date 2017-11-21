@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>ch</string>
 	<key>CFBundleDisplayName</key>
-	<string>寻律</string>
+	<string>Discover Melody</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -19,7 +19,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>0.9.0</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>91</string>
 	<key>DMSeverCodeKey</key>
 	<string>0</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -46,6 +46,8 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIRequiresFullScreen</key>
+	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array/>
 	<key>UISupportedInterfaceOrientations~ipad</key>

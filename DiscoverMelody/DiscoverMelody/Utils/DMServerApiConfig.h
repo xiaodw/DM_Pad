@@ -24,6 +24,7 @@
  *  5，检查修改发布版本号
  *  6，检查对应的bundleID。
  *  7，检查相关证书
+ *  8，检查InfoPlist.strings对应的名称
  */
 
 //#define App_Type @"cn_s" // @"cn_s"  @"cn_t" @"us_s"  @"us_t"
@@ -86,7 +87,7 @@
 
 
 #define DMLog_Url   [DMConfigManager shareInstance].logHost
-#define DM_Url      [DMConfigManager shareInstance].apiHost
+#define DM_Url      DM_Local_Url //[DMConfigManager shareInstance].apiHost
 
 //配置
 #define DM_Init_SetConfig_Url           [DM_Url stringByAppendingFormat:@"init/getConfig"]
