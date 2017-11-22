@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>ch</string>
 	<key>CFBundleDisplayName</key>
-	<string>Discover Melody</string>
+	<string>寻律</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -19,7 +19,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>0.9.0</string>
 	<key>CFBundleVersion</key>
-	<string>91</string>
+	<string>92</string>
 	<key>DMSeverCodeKey</key>
 	<string>0</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -30,11 +30,11 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string></string>
+	<string>“寻律”需要访问您的摄像头</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string></string>
+	<string>“寻律”需要访问您的麦克风</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string></string>
+	<string>“寻律”需要访问您的相册</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

@@ -25,6 +25,7 @@
  *  6，检查对应的bundleID。
  *  7，检查相关证书
  *  8，检查InfoPlist.strings对应的名称
+ *  9，检查InfoPlist中权限的中英文名称
  */
 
 //#define App_Type @"cn_s" // @"cn_s"  @"cn_t" @"us_s"  @"us_t"
