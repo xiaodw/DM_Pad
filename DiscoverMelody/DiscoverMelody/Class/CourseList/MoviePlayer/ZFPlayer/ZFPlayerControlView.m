@@ -649,6 +649,8 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
 
 - (void)zf_playerCurrentTime:(NSInteger)currentTime totalTime:(NSInteger)totalTime sliderValue:(CGFloat)value {
     // 当前时长进度progress
+    // 快进快退时候停止菊花
+    [self.activity stopAnimating];
     NSInteger proHou = currentTime / 3600;//当前小时
     NSInteger proMin = (currentTime % 3600)  / 60;//当前秒
     NSInteger proSec = (currentTime % 3600)  % 60;//当前分钟
