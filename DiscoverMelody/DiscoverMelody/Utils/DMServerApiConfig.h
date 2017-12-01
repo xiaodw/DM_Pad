@@ -37,7 +37,7 @@
 #define LANGUAGE_ENVIRONMENT 0
 
 //0 学生中文， 1 学生英文， 2 老师英文    -1, 开发测试使用
-#define APP_NAME_TYPE  -1
+#define APP_NAME_TYPE  0
 
 #if APP_NAME_TYPE == 0 //中文
     #define App_Type @"cn_s"
@@ -65,7 +65,7 @@
     //#define DM_Local_Url                    @"http://api.cn.discovermelody-app.com/"//服务器访问地址 //@"http://test.api.cn.discovermelody.com/"
     #define DMLog_Local_Url                 @"http://log.cn.discovermelody.com/"//统计服务器访问地址
     #define DMAgoraAppID_Local_Config       @"2f4301adc17b415c98eba18b7f1066d4"//声网appID
-    #define DMAgoraVideoProfile_Config      @"52"// 声网视频属性枚举值
+    #define DMAgoraVideoProfile_Config      @"55"// 声网视频属性枚举值
     #define DMImage_Size_Config             2*1024*1024 // 图片大小界限，2兆
 
 #elif SERVER_ENVIRONMENT == 1 //开发
@@ -73,15 +73,15 @@
     #define DM_Local_Url                    @"http://api.cn.discovermelody-app.com/" //服务器访问地址
     #define DMLog_Local_Url                 @"http://log.cn.discovermelody.com/"//统计服务器访问地址
     #define DMAgoraAppID_Local_Config       @"2f4301adc17b415c98eba18b7f1066d4"//声网appID
-    #define DMAgoraVideoProfile_Config      @"52"// 声网视频属性枚举值
+    #define DMAgoraVideoProfile_Config      @"55"// 声网视频属性枚举值
     #define DMImage_Size_Config             2*1024*1024 // 图片大小界限，2兆
 
 #elif SERVER_ENVIRONMENT == 2 //测试
 
-    #define DM_Local_Url                    @"http://api.cn.discovermelody-app.com/" //服务器访问地址
+    #define DM_Local_Url                    @"http://test.api.cn.discovermelody-app.com/" //服务器访问地址
     #define DMLog_Local_Url                 @"http://log.cn.discovermelody.com/"//统计服务器访问地址
     #define DMAgoraAppID_Local_Config       @"2f4301adc17b415c98eba18b7f1066d4"//声网appID
-    #define DMAgoraVideoProfile_Config      @"52"// 声网视频属性枚举值
+    #define DMAgoraVideoProfile_Config      @"55"// 声网视频属性枚举值
     #define DMImage_Size_Config             2*1024*1024 // 图片大小界限，2兆
 
 #endif

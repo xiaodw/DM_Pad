@@ -143,7 +143,10 @@ const CGFloat kAccountTop = kLogoTop + kLogoHeight + acctountToLogoTop;
     [self.view addSubview:self.logoImageView];
     [self.view addSubview:self.textfieldView];
     [self.view addSubview:self.loginButton];
+#if APP_NAME_TYPE == 0
     [self.view addSubview:self.descriptionLabel];
+#endif
+    
 }
 
 #pragma mark - LayoutSubviews
