@@ -19,27 +19,76 @@
 
 @property (nonatomic, strong) NSIndexPath *selectedIndexPath;
 
+@property (strong, nonatomic) UIView *noCourseView;
+@property (nonatomic, strong) UIButton *reloadButton;
+@property (nonatomic, strong) UIImageView *iconImageView;
+@property (nonatomic, strong) UILabel *titleLabel;
+
+@property (nonatomic, strong) UIButton *cfBtn;//本课文件按钮
+
 @end
 
 @implementation DMHomeView
+
+- (void)reloadHomeTableView {
+    [self.bTableView reloadData];
+}
 
 - (id)initWithFrame:(CGRect)frame delegate:(id<DMHomeVCDelegate>) delegate {
     self = [super initWithFrame:frame];
     if (self) {
         self.delegate = delegate;
-        self.selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+        [self initSelectedIndexPath];
         [self configSubViews];
         [self setupMakeLayoutSubviews];
-        [self updateTopViewInfo:nil];
+        //[self updateTopViewInfo:nil];
     }
     return self;
 }
 
-- (void)updateTopViewInfo:(id)obj {
-    [_headImageView sd_setImageWithURL:nil placeholderImage:[UIImage imageNamed:@"timg1.jpg"]];
-    _courseLabel.text = @"未来之星1v1--钢琴";
-    _nameLabel.text = @"郎郎";
-    _timeLabel.text = @"上课时间：9月8日 18:00";
+- (void)initSelectedIndexPath {
+    self.selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+}
+
+- (void)updateTopViewInfo:(DMCourseDatasModel *)obj {
+    
+    NSInteger userIdentity = [[DMAccount getUserIdentity] intValue];
+    if (userIdentity == 0) {
+        //学生端
+        [_headImageView sd_setImageWithURL:[NSURL URLWithString:obj.avatar] placeholderImage:HeadPlaceholderName];
+        _nameLabel.text = [[DMStringIDTeacher stringByAppendingString:@"："] stringByAppendingString:STR_IS_NIL(obj.teacher_name)?@"":obj.teacher_name];
+    } else {
+        _nameLabel.text = [[DMStringIDStudent stringByAppendingString:@"："] stringByAppendingString:STR_IS_NIL(obj.student_name)?@"":obj.student_name];
+    }
+    _courseLabel.text = STR_IS_NIL(obj.course_name)?@"":obj.course_name;
+    _timeLabel.text = [DMTextStartClassTime stringByAppendingString:
+                       [DMTools timeFormatterYMDFromTs:STR_IS_NIL(obj.start_time)?@"":obj.start_time format:DMClassStartTimeYMDHM]];//@"上课时间：9月8日 18:00";
+    if (_timeLabel.layer.cornerRadius == 0) {
+        _timeLabel.layer.cornerRadius = 5;
+        _timeLabel.layer.borderColor = [UIColor colorWithWhite:1 alpha:0.5].CGColor;
+        _timeLabel.layer.borderWidth = .5;
+    }
+
+}
+
+- (void)disPlayNoCourseView:(BOOL)display isError:(BOOL)error {
+    _noCourseView.hidden = !display;
+    if (display) {
+        if (error) {
+            //网络错误
+            self.iconImageView.image = [UIImage imageNamed:@"error_icon"];
+            self.titleLabel.text = DMTextDataLoaddingError;
+            self.reloadButton.hidden = NO;
+        } else {
+            //无课程
+            self.iconImageView.image = [UIImage imageNamed:@"quest_no_teacher_com"];
+            self.titleLabel.text = DMTextRecentNotClass;
+            self.reloadButton.hidden = YES;
+        }
+    }
+    _topView.hidden = display;
+    _bTableView.hidden = display;
+
 }
 
 #pragma mark -
@@ -47,10 +96,13 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     self.selectedIndexPath = indexPath;
+    if ([_delegate respondsToSelector:@selector(selectedCourse:)]) {
+        if (indexPath.row < self.datas.count) {
+            DMCourseDatasModel *data = [self.datas objectAtIndex:indexPath.row];
+            [_delegate selectedCourse:data];
+        }
+    }
     [tableView reloadData];
-    
-    //更新topView数据
-    [self updateTopViewInfo:nil];
 }
 
 #pragma mark -
@@ -64,7 +116,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex {
-    return 3;
+    return self.datas.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -73,15 +125,29 @@
     if (!cell) {
         cell = [[DMHomeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:homeCell];
     }
-    
+    DMCourseDatasModel *data = [self.datas objectAtIndex:indexPath.row];
     if ([indexPath isEqual:self.selectedIndexPath]) {
         [cell isSelectedCell:YES];
+        [self updateTopViewInfo:data];
     } else {
         [cell isSelectedCell:NO];
     }
-    cell.nameLabel.text = @"未来之星1v1-钢琴";
-    cell.timeLabel.text = @"上课时间：8月16日 10:00";
-    cell.statusLabel.text = @"未开始";
+    cell.nameLabel.text = data.course_name;
+    cell.timeLabel.text = [DMTextStartClassTime stringByAppendingString:
+                           [DMTools timeFormatterYMDFromTs:data.start_time format:DMClassStartTimeYMDHM]];//@"上课时间：8月16日 10:00";
+    cell.statusLabel.text = @"";
+    if (data.live_status.intValue == 0) {
+        cell.statusLabel.text = DMKeyStatusNotStart;
+    } else if (data.live_status.intValue == 1) {
+        cell.statusLabel.text = DMKeyStatusInclass;
+    } else if (data.live_status.intValue == 2) {
+        cell.statusLabel.text = DMKeyStatusClassEnd;
+    } else if (data.live_status.intValue == 3) {
+        cell.statusLabel.text = DMKeyStatusClassCancel;
+    }
+//    else if (data.live_status.intValue == 4) {
+//        cell.statusLabel.text = @"结束";
+//    }
     
     return cell;
 }
@@ -89,6 +155,7 @@
 - (void)configSubViews {
     [self addSubview:self.topView];
     [self addSubview:self.bTableView];
+    [self addSubview:self.noCourseView];
 }
 
 - (void)setupMakeLayoutSubviews {
@@ -102,6 +169,11 @@
         make.centerX.equalTo(self);
         make.bottom.equalTo(self.mas_bottom).offset(0);
         make.width.equalTo(self.frame.size.width);
+    }];
+    [_noCourseView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(0);
+        make.size.equalTo(self);
+        make.centerX.equalTo(self);
     }];
 }
 
@@ -122,57 +194,80 @@
 - (void)configCourseInfoView {
     
     UIView *headView1 = [[UIView alloc] init];
-    headView1.backgroundColor = [UIColor whiteColor];
-    headView1.layer.cornerRadius = 89/2;
-    headView1.layer.masksToBounds = YES;
-    headView1.alpha = 0.05;
-    
     UIView *headView2 = [[UIView alloc] init];
-    headView2.backgroundColor = [UIColor whiteColor];
-    headView2.alpha = 0.1;
-    headView2.layer.cornerRadius = 80/2;
-    headView2.layer.masksToBounds = YES;
-    
-    [_topView addSubview:headView1];
-    [_topView addSubview:headView2];
-    
-    [_topView addSubview:self.headImageView];
+    if ([[DMAccount getUserIdentity] intValue] == 0) {
+        //学生端
+        headView1.backgroundColor = [UIColor whiteColor];
+        headView1.layer.cornerRadius = 89/2;
+        headView1.layer.masksToBounds = YES;
+        headView1.alpha = 0.05;
+        
+        headView2.backgroundColor = [UIColor whiteColor];
+        headView2.alpha = 0.1;
+        headView2.layer.cornerRadius = 80/2;
+        headView2.layer.masksToBounds = YES;
+        
+        [_topView addSubview:headView1];
+        [_topView addSubview:headView2];
+        
+        [_topView addSubview:self.headImageView];
+        
+        [headView1 makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_topView.mas_top).offset(32+64);
+            make.centerX.equalTo(_topView);
+            make.size.equalTo(CGSizeMake(89, 89));
+        }];
+        
+        [headView2 makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(headView1.mas_top).offset(5);
+            make.centerX.equalTo(_topView);
+            make.size.equalTo(CGSizeMake(80, 80));
+        }];
+        
+        [_headImageView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(headView2.mas_top).offset(4);
+            make.centerX.equalTo(_topView);
+            make.size.equalTo(CGSizeMake(72, 72));
+        }];
+    } else {
+        headView1 = nil;
+        headView2 = nil;
+    }
+
     [_topView addSubview:self.courseLabel];
     [_topView addSubview:self.nameLabel];
     [_topView addSubview:self.timeLabel];
-    
-    [headView1 makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_topView.mas_top).offset(32+64);
-        make.centerX.equalTo(_topView);
-        make.size.equalTo(CGSizeMake(89, 89));
-    }];
-    
-    [headView2 makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(headView1.mas_top).offset(5);
-        make.centerX.equalTo(_topView);
-        make.size.equalTo(CGSizeMake(80, 80));
-    }];
-    
-    [_headImageView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(headView2.mas_top).offset(4);
-        make.centerX.equalTo(_topView);
-        make.size.equalTo(CGSizeMake(72, 72));
-    }];
-    
-    [_courseLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(headView1.mas_bottom).offset(30);
-        make.centerX.equalTo(_topView);
-        make.size.equalTo(CGSizeMake(330, 20));
-    }];
+
+    if (headView1 == nil) {
+        //老师端
+        [_courseLabel makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_topView.mas_top).offset(144);
+            make.centerX.equalTo(_topView);
+            //make.size.equalTo(CGSizeMake(330, 20));
+            make.height.equalTo(40);
+            make.width.equalTo(DMScreenWidth-116*2);
+        }];
+    } else {
+        //学生端
+        [_courseLabel makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(headView1.mas_bottom).offset(30);
+            make.centerX.equalTo(_topView);
+            //make.size.equalTo(CGSizeMake(330, 20));
+            make.height.equalTo(40);
+            make.width.equalTo(DMScreenWidth-116*2);
+        }];
+    }
     
     [_nameLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_courseLabel.mas_bottom).offset(14);
+        make.top.equalTo(_courseLabel.mas_bottom).offset(10);
         make.centerX.equalTo(_topView);
-        make.size.equalTo(CGSizeMake(100, 20));
+        make.left.equalTo(_courseLabel);
+        make.right.equalTo(_courseLabel);
+        //make.size.equalTo(CGSizeMake(100, 20));
     }];
     
     [_timeLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_nameLabel.mas_bottom).offset(42);
+        make.top.equalTo(_nameLabel.mas_bottom).offset(32);
         make.centerX.equalTo(_topView);
         make.size.equalTo(CGSizeMake(330, 58));
     }];
@@ -181,41 +276,41 @@
 
 - (void)configRightRegionView {
     
-    UIButton *cfBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [cfBtn setImage:[UIImage imageNamed:@"hp_course_file"] forState:UIControlStateNormal];
-    [cfBtn addTarget:self action:@selector(clickCourseFileBtn:) forControlEvents:UIControlEventTouchUpInside];
+    self.cfBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_cfBtn setImage:[UIImage imageNamed:@"hp_course_file"] forState:UIControlStateNormal];
+    [_cfBtn addTarget:self action:@selector(clickCourseFileBtn:) forControlEvents:UIControlEventTouchUpInside];
     
     UILabel *cfLabel = [[UILabel alloc] init];
-    cfLabel.text = @"本课文件";
+    cfLabel.text = DMTextThisClassFile;
     cfLabel.textAlignment = NSTextAlignmentCenter;
     cfLabel.textColor = [UIColor whiteColor];
-    cfLabel.font = DMFontPingFang_Medium(14);
+    cfLabel.font = DMFontPingFang_Regular(14);
     
     UIButton *crBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [crBtn setImage:[UIImage imageNamed:@"hp_enter_classroom"] forState:UIControlStateNormal];
     [crBtn addTarget:self action:@selector(clickClassRoomBtn:) forControlEvents:UIControlEventTouchUpInside];
     
     UILabel *crLabel = [[UILabel alloc] init];
-    crLabel.text = @"进入课堂";
+    crLabel.text = DMTextJoinClass;
     crLabel.textAlignment = NSTextAlignmentCenter;
     crLabel.textColor = [UIColor whiteColor];
-    crLabel.font = DMFontPingFang_Medium(14);
+    crLabel.font = DMFontPingFang_Regular(14);
     
-    [_topView addSubview:cfBtn];
+    [_topView addSubview:_cfBtn];
     [_topView addSubview:cfLabel];
     [_topView addSubview:crBtn];
     [_topView addSubview:crLabel];
 
-    [cfBtn makeConstraints:^(MASConstraintMaker *make) {
+    [_cfBtn makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_topView.mas_top).offset(117);
         make.right.equalTo(_topView.mas_right).offset(-46);
         make.size.equalTo(CGSizeMake(70, 70));
     }];
     
     [cfLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(cfBtn.mas_bottom).offset(17);
-        make.right.equalTo(_topView.mas_right).offset(-46);
-        make.size.equalTo(CGSizeMake(70, 15));
+        make.top.equalTo(_cfBtn.mas_bottom).offset(17);
+        make.right.equalTo(_topView.mas_right).offset(DMHomeViewTopViewRightLabelRight);
+        make.size.equalTo(CGSizeMake(DMHomeViewTopViewRightLabelWidth, 15));
     }];
     
     [crBtn makeConstraints:^(MASConstraintMaker *make) {
@@ -226,20 +321,87 @@
     
     [crLabel makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(crBtn.mas_bottom).offset(17);
-        make.right.equalTo(_topView.mas_right).offset(-46);
-        make.size.equalTo(CGSizeMake(70, 15));
+        make.right.equalTo(_topView.mas_right).offset(DMHomeViewTopViewRightLabelRight);
+        make.size.equalTo(CGSizeMake(DMHomeViewTopViewRightLabelWidth, 15));
     }];
+
 }
 
+
+- (UIView *)noCourseView {
+    if (!_noCourseView) {
+        _noCourseView = [UIView new];
+        _noCourseView.hidden = YES;
+        _noCourseView.backgroundColor = DMColorWithRGBA(246, 246, 246, 1);
+        
+        UIImageView *topImageView = [UIImageView new];
+        topImageView.image = [UIImage imageNamed:@"hp_no_course_icon"];
+        
+        _iconImageView = [UIImageView new];
+        _iconImageView.image = [UIImage imageNamed:@"quest_no_teacher_com"];
+        
+        _titleLabel = [UILabel new];
+        _titleLabel.text = DMTextRecentNotClass;
+        _titleLabel.font = DMFontPingFang_Light(20);
+        _titleLabel.textColor = DMColorWithRGBA(204, 204, 204, 1);
+        
+        self.reloadButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.reloadButton.backgroundColor = DMColorWithRGBA(246, 246, 246, 1);
+        [self.reloadButton setTitle:DMTitleRefresh forState:UIControlStateNormal];
+        [self.reloadButton addTarget:self action:@selector(clickReload:) forControlEvents:UIControlEventTouchUpInside];
+        [self.reloadButton setTitleColor:DMColorWithRGBA(204, 204, 204, 1) forState:UIControlStateNormal];
+        self.reloadButton.titleLabel.font = DMFontPingFang_Light(16);
+        _reloadButton.layer.cornerRadius = 5;
+        _reloadButton.layer.borderColor = DMColorWithRGBA(204, 204, 204, 1).CGColor;//[UIColor colorWithWhite:1 alpha:0.5].CGColor;
+        _reloadButton.layer.borderWidth = 1;
+        
+        [_noCourseView addSubview:topImageView];
+        [_noCourseView addSubview:_iconImageView];
+        [_noCourseView addSubview:_titleLabel];
+        [_noCourseView addSubview:self.reloadButton];
+        
+        [topImageView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.left.right.equalTo(_noCourseView).offset(0);
+            make.height.equalTo(64);
+        }];
+        
+        [_iconImageView makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(_noCourseView);
+            make.centerY.equalTo(_noCourseView);
+            make.size.equalTo(CGSizeMake(134, 118));
+        }];
+        
+        [_titleLabel makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_iconImageView.mas_bottom).offset(5);
+            make.centerX.equalTo(_iconImageView);
+        }];
+        
+        [_reloadButton makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_titleLabel.mas_bottom).offset(10);
+            make.centerX.equalTo(_iconImageView);
+            make.size.equalTo(CGSizeMake(DMHomeViewReloadButtonWidth, 35));
+        }];
+    }
+    
+    return _noCourseView;
+}
+
+
 - (void)clickCourseFileBtn:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(clickCourseFiles)]) {
-        [self.delegate clickCourseFiles];
+    if ([self.delegate respondsToSelector:@selector(clickCourseFiles:)]) {
+        [self.delegate clickCourseFiles:sender];
     }
 }
 
 - (void)clickClassRoomBtn:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(clickClassRoom)]) {
-        [self.delegate clickClassRoom];
+    if ([self.delegate respondsToSelector:@selector(clickClassRoom:)]) {
+        [self.delegate clickClassRoom:sender];
+    }
+}
+
+- (void)clickReload:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(clickReload:)]) {
+        [self.delegate clickReload:sender];
     }
 }
 
@@ -282,7 +444,7 @@
         _courseLabel = [[UILabel alloc] init];
         _courseLabel.textAlignment = NSTextAlignmentCenter;
         _courseLabel.textColor = [UIColor whiteColor];
-        _courseLabel.font = DMFontPingFang_Medium(22);
+        _courseLabel.font = DMFontPingFang_Regular(22-2);
     }
     return _courseLabel;
 }
@@ -292,7 +454,7 @@
         _nameLabel = [[UILabel alloc] init];
         _nameLabel.textAlignment = NSTextAlignmentCenter;
         _nameLabel.textColor = [UIColor whiteColor];
-        _nameLabel.font = DMFontPingFang_Medium(18);
+        _nameLabel.font = DMFontPingFang_Light(18-2);
     }
     return _nameLabel;
 }
@@ -302,12 +464,7 @@
         _timeLabel = [[UILabel alloc] init];
         _timeLabel.textAlignment = NSTextAlignmentCenter;
         _timeLabel.textColor = [UIColor whiteColor];
-        _timeLabel.font = DMFontPingFang_Medium(20);
-        
-        _timeLabel.layer.cornerRadius = 5;
-        //_timeLabel.layer.borderColor = [UIColor whiteColor].CGColor;
-        _timeLabel.layer.borderColor = [UIColor colorWithWhite:1 alpha:0.5].CGColor;
-        _timeLabel.layer.borderWidth = 1;
+        _timeLabel.font = DMFontPingFang_Regular(20-2);
     }
     return _timeLabel;
 }

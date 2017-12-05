@@ -7,7 +7,7 @@
 //
 
 #import "DMCustomerInfoView.h"
-
+#import "DMCustomerDataModel.h"
 @interface DMCustomerInfoView ()
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIButton *infoButton;
@@ -50,7 +50,7 @@
     self.infoButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.infoButton setTitle:@"" forState:UIControlStateNormal];
     [self.infoButton setTitleColor:DMColorWithRGBA(246, 8, 122, 1) forState:UIControlStateNormal];
-    [self.infoButton.titleLabel setFont:DMFontPingFang_Thin(16)];
+    [self.infoButton.titleLabel setFont:DMFontPingFang_Light(16)];
     self.infoButton.userInteractionEnabled = NO;
     self.infoButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     if (_isTap) {
@@ -84,21 +84,24 @@
 }
 
 - (void)updateSubViewsObj:(id)obj {
-    self.titleLabel.text = @"咨询电话";
+    
     if (self.isTap) {
+        
         [self.infoButton setImage:[UIImage imageNamed:@"customer_bottom_arrow"] forState:UIControlStateNormal];
     } else {
-        [self.infoButton setTitle:@"400-008-2899" forState:UIControlStateNormal];
+        DMCustomerTel *telObj = (DMCustomerTel *)obj;
+        self.titleLabel.text = telObj.name;
+        [self.infoButton setTitle:telObj.tel forState:UIControlStateNormal];
     }
 }
 
 
 - (void)updateSubViewsObj:(id)obj isFurled: (BOOL)isFurled {
-    self.titleLabel.text = @"寻律微信客服";
+    self.titleLabel.text = (NSString *)obj;//@"寻律微信客服";
     if (isFurled) {
-        [self.infoButton setImage:[UIImage imageNamed:@"customer_bottom_arrow"] forState:UIControlStateNormal];
-    } else {
         [self.infoButton setImage:[UIImage imageNamed:@"customer_top_arrow"] forState:UIControlStateNormal];
+    } else {
+        [self.infoButton setImage:[UIImage imageNamed:@"customer_bottom_arrow"] forState:UIControlStateNormal];
     }
     
 }

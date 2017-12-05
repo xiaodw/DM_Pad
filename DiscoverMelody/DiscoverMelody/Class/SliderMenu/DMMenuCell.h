@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface DMMenuCell : UITableViewCell
+@property (strong, nonatomic) UIView *redView;
 - (void)configObj:(NSString *)title imageName:(NSString *)imageName;
 @end

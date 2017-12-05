@@ -6,10 +6,9 @@
 //  Copyright © 2017年 Discover Melody. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "DMBaseDataModel.h"
 
-@interface DMHomeDataModel : NSObject
-//获取首页数据
-+ (void)getHomeCourseData:(void(^)(BOOL result, NSMutableArray *array))complectionBlock;
-
+@interface DMHomeDataModel : DMBaseDataModel
+@property (nonatomic, strong) NSArray *list;
+@property (nonatomic, copy) NSString *page_next;
 @end

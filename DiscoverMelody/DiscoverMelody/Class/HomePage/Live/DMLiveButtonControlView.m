@@ -2,6 +2,7 @@
 
 @interface DMLiveButtonControlView ()
 
+@property (strong, nonatomic) UIImageView *shadowImageView;
 @property (strong, nonatomic) UIButton *leaveChannelButton;
 @property (strong, nonatomic) UIButton *swichCameraButton;
 @property (strong, nonatomic) UIButton *swichLayoutButton;
@@ -41,6 +42,7 @@
 }
 
 - (void)setupMakeAddSubviews {
+    [self addSubview:self.shadowImageView];
     [self addSubview:self.leaveChannelButton];
     [self addSubview:self.swichCameraButton];
     [self addSubview:self.swichLayoutButton];
@@ -48,25 +50,29 @@
 }
 
 - (void)setupMakeLayoutSubviews {
-    [_leaveChannelButton makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(23);
-        make.top.equalTo(30);
-        make.size.equalTo(CGSizeMake(60, 60));
-    }];
-    
-    [_swichCameraButton makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.width.height.equalTo(_leaveChannelButton);
-        make.top.equalTo(_leaveChannelButton.mas_bottom).offset(338);
-    }];
-    
-    [_swichLayoutButton makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.width.height.equalTo(_leaveChannelButton);
-        make.top.equalTo(_swichCameraButton.mas_bottom).offset(49);
+    [_shadowImageView makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
     }];
     
     [_courseFilesButton makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.width.height.equalTo(_leaveChannelButton);
-        make.top.equalTo(_swichLayoutButton.mas_bottom).offset(49);
+        make.bottom.equalTo(self.mas_bottom).offset(-80);
+        make.size.equalTo(CGSizeMake(80, 80));
+        make.left.equalTo(3);
+    }];
+    
+    [_swichLayoutButton makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.width.height.equalTo(_courseFilesButton);
+        make.bottom.equalTo(_courseFilesButton.mas_top).offset(-20);
+    }];
+
+    [_swichCameraButton makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.width.height.equalTo(_swichLayoutButton);
+        make.bottom.equalTo(_swichLayoutButton.mas_top).offset(-20);
+    }];
+
+    [_leaveChannelButton makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(30);
+        make.left.width.height.equalTo(_courseFilesButton);
     }];
 }
 
@@ -75,6 +81,15 @@
     [button setImage:[UIImage imageNamed:name] forState:UIControlStateNormal];
     [button addTarget:self action:sel forControlEvents:UIControlEventTouchUpInside];
     return button;
+}
+
+- (UIImageView *)shadowImageView {
+    if (!_shadowImageView) {
+        _shadowImageView = [UIImageView new];
+        _shadowImageView.image = [UIImage imageNamed:@"image_shadow"];
+    }
+    
+    return _shadowImageView;
 }
 
 - (UIButton *)leaveChannelButton {

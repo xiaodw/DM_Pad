@@ -10,10 +10,14 @@
 
 @interface DMBaseViewController ()
 @property (nonatomic, strong) UINavigationItem *navigationBar;
-@property (nonatomic, strong) UIButton *rightButton;
+
 @end
 
 @implementation DMBaseViewController
+
+- (void)updateUserInfo:(NSNotification *)notification {
+    [self updateUserInfo];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -25,15 +29,16 @@
         [self setEdgesForExtendedLayout:UIRectEdgeNone];
     }
     [self.navigationController.navigationBar setBarTintColor:[UIColor blackColor]];
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:DMFontPingFang_Medium(16)}];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:DMFontPingFang_Regular(16)}];
     [self setNavigationbar];
 }
 
 - (void)setNavigationbar {
      if (self.navigationController.viewControllers.count > 1) {
-         
+         [self setLeftBtn:CGRectMake(0, 0, 44, 44) title:@"" titileColor:nil imageName:@"back_icon" font:nil];
      } else {
          [self setupMenuButton];
+         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserInfo:) name:DMNotification_Login_Success_Key object:nil];
      }
 }
 
@@ -49,35 +54,35 @@
     [backButton addTarget:self action:@selector(clickMenuBtn:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     fixedSpace.width = -5;
-    
+/*
     UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 38, 38)];
     //headImageView.image = [UIImage imageNamed:@"timg.jpg"];
     headImageView.layer.cornerRadius = 38/2;
     headImageView.layer.masksToBounds = YES;
     headImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.headImageView = headImageView;
-    
+*/
     UILabel *userLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 38)];
     userLabel.textColor = [UIColor whiteColor];
     userLabel.textAlignment = NSTextAlignmentLeft;
     userLabel.backgroundColor = [UIColor clearColor];
-    userLabel.font = DMFontPingFang_Light(12);
+    userLabel.font = DMFontPingFang_Light(14);
     self.userLabel = userLabel;
     
-    self.navigationItem.leftBarButtonItems = @[fixedSpace, [[UIBarButtonItem alloc] initWithCustomView:backButton], [[UIBarButtonItem alloc] initWithCustomView:headImageView], [[UIBarButtonItem alloc] initWithCustomView:userLabel]];
-
+//    self.navigationItem.leftBarButtonItems = @[fixedSpace, [[UIBarButtonItem alloc] initWithCustomView:backButton], [[UIBarButtonItem alloc] initWithCustomView:headImageView], [[UIBarButtonItem alloc] initWithCustomView:userLabel]];
+    self.navigationItem.leftBarButtonItems = @[fixedSpace, [[UIBarButtonItem alloc] initWithCustomView:backButton], [[UIBarButtonItem alloc] initWithCustomView:userLabel]];
     [self updateUserInfo];
 }
 
 - (void)updateUserInfo {
     
-    [self.headImageView sd_setImageWithURL:nil placeholderImage:DMPlaceholderImageDefault];
-    
-    NSString *identityString = [self getIdentityType:@"学生"];
-    NSString *userString = [NSString stringWithFormat:@"%@%@", @"用户名", identityString];
+//    NSString *headUrl = [DMAccount getUserHeadUrl];
+//    [self.headImageView sd_setImageWithURL:[NSURL URLWithString:headUrl] placeholderImage:DMPlaceholderImageDefault];
+    NSString *identityString = [self getIdentityType:([DMAccount getUserIdentity].intValue ==0 ? DMStringIDStudent : DMStringIDTeacher)];
+    NSString *userString = [NSString stringWithFormat:@"%@%@", [DMAccount getUserName], identityString];
     NSRange idRange = [userString rangeOfString:identityString];
     NSMutableAttributedString *attributeString = [[NSMutableAttributedString alloc] initWithString:userString];
-    [attributeString setAttributes:@{NSFontAttributeName: DMFontPingFang_UltraLight(12), NSForegroundColorAttributeName: [UIColor whiteColor] } range:idRange];
+    [attributeString setAttributes:@{NSFontAttributeName: DMFontPingFang_Thin(14), NSForegroundColorAttributeName: [UIColor whiteColor] } range:idRange];
     self.userLabel.attributedText = attributeString;
 }
 
@@ -128,7 +133,7 @@
     self.navigationController.navigationBar.shadowImage = [UIImage new];
 }
 
-//MARK: - 设置导航栏透明
+//MARK: - 设置导航栏不透明
 - (void)setNavigationBarNoTransparence {
 
     self.edgesForExtendedLayout = UIRectEdgeAll;
@@ -169,7 +174,12 @@
         [btn setImageEdgeInsets:UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)];
     }
     [btn addTarget:self action:@selector(rightOneAction:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
+    
+    UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    fixedSpace.width = -5;
+    
+    //self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
+    self.navigationItem.rightBarButtonItems = @[fixedSpace, [[UIBarButtonItem alloc] initWithCustomView:btn]];
     self.rightButton = btn;
 }
 
@@ -188,12 +198,16 @@
     if (!STR_IS_NIL(imageName)) {
         [btn setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
         [btn setImageEdgeInsets:UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)];
+        if (DM_SystemVersion_11) {
+            btn.contentHorizontalAlignment =UIControlContentHorizontalAlignmentLeft;
+            btn.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+        }
     }
     [btn addTarget:self action:@selector(leftOneAction:) forControlEvents:UIControlEventTouchUpInside];
     
     UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     fixedSpace.width = -15;
-    
+    //btn.backgroundColor = [UIColor randomColor];
     self.navigationItem.leftBarButtonItems = @[fixedSpace, [[UIBarButtonItem alloc] initWithCustomView:btn]];
 
 }

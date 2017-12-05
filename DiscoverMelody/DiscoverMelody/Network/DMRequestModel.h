@@ -38,5 +38,5 @@ typedef void(^PrepareExeBlock)(void);
 
 //判断当前网络状态
 - (BOOL)isConnectionAvailable;
-
+- (void)cancleAllHttpRequestOperations;
 @end

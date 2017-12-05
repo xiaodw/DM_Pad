@@ -28,9 +28,9 @@
     [self addSubview:self.bottomView];
 
     _bottomView.layer.shadowColor = UIColorFromRGB(0xf6087a).CGColor;//shadowColor阴影颜色
-    _bottomView.layer.shadowOffset = CGSizeMake(1,3);//shadowOffset阴影偏移,x向右偏移，y向下偏移，默认(0, -3),这个跟shadowRadius配合使用
+    _bottomView.layer.shadowOffset = CGSizeMake(1,4);//shadowOffset阴影偏移,x向右偏移，y向下偏移，默认(0, -3),这个跟shadowRadius配合使用
     _bottomView.layer.shadowOpacity = 0.2;//阴影透明度，默认0
-    _bottomView.layer.shadowRadius = 8;//阴影半径，默认3
+    _bottomView.layer.shadowRadius = 6;//阴影半径，默认3
     
     self.redView = [[UIView alloc] init];
     self.redView.backgroundColor = UIColorFromRGB(0xf6087a);
@@ -75,6 +75,7 @@
     _nameLabel.font = font;
     _timeLabel.font = font;
     _statusLabel.font = font;
+
 }
 
 - (void)setLayoutCellSubViews {
@@ -93,27 +94,30 @@
         make.bottom.equalTo(_bottomView.mas_bottom).offset(0);
         make.width.equalTo(4);
     }];
+
     
     [_nameLabel makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_bottomView.mas_top).offset(0);
         make.left.equalTo(_bottomView.mas_left).offset(50);
         make.bottom.equalTo(_bottomView.mas_bottom).offset(0);
-        make.width.equalTo(298);
+        make.width.equalTo(DMHomeViewCellNameLabelWidth);
     }];
     
     [_statusLabel makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_bottomView.mas_top).offset(0);
         make.right.equalTo(_bottomView.mas_right).offset(-50);
         make.bottom.equalTo(_bottomView.mas_bottom).offset(0);
-        make.width.equalTo(298);
+        make.width.equalTo(DMHomeViewCellStatusLabelWidth);
     }];
     
     [_timeLabel makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_bottomView.mas_top).offset(0);
-        make.left.equalTo(_nameLabel.mas_right).offset(0);
+        make.left.equalTo(_nameLabel.mas_right).offset(DMHomeViewCellTimeLabelLeft);
         make.right.equalTo(_statusLabel.mas_left).offset(0);
         make.bottom.equalTo(_bottomView.mas_bottom).offset(0);
     }];
+    
+
     
 }
 

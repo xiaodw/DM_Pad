@@ -9,10 +9,10 @@
 #import "DMPopCodeView.h"
 
 @interface DMPopCodeView()
-@property(nonatomic, strong)UIView *blackView;
-@property(nonatomic, strong)UILabel *titleLabel;
-@property(nonatomic, strong)UILabel *messageLabel;
-@property(nonatomic, strong)UIImageView *imageView;
+@property (nonatomic, strong) UIView *blackView;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UILabel *messageLabel;
+@property (nonatomic, strong) UIImageView *imageView;
 
 @property (nonatomic, strong) NSString *titleStr;
 @property (nonatomic, strong) NSString *msgStr;
@@ -44,7 +44,7 @@
     UIImageView *imageView = [[UIImageView alloc] init];
     //imageView.image = [UIImage imageNamed:_imageName];
     [self addSubview:imageView];
-    [imageView sd_setImageWithURL:nil placeholderImage:[UIImage imageNamed:_imageName]];
+    [imageView sd_setImageWithURL:[NSURL URLWithString:_imageName] placeholderImage:[UIImage imageNamed:@""]];
     
     //标题
     UILabel *alertTitle = [[UILabel alloc] init];

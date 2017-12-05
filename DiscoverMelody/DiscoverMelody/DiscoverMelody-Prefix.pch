@@ -17,18 +17,27 @@
 
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+#import "DMServerApiConfig.h"
+#import "DMCommonModel.h"
+#import "DMTools.h"
+#import "DMLoginDataModel.h"
+#import "DMHomeDataModel.h"
+#import "DMCourseDatasModel.h"
 
+#import "DMConfigManager.h"
+#import "DMSetConfigData.h"
 #import "DMRootViewDefine.h"
-#import "DMConfig.h"
+
 #import "DMConst.h"
 #import "DMMacros.h"
+#import "DMLayoutContst.h"
 #import "AppDelegate.h"
 #import "DMHomeViewController.h"
 #import "DMCourseListController.h"
 #import "DMCustomerServiceViewController.h"
 #import "DMMenuViewController.h"
 #import "DMRootViewController.h"
-
+#import "DMRefreshNormalHeader.h"
 
 #import "UIViewController+DMRootViewController.h"
 #import "UIColor+Hex.h"
@@ -37,6 +46,27 @@
 
 #import "MJExtension.h"
 #import "UIImageView+WebCache.h"
+#import "DMApiModel.h"
 
+#import "DMHttpClient.h"
+
+#import "DMConfig.h"
+#import "DMUserDefaults.h"
+#import "DMAccount.h"
+#import "DMAlertMananger.h"
+#import "SVProgressHUD.h"
+#import<AVFoundation/AVCaptureDevice.h>
+#import <AVFoundation/AVMediaFormat.h>
+#import <AVFoundation/AVAudioSession.h>
+#import "DMActivityView.h"
+
+#import "DMEnums.h"
+
+#import "UIView+Toast.h"
 
 #endif /* DiscoverMelody_Prefix_pch */
+
+
+
+
+

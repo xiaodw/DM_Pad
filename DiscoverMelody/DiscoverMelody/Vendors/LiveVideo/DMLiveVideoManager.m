@@ -8,7 +8,7 @@
 
 #import "DMLiveVideoManager.h"
 #import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
-
+#import "DMSecretKeyManager.h"
 #import "DMSignalingKey.h"
 @interface DMLiveVideoManager () <AgoraRtcEngineDelegate>
 
@@ -16,6 +16,7 @@
 @property (nonatomic, strong) NSString *channelName;
 @property (nonatomic, assign) NSInteger uId;
 @property (nonatomic, strong) NSString *signalingKey;
+@property (nonatomic, strong) NSString *app_ID;
 
 @property (nonatomic, assign) BOOL isTapVideo;
 
@@ -27,7 +28,7 @@
 
 @property (nonatomic, strong) AgoraAPI* inst;
 
-- (void)bindingAccountInfo:(id)obj;//绑定声网账号信息
+- (void)bindingAccountInfo:(DMClassDataModel *)obj;//绑定声网账号信息
 - (void)layoutLocalAndRemoteView:(UIView *)localView remote:(UIView *)remoteView;
 //初始化声网
 - (void)initializeAgoraEngine;
@@ -41,11 +42,39 @@
 
 static DMLiveVideoManager* _instance = nil;
 
-- (void)bindingAccountInfo:(id)obj {
-    self.channelKey = @"";
-    self.channelName = @"112";
-    self.uId = 222222;
-    self.signalingKey = @"";
+- (void)bindingAccountInfo:(DMClassDataModel *)obj {
+    if (!OBJ_IS_NIL(obj)) {
+        
+        self.channelKey = obj.channel_key;
+        self.channelName = obj.channel_name;
+        self.uId = obj.uid.intValue;
+        self.signalingKey = obj.signaling_key;
+        self.app_ID = [DMSecretKeyManager shareManager].appId;
+
+//        unsigned expiredTime =  (unsigned)[[NSDate date] timeIntervalSince1970] + 3600;
+//        NSString * token =  [DMSignalingKey calcToken:AgoraSAppID certificate:certificate1 account:obj.uid expiredTime:expiredTime];
+//        self.signalingKey = token;
+
+        
+    } else {
+        //开发调试使用
+        self.channelKey = @"";
+//        self.channelName = @"1110";
+//        self.uId = 54321;
+//        self.app_ID = AgoraSAppID;//AgoraAppID;
+//        
+//        NSString *name = [NSString stringWithFormat:@"%ld", self.uId];//@"222222";
+//        unsigned expiredTime =  (unsigned)[[NSDate date] timeIntervalSince1970] + 3600;
+//        NSString * token =  [DMSignalingKey calcToken:AgoraSAppID certificate:certificate1 account:name expiredTime:expiredTime];
+//        
+//        self.signalingKey = token;//@"";
+        
+        
+        self.channelName = @"1111";
+        self.uId = 0;
+        self.signalingKey = @"";
+        self.app_ID = AgoraSAppID;
+    }
 }
 
 -(void)didJoinedOfUid:(BlockDidJoinedOfUid)blockDidJoinedOfUid {
@@ -64,6 +93,10 @@ static DMLiveVideoManager* _instance = nil;
     self.blockFirstRemoteVideoDecodedOfUid = blockFirstRemoteVideoDecodedOfUid;
 }
 
+-(void)rtcEngineConnectionDidLostDidInterrupted:(BlockRtcEngineConnectionDidLostDidInterrupted)blockRtcEngineConnectionDidLostDidInterrupted {
+    self.blockRtcEngineConnectionDidLostDidInterrupted = blockRtcEngineConnectionDidLostDidInterrupted;
+}
+
 - (void)startLiveVideo:(UIView *)localView
                 remote:(UIView *)remoteView
             isTapVideo:(BOOL)isTap
@@ -79,7 +112,8 @@ static DMLiveVideoManager* _instance = nil;
     
     [self addTapEvent];
     
-    [self bindingAccountInfo:nil];
+    //[self bindingAccountInfo:nil];
+    [self bindingAccountInfo:[DMSecretKeyManager shareManager].obj];
     [self initializeAgoraEngine];
     [self initializeSignaling];
 }
@@ -142,21 +176,29 @@ static DMLiveVideoManager* _instance = nil;
     self.localVideoCanvas = [[AgoraRtcVideoCanvas alloc] init];
     self.remoteVideoCanvas = [[AgoraRtcVideoCanvas alloc] init];
     //初始化声网
-    self.agoraKit = [AgoraRtcEngineKit sharedEngineWithAppId:AgoraAppID delegate:self];
+    self.agoraKit = [AgoraRtcEngineKit sharedEngineWithAppId:self.app_ID delegate:self];
+    //开始sdk日志
+    [self enableAgoraLog];
     //设置频道模式，默认通信
     [self.agoraKit setChannelProfile:AgoraRtc_ChannelProfile_Communication];
     //打开视频模式
     [self.agoraKit enableVideo];
     //设置本地视频属性
-    [self.agoraKit setVideoProfile:AgoraRtc_VideoProfile_360P swapWidthAndHeight: false];
+    [self.agoraKit setVideoProfile:[[DMConfigManager shareInstance].agoraVideoProfile intValue] swapWidthAndHeight: false];
     //设置本地视频显示属性
     [self setupLocalVideoDisplay];
     //启用音量提示
-    [self.agoraKit enableAudioVolumeIndication:2000 smooth:3];
+    [self.agoraKit enableAudioVolumeIndication:200 smooth:3];
     //开始预览
     [self.agoraKit startPreview];
     //加入频道
     [self joinChannel];
+}
+
+- (void)enableAgoraLog {
+    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *aLogFilePath = [path stringByAppendingPathComponent:@"agorakitLog.txt"];
+    [self.agoraKit setLogFile:aLogFilePath];
 }
 
 - (void)setupLocalVideoDisplay {
@@ -187,7 +229,7 @@ static DMLiveVideoManager* _instance = nil;
 }
 
 - (void)joinChannel {
-    [self.agoraKit joinChannelByKey:nil
+    [self.agoraKit joinChannelByKey:self.channelKey
                         channelName:self.channelName
                                info:nil
                                 uid:self.uId
@@ -292,49 +334,57 @@ static DMLiveVideoManager* _instance = nil;
     }
 }
 
+
+- (void)rtcEngine:(AgoraRtcEngineKit *)engine videoSizeChangedOfUid:(NSUInteger)uid size:(CGSize)size rotation:(NSInteger)rotation {
+    NSLog(@"摄像头旋转角度 = %ld", rotation);
+}
+
 //统计数据
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine reportRtcStats:(AgoraRtcStats*)stats {
-
+NSLog(@"统计数据");
 }
 
 //本地视频统计 - 2秒触发一次
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine localVideoStats:(AgoraRtcLocalVideoStats*)stats {
-
+NSLog(@"本地视频统计 - 2秒触发一次");
 }
 
 //远程视频统计 - 2秒触发一次
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine remoteVideoStats:(AgoraRtcRemoteVideoStats*)stats {
-
+NSLog(@"远程视频统计 - 2秒触发一次");
 }
 
 //网络连接中断 - SDK会一直自动重连，除非主动离开频道
 - (void)rtcEngineConnectionDidInterrupted:(AgoraRtcEngineKit *)engine {
     NSLog(@"网络中断连接");
+    if (self.blockRtcEngineConnectionDidLostDidInterrupted) {
+        self.blockRtcEngineConnectionDidLostDidInterrupted();
+    }
+    //[self agoraUserStatusLog:self.lessonID targetUID:[DMAccount getUserID] uploadUID:[DMAccount getUserID] action:DMAgoraUserStatusLog_Neterr];
 }
 
 //网络连接丢失 -》在一定时间内（默认 10 秒）如果没有重连成功，触发 rtcEngineConnectionDidLost 回调。
 //除非 APP 主动调用 leaveChannel，SDK 仍然会自动重连。
 - (void)rtcEngineConnectionDidLost:(AgoraRtcEngineKit *)engine {
     NSLog(@"网络连接丢失");
+    if (self.blockRtcEngineConnectionDidLostDidInterrupted) {
+        self.blockRtcEngineConnectionDidLostDidInterrupted();
+    }
 }
 
 #pragma mark -
 #pragma mark - 信令SDK
 
 - (void)initializeSignaling {
-    self.inst = [AgoraAPI getInstanceWithoutMedia:AgoraSAppID];
-    AgoraAPI * __weak weak_inst = _inst;
-    NSString *name = @"222222";
-    unsigned expiredTime =  (unsigned)[[NSDate date] timeIntervalSince1970] + 3600;
-    NSString * token =  [DMSignalingKey calcToken:AgoraSAppID certificate:certificate1 account:name expiredTime:expiredTime];
-    
+    self.inst = [AgoraAPI getInstanceWithoutMedia:self.app_ID];
+
     WS(weakSelf)
-    [self.inst login2:AgoraSAppID
-              account:name
-                token:token
+    [self.inst login2:self.app_ID
+              account:[NSString stringWithFormat:@"%ld", self.uId]
+                token:self.signalingKey
                   uid:0
              deviceID:@""
-      retry_time_in_s:60
+      retry_time_in_s:30
           retry_count:5
      ];
     //收到消息
@@ -388,15 +438,19 @@ static DMLiveVideoManager* _instance = nil;
                       faile:(void(^)(NSString *messageID, AgoraEcode ecode))faile {
     
     
-    [_inst messageInstantSend:name uid:0 msg:msg msgID:msgID];
+    NSString *account = STR_IS_NIL(name) ? [DMSecretKeyManager shareManager].other_uid : name;
+    NSLog(@"发送信令消息的 account = %@", account);
+    [_inst messageInstantSend:account uid:0 msg:msg msgID:msgID];
     
     //发送成功
     _inst.onMessageSendSuccess = ^(NSString *messageID) {
         success(messageID);
+         NSLog(@"发送信令消息成功了");
     };
     //失败
     _inst.onMessageSendError = ^(NSString *messageID, AgoraEcode ecode) {
         faile(messageID, ecode);
+         NSLog(@"发送信令消息的失败了");
     };
 }
 

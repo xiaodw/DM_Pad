@@ -9,7 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface DMBaseDataModel : NSObject
-//@property (nonatomic, copy) NSString *msg;
-//@property (nonatomic, assign) NSInteger code;
-//@property (nonatomic, copy) NSString *time;
+@property (nonatomic, copy) NSString *msg;
+@property (nonatomic, assign) NSInteger code;
+@property (nonatomic, copy) NSString *time;
+@property (nonatomic, strong) NSString *data;
 @end

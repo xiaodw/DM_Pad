@@ -9,11 +9,17 @@
 #import <UIKit/UIKit.h>
 
 @protocol DMHomeVCDelegate <NSObject>
-- (void)clickCourseFiles;
-- (void)clickClassRoom;
+- (void)clickCourseFiles:(id)sender;
+- (void)clickClassRoom:(id)sender;
+- (void)clickReload:(id)sender;
+- (void)selectedCourse:(DMCourseDatasModel *)courseObj;
 @end
 
 @interface DMHomeView : UIView
 @property (nonatomic, weak)id <DMHomeVCDelegate>delegate;
--(id)initWithFrame:(CGRect)frame delegate:(id<DMHomeVCDelegate>) delegate;
+@property (nonatomic, strong) NSArray *datas;
+- (id)initWithFrame:(CGRect)frame delegate:(id<DMHomeVCDelegate>) delegate;
+- (void)reloadHomeTableView;
+- (void)disPlayNoCourseView:(BOOL)display isError:(BOOL)error;
+- (void)initSelectedIndexPath;
 @end

@@ -16,13 +16,16 @@ typedef NS_ENUM(NSInteger, DMLiveVideoViewType) {
 
 typedef void (^BlockAudioVolume)(NSInteger totalVolume ,NSArray *speakers); //音量
 typedef void (^BlockTapVideoEvent)(DMLiveVideoViewType type);//屏幕点击事件
-typedef void (^BlockQuitLiveVideoEvent)(BOOL success);//退出直播事件
+typedef void (^BlockQuitLiveVideoEvent)(BOOL success);//自己退出直播事件
 
 typedef void (^BlockDidJoinedOfUid)(NSUInteger uid);//有用户加入
 typedef void (^BlockDidOfflineOfUid)(NSUInteger uid);//有用户离开
 typedef void (^BlockDidRejoinChannel)(NSUInteger uid, NSString *channel);//用户重新加入
 
 typedef void (^BlockFirstRemoteVideoDecodedOfUid)(NSUInteger uid, CGSize size);//远程首帧回调
+typedef void (^BlockRtcEngineConnectionDidLostDidInterrupted)(); //声网SDK与服务器连接中断，丢失
+
+
 
 //信令接收消息
 typedef void (^BlockOnMessageInstantReceive)(NSString* account, NSString* msg);//接收消息
@@ -38,7 +41,7 @@ typedef void (^BlockSignalingOnLogout)(AgoraEcode ecode);//信令与服务器失
 @property (nonatomic, strong) BlockDidJoinedOfUid blockDidJoinedOfUid;
 @property (nonatomic, strong) BlockDidOfflineOfUid blockDidOfflineOfUid;
 @property (nonatomic, strong) BlockDidRejoinChannel blockDidRejoinChannel;
-
+@property (nonatomic, strong) BlockRtcEngineConnectionDidLostDidInterrupted blockRtcEngineConnectionDidLostDidInterrupted;
 @property (nonatomic, strong) BlockFirstRemoteVideoDecodedOfUid blockFirstRemoteVideoDecodedOfUid;
 
 + (instancetype)shareInstance;
@@ -82,7 +85,7 @@ typedef void (^BlockSignalingOnLogout)(AgoraEcode ecode);//信令与服务器失
 //
 /** 发送同步消息（点对点）
  *
- *  @param name          用户登录厂商 app 的账号
+ *  @param name          用户登录厂商 app 的账号(对方的ID)
  *  @param msg           消息正文。每条消息最大为 8K 可见字符
  *  @param msgID         可见字符，可填空。用于回调的消息标示
  *  @param success       消息发送成功

@@ -6,11 +6,20 @@ target 'DiscoverMelody' do
 
   pod 'AFNetworking', '~> 3.0'
   pod 'SDWebImage', '~> 4.0'
-  pod 'Masonry', '~> 1.0’
-  pod 'MJRefresh', '~> 3.1’
+  pod 'Masonry', '~> 1.0'
+  pod 'MJRefresh', '~> 3.1'
   #pod 'JSONModel', '~> 1.7.0’
-  pod 'MJExtension', '~> 3.0’
+  pod 'MJExtension', '~> 3.0'
   pod 'Reachability', '~> 3.1.1'
-  pod 'AgoraRtcEngine_iOS', '1.13'
-  
+  pod 'AgoraRtcEngine_iOS', '~> 1.13'
+  #pod 'ZFPlayer'
+  pod 'Toast', '~> 3.1.0'
+  pod 'SVProgressHUD'
+  pod 'IQKeyboardManager'
+  pod 'GTSDK', '2.0.0.0-noidfa'
+end
+
+target 'NotificationService' do
+    platform :ios, '10.0'
+    pod 'GTExtensionSDK'
 end

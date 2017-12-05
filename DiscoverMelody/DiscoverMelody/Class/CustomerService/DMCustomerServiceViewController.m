@@ -10,6 +10,7 @@
 #import "DMCustomerPhoneCell.h"
 #import "DMCustomerCell.h"
 #import "DMPopCodeView.h"
+#import "DMCustomerDataModel.h"
 @interface DMCustomerServiceViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *phoneArray;
@@ -19,6 +20,9 @@
 
 @property (nonatomic, assign) BOOL isFruled;
 
+@property (nonatomic, assign) BOOL havePhone;
+@property (nonatomic, assign) BOOL haveCustomer;
+
 @property (nonatomic, strong) NSMutableDictionary *statusDic;
 
 @end
@@ -26,27 +30,41 @@
 @implementation DMCustomerServiceViewController
 
 - (void)initDataInfo {
-    self.phoneArray = [NSArray arrayWithObjects:@"咨询电话（中国）", @"咨询电话（北美）", nil];
+    WS(weakSelf);
+    [DMApiModel getCustomerInfo:^(BOOL result, DMCustomerDataModel *obj) {
+        if (result) {
+            if (!OBJ_IS_NIL(obj)) {
+                if (obj.tel.count > 0) {
+                    weakSelf.phoneArray = obj.tel;
+                    _havePhone = YES;
+                }
+                if (obj.customer.count > 0) {
+                    weakSelf.customerArray = obj.customer;
+                    _haveCustomer = YES;
+                }
+                [weakSelf.tableView reloadData];
+            }
+        }
+    }];
     
-    self.customerArray = [NSArray arrayWithObjects:@"寻律微信客服（中国）", nil];
     
-    self.statusDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"1", @"1", nil]; //key为section
-    
-    self.indexArray = [NSMutableArray array];
-    for (int i = 0; i < 3; i ++) {
-        NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:1];
-        [self.indexArray addObject:path];
-    }
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self setTitle:@"联系客服"];
+    [self setTitle:DMTitleContactCustomerService];
     self.view.backgroundColor = DMColorWithRGBA(246, 246, 246, 1);//[UIColor whiteColor];
     _isFruled = YES;
-    [self initDataInfo];
+    _phoneArray = [NSArray array];
+    _customerArray = [NSArray array];
     [self loadUI];
+    [self initDataInfo];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updataCSData:) name:DMNotification_CustomerService_Key object:nil];
+}
+
+- (void)updataCSData:(NSNotification *)notification {
+    [self initDataInfo];
 }
 
 - (void)loadUI {
@@ -54,15 +72,16 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    _tableView.backgroundColor = DMColorWithRGBA(246, 246, 246, 1);
-    [self.view addSubview:self.tableView];
+    _tableView.backgroundColor = [UIColor clearColor];//DMColorWithRGBA(246, 246, 246, 1);
+    
     
     UILabel *bottomLabel = [[UILabel alloc] init];
-    bottomLabel.text = @"如需修改上课时间，了解更多详情，请联系以上任意客服";
+    bottomLabel.text = DMTextCustomerServiceDescribe;
     bottomLabel.font = DMFontPingFang_UltraLight(13);
     bottomLabel.textColor = DMColorWithRGBA(153, 153, 153, 1);
     bottomLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:bottomLabel];
+    [self.view addSubview:self.tableView];
     
     [bottomLabel makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);
@@ -72,48 +91,72 @@
     
 }
 
-- (void)sectionClick:(BOOL)isfurled {
-
-    NSMutableIndexSet *set = [[NSMutableIndexSet alloc] initWithIndex:1];
-    if (isfurled) {
-        [self.statusDic setObject:@"1" forKey:@"1"];
-        //[self.tableView deleteSections:set withRowAnimation:UITableViewRowAnimationFade];
-        [self.tableView reloadData];
-        
-    } else {
-        [self.statusDic setObject:@"0" forKey:@"1"];
-        [self.tableView reloadSections:set withRowAnimation:UITableViewRowAnimationFade];
-        
-    }
+- (void)sectionClick:(BOOL)isfurled section:(NSInteger)section {
     
+    NSMutableIndexSet *set = [[NSMutableIndexSet alloc] initWithIndex:section];
+    [self.tableView reloadSections:set withRowAnimation:UITableViewRowAnimationFade];
 }
 
 #pragma mark -
 #pragma mark UITableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    DMPopCodeView *codeView = [[DMPopCodeView alloc] initWithTitle:@"寻律课程顾问-A老师" message:@"微信号：Dsicover-Melody-1" imageName:@"codeTest"];
-    [codeView show];
+    if (indexPath.section != 0) {
+        if (indexPath.section-1 < self.customerArray.count) {
+            DMCustomerTeacher *objList = [self.customerArray objectAtIndex:indexPath.section-1];
+            if (indexPath.row < objList.customer_list.count) {
+                DMCustomerTeacherInfo *obj = [objList.customer_list objectAtIndex:indexPath.row];
+                if (!STR_IS_NIL(obj.img_url)) {
+                    DMPopCodeView *codeView = [[DMPopCodeView alloc] initWithTitle:obj.name
+                                                                           message:@""//[NSString stringWithFormat:DMStringWeChatNumber, obj.webchat]
+                                                                         imageName:obj.img_url];
+                    [codeView show];
+        
+                }
+            }
+        }
+    }
 }
 
 #pragma mark -
 #pragma mark UITableView Datasource
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section != 0) {
-        return 70;
+        if (_haveCustomer) {
+            return 70;
+        }
+    } else {
+        if (_havePhone) {
+            return 60;
+        } else if (_haveCustomer) {
+            return 70;
+        }
     }
-    return 60;
+    return 0;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1+self.customerArray.count;
+    NSInteger num = 0;
+    if (_haveCustomer) {
+        num = self.customerArray.count;
+    }
+    if (_havePhone) {
+        num = num + 1;
+    }
+    return num;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
         return self.phoneArray.count;
     }
-    return [[self.statusDic objectForKey:[NSString stringWithFormat:@"%ld", (long)section]] boolValue] ?0:self.indexArray.count;
+    
+    if (section-1 < self.customerArray.count) {
+        DMCustomerTeacher *cT = [self.customerArray objectAtIndex:section-1];
+        return cT.auto_open == false ? 0 : cT.customer_list.count;
+    }
+    
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -125,8 +168,10 @@
         if (!cell) {
             cell = [[DMCustomerPhoneCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CCell];
         }
+        if (indexPath.row < self.phoneArray.count) {
+            [cell configObj:[self.phoneArray objectAtIndex:indexPath.row]];
+        }
         
-        [cell configObj:nil];
         return cell;
     }
     static NSString *ccell = @"customerCell";
@@ -134,9 +179,13 @@
     if (!cell) {
         cell = [[DMCustomerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ccell];
     }
+    if (indexPath.section-1 < self.customerArray.count) {
+        DMCustomerTeacher *objList = [self.customerArray objectAtIndex:indexPath.section-1];
+        if (indexPath.row < objList.customer_list.count) {
+            [cell configObj:[objList.customer_list objectAtIndex:indexPath.row]];
+        }
+    }
     
-    [cell configObj:nil];
-
     return cell;
 }
 
@@ -164,11 +213,14 @@
                  frame:CGRectMake(0, 0, self.tableView.frame.size.width, 60)
                  isTap:YES blockTapEvent:nil];
     }
+    DMCustomerTeacher *cT = [self.customerArray objectAtIndex:section-1];
     infoV.blockTapEvent = ^{
-        BOOL isFurled = [[weakSelf.statusDic objectForKey:[NSString stringWithFormat:@"%ld", section]] boolValue];
-        [weakSelf sectionClick:!isFurled];
+        if (section-1 < self.customerArray.count) {
+            cT.auto_open = !cT.auto_open;
+            [weakSelf sectionClick:cT.auto_open section:section];
+        }
     };
-    [infoV updateSubViewsObj:nil isFurled:[[weakSelf.statusDic objectForKey:[NSString stringWithFormat:@"%ld", section]] boolValue]];
+    [infoV updateSubViewsObj:cT.customer_region isFurled:cT.auto_open];
     infoV.tag = section;
 
     return infoV;

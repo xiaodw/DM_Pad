@@ -9,7 +9,9 @@
 #import "DMMenuViewController.h"
 #import "DMMenuHeadView.h"
 #import "DMMenuCell.h"
-
+#import "DMSignalingKey.h"
+#import "DMGeTuiManager.h"
+#import "DMLiveController.h"
 @interface DMMenuViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) DMMenuHeadView *headView;
@@ -24,20 +26,57 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.items = [NSArray arrayWithObjects:@"个人主页", @"课程列表", @"联系客服", nil];
+    self.items = [NSArray arrayWithObjects:DMTitleHome, DMTitleCourseList, DMTitleContactCustomerService, nil];
     self.imageItems = [NSArray arrayWithObjects:@"home_icon", @"course_icon", @"customer_icon", nil];
     self.selImageItems = [NSArray arrayWithObjects:@"home_icon_sel", @"course_icon_sel", @"customer_icon_sel", nil];
     [self loadUI];
-    [self updateUserInfo];
 }
 
-- (void)updateUserInfo {
-    [self.headView.headImageView sd_setImageWithURL:nil placeholderImage:DMPlaceholderImageDefault];
-    self.headView.nameLabel.text = @"用户姓名";
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    //[self updateUserInfo];
 }
+
+//废弃的方法
+//- (void)updateUserInfo {
+//    NSString *headUrl = [DMAccount getUserHeadUrl];
+//    [self.headView.headImageView sd_setImageWithURL:[NSURL URLWithString:headUrl] placeholderImage:HeadPlaceholderName];
+//    self.headView.nameLabel.text = [DMAccount getUserName];
+//}
 
 - (void)clickLoginOut:(id)sender {
+    WS(weakSelf)
+    DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"" message:Logout_Msg preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
+    [alert showWithViewController:self IndexBlock:^(NSInteger index) {
+        NSLog(@"%ld",index);
+        if (index == 1) {
+            [weakSelf logoutSystem:@""];
+        }
+    }];
 
+}
+
+- (void)logoutSystem:(NSString *)msg {
+    
+    WS(weakSelf)
+    [DMApiModel logoutSystem:^(BOOL result) {
+        if (result) {
+            [weakSelf checkLiveVc];
+            [DMCommonModel removeUserAllDataAndOperation];
+            [APP_DELEGATE toggleRootView:YES];
+            if (!STR_IS_NIL(msg)) {
+                [DMTools showAlertLogout:msg];
+            }
+        }
+    }];
+}
+
+- (void)checkLiveVc {
+    UIViewController *v = [[DMGeTuiManager shareInstance] getCurrentVC];
+    if ([v isKindOfClass:[DMLiveController class]]) {
+        DMLiveController *vv = (DMLiveController *)v;
+        [vv quitLiveVideoClickSure];
+    }
 }
 
 #pragma mark -
@@ -45,9 +84,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self.dmRootViewController togglePage:indexPath.row]; //0 主页 ，1 课表，2 客服
-    //DMMenuCell *cell = (DMMenuCell *)[tableView cellForRowAtIndexPath:indexPath];
-    //[cell configObj:[_items objectAtIndex:indexPath.row] imageName:[_selImageItems objectAtIndex:indexPath.row]];
-    [tableView reloadData];
+    [self refreshTable];
+}
+
+- (void)refreshTable {
+    [self.tableView reloadData];
 }
 
 #pragma mark -
@@ -72,8 +113,10 @@
         cell = [[DMMenuCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
+    cell.redView.hidden = YES;
     if (APP_DELEGATE.dmrVC.selectedIndex == indexPath.row) {
         [cell configObj:[_items objectAtIndex:indexPath.row] imageName:[_selImageItems objectAtIndex:indexPath.row]];
+        cell.redView.hidden = NO;
     } else {
         [cell configObj:[_items objectAtIndex:indexPath.row] imageName:[_imageItems objectAtIndex:indexPath.row]];
     }
@@ -85,7 +128,7 @@
     UIButton *loginOutBtn = [self loadLoginOutView];
     [self.view addSubview:loginOutBtn];
     
-    self.headView = [[DMMenuHeadView alloc] initWithFrame:CGRectMake(0, 0, 150, 193)];
+    self.headView = [[DMMenuHeadView alloc] initWithFrame:CGRectMake(0, 0, 150, 73)];
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     _tableView.backgroundColor = [UIColor whiteColor];
     _tableView.tableHeaderView = self.headView;
@@ -110,7 +153,7 @@
 
 - (UIButton *)loadLoginOutView {
     UIButton *loginOut = [UIButton buttonWithType:UIButtonTypeCustom];
-    [loginOut setTitle:@"退出登录" forState:UIControlStateNormal];
+    [loginOut setTitle:DMTitleExitLogin forState:UIControlStateNormal];
     [loginOut setImage:[UIImage imageNamed:@"logout_icon"] forState:UIControlStateNormal];
     [loginOut setTitleColor:DMColorWithRGBA(51, 51, 51, 1) forState:UIControlStateNormal];
     [loginOut.titleLabel setFont:DMFontPingFang_Light(14)];

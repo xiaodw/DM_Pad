@@ -11,7 +11,7 @@
 @interface DMMenuCell ()
 @property (strong, nonatomic) UILabel *nameLabel;
 @property (strong, nonatomic) UIImageView *tipImageView;
-@property (strong, nonatomic) UIView *redView;
+
 @property (strong, nonatomic) UILabel *lineLabel;
 @end
 
@@ -50,15 +50,15 @@
     [self addSubview:self.redView];
     
     [_tipImageView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self).offset(34);
+        make.top.equalTo(self).offset(20);
         make.centerX.equalTo(self);
-        make.size.equalTo(CGSizeMake(34, 31));
+        make.size.equalTo(CGSizeMake(64, 60.5));
     }];
     
     [_nameLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_tipImageView.mas_bottom).offset(16);
+        make.top.equalTo(_tipImageView.mas_bottom).offset(10);
         make.centerX.equalTo(self);
-        make.size.equalTo(CGSizeMake(self.frame.size.width, 13));
+        make.size.equalTo(CGSizeMake(self.frame.size.width, 16));
     }];
     
     [_redView makeConstraints:^(MASConstraintMaker *make) {

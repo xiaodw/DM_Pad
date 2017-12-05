@@ -1,20 +1,24 @@
 #import "DMLiveController.h"
-#import "DMButton.h"
 #import "DMLiveVideoManager.h"
 #import "DMLiveButtonControlView.h"
 #import "DMLiveWillStartView.h"
-#import "DMCoursewareView.h"
+#import "DMLiveCoursewareView.h"
+#import "DMLivingTimeView.h"
+#import "DMLiveView.h"
 #import "NSString+Extension.h"
+#import "DMCourseFilesController.h"
+#import "DMMicrophoneView.h"
+#import "DMSecretKeyManager.h"
+#import "DMSignalingMsgData.h"
+#import "DMSendSignalingMsg.h"
+#import "DMButton.h"
+
+#import "DMQuestionViewController.h"
+
 #import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
 
-
 #define kSmallSize CGSizeMake(DMScaleWidth(240), DMScaleHeight(180))
-#define kColor31 DMColorWithRGBA(33, 33, 33, 1)
-
-#define kBeforeClassTimeMinute 5 // 5分钟
-#define kBeforeClassTimeSecond (kBeforeClassTimeMinute*60) // 5分钟
-#define kAfterClassMaxTimeMinute 15 // 15分钟
-#define kAfterClassMaxTimeSecond (kAfterClassMaxTimeMinute*60) // 15分钟
+#define kColor33 DMColorWithRGBA(33, 33, 33, 1)
 
 // 布局模式
 typedef NS_ENUM(NSInteger, DMLayoutMode) {
@@ -24,91 +28,88 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     DMLayoutModeAll // 全部模式
 };
 
-@interface DMLiveController () <DMLiveButtonControlViewDelegate>
+@interface DMLiveController ()<DMLiveButtonControlViewDelegate, DMLiveCoursewareViewDelegate, DMCourseFilesControllerDelegate>
 
-#pragma mark - UI
+#pragma mark - UI property
 @property (strong, nonatomic) DMLiveVideoManager *liveVideoManager; // 声网SDK Manager
-@property (strong, nonatomic) UIView *remoteView; // 远端窗口
-@property (strong, nonatomic) UIView *remoteBackgroundView; // 远端窗口
-@property (strong, nonatomic) UIImageView *remoteVoiceImageView; // 远端声音的view
-@property (strong, nonatomic) UIImageView *remotePlaceholderView; // 远端没有人占位图
-@property (strong, nonatomic) UILabel *remotePlaceholderTitleLabel; // 远端没有人占位图远端说明
 
-@property (strong, nonatomic) UIView *localView; // 本地窗口
-@property (strong, nonatomic) UIImageView *localVoiceImageView; // 本地声音的view
-@property (strong, nonatomic) UIImageView *localPlaceholderView; // 本地没有人占位图
-@property (strong, nonatomic) UILabel *localPlaceholderTitleLabel; // 本地没有人占位图远端说明
+@property (strong, nonatomic) DMLiveView *remoteView;
+@property (strong, nonatomic) DMLiveView *localView;
 
+@property (strong, nonatomic) DMLiveCoursewareView *coursewareView; // 课件视图
 @property (strong, nonatomic) DMLiveButtonControlView *controlView; // 左侧按钮们
-@property (strong, nonatomic) UIImageView *shadowImageView;
-@property (strong, nonatomic) UIImageView *shadowRightImageView;
-@property (strong, nonatomic) UIView *timeView; // 底部时间条
-@property (strong, nonatomic) DMButton *timeButton; // 底部时间条: 图标
-@property (strong, nonatomic) UILabel *alreadyTimeLabel; // 底部时间条: 过了多少时间
-@property (strong, nonatomic) UILabel *describeTimeLabel; // 底部时间条: 提示
+@property (strong, nonatomic) DMLivingTimeView *timeView;
 @property (strong, nonatomic) DMLiveWillStartView *willStartView; // 即将开始的View
+@property (strong, nonatomic) UILabel *recordingLabel; // 录制中...
 
-
-#pragma mark - Other
-@property (assign, nonatomic) BOOL isRemoteUserOnline; // 远端是否上线
-@property (nonatomic, strong) dispatch_source_t timer; // 1秒中更新一次时间UI
-@property (strong, nonatomic) NSArray *animationImages; // 声音动画所有的图片
+#pragma mark - Other property
+@property (strong, nonatomic) NSMutableArray *syncCourseFiles;
+@property (strong, nonatomic) dispatch_source_t timer; // 1秒中更新一次时间UI
 @property (assign, nonatomic) NSInteger tapLayoutCount; // 点击布局按钮次数
 @property (assign, nonatomic) BOOL isCoursewareMode; // 是否是课件布局模式
 @property (assign, nonatomic) DMLayoutMode beforeLayoutMode; // 课件布局模式之前的模式
-
-#pragma mark - 临时变量做测试用
-@property (strong, nonatomic) NSDate *startDate;
-@property (assign, nonatomic) NSInteger lectureTotalSecond;
-@property (assign, nonatomic) NSInteger userIdentity; // 0: 学生, 1: 老师
+@property (assign, nonatomic) NSInteger userIdentity; // 当前身份 0: 学生, 1: 老师
 
 @end
 
 @implementation DMLiveController
 
+#pragma mark - Set Methods
 - (void)setIsRemoteUserOnline:(BOOL)isRemoteUserOnline {
     _isRemoteUserOnline = isRemoteUserOnline;
-    
-    [UIView animateWithDuration:0.15 animations:^{
-        self.remoteView.alpha = isRemoteUserOnline ? 1 : 0;;
-    }];
+    if (isRemoteUserOnline) return;
+    for (int i = 0; i < self.remoteView.view.subviews.count; i++) {
+        UIView *subview = self.remoteView.view.subviews[i];
+        [subview removeFromSuperview];
+    }
 }
 
-- (void)setupServerData {
-    NSDateFormatter *formater = [[NSDateFormatter alloc] init];
-    [formater setDateFormat:@"yyyy-MM-dd HH:mm:ss "];
-    _startDate = [formater dateFromString:@"2017-09-12 13:20:00"];
-    _lectureTotalSecond = 45 * 60;
-    _userIdentity = 0;
-    
-    self.remotePlaceholderTitleLabel.text = _userIdentity == 1 ? @"学生尚未进入课堂" : @"老师尚未进入课堂";
+//声网用户状态统计
+- (void)agoraUserStatusLog:(NSString *)lessonID
+                 targetUID:(NSString *)targetUid //动作用户的id
+                 uploadUID:(NSString *)uploadUID //上报用户的id
+                    action:(DMAgoraUserStatusLog)action
+{
+    [DMApiModel agoraUserStatusLog:lessonID targetUID:targetUid uploadUID:uploadUID action:action block:nil];
 }
 
+#pragma mark - Lifecycle Methods
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setupServerData];
-    
-    self.view.backgroundColor = kColor31;
+    self.view.backgroundColor = kColor33;
     [self.navigationController setNavigationBarHidden:YES];
+    
+    self.tapLayoutCount = 3;
+    
+    NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
+    _userIdentity = userIdentity;
     
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(remoteVideoTapped)];
     [self.view addGestureRecognizer:tapGestureRecognizer];
+    
+    [self agoraUserStatusLog:self.lessonID
+                   targetUID:[DMAccount getUserID]
+                   uploadUID:[DMAccount getUserID]
+                      action:DMAgoraUserStatusLog_Enter];
     
     [self setupMakeAddSubviews];
     [self setupMakeLayoutSubviews];
     [self joinChannel];
     [self setupMakeLiveCallback];
     
-    [self.liveVideoManager switchSound:NO block:nil];
-    
-#warning 移动到API 返回之后启动
     [self timer];
+    // [self.liveVideoManager switchSound:NO block:nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self computTime];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    
     [self.navigationController setNavigationBarHidden:NO];
 }
 
@@ -118,51 +119,62 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     }];
 }
 
+#pragma mark - Functions
+- (void)didTapRemote {
+    self.tapLayoutCount = DMLayoutModeAveragDistribution;
+    [self makeLayoutViews];
+}
+
+- (void)didTapLocal {
+    self.tapLayoutCount = DMLayoutModeRemoteAndSmall;
+    [self makeLayoutViews];
+}
+
+#pragma mark - Setup make live
 // 远端有人回调
 - (void)setupMakeLiveCallback {
     // 有用户加入
     WS(weakSelf)
-    self.liveVideoManager.blockDidJoinedOfUid = ^(NSUInteger uid) {
-        NSLog(@"blockDidJoinedOfUid");
-        weakSelf.isRemoteUserOnline = YES;
-    };
-    
-    // 退出直播事件
+    // 自己退出直播事件
     self.liveVideoManager.blockQuitLiveVideoEvent = ^(BOOL success) {
-       NSLog(@"blockQuitLiveVideoEvent");
+        weakSelf.isRemoteUserOnline = NO;
     };
     
     // 有用户离开
     self.liveVideoManager.blockDidOfflineOfUid = ^(NSUInteger uid) {
-        NSLog(@"blockDidOfflineOfUid");
+        [weakSelf liveCoursewareViewDidTapClose:nil];
         weakSelf.isRemoteUserOnline = NO;
+        [weakSelf setShowPlaceholderView];
+        [weakSelf agoraUserStatusLog:weakSelf.lessonID targetUID:[NSString stringWithFormat:@"%lu",(unsigned long)uid] uploadUID:[DMAccount getUserID] action:DMAgoraUserStatusLog_Exit];
     };
     
-    // 重新加入
-    self.liveVideoManager.blockDidRejoinChannel = ^(NSUInteger uid, NSString *channel) {
-        NSLog(@"blockDidRejoinChannel");
+    //有用户重新加入
+    self.liveVideoManager.blockFirstRemoteVideoDecodedOfUid = ^(NSUInteger uid, CGSize size) {
         weakSelf.isRemoteUserOnline = YES;
+        [weakSelf setShowPlaceholderView];
+        [weakSelf agoraUserStatusLog:weakSelf.lessonID targetUID:[NSString stringWithFormat:@"%lu",(unsigned long)uid] uploadUID:[DMAccount getUserID] action:DMAgoraUserStatusLog_Enter];
+    };
+    
+    //声网SDK连接中断
+    self.liveVideoManager.blockRtcEngineConnectionDidLostDidInterrupted = ^{
+        [weakSelf agoraUserStatusLog:weakSelf.lessonID targetUID:[DMAccount getUserID] uploadUID:[DMAccount getUserID] action:DMAgoraUserStatusLog_Neterr];
     };
 }
 
+#pragma mark - JoinChannel
 - (void)joinChannel {
     WS(weakSelf)
-    [self.liveVideoManager startLiveVideo:self.localView remote:self.remoteView isTapVideo:YES blockAudioVolume:^(NSInteger totalVolume, NSArray *speakers) {
+    [self.liveVideoManager startLiveVideo:self.localView.view remote:self.remoteView.view isTapVideo:YES blockAudioVolume:^(NSInteger totalVolume, NSArray *speakers) {
         if (speakers.count == 0) return;
         
         for (int i = 0; i < speakers.count; i++) {
             AgoraRtcAudioVolumeInfo *volumeInfo = speakers[i];
             // uid 为 0 说明是自己
             if (volumeInfo.uid == 0) {
-                if (volumeInfo.volume <= 0) return;
-                // self make animation
-                [weakSelf.localVoiceImageView startAnimating];
+                weakSelf.localView.voiceValue = volumeInfo.volume / 255.0;
                 return;
             }
-            
-            if (volumeInfo.volume > 0) {
-                [weakSelf.remoteVoiceImageView startAnimating];
-            }
+            weakSelf.remoteView.voiceValue = volumeInfo.volume / 255.0;
         }
     } blockTapVideoEvent:^(DMLiveVideoViewType type) {
         if (weakSelf.tapLayoutCount % DMLayoutModeAll == DMLayoutModeAveragDistribution) return;
@@ -176,17 +188,126 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     
     //接收信令同步的消息，完成同步功能
     [self.liveVideoManager onSignalingMessageReceive:^(NSString *account, NSString *msg) {
-        NSLog(@"接收到来自 %@，的超级好消息 %@", account , msg);
+        // NSLog(@"接收到来自 %@，的超级好消息 %@", account , msg);
+        if (!STR_IS_NIL(msg)) {
+            DMSignalingMsgData *responseDataModel = [DMSignalingMsgData mj_objectWithKeyValues:msg];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                // 1 同步开始
+                if (responseDataModel.code == 1) {
+                    NSArray *courses = responseDataModel.data.list.firstObject;
+                    [weakSelf courseFilesController:nil syncCourses:@[courses]];
+                    return ;
+                }
+                
+                // 2,操作
+                if (responseDataModel.code == 2) {
+                    [weakSelf courseFilesController:nil syncCourses:responseDataModel.data.list];
+                    return ;
+                }
+                
+                // 3,结束同步
+                if (responseDataModel.code == 3) {
+                    [weakSelf liveCoursewareViewDidTapClose:nil];
+                    return ;
+                }
+            });
+        }
     }];
 }
 
-#pragma mark - 左侧按钮们点击
+#pragma mark - DMLiveButtonControlViewDelegate
 // 离开
 - (void)liveButtonControlViewDidTapLeave:(DMLiveButtonControlView *)liveButtonControlView {
     WS(weakSelf)
+    if(self.alreadyTime < self.totalTime + self.delayTime) {//
+        DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:DMTitleExitLiveRoom
+                                                                             message:DMTitleLiveAutoClose
+                                                                      preferredStyle:UIAlertControllerStyleAlert
+                                                                         cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
+        [alert showWithViewController:self IndexBlock:^(NSInteger index) {
+            if (index == 1) { // 右侧
+                //判断 是否到正常结束时间,并且 需要跳转到 问题页面 字段为1
+                
+                if ((weakSelf.alreadyTime > weakSelf.totalTime) && weakSelf.isToQuestionPage == 1) {
+                    [weakSelf desSubVC:NO];
+                    [weakSelf gotoQuestionPage];
+                } else {
+                    [weakSelf desSubVC:YES];
+                }
+            }
+        }];
+        return;
+    }
+    
+    //以下代码自动强制退出逻辑
+    [DMActivityView hideActivity];
+    if (weakSelf.isToQuestionPage == 1) {
+        [weakSelf desSubVC:NO];
+        [weakSelf gotoQuestionPage];
+    } else {
+        [weakSelf desSubVC:YES];
+    }
+    
+//    [self.liveVideoManager quitLiveVideo:^(BOOL success) {
+//        [weakSelf agoraUserStatusLog:weakSelf.lessonID targetUID:[DMAccount getUserID] uploadUID:[DMAccount getUserID] action:DMAgoraUserStatusLog_Exit];
+//        if (weakSelf.presentVCs.count == 0) {
+//            [weakSelf.navigationVC popViewControllerAnimated:YES];
+//            return;
+//        }
+//
+//        [DMActivityView hideActivity];
+//        for (int i = (int)weakSelf.presentVCs.count-1; i >= 0; i--) {
+//            UIViewController *presentVC = weakSelf.presentVCs[i];
+//            [weakSelf.presentVCs removeObject:presentVC];
+//            [presentVC dismissViewControllerAnimated:NO completion:^{
+//                [weakSelf.navigationVC popViewControllerAnimated:YES];
+//            }];
+//        }
+//    }];
+}
+
+- (void)desSubVC:(BOOL)isPop {
+    WS(weakSelf)
     [self.liveVideoManager quitLiveVideo:^(BOOL success) {
-        [weakSelf.navigationVC popViewControllerAnimated:YES];
+        [weakSelf desLastVC:weakSelf.presentVCs isPop:isPop];
+        if ([[DMAccount getUserIdentity] integerValue]) {
+            NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_End_Syn sourceData:nil index:0];
+            [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) { } faile:^(NSString *messageID, AgoraEcode ecode) {}];
+        }
+         [weakSelf agoraUserStatusLog:weakSelf.lessonID targetUID:[DMAccount getUserID] uploadUID:[DMAccount getUserID] action:DMAgoraUserStatusLog_Exit];
     }];
+}
+
+- (void)desLastVC:(NSMutableArray *)objs isPop:(BOOL)isPop {
+    UIViewController *presentVC = [objs lastObject];
+    if (presentVC) {
+        [objs removeObject:presentVC];
+        if (objs.count > 0) {
+            [presentVC dismissViewControllerAnimated:NO completion:nil];
+            [self desLastVC:objs isPop:isPop];
+        } else {
+            [presentVC dismissViewControllerAnimated:NO completion:nil];
+            if (isPop) {
+                [self.navigationVC popViewControllerAnimated:YES];
+            }
+        }
+    } else {
+        if (isPop) {
+            [self.navigationVC popViewControllerAnimated:YES];
+        }
+    }
+}
+
+- (void)quitLiveVideoClickSure {
+    [self desSubVC:YES];
+}
+
+- (void)gotoQuestionPage {
+    DMQuestionViewController *qtVC = [[DMQuestionViewController alloc] init];
+    DMCourseDatasModel *model = [[DMCourseDatasModel alloc] init];
+    model.lesson_id = self.lessonID;
+    qtVC.courseObj = model;
+    [self.navigationController pushViewController:qtVC animated:YES];
 }
 
 // 切换摄像头
@@ -201,61 +322,77 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 
 // 课件
 - (void)liveButtonControlViewDidTapCourseFiles:(DMLiveButtonControlView *)liveButtonControlView {
-    DMLogFunc
-    _isCoursewareMode = !_isCoursewareMode;
-    if (_isCoursewareMode) _beforeLayoutMode = self.tapLayoutCount-1 % DMLayoutModeAll;
-    
-    self.tapLayoutCount = _isCoursewareMode ? 1 : _beforeLayoutMode;
-    [self makeLayoutViews];
+    DMCourseFilesController *courseFilesVC = [DMCourseFilesController new];
+    courseFilesVC.columns = 3;
+    courseFilesVC.leftMargin = 15;
+    courseFilesVC.rightMargin = 15;
+    courseFilesVC.columnSpacing = 15;
+    courseFilesVC.delegate = self;
+    self.animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight);
+    courseFilesVC.transitioningDelegate = self.animationHelper;
+    courseFilesVC.modalPresentationStyle = UIModalPresentationCustom;
+    courseFilesVC.lessonID = self.lessonID;
+    [self presentViewController:courseFilesVC animated:YES completion:nil];
+    courseFilesVC.liveVC = self;
+    [self.presentVCs addObject:courseFilesVC];
 }
 
+#pragma mark - DMLiveCoursewareViewDelegate
+- (void)liveCoursewareViewDidTapClose:(DMLiveCoursewareView *)liveCoursewareView {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (!_isCoursewareMode) return;
+        _isCoursewareMode = NO;
+        [self.coursewareView removeFromSuperview];
+        _coursewareView = nil;
+        _syncCourseFiles  = nil;
+        self.tapLayoutCount = _beforeLayoutMode;
+        [self makeLayoutViews];
+    });
+}
+
+#pragma mark - DMCourseFilesControllerDelegate
+- (void)courseFilesController:(DMCourseFilesController *)courseFilesController syncCourses:(NSArray *)syncCourses {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (!_isCoursewareMode) _beforeLayoutMode = self.tapLayoutCount-1 % DMLayoutModeAll;
+        _isCoursewareMode = YES;
+        self.tapLayoutCount = 1;
+        
+        [self makeLayoutViews];
+        _syncCourseFiles = nil;
+        [self.syncCourseFiles addObjectsFromArray:syncCourses];
+        self.coursewareView.allCoursewares = self.syncCourseFiles;
+    });
+}
+
+#pragma mark - AddSubviews
 - (void)setupMakeAddSubviews {
-    [self.view addSubview:self.remoteBackgroundView];
-    [self.remoteBackgroundView addSubview:self.remoteView];
-    [self.view addSubview:self.remotePlaceholderView];
-    [self.view addSubview:self.remotePlaceholderTitleLabel];
-    [self.view addSubview:self.shadowRightImageView];
+    [self.view addSubview:self.remoteView];
     [self.view addSubview:self.localView];
-    [self.view addSubview:self.shadowImageView];
     [self.view addSubview:self.controlView];
     [self.view addSubview:self.timeView];
-    [self.view addSubview:self.remoteVoiceImageView];
-    [self.view addSubview:self.localVoiceImageView];
-    
-    [self.localView addSubview:self.localPlaceholderView];
-    [self.localView addSubview:self.localPlaceholderTitleLabel];
-    
     [self.view addSubview:self.willStartView];
+    [self.view addSubview:self.recordingLabel];
 }
 
+#pragma mark - LayoutSubviews
 - (void)setupMakeLayoutSubviews {
+    [_recordingLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.view.mas_right).offset(-44);
+        make.bottom.equalTo(self.view.mas_bottom).offset(-18);
+    }];
+    
     [_controlView makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.bottom.equalTo(self.view);
         make.width.equalTo(225);
     }];
     
-    [_shadowImageView makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(_controlView);
-    }];
-    
-    [_shadowRightImageView makeConstraints:^(MASConstraintMaker *make) {
-        make.right.top.bottom.equalTo(self.view);
-        make.width.equalTo(_shadowImageView);
-    }];
-    
     [_timeView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(23);
-        make.bottom.equalTo(self.view.mas_bottom).offset(-18);
-        make.height.equalTo(20);
-        make.right.equalTo(self.view);
-    }];
-    
-    [_remoteBackgroundView makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
+        make.left.right.bottom.equalTo(self.view);
+        make.height.equalTo(38);
     }];
     
     [_remoteView makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(_remoteBackgroundView);
+        make.edges.equalTo(self.view);
     }];
     
     [_localView makeConstraints:^(MASConstraintMaker *make) {
@@ -263,126 +400,70 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         make.top.right.equalTo(self.view);
     }];
     
-    [_remoteVoiceImageView makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(_remoteView.mas_right).offset(-15);
-        make.size.equalTo(CGSizeMake(16, 25));
-        make.bottom.equalTo(_remoteView.mas_bottom).offset(-20);
-    }];
-    
-    [_localVoiceImageView makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(_localView.mas_right).offset(-15);
-        make.size.equalTo(CGSizeMake(16, 25));
-        make.bottom.equalTo(_localView.mas_bottom).offset(-20);
-    }];
-    
-    [_remotePlaceholderView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(290);
-        make.size.equalTo(CGSizeMake(154, 154));
-        make.centerX.equalTo(_remoteView);
-    }];
-    
-    [_remotePlaceholderTitleLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_remotePlaceholderView.mas_bottom).offset(45);
-        make.centerX.equalTo(_remotePlaceholderView);
-    }];
-    
-    [_localPlaceholderView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(49);
-        make.size.equalTo(CGSizeMake(42, 46));
-        make.centerX.equalTo(_localView);
-    }];
-    
-    [_localPlaceholderTitleLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_localPlaceholderView.mas_bottom).offset(15);
-        make.centerX.equalTo(_localPlaceholderView);
-    }];
-    
     [_willStartView makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self.view);
-        make.size.equalTo(CGSizeMake(406, 406));
+        make.size.equalTo(CGSizeMake(220, 220));
     }];
 }
-
-- (void)didTapRemote {
-    self.tapLayoutCount = DMLayoutModeAveragDistribution;
-    [self makeLayoutViews];
-}
-
-- (void)didTapLocal {
-    self.tapLayoutCount = DMLayoutModeRemoteAndSmall;
-    [self makeLayoutViews];
-}
-
-- (DMLiveVideoManager *)liveVideoManager {
-    if (!_liveVideoManager) {
-        _liveVideoManager = [DMLiveVideoManager shareInstance];
+/** 有问题 */
+- (void)setShowPlaceholderView {
+    BOOL showPlaceholder = _isRemoteUserOnline;
+    if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeRemoteAndSmall) {
+        showPlaceholder = self.alreadyTime < 0 || _isRemoteUserOnline;
     }
-    
-    return _liveVideoManager;
+    self.remoteView.showPlaceholder = !showPlaceholder;
 }
 
+#pragma mark - timer
 - (void)computTime {
-    NSDate *currentDate = [NSDate date];
-    
-    NSDateFormatter *formater = [[NSDateFormatter alloc] init];
-    [formater setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    NSString *currentDateStr = [formater stringFromDate:currentDate];
-    // 截止时间data格式
-    currentDate = [formater dateFromString:currentDateStr];
-    // 当前日历
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    // 需要对比的时间数据
-    NSCalendarUnit unit = NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
-    // 对比时间差
-    NSDateComponents *dateCom = [calendar components:unit fromDate:self.startDate toDate:currentDate options:0];
-    // 2个时间的时间差
-    NSInteger timeDifference = [currentDate timeIntervalSinceDate:_startDate];
-    self.remotePlaceholderView.hidden = timeDifference < 0 || _isRemoteUserOnline;
-    self.remotePlaceholderTitleLabel.hidden = self.remotePlaceholderView.hidden;
+    self.alreadyTime += 1;
+    [self setShowPlaceholderView];
     
     // 做几分钟开课操作
-    if (timeDifference < 0) {
-        self.willStartView.willStartDescribeLabel.text = [NSString stringWithFormat:@"距离上课时间还有%zd分钟", -dateCom.minute + 1];
+    if (self.alreadyTime < 0) {
+        self.willStartView.willStartDescribeLabel.text = [NSString stringWithFormat:DMTextLiveStartTimeInterval, -_alreadyTime/60 + 1];
         return;
     }
+    
+    // 能到这里就代表上课ing
     if (_willStartView != nil) {
         [_willStartView removeFromSuperview];
         _willStartView = nil;
         _timeView.hidden = NO;
+        _recordingLabel.hidden = NO;
     }
+    // 更新UI
+    self.timeView.alreadyTime = [NSString stringWithTimeToHHmmss:_alreadyTime];
     
-    NSString *hour = [[NSString stringWithFormat:@"%zd",dateCom.hour] stringByPaddingLeftWithString:@"0" total:2];
-    NSString *minute = [[NSString stringWithFormat:@"%zd",dateCom.minute] stringByPaddingLeftWithString:@"0" total:2];
-    NSString *second = [[NSString stringWithFormat:@"%zd",dateCom.second] stringByPaddingLeftWithString:@"0" total:2];
-    NSString *alreadyTime = [NSString stringWithFormat:@"%@:%@:%@", hour, minute, second];
-    self.alreadyTimeLabel.text = alreadyTime;
-    
-    if (0 < timeDifference && timeDifference < _lectureTotalSecond - kBeforeClassTimeSecond) {
+    /** 一节课按 totalTime = 45 分钟 warningTime = 5 分钟 delayTime = 15 分钟算 */
+    // 0 < alreadyTime < 40
+    if ((0 <= _alreadyTime && _alreadyTime < self.totalTime - _warningTime) ||
+        (_userIdentity == 0 && _alreadyTime < self.totalTime + _delayTime)) { // _userIdentity = 0: 学生, 如果超出拖堂范围退出
         return;
     }
     
-    /* 一节课按t=45分钟算 */
-    // 40 < t < 45
-    if (timeDifference > _lectureTotalSecond - kBeforeClassTimeSecond && timeDifference < _lectureTotalSecond) {
-        _timeButton.selected = YES;
-        _alreadyTimeLabel.textColor = DMColorBaseMeiRed;
+    // 40 < alreadyTime < 45
+    _timeView.timeButton.selected = YES;
+    _timeView.alreadyTimeColor = DMColorBaseMeiRed;
+    if (_alreadyTime > self.totalTime - _warningTime && _alreadyTime < self.totalTime) {
         return;
     }
     
-    // 45 < t < 60
-    if (timeDifference > _lectureTotalSecond && timeDifference/60 < _lectureTotalSecond/60 + kAfterClassMaxTimeMinute) {
-        _describeTimeLabel.text = [NSString stringWithFormat:@"本课堂将于%zd分钟后自动关闭", (kAfterClassMaxTimeMinute-(timeDifference/60-_lectureTotalSecond/60))];
+    // 45 < alreadyTime < 60
+    if (_alreadyTime > self.totalTime && _alreadyTime < self.totalTime + _delayTime) {
+        _timeView.describeTime = [NSString stringWithFormat:DMTextLiveDelayTime, (_delayTime/60 - (_alreadyTime/60-self.totalTime/60))];
         return;
     }
     
-    //  t >= 60，视频聊天强制退出
-    if (timeDifference >= _lectureTotalSecond + kAfterClassMaxTimeSecond) {
+    //  alreadyTime >= 60，直播强制退出
+    if (_alreadyTime >= self.totalTime + _delayTime) {
         [self invalidate];
         [self liveButtonControlViewDidTapLeave:nil];
         return;
     }
 }
 
+#pragma mark - Lazy
 - (dispatch_source_t)timer {
     if (!_timer) {
         // 获得队列
@@ -412,108 +493,25 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     return _timer;
 }
 
+- (DMLiveVideoManager *)liveVideoManager {
+    if (!_liveVideoManager) {
+        _liveVideoManager = [DMLiveVideoManager shareInstance];
+    }
+    
+    return _liveVideoManager;
+}
+
 - (void)invalidate {
     if (!_timer) return;
     dispatch_source_cancel(_timer);
     _timer = nil;
 }
 
-- (NSArray *)animationImages {
-    if (!_animationImages) {
-        NSMutableArray *images = [NSMutableArray array];
-        NSString *iconName = @"icon_microphone_%d.png";
-        for (int i = 0; i < 5; i++) {
-            NSString *resource = [NSString stringWithFormat:iconName,i];
-            UIImage *image = [UIImage imageNamed:resource];
-            [images addObject:image];
-        }
-        
-        _animationImages = images;
-    }
-    
-    return _animationImages;
-}
-
-- (UIImageView *)remotePlaceholderView {
-    if (!_remotePlaceholderView) {
-        _remotePlaceholderView = [UIImageView new];
-        _remotePlaceholderView.image = [UIImage imageNamed:@"icon_notEnter"];
-    }
-    
-    return _remotePlaceholderView;
-}
-
-- (UILabel *)remotePlaceholderTitleLabel {
-    if (!_remotePlaceholderTitleLabel) {
-        _remotePlaceholderTitleLabel = [UILabel new];
-        _remotePlaceholderTitleLabel.textColor = DMColor102;
-        _remotePlaceholderTitleLabel.font = DMFontPingFang_Light(20);
-    }
-    
-    return _remotePlaceholderTitleLabel;
-}
-
-- (UIImageView *)localPlaceholderView {
-    if (!_localPlaceholderView) {
-        _localPlaceholderView = [UIImageView new];
-        _localPlaceholderView.image = [UIImage imageNamed:@"icon_unturnedCamera"];
-    }
-    
-    return _localPlaceholderView;
-}
-
-- (UILabel *)localPlaceholderTitleLabel {
-    if (!_localPlaceholderTitleLabel) {
-        _localPlaceholderTitleLabel = [UILabel new];
-        _localPlaceholderTitleLabel.textColor = DMColor102;
-        _localPlaceholderTitleLabel.text = @"您的摄像头未开启";
-        _localPlaceholderTitleLabel.font = DMFontPingFang_Light(16);
-    }
-    
-    return _localPlaceholderTitleLabel;
-}
-
-- (UIImageView *)setupVoiceImageView {
-    UIImageView *imageView = [UIImageView new];
-    imageView.image = self.animationImages.firstObject;
-    imageView.animationRepeatCount = 1;
-    imageView.animationDuration = 0.35;
-    imageView.animationImages = self.animationImages;
-    
-    return imageView;
-}
-
-- (UIImageView *)remoteVoiceImageView {
-    if (!_remoteVoiceImageView) {
-        _remoteVoiceImageView = [self setupVoiceImageView];
-    }
-    
-    return _remoteVoiceImageView;
-}
-
-- (UIImageView *)localVoiceImageView {
-    if (!_localVoiceImageView) {
-        _localVoiceImageView = [self setupVoiceImageView];
-    }
-    
-    return _localVoiceImageView;
-}
-
-- (UIView *)remoteBackgroundView {
-    if (!_remoteBackgroundView) {
-        _remoteBackgroundView = [UIView new];
-        _remoteBackgroundView.backgroundColor = kColor31;
-        _remoteBackgroundView.userInteractionEnabled = NO;
-    }
-    
-    return _remoteBackgroundView;
-}
-
 - (UIView *)remoteView {
     if (!_remoteView) {
-        _remoteView = [UIView new];
-        _remoteView.backgroundColor = kColor31;
-        _remoteView.userInteractionEnabled = self.remoteBackgroundView.userInteractionEnabled;
+        _remoteView = [DMLiveView new];
+        _remoteView.mode = DMLiveViewFull;
+        _remoteView.placeholderImage = [UIImage imageNamed:@"icon_notEnter"];
     }
     
     return _remoteView;
@@ -521,30 +519,13 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 
 - (UIView *)localView {
     if (!_localView) {
-        _localView = [UIView new];
-        _localView.backgroundColor = kColor31;
+        _localView = [DMLiveView new];
+        _localView.mode = DMLiveViewSmall;
+        _localView.placeholderImage = [UIImage imageNamed:@"icon_unturnedCamera"];
+        _localView.showPlaceholder = NO;
     }
     
     return _localView;
-}
-
-- (UIImageView *)shadowImageView {
-    if (!_shadowImageView) {
-        _shadowImageView = [UIImageView new];
-        _shadowImageView.image = [UIImage imageNamed:@"image_shadow"];
-    }
-    
-    return _shadowImageView;
-}
-
-
-- (UIImageView *)shadowRightImageView {
-    if (!_shadowRightImageView) {
-        _shadowRightImageView = [UIImageView new];
-        _shadowRightImageView.image = [UIImage imageNamed:@"image_shadowRigthToLeft"];
-    }
-    
-    return _shadowRightImageView;
 }
 
 - (DMLiveButtonControlView *)controlView {
@@ -556,62 +537,12 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     return _controlView;
 }
 
-- (UIView *)timeView {
+- (DMLivingTimeView *)timeView {
     if (!_timeView) {
-        _timeView = [UIView new];
-        _timeView.hidden = YES;
-        
-        [_timeView addSubview:self.timeButton];
-        [_timeView addSubview:self.alreadyTimeLabel];
-        [_timeView addSubview:self.describeTimeLabel];
-        
-        [_timeButton makeConstraints:^(MASConstraintMaker *make) {
-            make.left.centerY.equalTo(_timeView);
-            make.size.equalTo(CGSizeMake(19, 19));
-        }];
-        
-        [_alreadyTimeLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(_timeButton.mas_right).offset(10);
-            make.centerY.equalTo(_timeButton);
-        }];
-        
-        [_describeTimeLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(106);
-            make.centerY.equalTo(_timeButton);
-        }];
+        _timeView = [DMLivingTimeView new];
     }
     
     return _timeView;
-}
-
-- (DMButton *)timeButton {
-    if (!_timeButton) {
-        _timeButton = [DMNotHighlightedButton new];
-        [_timeButton setImage:[UIImage imageNamed:@"icon_time_white"] forState:UIControlStateNormal];
-        [_timeButton setImage:[UIImage imageNamed:@"icon_time_red"] forState:UIControlStateSelected];
-    }
-    
-    return _timeButton;
-}
-
-- (UILabel *)alreadyTimeLabel {
-    if (!_alreadyTimeLabel) {
-        _alreadyTimeLabel = [UILabel new];
-        _alreadyTimeLabel.textColor = [UIColor whiteColor];
-        _alreadyTimeLabel.font = DMFontPingFang_Light(14);
-    }
-    
-    return _alreadyTimeLabel;
-}
-
-- (UILabel *)describeTimeLabel {
-    if (!_describeTimeLabel) {
-        _describeTimeLabel = [UILabel new];
-        _describeTimeLabel.textColor = DMColorBaseMeiRed;
-        _describeTimeLabel.font = DMFontPingFang_Light(14);
-    }
-    
-    return _describeTimeLabel;
 }
 
 - (DMLiveWillStartView *)willStartView {
@@ -622,23 +553,54 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     return _willStartView;
 }
 
-- (void)dealloc {
-    [self invalidate];
-    DMLogFunc
+- (DMLiveCoursewareView *)coursewareView {
+    if (!_coursewareView) {
+        _coursewareView = [DMLiveCoursewareView new];
+        _coursewareView.delegate = self;
+    }
+    
+    return _coursewareView;
 }
 
+- (UILabel *)recordingLabel {
+    if (!_recordingLabel) {
+        _recordingLabel = [UILabel new];
+        _recordingLabel.text = DMTextLiveRecording;
+        _recordingLabel.textColor = [UIColor whiteColor];
+        _recordingLabel.font = DMFontPingFang_Light(14);
+        _recordingLabel.hidden = YES;
+    }
+    
+    return _recordingLabel;
+}
+
+- (NSMutableArray *)presentVCs {
+    if (!_presentVCs) {
+        _presentVCs = [NSMutableArray array];
+    }
+    
+    return _presentVCs;
+}
+
+- (NSMutableArray *)syncCourseFiles {
+    if (!_syncCourseFiles) {
+        _syncCourseFiles = [NSMutableArray array];
+    }
+    
+    return _syncCourseFiles;
+}
+
+#pragma mark - Swich Layout
 - (void)makeLayoutViews {
     self.tapLayoutCount += 1;
-    [_localView removeFromSuperview];
-    [_remoteBackgroundView removeFromSuperview];
     
-//    self.remotePlaceholderView.hidden = self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeRemoteAndSmall;
-//    self.remotePlaceholderTitleLabel.hidden = self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeRemoteAndSmall;
+    [self setShowPlaceholderView];
+    
     if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeRemoteAndSmall) { // 远端大, 本地小模式
         [self.view insertSubview:_localView atIndex:0];
-        [self.view insertSubview:_remoteBackgroundView atIndex:0];
+        [self.view insertSubview:_remoteView atIndex:0];
         
-        [_remoteBackgroundView remakeConstraints:^(MASConstraintMaker *make) {
+        [_remoteView remakeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
         }];
         
@@ -647,28 +609,19 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
             make.size.equalTo(kSmallSize);
         }];
         
-        [_remotePlaceholderView remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(290);
-            make.size.equalTo(CGSizeMake(154, 154));
-            make.centerX.equalTo(_remoteBackgroundView);
+        [_coursewareView remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.view.mas_right);
+            make.bottom.top.equalTo(self.view);
+            make.width.equalTo(DMScreenWidth*0.5);
         }];
-        
-        [_remotePlaceholderTitleLabel remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_remotePlaceholderView.mas_bottom).offset(45);
-            make.centerX.equalTo(_remotePlaceholderView);
-        }];
-        _remotePlaceholderTitleLabel.font = DMFontPingFang_Light(20);
-        
-        _localView.userInteractionEnabled = YES;
-        _remoteBackgroundView.userInteractionEnabled = NO;
-        _remoteView.userInteractionEnabled = _remoteBackgroundView.userInteractionEnabled;
+        _localView.mode = DMLiveViewSmall;
+        _remoteView.mode = DMLiveViewFull;
     }
     else if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeSmallAndRemote) { // 本地大, 远端小模式
-        [self.view insertSubview:_remoteBackgroundView atIndex:0];
         [self.view insertSubview:_localView atIndex:0];
+        [self.view insertSubview:_remoteView atIndex:0];
         
-        [_remoteBackgroundView remakeConstraints:^(MASConstraintMaker *make) {
-            
+        [_remoteView remakeConstraints:^(MASConstraintMaker *make) {
             make.top.right.equalTo(self.view);
             make.size.equalTo(kSmallSize);
         }];
@@ -677,90 +630,66 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
             make.edges.equalTo(self.view);
         }];
         
-        [_remotePlaceholderView remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(52);
-            make.size.equalTo(CGSizeMake(45, 45));
-            make.centerX.equalTo(_remoteBackgroundView);
+        [_coursewareView remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.view.mas_right);
+            make.bottom.top.equalTo(self.view);
+            make.width.equalTo(DMScreenWidth*0.5);
         }];
-        
-        [_remotePlaceholderTitleLabel remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_remotePlaceholderView.mas_bottom).offset(15);
-            make.centerX.equalTo(_remotePlaceholderView);
-        }];
-        _remotePlaceholderTitleLabel.font = DMFontPingFang_Light(16);
-        _localView.userInteractionEnabled = NO;
-        _remoteBackgroundView.userInteractionEnabled = YES;
-        _remoteView.userInteractionEnabled = _remoteBackgroundView.userInteractionEnabled;
+        _localView.mode = DMLiveViewFull;
+        _remoteView.mode = DMLiveViewSmall;
     }
     else if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeAveragDistribution) {
-        [self.view insertSubview:_remoteBackgroundView atIndex:0];
+        [self.view insertSubview:_remoteView atIndex:0];
         [self.view insertSubview:_localView atIndex:0];
         if (_isCoursewareMode) { // 上下
-            [_remoteBackgroundView remakeConstraints:^(MASConstraintMaker *make) {
+            [_remoteView remakeConstraints:^(MASConstraintMaker *make) {
                 make.left.top.equalTo(self.view);
                 make.size.equalTo(CGSizeMake(DMScreenWidth * 0.5, DMScreenHeight * 0.5));
             }];
             
             [_localView remakeConstraints:^(MASConstraintMaker *make) {
-                make.size.left.equalTo(_remoteBackgroundView);
+                make.size.left.equalTo(_remoteView);
                 make.bottom.equalTo(self.view);
             }];
             
-            
-            [_remotePlaceholderView remakeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(100);
-                make.size.equalTo(CGSizeMake(154, 154));
-                make.centerX.equalTo(_remoteBackgroundView);
+            if (!self.coursewareView.superview){
+                [self.view insertSubview:self.coursewareView belowSubview:self.localView];
+            }
+            [_coursewareView remakeConstraints:^(MASConstraintMaker *make) {
+                make.right.bottom.top.equalTo(self.view);
+                make.width.equalTo(DMScreenWidth*0.5);
             }];
-            
-            [_remotePlaceholderTitleLabel remakeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(_remotePlaceholderView.mas_bottom).offset(28);
-                make.centerX.equalTo(_remotePlaceholderView);
-            }];
+            _localView.mode = DMLiveViewBalanceTB;
+            _remoteView.mode = DMLiveViewBalanceTB;
         }else { // 左右
-            [_remoteBackgroundView remakeConstraints:^(MASConstraintMaker *make) {
+            [_remoteView remakeConstraints:^(MASConstraintMaker *make) {
                 make.left.centerY.equalTo(self.view);
-                make.size.equalTo(CGSizeMake(DMScreenWidth * 0.5, 385));
+                make.size.equalTo(CGSizeMake(DMScreenWidth * 0.5, DMScaleWidth(385)));
             }];
             
             [_localView remakeConstraints:^(MASConstraintMaker *make) {
-                make.size.centerY.equalTo(_remoteBackgroundView);
+                make.size.centerY.equalTo(_remoteView);
                 make.right.equalTo(self.view);
             }];
-            
-            CGFloat remotePHVTop = (DMScreenHeight - 385) * 0.5 + 95;
-            [_remotePlaceholderView remakeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(remotePHVTop);
-                make.size.equalTo(CGSizeMake(154, 154));
-                make.centerX.equalTo(_remoteBackgroundView);
-            }];
-            
-            [_remotePlaceholderTitleLabel remakeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(_remotePlaceholderView.mas_bottom).offset(39);
-                make.centerX.equalTo(_remotePlaceholderView);
-            }];
-            _remotePlaceholderTitleLabel.font = DMFontPingFang_Light(16);
+            _localView.mode = DMLiveViewBalanceLR;
+            _remoteView.mode = DMLiveViewBalanceLR;
         }
-        _localView.userInteractionEnabled = NO;
-        _remoteBackgroundView.userInteractionEnabled = NO;
-        _remoteView.userInteractionEnabled = _remoteBackgroundView.userInteractionEnabled;
     }
-    
-    [_remoteVoiceImageView remakeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(_remoteBackgroundView.mas_right).offset(-15);
-        make.size.equalTo(CGSizeMake(16, 25));
-        make.bottom.equalTo(_remoteBackgroundView.mas_bottom).offset(-20);
-    }];
-    
-    [_localVoiceImageView remakeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(_localView.mas_right).offset(-15);
-        make.size.equalTo(CGSizeMake(16, 25));
-        make.bottom.equalTo(_localView.mas_bottom).offset(-20);
-    }];
     
     [UIView animateWithDuration:0.25 animations:^{
         [self.view layoutSubviews];
+        [self.remoteView layoutSubviews];
+        [self.localView layoutSubviews];
+    } completion:^(BOOL finished) {
+        if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeSmallAndRemote) {
+            [self.view insertSubview:_localView atIndex:0];
+        }
     }];
+}
+
+- (void)dealloc {
+    [self invalidate];
+    DMLogFunc
 }
 
 @end
