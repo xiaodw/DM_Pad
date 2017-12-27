@@ -27,6 +27,10 @@
     self.other_uid = obj.other_uid;
     self.obj = obj;
     
+    self.play_volume = obj.play_volume;
+    self.record_volume = obj.record_volume;
+    self.audio_profile = obj.audio_profile;
+    self.audio_scenario = obj.audio_scenario;
 }
 
 @end
