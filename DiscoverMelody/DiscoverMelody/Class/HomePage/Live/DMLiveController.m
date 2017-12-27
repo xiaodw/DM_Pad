@@ -85,7 +85,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
     _userIdentity = userIdentity;
     
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(remoteVideoTapped)];
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapShowControlButtons)];
     [self.view addGestureRecognizer:tapGestureRecognizer];
     
     [self agoraUserStatusLog:self.lessonID
@@ -113,7 +113,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self.navigationController setNavigationBarHidden:NO];
 }
 
-- (void)remoteVideoTapped {
+- (void)didTapShowControlButtons {
     [UIView animateWithDuration:0.15 animations:^{
         self.controlView.alpha = self.controlView.alpha == 1 ? 0 : 1;;
     }];
@@ -177,11 +177,16 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
             weakSelf.remoteView.voiceValue = volumeInfo.volume / 255.0;
         }
     } blockTapVideoEvent:^(DMLiveVideoViewType type) {
-        if (weakSelf.tapLayoutCount % DMLayoutModeAll == DMLayoutModeAveragDistribution) return;
+        if (weakSelf.tapLayoutCount % DMLayoutModeAll == DMLayoutModeAveragDistribution) {
+            [weakSelf didTapShowControlButtons];
+            return;
+        }
+        
         if (DMLiveVideoViewType_Local == type) {
             [weakSelf didTapLocal];
             return;
         }
+        
         [weakSelf didTapRemote];
         return;
     }];
