@@ -227,6 +227,8 @@
         //movieVC.videoURL = [NSURL URLWithString:@"http://baobab.wdjcdn.com/1456316686552The.mp4"];
         movieVC.lessonID = model.lesson_id;
         movieVC.lessonName = model.course_name;
+        NSString *timeStr = [[[DMTools timeFormatterYMDFromTs:model.start_time format:@"yyyy/MM/dd"] stringByAppendingString:@"/"] stringByAppendingString:[DMTools computationsPeriodOfTime:model.start_time duration:model.duration]];
+        movieVC.lessonTime = timeStr;//2017/09/21/13:23-14:31
         [self.navigationController pushViewController:movieVC animated:YES];
     }
 }

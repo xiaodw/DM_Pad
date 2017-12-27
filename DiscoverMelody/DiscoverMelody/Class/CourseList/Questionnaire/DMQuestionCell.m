@@ -29,9 +29,15 @@
     }
     return self;
 }
+
 -(void)clickButtonBlock:(BlockClickButton)blockClickButton {
     self.clickButtonBlock = blockClickButton;
 }
+
+-(void)clickTextFieldBlock:(BlockClickTextField)blockClickTextField {
+    self.clickTextFieldBlock = blockClickTextField;
+}
+
 - (void)loadUI {
 //    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, DMScreenWidth-40, 50)];
 //    self.titleLabel.textAlignment = NSTextAlignmentLeft;
@@ -117,13 +123,23 @@
     self.obje.answer_content = textField.text;
     return YES;
 }
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+     self.clickTextFieldBlock(YES);
+}
+
 - (void)textFieldDidEndEditing:(UITextField *)textField{
     self.obje.answer_content = textField.text;
-    
+    self.clickTextFieldBlock(NO);
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     
+    return YES;
+}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+   
     return YES;
 }
 
