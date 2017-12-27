@@ -854,7 +854,7 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     
     [self.failBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self);
-        make.width.mas_equalTo(130);
+        make.width.mas_equalTo(230);
         make.height.mas_equalTo(33);
     }];
     

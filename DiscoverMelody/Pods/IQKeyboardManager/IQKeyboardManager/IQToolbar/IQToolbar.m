@@ -38,25 +38,17 @@
 {
     [super initialize];
 
-    //Tint Color
-    [[self appearance] setTintColor:nil];
+    IQToolbar *appearanceProxy = [self appearance];
+    
+    NSArray <NSNumber*> *positions = @[@(UIBarPositionAny),@(UIBarPositionBottom),@(UIBarPositionTop),@(UIBarPositionTopAttached)];
 
-    [[self appearance] setBarTintColor:nil];
-    
-    //Background image
-    [[self appearance] setBackgroundImage:nil forToolbarPosition:UIBarPositionAny           barMetrics:UIBarMetricsDefault];
-    [[self appearance] setBackgroundImage:nil forToolbarPosition:UIBarPositionBottom        barMetrics:UIBarMetricsDefault];
-    [[self appearance] setBackgroundImage:nil forToolbarPosition:UIBarPositionTop           barMetrics:UIBarMetricsDefault];
-    [[self appearance] setBackgroundImage:nil forToolbarPosition:UIBarPositionTopAttached   barMetrics:UIBarMetricsDefault];
-    
-    //Shadow image
-    [[self appearance] setShadowImage:nil forToolbarPosition:UIBarPositionAny];
-    [[self appearance] setShadowImage:nil forToolbarPosition:UIBarPositionBottom];
-    [[self appearance] setShadowImage:nil forToolbarPosition:UIBarPositionTop];
-    [[self appearance] setShadowImage:nil forToolbarPosition:UIBarPositionTopAttached];
-    
-    //Background color
-    [[self appearance] setBackgroundColor:nil];
+    for (NSNumber *position in positions)
+    {
+        UIToolbarPosition toolbarPosition = [position unsignedIntegerValue];
+
+        [appearanceProxy setBackgroundImage:nil forToolbarPosition:toolbarPosition barMetrics:UIBarMetricsDefault];
+        [appearanceProxy setShadowImage:nil forToolbarPosition:toolbarPosition];
+    }
 }
 
 -(void)initialize
@@ -64,7 +56,6 @@
     [self sizeToFit];
     self.autoresizingMask = UIViewAutoresizingFlexibleWidth;// | UIViewAutoresizingFlexibleHeight;
     self.translucent = YES;
-    [self setTintColor:[UIColor blackColor]];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -168,8 +159,12 @@
 -(void)layoutSubviews
 {
     [super layoutSubviews];
-    
-    if (IQ_IS_IOS11_OR_GREATER == NO)
+
+    //If running on Xcode9 (iOS11) only then we'll validate for iOS version, otherwise for older versions of Xcode (iOS10 and below) we'll just execute the tweak
+#ifdef __IPHONE_11_0
+    if (@available(iOS 11.0, *)) {}
+    else
+#endif
     {
         CGRect leftRect = CGRectNull;
         CGRect rightRect = CGRectNull;

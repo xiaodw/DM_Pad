@@ -189,6 +189,7 @@ static DMLiveVideoManager* _instance = nil;
     [self setupLocalVideoDisplay];
     //启用音量提示
     [self.agoraKit enableAudioVolumeIndication:200 smooth:3];
+    
     //开始预览
     [self.agoraKit startPreview];
     //加入频道
@@ -336,7 +337,7 @@ static DMLiveVideoManager* _instance = nil;
 
 
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine videoSizeChangedOfUid:(NSUInteger)uid size:(CGSize)size rotation:(NSInteger)rotation {
-    NSLog(@"摄像头旋转角度 = %ld", rotation);
+    NSLog(@"摄像头旋转角度 = %ld", (long)rotation);
 }
 
 //统计数据
@@ -380,7 +381,7 @@ NSLog(@"远程视频统计 - 2秒触发一次");
 
     WS(weakSelf)
     [self.inst login2:self.app_ID
-              account:[NSString stringWithFormat:@"%ld", self.uId]
+              account:[NSString stringWithFormat:@"%ld", (long)self.uId]
                 token:self.signalingKey
                   uid:0
              deviceID:@""
