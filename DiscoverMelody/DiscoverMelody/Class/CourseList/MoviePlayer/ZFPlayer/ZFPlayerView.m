@@ -1588,8 +1588,8 @@ typedef NS_ENUM(NSInteger, PanDirection){
         //转换成CMTime才能给player来控制播放进度
         CMTime dragedCMTime   = CMTimeMake(dragedSeconds, 1);
    
-        [controlView zf_playerDraggedTime:dragedSeconds totalTime:totalTime isForward:style hasPreview:self.isFullScreen ? self.hasPreviewView : NO];
-        
+        //[controlView zf_playerDraggedTime:dragedSeconds totalTime:totalTime isForward:style hasPreview:self.isFullScreen ? self.hasPreviewView : NO];
+        [controlView zf_playerDraggedTime:dragedSeconds totalTime:totalTime isForward:style hasPreview:NO];
         if (totalTime > 0) { // 当总时长 > 0时候才能拖动slider
             if (self.isFullScreen && self.hasPreviewView) {
                 
@@ -1597,17 +1597,17 @@ typedef NS_ENUM(NSInteger, PanDirection){
                 self.imageGenerator.appliesPreferredTrackTransform = YES;
                 self.imageGenerator.maximumSize = CGSizeMake(100, 56);
                 AVAssetImageGeneratorCompletionHandler handler = ^(CMTime requestedTime, CGImageRef im, CMTime actualTime, AVAssetImageGeneratorResult result, NSError *error){
-                    NSLog(@"%zd",result);
-                    if (result != AVAssetImageGeneratorSucceeded) {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [controlView zf_playerDraggedTime:dragedSeconds sliderImage:self.thumbImg ? : ZFPlayerImage(@"ZFPlayer_loading_bgView")];
-                        });
-                    } else {
-                        self.thumbImg = [UIImage imageWithCGImage:im];
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [controlView zf_playerDraggedTime:dragedSeconds sliderImage:self.thumbImg ? : ZFPlayerImage(@"ZFPlayer_loading_bgView")];
-                        });
-                    }
+//                    NSLog(@"%zd",result);
+//                    if (result != AVAssetImageGeneratorSucceeded) {
+//                        dispatch_async(dispatch_get_main_queue(), ^{
+//                            [controlView zf_playerDraggedTime:dragedSeconds sliderImage:self.thumbImg ? : ZFPlayerImage(@"ZFPlayer_loading_bgView")];
+//                        });
+//                    } else {
+//                        self.thumbImg = [UIImage imageWithCGImage:im];
+//                        dispatch_async(dispatch_get_main_queue(), ^{
+//                            [controlView zf_playerDraggedTime:dragedSeconds sliderImage:self.thumbImg ? : ZFPlayerImage(@"ZFPlayer_loading_bgView")];
+//                        });
+//                    }
                 };
                 [self.imageGenerator generateCGImagesAsynchronouslyForTimes:[NSArray arrayWithObject:[NSValue valueWithCMTime:dragedCMTime]] completionHandler:handler];
             }

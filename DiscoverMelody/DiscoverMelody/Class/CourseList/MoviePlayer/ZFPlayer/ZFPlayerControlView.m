@@ -546,12 +546,13 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     self.failBtn.hidden              = YES;
     self.backgroundColor             = [UIColor clearColor];
 
-    self.showing                     = NO;
+    self.showing                     = NO; //显示控制层
     self.playeEnd                    = NO;
 
     self.failBtn.hidden              = YES;
     self.placeholderImageView.alpha  = 1;
-    [self hideControlView];
+    //[self hideControlView];
+    [self zf_playerShowOrHideControlView];
 }
 
 - (void)zf_playerResetControlViewForResolution {

@@ -13,5 +13,6 @@
 
 @property (nonatomic, strong) NSString *lessonID;
 @property (nonatomic, strong) NSString *lessonName;
+@property (nonatomic, strong) NSString *lessonTime;
 
 @end
