@@ -187,6 +187,10 @@ static DMLiveVideoManager* _instance = nil;
     [self.agoraKit setVideoProfile:[[DMConfigManager shareInstance].agoraVideoProfile intValue] swapWidthAndHeight: false];
     //设置本地视频显示属性
     [self setupLocalVideoDisplay];
+    
+    //设置音质（音频参数和应用场景 ）
+    [self.agoraKit setAudioProfile:[DMSecretKeyManager shareManager].audio_profile scenario:[DMSecretKeyManager shareManager].audio_scenario];
+    
     //启用音量提示
     [self.agoraKit enableAudioVolumeIndication:200 smooth:3];
     
@@ -239,6 +243,10 @@ static DMLiveVideoManager* _instance = nil;
         NSLog(@"自己加入用户id（%lu）", (unsigned long)uid);
         //开始外放
         [self.agoraKit setEnableSpeakerphone:YES];
+        
+        [self.agoraKit adjustPlaybackSignalVolume:[DMSecretKeyManager shareManager].play_volume];
+        [self.agoraKit adjustRecordingSignalVolume:[DMSecretKeyManager shareManager].record_volume];
+        
         [UIApplication sharedApplication].idleTimerDisabled = YES;
     }];
 

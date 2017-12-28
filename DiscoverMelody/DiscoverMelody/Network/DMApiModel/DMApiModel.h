@@ -24,8 +24,10 @@
 
 //登录
 + (void)loginSystem:(NSString *)account psd:(NSString *)password block:(void(^)(BOOL result))complectionBlock;
+
 //检测登录
 + (void)checkLoginRequest:(NSString *)status block:(void(^)(BOOL result))complectionBlock;
+
 //退出登录
 + (void)logoutSystem:(void(^)(BOOL result))complectionBlock;
 
@@ -61,13 +63,16 @@
 
 //问卷问题（学生／老师）
 + (void)getQuestInfo:(NSString *)lessonID block:(void(^)(BOOL result, DMQuestData *obj))complectionBlock;
+
 //提交问题答案
 + (void)commitQuestAnswer:(NSString *)lessonId answers:(NSArray *)answerArray block:(void(^)(BOOL result))complectionBlock;
+
 //获取老师评语
 + (void)getTeacherAppraise:(NSString *)lessonId block:(void(^)(BOOL result, DMQuestData *obj))complectionBlock;
 
 //获取百度云上传的配置信息
 + (void)getUploadConfigInfo:(NSString *)lessonId block:(void(^)(BOOL result, DMCloudConfigData *obj))complectionBlock;
+
 //百度云上传成功后的通知
 + (void)getUploadSuccess:(NSString *)lessonId //课节id
               attachment:(NSString *)attachmentID //课件id
@@ -81,6 +86,7 @@
                  uploadUID:(NSString *)uploadUID //上报用户的id
                     action:(DMAgoraUserStatusLog)action
                      block:(void(^)(BOOL result))complectionBlock;
+
 
 @end
 

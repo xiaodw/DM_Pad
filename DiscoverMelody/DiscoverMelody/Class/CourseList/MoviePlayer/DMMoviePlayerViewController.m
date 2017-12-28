@@ -100,7 +100,7 @@
 - (ZFPlayerModel *)playerModel {
     if (!_playerModel) {
         _playerModel                  = [[ZFPlayerModel alloc] init];
-        _playerModel.title            = self.lessonName;//DMTitleVedio;
+        _playerModel.title            = [[self.lessonTime stringByAppendingString:@" "] stringByAppendingString:self.lessonName];//DMTitleVedio;
         _playerModel.videoURL         = self.videoURL;
         _playerModel.placeholderImage = [UIImage imageNamed:@"image_login_background"];//[UIImage imageNamed:@"loading_bgView1.png"];
         _playerModel.fatherView       = self.view;
