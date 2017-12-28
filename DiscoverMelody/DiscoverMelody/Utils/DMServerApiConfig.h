@@ -73,6 +73,7 @@
     #define DMAgoraAppID_Local_Config       @"2f4301adc17b415c98eba18b7f1066d4"//声网appID
     #define DMAgoraVideoProfile_Config      @"55"// 声网视频属性枚举值
     #define DMImage_Size_Config             2*1024*1024 // 图片大小界限，2兆
+    #define DMUpload_Max_Count_Config       20 //上传图片张数限制
 
 #elif SERVER_ENVIRONMENT == 1 //开发
 
@@ -81,6 +82,7 @@
     #define DMAgoraAppID_Local_Config       @"2f4301adc17b415c98eba18b7f1066d4"//声网appID
     #define DMAgoraVideoProfile_Config      @"55"// 声网视频属性枚举值
     #define DMImage_Size_Config             2*1024*1024 // 图片大小界限，2兆
+    #define DMUpload_Max_Count_Config       20 //上传图片张数限制
 
 #elif SERVER_ENVIRONMENT == 2 //测试
 
@@ -89,6 +91,7 @@
     #define DMAgoraAppID_Local_Config       @"f8101ce899cc4da8807b3eb81bed86e3"//声网appID
     #define DMAgoraVideoProfile_Config      @"55"// 声网视频属性枚举值
     #define DMImage_Size_Config             2*1024*1024 // 图片大小界限，2兆
+    #define DMUpload_Max_Count_Config       20 //上传图片张数限制
 
 #endif
 

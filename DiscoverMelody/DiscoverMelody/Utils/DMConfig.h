@@ -22,8 +22,6 @@
 #define DMNotification_CustomerService_Key @"DMNotification_CustomerService_Key"
 
 #pragma mark -
-//上传图片张数限制
-#define kMaxUploadPhotoCount 9
 
 //上传图片最大界限 比如2M
 #define kMaxUploadSize   [DMConfigManager shareInstance].uploadMaxSize

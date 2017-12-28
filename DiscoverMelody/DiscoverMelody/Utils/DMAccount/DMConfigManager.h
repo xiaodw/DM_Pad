@@ -15,6 +15,7 @@
 @property (nonatomic, copy) NSString *uploadMaxSize;
 @property (nonatomic, copy) NSString *agoraAppId;
 @property (nonatomic, copy) NSString *agoraVideoProfile;
+@property (nonatomic, copy) NSString *uploadNum; // 上传图片最大数量
 
 + (instancetype)shareInstance;
 - (void)initConfigInformation;

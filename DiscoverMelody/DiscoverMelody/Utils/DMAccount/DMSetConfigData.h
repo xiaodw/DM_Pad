@@ -24,4 +24,5 @@
 @property (nonatomic, copy) NSString *agoraAppId;
 @property (nonatomic, strong) DMAppUpgradeData *app;
 @property (nonatomic, copy) NSString *agoraVideoProfile;
+@property (nonatomic, copy) NSString *uploadNum;
 @end

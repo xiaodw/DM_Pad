@@ -14,8 +14,8 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
     DMCourseStatusInClass, // 上课中
     DMCourseStatusEnd, // 课程结束
     DMCourseStatusCanceled, // 本课取消
-    DMCourseStatusRelook, // 回顾
-    DMCourseStatusAll // 全部
+    DMCourseStatusAll, // 全部
+    DMCourseStatusProcessing = DMCourseStatusAll // 生成中...
 };
 
 @interface DMCourseListCell ()
@@ -64,10 +64,12 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
     
     if(_statusButton.hidden) { //回顾按钮隐藏
         NSDictionary *statusDict = self.courseStatus[live_status%DMCourseStatusAll];
-        NSString *text = statusDict[kStatusTextKey];
-        UIColor *textColor = statusDict[kStatusColorKey];
-        _statusLabel.text = text;
-        _statusLabel.textColor = textColor;
+        if (live_status == DMCourseStatusEnd && [model.playback_status intValue] == 0) {
+            statusDict = self.courseStatus[DMCourseStatusProcessing];
+        }
+        
+        _statusLabel.text = statusDict[kStatusTextKey];
+        _statusLabel.textColor = statusDict[kStatusColorKey];
     }
     
     NSInteger surveyEdit = [model.survey_edit intValue]; //0 不可点，1 ，2 可点击
@@ -300,6 +302,7 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
 
 - (UIView *)setupPlaceholderView {
     UIView *positionView = [UIView new];
+    positionView.backgroundColor = [UIColor redColor];
     positionView.hidden = YES;
     
     return positionView;
@@ -356,7 +359,8 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
         NSDictionary *inClassDict = @{kStatusTextKey: DMKeyStatusInclass, kStatusColorKey: kColorGreen};
         NSDictionary *endDict = @{kStatusTextKey: DMKeyStatusClassEnd, kStatusColorKey: kColor153};
         NSDictionary *canceledDict = @{kStatusTextKey: DMKeyStatusClassCancel, kStatusColorKey: kColor204};
-        _courseStatus = @[willStartDict, inClassDict, endDict, canceledDict];
+         NSDictionary *processingDict = @{kStatusTextKey: DMKeyStatusClassProcessing, kStatusColorKey: kColor153};
+        _courseStatus = @[willStartDict, inClassDict, endDict, canceledDict, processingDict];
     }
     
     return _courseStatus;

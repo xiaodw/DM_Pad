@@ -34,6 +34,7 @@ UIKIT_EXTERN NSString * const DMKeyStatusNotStart;
 UIKIT_EXTERN NSString * const DMKeyStatusInclass;
 UIKIT_EXTERN NSString * const DMKeyStatusClassEnd;
 UIKIT_EXTERN NSString * const DMKeyStatusClassCancel;
+UIKIT_EXTERN NSString * const DMKeyStatusClassProcessing;
 
 /////////////////////////////////////////////////////////////////////////// 侧边栏
 UIKIT_EXTERN NSString * const DMTitleHome;
