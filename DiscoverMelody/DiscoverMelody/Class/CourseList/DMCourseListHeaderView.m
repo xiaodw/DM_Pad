@@ -67,7 +67,7 @@
     }];
     
     [_periodLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(_statusLabel.mas_left);
+        make.right.equalTo(_statusLabel.mas_left).offset(-5);
         make.centerY.equalTo(self);
         make.width.equalTo(DMScaleWidth(66));
     }];
