@@ -22,11 +22,13 @@
 
 // 布局模式
 typedef NS_ENUM(NSInteger, DMLayoutMode) {
-    DMLayoutModeRemoteAndSmall, // 远端大, 本地小模式
-    DMLayoutModeSmallAndRemote, // 本地大, 远端小模式
-    DMLayoutModeAveragDistribution, //课件模式 And 左右模式
+    DMLayoutModeRemoteFullAndLocalSmall = 0, // 远端大, 本地小模式
+    DMLayoutModeRemoteSmallAndLocalFull = 1, // 远端小, 本地大模式
+    DMLayoutModeAveragDistribution = 2, // 课件模式 or 左右模式
     DMLayoutModeAll // 全部模式
 };
+
+typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布局
 
 @interface DMLiveController ()<DMLiveButtonControlViewDelegate, DMLiveCoursewareViewDelegate, DMCourseFilesControllerDelegate>
 
@@ -35,6 +37,9 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 
 @property (strong, nonatomic) DMLiveView *remoteView;
 @property (strong, nonatomic) DMLiveView *localView;
+@property (strong, nonatomic) UIPanGestureRecognizer *panGuestureRecognizer;
+@property (nonatomic, strong) BlockExchangeViewLayout smallViewLayout;
+@property (nonatomic, strong) BlockExchangeViewLayout fullViewLayout;
 
 @property (strong, nonatomic) DMLiveCoursewareView *coursewareView; // 课件视图
 @property (strong, nonatomic) DMLiveButtonControlView *controlView; // 左侧按钮们
@@ -49,6 +54,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 @property (assign, nonatomic) BOOL isCoursewareMode; // 是否是课件布局模式
 @property (assign, nonatomic) DMLayoutMode beforeLayoutMode; // 课件布局模式之前的模式
 @property (assign, nonatomic) NSInteger userIdentity; // 当前身份 0: 学生, 1: 老师
+@property (assign, nonatomic) CGPoint smallViewCuttentPoint; // 当前小屏幕的位置
 
 @end
 
@@ -77,14 +83,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = kColor33;
-    [self.navigationController setNavigationBarHidden:YES];
-    
-    self.tapLayoutCount = 3;
-    
-    NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
-    _userIdentity = userIdentity;
-    
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapShowControlButtons)];
     [self.view addGestureRecognizer:tapGestureRecognizer];
     
@@ -93,18 +91,18 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
                    uploadUID:[DMAccount getUserID]
                       action:DMAgoraUserStatusLog_Enter];
     
+    [self setupMakeInitializationVariate];
     [self setupMakeAddSubviews];
     [self setupMakeLayoutSubviews];
+    [self setupMakeLayoutBlocks];
     [self joinChannel];
     [self setupMakeLiveCallback];
-    
     [self timer];
-    // [self.liveVideoManager switchSound:NO block:nil];
+//    [self.liveVideoManager switchSound:NO block:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
     [self computTime];
 }
 
@@ -113,27 +111,51 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     [self.navigationController setNavigationBarHidden:NO];
 }
 
+#pragma mark - Functions
 - (void)didTapShowControlButtons {
     [UIView animateWithDuration:0.15 animations:^{
         self.controlView.alpha = self.controlView.alpha == 1 ? 0 : 1;;
     }];
 }
 
-#pragma mark - Functions
+- (void)didPanGuestureRecognizer:(UIPanGestureRecognizer *)pan {
+    UIView *view = pan.view;
+    
+    if (pan.state == UIGestureRecognizerStateChanged) {
+        CGPoint translation = [pan translationInView:view.superview];
+        CGFloat left = view.dm_x + translation.x;
+        left = left > DMScreenWidth - kSmallSize.width ? DMScreenWidth - kSmallSize.width : left;
+        left = left < 0 ? 0 : left;
+        CGFloat top = view.dm_y + translation.y;
+        top = top > DMScreenHeight - kSmallSize.height ? DMScreenHeight - kSmallSize.height : top;
+        top = top < 0 ? 0 : top;
+        [view remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(left);
+            make.top.equalTo(top);
+            make.size.equalTo(kSmallSize);
+        }];
+        [pan setTranslation:CGPointZero inView:view.superview];
+        return;
+    }
+    
+    if (pan.state == UIGestureRecognizerStateEnded) {
+        self.smallViewCuttentPoint = [self.view convertRect:view.frame toView:self.view].origin;
+    }
+}
+
 - (void)didTapRemote {
-    self.tapLayoutCount = DMLayoutModeAveragDistribution;
-    [self makeLayoutViews];
+    self.tapLayoutCount = DMLayoutModeAveragDistribution; // tapLayoutCount = 2
+    [self makeLayoutViews]; // tapLayoutCount = DMLayoutModeRemoteAndFull
 }
 
 - (void)didTapLocal {
-    self.tapLayoutCount = DMLayoutModeRemoteAndSmall;
-    [self makeLayoutViews];
+    self.tapLayoutCount = DMLayoutModeRemoteFullAndLocalSmall; // tapLayoutCount = 0
+    [self makeLayoutViews]; // tapLayoutCount = 1
 }
 
 #pragma mark - Setup make live
 // 远端有人回调
 - (void)setupMakeLiveCallback {
-    // 有用户加入
     WS(weakSelf)
     // 自己退出直播事件
     self.liveVideoManager.blockQuitLiveVideoEvent = ^(BOOL success) {
@@ -177,6 +199,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
             weakSelf.remoteView.voiceValue = volumeInfo.volume / 255.0;
         }
     } blockTapVideoEvent:^(DMLiveVideoViewType type) {
+        // 课件模式 or 左右模式
         if (weakSelf.tapLayoutCount % DMLayoutModeAll == DMLayoutModeAveragDistribution) {
             [weakSelf didTapShowControlButtons];
             return;
@@ -252,23 +275,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     } else {
         [weakSelf desSubVC:YES];
     }
-    
-//    [self.liveVideoManager quitLiveVideo:^(BOOL success) {
-//        [weakSelf agoraUserStatusLog:weakSelf.lessonID targetUID:[DMAccount getUserID] uploadUID:[DMAccount getUserID] action:DMAgoraUserStatusLog_Exit];
-//        if (weakSelf.presentVCs.count == 0) {
-//            [weakSelf.navigationVC popViewControllerAnimated:YES];
-//            return;
-//        }
-//
-//        [DMActivityView hideActivity];
-//        for (int i = (int)weakSelf.presentVCs.count-1; i >= 0; i--) {
-//            UIViewController *presentVC = weakSelf.presentVCs[i];
-//            [weakSelf.presentVCs removeObject:presentVC];
-//            [presentVC dismissViewControllerAnimated:NO completion:^{
-//                [weakSelf.navigationVC popViewControllerAnimated:YES];
-//            }];
-//        }
-//    }];
 }
 
 - (void)desSubVC:(BOOL)isPop {
@@ -358,15 +364,25 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 #pragma mark - DMCourseFilesControllerDelegate
 - (void)courseFilesController:(DMCourseFilesController *)courseFilesController syncCourses:(NSArray *)syncCourses {
     dispatch_async(dispatch_get_main_queue(), ^{
+        // 记录课件模式值前的布局格式
         if (!_isCoursewareMode) _beforeLayoutMode = self.tapLayoutCount-1 % DMLayoutModeAll;
         _isCoursewareMode = YES;
-        self.tapLayoutCount = 1;
+        self.tapLayoutCount = DMLayoutModeRemoteSmallAndLocalFull; // tapLayoutCount = 1
         
-        [self makeLayoutViews];
+        [self makeLayoutViews]; // tapLayoutCount = 2
         _syncCourseFiles = nil;
         [self.syncCourseFiles addObjectsFromArray:syncCourses];
         self.coursewareView.allCoursewares = self.syncCourseFiles;
     });
+}
+
+#pragma mark - initialization variate
+- (void)setupMakeInitializationVariate {
+    self.view.backgroundColor = kColor33;
+    self.tapLayoutCount = DMLayoutModeAll;
+    self.smallViewCuttentPoint = CGPointMake(DMScreenWidth-kSmallSize.width, 0);
+    self.userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
+    [self.navigationController setNavigationBarHidden:YES];
 }
 
 #pragma mark - AddSubviews
@@ -388,7 +404,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     
     [_controlView makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.bottom.equalTo(self.view);
-        make.width.equalTo(225);
+        make.width.equalTo(83);
     }];
     
     [_timeView makeConstraints:^(MASConstraintMaker *make) {
@@ -410,16 +426,30 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         make.size.equalTo(CGSizeMake(220, 220));
     }];
 }
-/** 有问题 */
+
+#pragma mark - setupLayoutBlocks
+- (void)setupMakeLayoutBlocks {
+    WS(weakSelf)
+    [self setSmallViewLayout:^(MASConstraintMaker *make) {
+        make.top.equalTo(weakSelf.smallViewCuttentPoint.y);
+        make.left.equalTo(weakSelf.smallViewCuttentPoint.x);
+        make.size.equalTo(kSmallSize);
+    }];
+    
+    [self setFullViewLayout:^(MASConstraintMaker *make) {
+        make.edges.equalTo(weakSelf.view);
+    }];
+}
+
+#pragma mark - timer
 - (void)setShowPlaceholderView {
     BOOL showPlaceholder = _isRemoteUserOnline;
-    if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeRemoteAndSmall) {
-        showPlaceholder = self.alreadyTime < 0 || _isRemoteUserOnline;
+    if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeRemoteFullAndLocalSmall) {
+        showPlaceholder = self.alreadyTime < 0 || _isRemoteUserOnline; // 课程没有开始 or 用户上线
     }
     self.remoteView.showPlaceholder = !showPlaceholder;
 }
 
-#pragma mark - timer
 - (void)computTime {
     self.alreadyTime += 1;
     [self setShowPlaceholderView];
@@ -471,16 +501,8 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
 #pragma mark - Lazy
 - (dispatch_source_t)timer {
     if (!_timer) {
-        // 获得队列
         dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
-        
-        // 创建一个定时器(dispatch_source_t本质还是个OC对象)
         _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
-        
-        // 设置定时器的各种属性（几时开始任务，每隔多长时间执行一次）
-        // GCD的时间参数，一般是纳秒（1秒 == 10的9次方纳秒）
-        // 何时开始执行第一个任务
-        // dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC) 比当前时间晚3秒
         dispatch_time_t start = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC));
         uint64_t interval = (uint64_t)(1.0 * NSEC_PER_SEC);
         dispatch_source_set_timer(_timer, start, interval, 0);
@@ -491,7 +513,6 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [weakSelf computTime];
             });
-            
         });
         dispatch_resume(_timer);
     }
@@ -528,9 +549,18 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         _localView.mode = DMLiveViewSmall;
         _localView.placeholderImage = [UIImage imageNamed:@"icon_unturnedCamera"];
         _localView.showPlaceholder = NO;
+        [_localView addGestureRecognizer:self.panGuestureRecognizer];
     }
     
     return _localView;
+}
+
+- (UIPanGestureRecognizer *)panGuestureRecognizer {
+    if (!_panGuestureRecognizer) {
+        _panGuestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didPanGuestureRecognizer:)];
+    }
+    
+    return _panGuestureRecognizer;
 }
 
 - (DMLiveButtonControlView *)controlView {
@@ -601,46 +631,36 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
     
     [self setShowPlaceholderView];
     
-    if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeRemoteAndSmall) { // 远端大, 本地小模式
+    if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeRemoteFullAndLocalSmall) { // 远端大, 本地小模式
         [self.view insertSubview:_localView atIndex:0];
         [self.view insertSubview:_remoteView atIndex:0];
+        [_localView addGestureRecognizer:self.panGuestureRecognizer];
         
-        [_remoteView remakeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view);
-        }];
-        
-        [_localView remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.right.equalTo(self.view);
-            make.size.equalTo(kSmallSize);
-        }];
+        [_remoteView remakeConstraints:self.fullViewLayout];
+        [_localView remakeConstraints:self.smallViewLayout];
         
         [_coursewareView remakeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.view.mas_right);
             make.bottom.top.equalTo(self.view);
             make.width.equalTo(DMScreenWidth*0.5);
         }];
-        _localView.mode = DMLiveViewSmall;
+        _localView.mode  = DMLiveViewSmall;
         _remoteView.mode = DMLiveViewFull;
     }
-    else if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeSmallAndRemote) { // 本地大, 远端小模式
+    else if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeRemoteSmallAndLocalFull) { // 远端小, 本地大模式
         [self.view insertSubview:_localView atIndex:0];
         [self.view insertSubview:_remoteView atIndex:0];
+        [_remoteView addGestureRecognizer:self.panGuestureRecognizer];
         
-        [_remoteView remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.right.equalTo(self.view);
-            make.size.equalTo(kSmallSize);
-        }];
-        
-        [_localView remakeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view);
-        }];
+        [_remoteView remakeConstraints:self.smallViewLayout];
+        [_localView remakeConstraints:self.fullViewLayout];
         
         [_coursewareView remakeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.view.mas_right);
             make.bottom.top.equalTo(self.view);
             make.width.equalTo(DMScreenWidth*0.5);
         }];
-        _localView.mode = DMLiveViewFull;
+        _localView.mode  = DMLiveViewFull;
         _remoteView.mode = DMLiveViewSmall;
     }
     else if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeAveragDistribution) {
@@ -664,7 +684,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
                 make.right.bottom.top.equalTo(self.view);
                 make.width.equalTo(DMScreenWidth*0.5);
             }];
-            _localView.mode = DMLiveViewBalanceTB;
+            _localView.mode  = DMLiveViewBalanceTB;
             _remoteView.mode = DMLiveViewBalanceTB;
         }else { // 左右
             [_remoteView remakeConstraints:^(MASConstraintMaker *make) {
@@ -676,7 +696,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
                 make.size.centerY.equalTo(_remoteView);
                 make.right.equalTo(self.view);
             }];
-            _localView.mode = DMLiveViewBalanceLR;
+            _localView.mode  = DMLiveViewBalanceLR;
             _remoteView.mode = DMLiveViewBalanceLR;
         }
     }
@@ -686,7 +706,7 @@ typedef NS_ENUM(NSInteger, DMLayoutMode) {
         [self.remoteView layoutSubviews];
         [self.localView layoutSubviews];
     } completion:^(BOOL finished) {
-        if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeSmallAndRemote) {
+        if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeRemoteSmallAndLocalFull) {
             [self.view insertSubview:_localView atIndex:0];
         }
     }];

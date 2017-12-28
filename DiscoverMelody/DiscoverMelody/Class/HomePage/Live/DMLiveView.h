@@ -1,10 +1,10 @@
 #import <UIKit/UIKit.h>
 
 typedef NS_ENUM(NSInteger, DMLiveViewMode) {
-    DMLiveViewSmall, // 本地
+    DMLiveViewSmall, // 小屏
     DMLiveViewBalanceTB, // 上下
     DMLiveViewBalanceLR, // 左右
-    DMLiveViewFull // 远端
+    DMLiveViewFull // 全屏
 };
 
 @interface DMLiveView : UIView

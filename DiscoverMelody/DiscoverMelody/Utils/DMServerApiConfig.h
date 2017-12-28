@@ -86,7 +86,7 @@
 
     #define DM_Local_Url                    @"http://test.api.cn.discovermelody-app.com/" //服务器访问地址
     #define DMLog_Local_Url                 @"http://log.cn.discovermelody.com/"//统计服务器访问地址
-    #define DMAgoraAppID_Local_Config       @"2f4301adc17b415c98eba18b7f1066d4"//声网appID
+    #define DMAgoraAppID_Local_Config       @"f8101ce899cc4da8807b3eb81bed86e3"//声网appID
     #define DMAgoraVideoProfile_Config      @"55"// 声网视频属性枚举值
     #define DMImage_Size_Config             2*1024*1024 // 图片大小界限，2兆
 
