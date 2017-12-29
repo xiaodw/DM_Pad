@@ -25,7 +25,10 @@
  *  6，检查对应的bundleID。
  *  7，检查相关证书
  *  8，检查InfoPlist.strings对应的名称
- *  9，检查InfoPlist中权限的中英文名称
+ *  9，检查InfoPlist中权限的中英文名称：
+ 【It is for the success of a DM course. Your camera will be used during the video course】
+ 【It is for the success of a DM course. Your microphone will be used during the video course】
+ 【Discover Melody would like to access your photos】
  */
 
 //#define App_Type @"cn_s" // @"cn_s"  @"cn_t" @"us_s"  @"us_t"
