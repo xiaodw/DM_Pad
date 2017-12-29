@@ -181,7 +181,7 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
     }];
 
     [_periodLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(_statusLabel.mas_left);
+        make.right.equalTo(_statusLabel.mas_left).offset(-5);
         make.centerY.equalTo(self.contentView);
         make.width.equalTo(DMScaleWidth(66));
     }];
@@ -303,7 +303,7 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
 - (UIView *)setupPlaceholderView {
     UIView *positionView = [UIView new];
     positionView.backgroundColor = [UIColor redColor];
-    positionView.hidden = YES;
+    positionView.hidden = NO;
     
     return positionView;
 }
