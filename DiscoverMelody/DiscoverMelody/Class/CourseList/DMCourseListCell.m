@@ -303,7 +303,7 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
 - (UIView *)setupPlaceholderView {
     UIView *positionView = [UIView new];
     positionView.backgroundColor = [UIColor redColor];
-//    positionView.hidden = NO;
+    positionView.hidden = YES;
     
     return positionView;
 }
