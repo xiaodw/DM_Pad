@@ -81,6 +81,8 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
 /** 是否播放结束 */
 @property (nonatomic, assign, getter=isPlayEnd) BOOL  playeEnd;
 
+@property (nonatomic, strong) UITapGestureRecognizer *singleTap;
+
 @end
 
 @implementation ZFPlayerControlView
@@ -505,7 +507,7 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
 - (UIImageView *)placeholderImageView {
     if (!_placeholderImageView) {
         _placeholderImageView = [[UIImageView alloc] init];
-        _placeholderImageView.userInteractionEnabled = YES;
+        _placeholderImageView.userInteractionEnabled = NO;
     }
     return _placeholderImageView;
 }
@@ -520,6 +522,10 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
 }
 
 #pragma mark - UIGestureRecognizerDelegate
+
+- (void)singleTapAction:(UIGestureRecognizer *)gesture {
+
+}
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
     CGRect rect = [self thumbRect];

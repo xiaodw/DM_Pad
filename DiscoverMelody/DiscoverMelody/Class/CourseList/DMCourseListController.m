@@ -58,7 +58,7 @@
     
 #endif
 
-    self.clCondition = DMCourseListCondition_All;//DMCourseListCondition_WillStart;
+    self.clCondition = DMCourseListCondition_Finish;
     [self setupMakeAddSubviews];
     [self setupMakeLayoutSubviews];
     [self setupMJRefresh];
