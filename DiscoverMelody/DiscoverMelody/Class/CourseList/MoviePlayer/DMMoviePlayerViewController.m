@@ -30,6 +30,10 @@
 
 @implementation DMMoviePlayerViewController
 
+- (void)clickVidoBackPlay:(BlockVideoVCBack)blockVideoVCBack {
+    self.blockVideoVCBack = blockVideoVCBack;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -107,6 +111,12 @@
 
 
 - (void)zf_playerBackAction {
+    
+    if (self.blockVideoVCBack) {
+        self.blockVideoVCBack();
+        self.blockVideoVCBack = nil;
+        return;
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 

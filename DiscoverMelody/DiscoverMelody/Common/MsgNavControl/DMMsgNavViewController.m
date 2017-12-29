@@ -8,6 +8,8 @@
 
 #import "DMMsgNavViewController.h"
 #import "DMQuestionViewController.h"
+#import "DMMoviePlayerViewController.h"
+
 @interface DMMsgNavViewController ()
 
 @end
@@ -26,7 +28,12 @@
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:DMFontPingFang_Regular(16)}];
     [self setNavigationbar];
     
-    [self gotoQuestionPage];
+    if (self.navType == 2) {
+        [self gotoQuestionPage];
+    } else if (self.navType == 3) {
+        [self gotoPlayerPage];
+    }
+
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -45,6 +52,16 @@
     [self.navigationController pushViewController:qtVC animated:NO];
     WS(weakSelf)
     qtVC.blockQuestionBack = ^{
+        [weakSelf dissVC];
+    };
+}
+
+- (void)gotoPlayerPage {
+    DMMoviePlayerViewController *movieVC = [[DMMoviePlayerViewController alloc] init];
+    movieVC.lessonID = self.lessonID;
+    [self.navigationController pushViewController:movieVC animated:NO];
+    WS(weakSelf)
+    movieVC.blockVideoVCBack = ^{
         [weakSelf dissVC];
     };
 }

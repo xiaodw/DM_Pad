@@ -61,6 +61,7 @@
     if (self.blockQuestionBack) {//推送消息的使用
         //[self.navigationController popViewControllerAnimated:YES];
         self.blockQuestionBack();
+        self.blockQuestionBack = nil;
     }
     else {
         [self.navigationController popToRootViewControllerAnimated:YES];
