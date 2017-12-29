@@ -338,6 +338,8 @@ static DMGeTuiManager *bosinstance = nil;
         [self goToHomePage:obj];
     } else if (obj.data.native == 2) {
         [self goToDMQuestionViewController:obj.data.lesson_id];
+    } else if (obj.data.native == 3) {
+        //回放页
     } else { }
 }
 

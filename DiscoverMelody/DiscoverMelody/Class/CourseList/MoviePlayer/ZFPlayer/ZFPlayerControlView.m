@@ -271,7 +271,7 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     
     self.backgroundColor           = RGBA(0, 0, 0, 0.3);
     self.bottomProgressView.alpha  = 0;
-    ZFPlayerShared.isStatusBarHidden = NO;
+//    ZFPlayerShared.isStatusBarHidden = NO;
 }
 
 - (void)hideControlView {
@@ -280,7 +280,7 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     self.topImageView.alpha       = self.playeEnd;
     self.bottomImageView.alpha    = 0;
     self.bottomProgressView.alpha = 1;
-    ZFPlayerShared.isStatusBarHidden = YES;
+//    ZFPlayerShared.isStatusBarHidden = YES;
 }
 
 /**
@@ -618,11 +618,15 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
 - (void)zf_playerShowControlView {
     if ([self.delegate respondsToSelector:@selector(zf_controlViewWillShow:isFullscreen:)]) {
         [self.delegate zf_controlViewWillShow:self isFullscreen:NO];
+        NSLog(@"CCCCCCCC");
     }
+    NSLog(@"dddddddaafasfasfsaf");
     [self zf_playerCancelAutoFadeOutControlView];
+  
     [UIView animateWithDuration:ZFPlayerControlBarAutoFadeOutTimeInterval animations:^{
         [self showControlView];
     } completion:^(BOOL finished) {
+        ZFPlayerShared.isStatusBarHidden = NO;
         self.showing = YES;
         [self autoFadeOutControlView];
     }];
@@ -639,6 +643,7 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     [UIView animateWithDuration:ZFPlayerControlBarAutoFadeOutTimeInterval animations:^{
         [self hideControlView];
     } completion:^(BOOL finished) {
+        ZFPlayerShared.isStatusBarHidden = YES;
         self.showing = NO;
     }];
 }

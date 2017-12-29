@@ -11,7 +11,7 @@
 @interface DMGeTuiMsgData : NSObject
 @property (nonatomic, copy) NSString *url;
 @property (nonatomic, assign) NSInteger is_token;
-@property (nonatomic, assign) NSInteger native;
+@property (nonatomic, assign) NSInteger native;//1主页，2 问卷，3 回放
 @property (nonatomic, copy) NSString *lesson_id;
 @property (nonatomic, copy) NSString *body;
 @property (nonatomic, copy) NSString *title;

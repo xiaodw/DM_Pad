@@ -10,4 +10,5 @@
 
 @interface DMVideoReplayData : DMBaseDataModel
 @property (nonatomic, strong) NSString *video_url;
+@property (nonatomic, strong) NSString *title;
 @end
