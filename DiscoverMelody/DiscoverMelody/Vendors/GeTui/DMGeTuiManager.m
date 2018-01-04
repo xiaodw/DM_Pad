@@ -25,7 +25,7 @@ static DMGeTuiManager *bosinstance = nil;
     #define dmGtAppKey          @"uyjoM5KvJB9W2oXTroMxT9"
     #define dmGtAppSecret       @"bgL0jYZXnA9Js04JlNXGOA"
 
-#elif
+#elif SERVER_ENVIRONMENT == 0
 
 //正式环境下
     #if APP_NAME_TYPE == 0 //中文

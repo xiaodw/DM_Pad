@@ -54,7 +54,7 @@
                 weakSelf.playerView.isOnlyTopDisplay = YES;
                 weakSelf.videoURL = [NSURL URLWithString:obj.video_url];
                 weakSelf.playerModel.videoURL         = weakSelf.videoURL;
-                NSString *title = [NSString stringWithFormat:@"%@  %@", obj.title, [DMTools timeFormatterYMDFromTs:obj.start_time format:@"yyyy/MM/dd hh:mm"]];
+                NSString *title = [NSString stringWithFormat:@"%@  %@", obj.title, [DMTools timeFormatterYMDFromTs:obj.start_time format:@"yyyy/MM/dd HH:mm"]];
                 weakSelf.playerModel.title            = title;
                 [weakSelf.playerView playerModel:weakSelf.playerModel];
                 [weakSelf.playerView updateShowPlayerCtr:YES];
