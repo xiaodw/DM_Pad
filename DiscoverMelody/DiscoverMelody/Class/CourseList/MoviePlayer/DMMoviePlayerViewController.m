@@ -52,7 +52,8 @@
             if (obj) {
                 weakSelf.videoURL = [NSURL URLWithString:obj.video_url];
                 weakSelf.playerModel.videoURL         = weakSelf.videoURL;
-                weakSelf.playerModel.title            = obj.title;
+                NSString *title = [NSString stringWithFormat:@"%@  %@", obj.title, [DMTools timeFormatterYMDFromTs:obj.start_time format:@"yyyy/MM/dd  hh:mm"]];
+                weakSelf.playerModel.title            = title;
                 [weakSelf.playerView playerModel:weakSelf.playerModel];
                 // 自动播放，默认不自动播放
                 [weakSelf.playerView autoPlayTheVideo];

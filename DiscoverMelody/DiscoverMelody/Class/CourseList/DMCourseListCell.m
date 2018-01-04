@@ -64,9 +64,10 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
     
     if(_statusButton.hidden) { //回顾按钮隐藏
         NSDictionary *statusDict = self.courseStatus[live_status%DMCourseStatusAll];
-        if (live_status == DMCourseStatusEnd && [model.playback_status intValue] == 0) {
-            statusDict = self.courseStatus[DMCourseStatusProcessing];
-        }
+        // 这个版本先不上
+//        if (live_status == DMCourseStatusEnd && [model.playback_status intValue] == 0) {
+//            statusDict = self.courseStatus[DMCourseStatusProcessing];
+//        }
         
         _statusLabel.text = statusDict[kStatusTextKey];
         _statusLabel.textColor = statusDict[kStatusColorKey];
