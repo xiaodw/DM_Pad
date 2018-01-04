@@ -41,7 +41,8 @@
     self.view.backgroundColor = [UIColor blackColor];
     [self.view addSubview:self.playerView];
     [self.view addSubview:self.retryButton];
-    //[self.playerView playerModel:self.playerModel];
+    [self.playerView playerModel:self.playerModel];
+    [self.playerView updateShowPlayerCtr:NO];
     [self getVideReplayUrl];
 }
 
@@ -50,21 +51,25 @@
     [DMApiModel getVideoReplay:self.lessonID block:^(BOOL result, DMVideoReplayData *obj) {
         if (result) {
             if (obj) {
+                weakSelf.playerView.isOnlyTopDisplay = YES;
                 weakSelf.videoURL = [NSURL URLWithString:obj.video_url];
                 weakSelf.playerModel.videoURL         = weakSelf.videoURL;
-                NSString *title = [NSString stringWithFormat:@"%@  %@", obj.title, [DMTools timeFormatterYMDFromTs:obj.start_time format:@"yyyy/MM/dd  hh:mm"]];
+                NSString *title = [NSString stringWithFormat:@"%@  %@", obj.title, [DMTools timeFormatterYMDFromTs:obj.start_time format:@"yyyy/MM/dd hh:mm"]];
                 weakSelf.playerModel.title            = title;
                 [weakSelf.playerView playerModel:weakSelf.playerModel];
+                [weakSelf.playerView updateShowPlayerCtr:YES];
                 // 自动播放，默认不自动播放
                 [weakSelf.playerView autoPlayTheVideo];
             } else {
                 [DMTools showSVProgressHudCustom:@"" title:DMAlertTitleVedioNotExist];
                 [weakSelf.playerView playerModel:weakSelf.playerModel];
+                weakSelf.playerView.isOnlyTopDisplay = NO;
+                [weakSelf.playerView updateShowPlayerCtr:NO];
             }
 
         } else {
-            [weakSelf.playerView updateShowPlayerCtr];
-            
+            weakSelf.playerView.isOnlyTopDisplay = NO;
+            [weakSelf.playerView updateShowPlayerCtr:NO];
             weakSelf.retryButton.hidden = NO;
             [weakSelf.view bringSubviewToFront:weakSelf.retryButton];
         }

@@ -552,13 +552,13 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     self.failBtn.hidden              = YES;
     self.backgroundColor             = [UIColor clearColor];
 
-    self.showing                     = NO; //显示控制层
+    self.showing                     = NO;
     self.playeEnd                    = NO;
 
     self.failBtn.hidden              = YES;
     self.placeholderImageView.alpha  = 1;
-    //[self hideControlView];
-    [self zf_playerShowOrHideControlView];
+    [self hideControlView];
+//    [self zf_playerShowOrHideControlView];
 }
 
 - (void)zf_playerResetControlViewForResolution {
@@ -602,7 +602,11 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
 
 - (void)zf_playerShowOrHideControlView {
     if (self.isShowing) {
-        [self zf_playerHideControlView];
+        if (self.topImageView.alpha == 1 && self.bottomImageView.alpha != 1) {
+            [self zf_playerShowControlView];
+        } else {
+            [self zf_playerHideControlView];
+        }
     } else {
         [self zf_playerShowControlView];
     }
@@ -612,7 +616,7 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     self.showing = YES;
     
     self.topImageView.alpha    = 1;
-    
+    self.bottomImageView.alpha = 0;
     self.backgroundColor           = RGBA(0, 0, 0, 0.3);
     self.bottomProgressView.alpha  = 0;
     ZFPlayerShared.isStatusBarHidden = NO;
@@ -624,9 +628,8 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
 - (void)zf_playerShowControlView {
     if ([self.delegate respondsToSelector:@selector(zf_controlViewWillShow:isFullscreen:)]) {
         [self.delegate zf_controlViewWillShow:self isFullscreen:NO];
-        NSLog(@"CCCCCCCC");
     }
-    NSLog(@"dddddddaafasfasfsaf");
+
     [self zf_playerCancelAutoFadeOutControlView];
   
     [UIView animateWithDuration:ZFPlayerControlBarAutoFadeOutTimeInterval animations:^{

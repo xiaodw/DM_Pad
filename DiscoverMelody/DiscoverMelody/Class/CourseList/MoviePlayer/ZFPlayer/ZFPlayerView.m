@@ -230,8 +230,13 @@ typedef NS_ENUM(NSInteger, PanDirection){
     self.playerModel = playerModel;
     //[self.controlView zf_playerShowControlView];
 }
-- (void)updateShowPlayerCtr {
-      [self.controlView zf_playerShowTopControlView];
+- (void)updateShowPlayerCtr:(BOOL)allShow {
+    
+    if (allShow) {
+        [self.controlView zf_playerShowOrHideControlView];
+    } else {
+        [self.controlView zf_playerShowTopControlView];
+    }
 }
 
 /**
@@ -961,6 +966,9 @@ typedef NS_ENUM(NSInteger, PanDirection){
             }
             else
             {
+                if (!self.isOnlyTopDisplay) {
+                    return;
+                }
                 [self.controlView zf_playerShowOrHideControlView];
             }
         }
@@ -973,6 +981,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
  *  @param gesture UITapGestureRecognizer
  */
 - (void)doubleTapAction:(UIGestureRecognizer *)gesture {
+    
     if (self.playDidEnd) { return;  }
     // 显示控制层
     [self.controlView zf_playerShowControlView];
