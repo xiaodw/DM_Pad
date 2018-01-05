@@ -30,6 +30,10 @@
 
 @implementation DMMoviePlayerViewController
 
+- (void)clickVidoBackPlay:(BlockVideoVCBack)blockVideoVCBack {
+    self.blockVideoVCBack = blockVideoVCBack;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -38,6 +42,7 @@
     [self.view addSubview:self.playerView];
     [self.view addSubview:self.retryButton];
     [self.playerView playerModel:self.playerModel];
+    [self.playerView updateShowPlayerCtr:NO];
     [self getVideReplayUrl];
 }
 
@@ -46,62 +51,34 @@
     [DMApiModel getVideoReplay:self.lessonID block:^(BOOL result, DMVideoReplayData *obj) {
         if (result) {
             if (obj) {
+                weakSelf.playerView.isOnlyTopDisplay = YES;
                 weakSelf.videoURL = [NSURL URLWithString:obj.video_url];
                 weakSelf.playerModel.videoURL         = weakSelf.videoURL;
-                weakSelf.playerModel.placeholderImage = [UIImage imageNamed:@"image_login_background"];
+                NSString *title = [NSString stringWithFormat:@"%@  %@", obj.title, [DMTools timeFormatterYMDFromTs:obj.start_time format:@"yyyy/MM/dd HH:mm"]];
+                weakSelf.playerModel.title            = title;
                 [weakSelf.playerView playerModel:weakSelf.playerModel];
+                [weakSelf.playerView updateShowPlayerCtr:YES];
                 // 自动播放，默认不自动播放
                 [weakSelf.playerView autoPlayTheVideo];
             } else {
                 [DMTools showSVProgressHudCustom:@"" title:DMAlertTitleVedioNotExist];
                 [weakSelf.playerView playerModel:weakSelf.playerModel];
+                weakSelf.playerView.isOnlyTopDisplay = NO;
+                [weakSelf.playerView updateShowPlayerCtr:NO];
             }
 
         } else {
-            [weakSelf.playerView updateShowPlayerCtr];
-            
+            weakSelf.playerView.isOnlyTopDisplay = NO;
+            [weakSelf.playerView updateShowPlayerCtr:NO];
             weakSelf.retryButton.hidden = NO;
             [weakSelf.view bringSubviewToFront:weakSelf.retryButton];
         }
     }];
-    
-
 }
-
-/**
- *  自动播放，默认不自动播放
- */
-- (void)autoPlayTheVideo {
-    // 设置Player相关参数
-//    [self configZFPlayer];
-}
-///**
-// *  设置Player相关参数
-// */
-//- (void)configZFPlayer {
-//    self.urlAsset = [AVURLAsset assetWithURL:self.videoURL];
-//    // 初始化playerItem
-//    self.playerItem = [AVPlayerItem playerItemWithAsset:self.urlAsset];
-//    // 每次都重新创建Player，替换replaceCurrentItemWithPlayerItem:，该方法阻塞线程
-//    self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
-//    
-//    // 初始化playerLayer
-//    self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
-//    
-//    self.backgroundColor = [UIColor blackColor];
-//    // 此处为默认视频填充模式
-//    self.playerLayer.videoGravity = self.videoGravity;
-//    
-//    // 自动播放
-//    self.isAutoPlay = YES;
-//}
-
 
 - (ZFPlayerModel *)playerModel {
     if (!_playerModel) {
         _playerModel                  = [[ZFPlayerModel alloc] init];
-        _playerModel.title            = self.lessonName;//DMTitleVedio;
-        _playerModel.videoURL         = self.videoURL;
         _playerModel.placeholderImage = [UIImage imageNamed:@"image_login_background"];//[UIImage imageNamed:@"loading_bgView1.png"];
         _playerModel.fatherView       = self.view;
     }
@@ -111,30 +88,10 @@
 - (ZFPlayerView *)playerView {
     if (!_playerView) {
         _playerView = [[ZFPlayerView alloc] init];
-        
-        /*****************************************************************************************
-         *   // 指定控制层(可自定义)
-         *   // ZFPlayerControlView *controlView = [[ZFPlayerControlView alloc] init];
-         *   // 设置控制层和播放模型
-         *   // 控制层传nil，默认使用ZFPlayerControlView(如自定义可传自定义的控制层)
-         *   // 等效于 [_playerView playerModel:self.playerModel];
-         ******************************************************************************************/
-        //[_playerView playerControlView:nil playerModel:self.playerModel];
-        
-        // 设置代理
         _playerView.delegate = self;
-        
-        //（可选设置）可以设置视频的填充模式，内部设置默认（ZFPlayerLayerGravityResizeAspect：等比例填充，直到一个维度到达区域边界）
-        // _playerView.playerLayerGravity = ZFPlayerLayerGravityResize;
-        
-        // 打开下载功能（默认没有这个功能）
-        //_playerView.hasDownload    = YES;
-        
         // 打开预览图
         self.playerView.hasPreviewView = YES;
-        
         self.playerView.backgroundColor = [UIColor blackColor];
-        
     }
     return _playerView;
 }
@@ -160,6 +117,12 @@
 
 
 - (void)zf_playerBackAction {
+    
+    if (self.blockVideoVCBack) {
+        self.blockVideoVCBack();
+        self.blockVideoVCBack = nil;
+        return;
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 

@@ -40,6 +40,7 @@ NSString * const DMKeyStatusNotStart = @"尚未开始";
 NSString * const DMKeyStatusInclass = @"上课中...";
 NSString * const DMKeyStatusClassEnd = @"课程结束";
 NSString * const DMKeyStatusClassCancel = @"本课取消";
+NSString * const DMKeyStatusClassProcessing = @"生成中...";
 
 /////////////////////////////////////////////////////////////////////////// 侧边栏
 NSString * const DMTitleHome = @"首页";
@@ -202,6 +203,7 @@ NSString * const DMKeyStatusNotStart = @"Not Started";
 NSString * const DMKeyStatusInclass = @"In Progress";
 NSString * const DMKeyStatusClassEnd = @"Completed";
 NSString * const DMKeyStatusClassCancel = @"Cancelled";
+NSString * const DMKeyStatusClassProcessing = @"Processing";
 
 /////////////////////////////////////////////////////////////////////////// 侧边栏
 NSString * const DMTitleHome = @"Home Page";

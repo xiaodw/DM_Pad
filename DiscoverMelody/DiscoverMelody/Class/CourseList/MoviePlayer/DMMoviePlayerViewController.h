@@ -8,10 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^BlockVideoVCBack)();
+
 @interface DMMoviePlayerViewController : UIViewController
 /** 视频URL */
-
 @property (nonatomic, strong) NSString *lessonID;
 @property (nonatomic, strong) NSString *lessonName;
+@property (nonatomic, strong) NSString *lessonTime;
+
+@property (nonatomic, strong) BlockVideoVCBack blockVideoVCBack;
+- (void)clickVidoBackPlay:(BlockVideoVCBack)blockVideoVCBack;
 
 @end

@@ -43,6 +43,9 @@
 
 @property (nonatomic, assign) BOOL currentSegmentTeachSurvey;
 @property (nonatomic, strong) NSString *lessonID;
+
+@property (nonatomic, assign) BOOL isMoveTop;
+
 @end
 
 @implementation DMQuestionViewController
@@ -58,6 +61,7 @@
     if (self.blockQuestionBack) {//推送消息的使用
         //[self.navigationController popViewControllerAnimated:YES];
         self.blockQuestionBack();
+        self.blockQuestionBack = nil;
     }
     else {
         [self.navigationController popToRootViewControllerAnimated:YES];
@@ -343,8 +347,59 @@
     cell.clickButtonBlock = ^{
         [weakSelf.bTableView reloadData];
     };
+    cell.clickTextFieldBlock = ^(BOOL displayKeyBoard) {
+        if (displayKeyBoard) {
+            [weakSelf moveLayoutForTop];
+        } else {
+            [weakSelf restoreLayout];
+        }
+    };
     return cell;
 }
+
+- (void)moveLayoutForTop {
+    if (_isMoveTop) {
+        return ;
+    }
+    _isMoveTop = YES;
+    [_topImageView updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(-116); //top整体上移
+    }];
+    
+    NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
+    if (userIdentity == 0) {
+        [_tabBarView updateConstraints:^(MASConstraintMaker *make) {
+            make.height.equalTo(0);
+        }];
+        _tabBarView.hidden = YES;
+    }
+    [UIView animateWithDuration:.3 animations:^{
+        _classNameLabel.hidden = YES;
+        _classInfoLabel.hidden = YES;
+        [self.view layoutSubviews];
+    }];
+}
+
+- (void)restoreLayout {
+    [_topImageView updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(0); //top整体上移
+    }];
+    
+    NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue]; // 当前身份 0: 学生, 1: 老师
+    if (userIdentity == 0) {
+        [_tabBarView updateConstraints:^(MASConstraintMaker *make) {
+            make.height.equalTo(50);
+        }];
+        _tabBarView.hidden = NO;
+    }
+    [UIView animateWithDuration:.3 animations:^{
+        _classNameLabel.hidden = NO;
+        _classInfoLabel.hidden = NO;
+        [self.view layoutSubviews];
+    }];
+    _isMoveTop = NO;
+}
+
 #define testStre @""
 - (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     static NSString *tvH = @"tvheader";
@@ -481,7 +536,7 @@
 
 - (UITableView *)bTableView {
     if (!_bTableView) {
-        _bTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _bTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
         _bTableView.delegate = self;
         _bTableView.dataSource = self;
         _bTableView.separatorStyle = UITableViewCellSeparatorStyleNone;

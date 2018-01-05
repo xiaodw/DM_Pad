@@ -81,6 +81,8 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
 /** 是否播放结束 */
 @property (nonatomic, assign, getter=isPlayEnd) BOOL  playeEnd;
 
+@property (nonatomic, strong) UITapGestureRecognizer *singleTap;
+
 @end
 
 @implementation ZFPlayerControlView
@@ -271,7 +273,7 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     
     self.backgroundColor           = RGBA(0, 0, 0, 0.3);
     self.bottomProgressView.alpha  = 0;
-    ZFPlayerShared.isStatusBarHidden = NO;
+//    ZFPlayerShared.isStatusBarHidden = NO;
 }
 
 - (void)hideControlView {
@@ -280,7 +282,7 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     self.topImageView.alpha       = self.playeEnd;
     self.bottomImageView.alpha    = 0;
     self.bottomProgressView.alpha = 1;
-    ZFPlayerShared.isStatusBarHidden = YES;
+//    ZFPlayerShared.isStatusBarHidden = YES;
 }
 
 /**
@@ -505,7 +507,7 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
 - (UIImageView *)placeholderImageView {
     if (!_placeholderImageView) {
         _placeholderImageView = [[UIImageView alloc] init];
-        _placeholderImageView.userInteractionEnabled = YES;
+        _placeholderImageView.userInteractionEnabled = NO;
     }
     return _placeholderImageView;
 }
@@ -520,6 +522,10 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
 }
 
 #pragma mark - UIGestureRecognizerDelegate
+
+- (void)singleTapAction:(UIGestureRecognizer *)gesture {
+
+}
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
     CGRect rect = [self thumbRect];
@@ -552,6 +558,7 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     self.failBtn.hidden              = YES;
     self.placeholderImageView.alpha  = 1;
     [self hideControlView];
+//    [self zf_playerShowOrHideControlView];
 }
 
 - (void)zf_playerResetControlViewForResolution {
@@ -595,7 +602,11 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
 
 - (void)zf_playerShowOrHideControlView {
     if (self.isShowing) {
-        [self zf_playerHideControlView];
+        if (self.topImageView.alpha == 1 && self.bottomImageView.alpha != 1) {
+            [self zf_playerShowControlView];
+        } else {
+            [self zf_playerHideControlView];
+        }
     } else {
         [self zf_playerShowControlView];
     }
@@ -605,7 +616,7 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     self.showing = YES;
     
     self.topImageView.alpha    = 1;
-    
+    self.bottomImageView.alpha = 0;
     self.backgroundColor           = RGBA(0, 0, 0, 0.3);
     self.bottomProgressView.alpha  = 0;
     ZFPlayerShared.isStatusBarHidden = NO;
@@ -618,10 +629,13 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     if ([self.delegate respondsToSelector:@selector(zf_controlViewWillShow:isFullscreen:)]) {
         [self.delegate zf_controlViewWillShow:self isFullscreen:NO];
     }
+
     [self zf_playerCancelAutoFadeOutControlView];
+  
     [UIView animateWithDuration:ZFPlayerControlBarAutoFadeOutTimeInterval animations:^{
         [self showControlView];
     } completion:^(BOOL finished) {
+        ZFPlayerShared.isStatusBarHidden = NO;
         self.showing = YES;
         [self autoFadeOutControlView];
     }];
@@ -638,6 +652,7 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     [UIView animateWithDuration:ZFPlayerControlBarAutoFadeOutTimeInterval animations:^{
         [self hideControlView];
     } completion:^(BOOL finished) {
+        ZFPlayerShared.isStatusBarHidden = YES;
         self.showing = NO;
     }];
 }
@@ -854,7 +869,7 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     
     [self.failBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self);
-        make.width.mas_equalTo(130);
+        make.width.mas_equalTo(230);
         make.height.mas_equalTo(33);
     }];
     

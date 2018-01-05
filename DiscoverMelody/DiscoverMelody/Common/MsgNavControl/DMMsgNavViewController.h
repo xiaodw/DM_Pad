@@ -10,5 +10,6 @@
 #import "DMTransitioningAnimationHelper.h"
 @interface DMMsgNavViewController : UIViewController
 @property (nonatomic, copy) NSString *lessonID;
+@property (nonatomic, assign) NSInteger navType;
 @property (nonatomic, strong) DMTransitioningAnimationHelper *animationHelper;
 @end

@@ -37,7 +37,8 @@
     
     self.title = DMTitleCourseList;
     self.view.backgroundColor = DMColorWithRGBA(246, 246, 246, 1);
-    self.selArray = @[DMTitleAllCourse,DMTitleAlreadyCourse,DMTitleNotStartCourse];
+    //self.selArray = @[DMTitleAllCourse,DMTitleAlreadyCourse,DMTitleNotStartCourse];
+    self.selArray = @[DMTitleAlreadyCourse,DMTitleNotStartCourse];
     [self setRigthBtn:CGRectMake(0, 4.5, DMRightPullDownMenuRectWidth, 35)
                 title:[self.selArray firstObject]
           titileColor:DMColorWithRGBA(246, 246, 246, 1)
@@ -57,7 +58,7 @@
     
 #endif
 
-    self.clCondition = DMCourseListCondition_All;//DMCourseListCondition_WillStart;
+    self.clCondition = DMCourseListCondition_Finish;
     [self setupMakeAddSubviews];
     [self setupMakeLayoutSubviews];
     [self setupMJRefresh];
@@ -192,8 +193,8 @@
     if (number < self.selArray.count) {
         self.currentPageNumber = 1;
         if (number == 0) {
-            self.clCondition = DMCourseListCondition_All;
-        } else if (number == 1) {
+//            self.clCondition = DMCourseListCondition_All;
+//        } else if (number == 1) {
             self.clCondition = DMCourseListCondition_Finish;
         } else {
             self.clCondition = DMCourseListCondition_WillStart;
@@ -227,6 +228,8 @@
         //movieVC.videoURL = [NSURL URLWithString:@"http://baobab.wdjcdn.com/1456316686552The.mp4"];
         movieVC.lessonID = model.lesson_id;
         movieVC.lessonName = model.course_name;
+        NSString *timeStr = [[[DMTools timeFormatterYMDFromTs:model.start_time format:@"yyyy/MM/dd"] stringByAppendingString:@"/"] stringByAppendingString:[DMTools computationsPeriodOfTime:model.start_time duration:model.duration]];
+        movieVC.lessonTime = timeStr;//2017/09/21/13:23-14:31
         [self.navigationController pushViewController:movieVC animated:YES];
     }
 }

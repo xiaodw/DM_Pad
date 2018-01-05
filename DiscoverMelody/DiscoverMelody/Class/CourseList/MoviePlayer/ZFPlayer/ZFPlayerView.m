@@ -230,8 +230,13 @@ typedef NS_ENUM(NSInteger, PanDirection){
     self.playerModel = playerModel;
     //[self.controlView zf_playerShowControlView];
 }
-- (void)updateShowPlayerCtr {
-      [self.controlView zf_playerShowTopControlView];
+- (void)updateShowPlayerCtr:(BOOL)allShow {
+    
+    if (allShow) {
+        [self.controlView zf_playerShowOrHideControlView];
+    } else {
+        [self.controlView zf_playerShowTopControlView];
+    }
 }
 
 /**
@@ -432,19 +437,10 @@ typedef NS_ENUM(NSInteger, PanDirection){
     self.singleTap.numberOfTouchesRequired = 1; //手指数
     self.singleTap.numberOfTapsRequired    = 1;
     [self addGestureRecognizer:self.singleTap];
-    
-    // 双击(播放/暂停)
-//    self.doubleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(doubleTapAction:)];
-//    self.doubleTap.delegate                = self;
-//    self.doubleTap.numberOfTouchesRequired = 1; //手指数
-//    self.doubleTap.numberOfTapsRequired    = 2;
-//    [self addGestureRecognizer:self.doubleTap];
 
     // 解决点击当前view时候响应其他控件事件
     [self.singleTap setDelaysTouchesBegan:YES];
-//    [self.doubleTap setDelaysTouchesBegan:YES];
-//    // 双击失败响应单击事件
-//    [self.singleTap requireGestureRecognizerToFail:self.doubleTap];
+
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -951,15 +947,28 @@ typedef NS_ENUM(NSInteger, PanDirection){
  *  @param gesture UITapGestureRecognizer
  */
 - (void)singleTapAction:(UIGestureRecognizer *)gesture {
-    if ([gesture isKindOfClass:[NSNumber class]] && ![(id)gesture boolValue]) {
+    if ([gesture isKindOfClass:[NSNumber class]] && ![(id)gesture boolValue])
+    {
          [self _fullScreenAction];
          return;
     }
-    if (gesture.state == UIGestureRecognizerStateRecognized) {
-        if (self.isBottomVideo && !self.isFullScreen) { [self _fullScreenAction]; }
-        else {
-            if (self.playDidEnd) { return; }
-            else {
+    if (gesture.state == UIGestureRecognizerStateRecognized)
+    {
+        if (self.isBottomVideo && !self.isFullScreen)
+        {
+            [self _fullScreenAction];
+        }
+        else
+        {
+            if (self.playDidEnd)
+            {
+                return;
+            }
+            else
+            {
+                if (!self.isOnlyTopDisplay) {
+                    return;
+                }
                 [self.controlView zf_playerShowOrHideControlView];
             }
         }
@@ -972,6 +981,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
  *  @param gesture UITapGestureRecognizer
  */
 - (void)doubleTapAction:(UIGestureRecognizer *)gesture {
+    
     if (self.playDidEnd) { return;  }
     // 显示控制层
     [self.controlView zf_playerShowControlView];
@@ -1588,8 +1598,8 @@ typedef NS_ENUM(NSInteger, PanDirection){
         //转换成CMTime才能给player来控制播放进度
         CMTime dragedCMTime   = CMTimeMake(dragedSeconds, 1);
    
-        [controlView zf_playerDraggedTime:dragedSeconds totalTime:totalTime isForward:style hasPreview:self.isFullScreen ? self.hasPreviewView : NO];
-        
+        //[controlView zf_playerDraggedTime:dragedSeconds totalTime:totalTime isForward:style hasPreview:self.isFullScreen ? self.hasPreviewView : NO];
+        [controlView zf_playerDraggedTime:dragedSeconds totalTime:totalTime isForward:style hasPreview:NO];
         if (totalTime > 0) { // 当总时长 > 0时候才能拖动slider
             if (self.isFullScreen && self.hasPreviewView) {
                 
@@ -1597,17 +1607,17 @@ typedef NS_ENUM(NSInteger, PanDirection){
                 self.imageGenerator.appliesPreferredTrackTransform = YES;
                 self.imageGenerator.maximumSize = CGSizeMake(100, 56);
                 AVAssetImageGeneratorCompletionHandler handler = ^(CMTime requestedTime, CGImageRef im, CMTime actualTime, AVAssetImageGeneratorResult result, NSError *error){
-                    NSLog(@"%zd",result);
-                    if (result != AVAssetImageGeneratorSucceeded) {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [controlView zf_playerDraggedTime:dragedSeconds sliderImage:self.thumbImg ? : ZFPlayerImage(@"ZFPlayer_loading_bgView")];
-                        });
-                    } else {
-                        self.thumbImg = [UIImage imageWithCGImage:im];
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [controlView zf_playerDraggedTime:dragedSeconds sliderImage:self.thumbImg ? : ZFPlayerImage(@"ZFPlayer_loading_bgView")];
-                        });
-                    }
+//                    NSLog(@"%zd",result);
+//                    if (result != AVAssetImageGeneratorSucceeded) {
+//                        dispatch_async(dispatch_get_main_queue(), ^{
+//                            [controlView zf_playerDraggedTime:dragedSeconds sliderImage:self.thumbImg ? : ZFPlayerImage(@"ZFPlayer_loading_bgView")];
+//                        });
+//                    } else {
+//                        self.thumbImg = [UIImage imageWithCGImage:im];
+//                        dispatch_async(dispatch_get_main_queue(), ^{
+//                            [controlView zf_playerDraggedTime:dragedSeconds sliderImage:self.thumbImg ? : ZFPlayerImage(@"ZFPlayer_loading_bgView")];
+//                        });
+//                    }
                 };
                 [self.imageGenerator generateCGImagesAsynchronouslyForTimes:[NSArray arrayWithObject:[NSValue valueWithCMTime:dragedCMTime]] completionHandler:handler];
             }

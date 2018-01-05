@@ -13,6 +13,7 @@
 #define DMConfig_AgoraAppId @"DMConfig_AgoraAppId"
 #define DMConfig_UploadMaxSize @"DMConfig_UploadMaxSize"
 #define DMConfig_AgoraVideoProfile @"DMConfig_AgoraVideoProfile"
+#define DMConfig_UploadMaxCount @"DMConfig_UploadMaxCount"
 
 static DMConfigManager *configInstance = nil;
 
@@ -24,6 +25,7 @@ static DMConfigManager *configInstance = nil;
     self.agoraAppId = [self getAgoraAppID];
     self.uploadMaxSize = [self getUploadMaxSize];
     self.agoraVideoProfile = [self getAgoraVideoProfile];
+    self.uploadNum = [self getUploadMaxCount];
 }
 
 - (void)saveConfigInfo:(DMSetConfigData *)configObj {
@@ -34,6 +36,7 @@ static DMConfigManager *configInstance = nil;
         [DMConfigManager saveAgoraAppID:configObj.agoraAppId];
         [DMConfigManager saveUploadMaxSize:configObj.uploadMaxSize];
         [DMConfigManager saveAgoraVideoProfile:configObj.agoraVideoProfile];
+        [DMConfigManager saveUploadMaxCount:configObj.uploadNum];
         
         self.apiHost = configObj.apiHost;
         self.logHost = configObj.logHost;
@@ -68,6 +71,11 @@ static DMConfigManager *configInstance = nil;
     return STR_IS_NIL(ms) ? [NSString stringWithFormat:@"%d",DMImage_Size_Config]: ms;
 }
 
+- (NSString *)getUploadMaxCount {
+    NSString *ms = [DMUserDefaults getValueWithKey:DMConfig_UploadMaxCount];
+    return STR_IS_NIL(ms) ? [NSString stringWithFormat:@"%d",DMUpload_Max_Count_Config]: ms;
+}
+
 //保存APi Url
 + (void)saveApiHost:(NSString *)host {
     [DMUserDefaults setValue:host forKey:DMConfig_Api_Host];
@@ -87,6 +95,10 @@ static DMConfigManager *configInstance = nil;
 //保存Upload Image Max Size
 + (void)saveUploadMaxSize:(NSString *)maxSize {
     [DMUserDefaults setValue:maxSize forKey:DMConfig_UploadMaxSize];
+}
+//保存Upload Image Max Count
++ (void)saveUploadMaxCount:(NSString *)maxCount {
+    [DMUserDefaults setValue:maxCount forKey:DMConfig_UploadMaxCount];
 }
 
 

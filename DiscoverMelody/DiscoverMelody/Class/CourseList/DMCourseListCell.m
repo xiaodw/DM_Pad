@@ -14,7 +14,8 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
     DMCourseStatusInClass, // 上课中
     DMCourseStatusEnd, // 课程结束
     DMCourseStatusCanceled, // 本课取消
-    DMCourseStatusRelook // 回顾
+    DMCourseStatusAll, // 全部
+    DMCourseStatusProcessing = DMCourseStatusAll // 生成中...
 };
 
 @interface DMCourseListCell ()
@@ -27,9 +28,9 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
 @property (strong, nonatomic) UILabel *periodLabel; // 课时
 @property (strong, nonatomic) UILabel *statusLabel; // 状态: 标签
 @property (strong, nonatomic) DMButton *statusButton; // 状态: 回看
-@property (strong, nonatomic) UIView *filesPositionView; // 课程文件自使用适应宽度的一个view
+@property (strong, nonatomic) UIView *filesPlaceholderView; // 课程文件占位view
 @property (strong, nonatomic) UIButton *filesButton; // 课程文件
-@property (strong, nonatomic) UIView *questionnairePositionView; // 调查问卷自使用适应宽度的一个view
+@property (strong, nonatomic) UIView *questionnairePlaceholderView; // 调查问卷占位view
 @property (strong, nonatomic) UIButton *questionnaireButton; // 调查问卷
 
 @property (strong, nonatomic) UIView *separatorView;
@@ -62,11 +63,14 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
     _statusButton.hidden = !_statusLabel.hidden;
     
     if(_statusButton.hidden) { //回顾按钮隐藏
-        NSDictionary *statusDict = self.courseStatus[live_status%4];
-        NSString *text = statusDict[kStatusTextKey];
-        UIColor *textColor = statusDict[kStatusColorKey];
-        _statusLabel.text = text;
-        _statusLabel.textColor = textColor;
+        NSDictionary *statusDict = self.courseStatus[live_status%DMCourseStatusAll];
+        // 这个版本先不上
+//        if (live_status == DMCourseStatusEnd && [model.playback_status intValue] == 0) {
+//            statusDict = self.courseStatus[DMCourseStatusProcessing];
+//        }
+        
+        _statusLabel.text = statusDict[kStatusTextKey];
+        _statusLabel.textColor = statusDict[kStatusColorKey];
     }
     
     NSInteger surveyEdit = [model.survey_edit intValue]; //0 不可点，1 ，2 可点击
@@ -127,9 +131,9 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
     [self.contentView addSubview:self.periodLabel];
     [self.contentView addSubview:self.statusLabel];
     [self.contentView addSubview:self.statusButton];
-    [self.contentView addSubview:self.filesPositionView];
+    [self.contentView addSubview:self.filesPlaceholderView];
     [self.contentView addSubview:self.filesButton];
-    [self.contentView addSubview:self.questionnairePositionView];
+    [self.contentView addSubview:self.questionnairePlaceholderView];
     [self.contentView addSubview:self.questionnaireButton];
     [self.contentView addSubview:self.separatorView];
 }
@@ -140,7 +144,7 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
         make.width.equalTo(DMScaleWidth(70));
     }];
     
-    [_questionnairePositionView makeConstraints:^(MASConstraintMaker *make) {
+    [_questionnairePlaceholderView makeConstraints:^(MASConstraintMaker *make) {
         make.width.equalTo(DMScaleWidth(70));
         make.height.equalTo(2);
         make.right.equalTo(self.contentView.mas_right).offset(-DMScaleWidth(16));
@@ -148,26 +152,26 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
     }];
     
     [_questionnaireButton makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(_questionnairePositionView);
+        make.centerX.equalTo(_questionnairePlaceholderView);
         make.centerY.equalTo(self.contentView);
         make.size.equalTo(CGSizeMake(DMScaleWidth(21), 23));
     }];
 
-    [_filesPositionView makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(_questionnairePositionView.mas_left);
+    [_filesPlaceholderView makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(_questionnairePlaceholderView.mas_left);
         make.height.equalTo(2);
         make.width.equalTo(DMScaleWidth(70));
         make.bottom.equalTo(self.contentView);
     }];
 
     [_filesButton makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(_filesPositionView);
+        make.centerX.equalTo(_filesPlaceholderView);
         make.centerY.equalTo(self.contentView);
         make.size.equalTo(CGSizeMake(DMScaleWidth(22), 20));
     }];
 
     [_statusLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(_filesPositionView.mas_left);
+        make.right.equalTo(_filesPlaceholderView.mas_left);
         make.centerY.equalTo(self.contentView);
         make.width.equalTo(DMScaleWidth(100));
     }];
@@ -178,7 +182,7 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
     }];
 
     [_periodLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(_statusLabel.mas_left);
+        make.right.equalTo(_statusLabel.mas_left).offset(-5);
         make.centerY.equalTo(self.contentView);
         make.width.equalTo(DMScaleWidth(66));
     }];
@@ -297,19 +301,20 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
     return _statusButton;
 }
 
-- (UIView *)setupPositionView {
+- (UIView *)setupPlaceholderView {
     UIView *positionView = [UIView new];
+    positionView.backgroundColor = [UIColor redColor];
     positionView.hidden = YES;
     
     return positionView;
 }
 
-- (UIView *)filesPositionView {
-    if (!_filesPositionView) {
-        _filesPositionView = [self setupPositionView];
+- (UIView *)filesPlaceholderView {
+    if (!_filesPlaceholderView) {
+        _filesPlaceholderView = [self setupPlaceholderView];
     }
     
-    return _filesPositionView;
+    return _filesPlaceholderView;
 }
 
 - (UIButton *)filesButton {
@@ -323,12 +328,12 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
     return _filesButton;
 }
 
-- (UIView *)questionnairePositionView {
-    if (!_questionnairePositionView) {
-        _questionnairePositionView = [self setupPositionView];
+- (UIView *)questionnairePlaceholderView {
+    if (!_questionnairePlaceholderView) {
+        _questionnairePlaceholderView = [self setupPlaceholderView];
     }
     
-    return _questionnairePositionView;
+    return _questionnairePlaceholderView;
 }
 
 - (UIButton *)questionnaireButton {
@@ -355,7 +360,8 @@ typedef NS_ENUM(NSInteger, DMCourseStatus) {
         NSDictionary *inClassDict = @{kStatusTextKey: DMKeyStatusInclass, kStatusColorKey: kColorGreen};
         NSDictionary *endDict = @{kStatusTextKey: DMKeyStatusClassEnd, kStatusColorKey: kColor153};
         NSDictionary *canceledDict = @{kStatusTextKey: DMKeyStatusClassCancel, kStatusColorKey: kColor204};
-        _courseStatus = @[willStartDict, inClassDict, endDict, canceledDict];
+         NSDictionary *processingDict = @{kStatusTextKey: DMKeyStatusClassProcessing, kStatusColorKey: kColor153};
+        _courseStatus = @[willStartDict, inClassDict, endDict, canceledDict, processingDict];
     }
     
     return _courseStatus;

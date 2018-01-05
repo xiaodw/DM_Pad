@@ -79,6 +79,8 @@ typedef NS_ENUM(NSInteger, ZFPlayerState) {
 /** player在栈上，即此时push或者模态了新控制器 */
 @property (nonatomic, assign) BOOL                    playerPushedOrPresented;
 
+@property (nonatomic, assign) BOOL isOnlyTopDisplay;
+
 /**
  *  单例，用于列表cell上多个视频
  *
@@ -122,6 +124,6 @@ typedef NS_ENUM(NSInteger, ZFPlayerState) {
  */
 - (void)pause;
 
-- (void)updateShowPlayerCtr;//显示控制层
+- (void)updateShowPlayerCtr:(BOOL)allShow;//显示控制层
 
 @end

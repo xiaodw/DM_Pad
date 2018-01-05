@@ -48,7 +48,7 @@
     WS(weakSelf)
     DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:@"" message:Logout_Msg preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
     [alert showWithViewController:self IndexBlock:^(NSInteger index) {
-        NSLog(@"%ld",index);
+        NSLog(@"%ld",(long)index);
         if (index == 1) {
             [weakSelf logoutSystem:@""];
         }

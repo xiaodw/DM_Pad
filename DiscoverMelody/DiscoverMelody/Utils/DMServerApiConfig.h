@@ -25,13 +25,16 @@
  *  6，检查对应的bundleID。
  *  7，检查相关证书
  *  8，检查InfoPlist.strings对应的名称
- *  9，检查InfoPlist中权限的中英文名称
+ *  9，检查InfoPlist中权限的中英文名称：
+ 【It is for the success of a DM course. Your camera will be used during the video course】
+ 【It is for the success of a DM course. Your microphone will be used during the video course】
+ 【Discover Melody would like to access your photos】
  */
 
 //#define App_Type @"cn_s" // @"cn_s"  @"cn_t" @"us_s"  @"us_t"
 
 //服务器环境配置:  1开发，2测试，0正式， 默认为0
-#define SERVER_ENVIRONMENT   2
+#define SERVER_ENVIRONMENT   0
 
 //语言环境: 0 中文， 1 英文
 #define LANGUAGE_ENVIRONMENT 0
@@ -74,6 +77,7 @@
     #define DMAgoraAppID_Local_Config       @"2f4301adc17b415c98eba18b7f1066d4"//声网appID
     #define DMAgoraVideoProfile_Config      @"55"// 声网视频属性枚举值
     #define DMImage_Size_Config             2*1024*1024 // 图片大小界限，2兆
+    #define DMUpload_Max_Count_Config       20 //上传图片张数限制
 
 #elif SERVER_ENVIRONMENT == 1 //开发
 
@@ -82,14 +86,16 @@
     #define DMAgoraAppID_Local_Config       @"2f4301adc17b415c98eba18b7f1066d4"//声网appID
     #define DMAgoraVideoProfile_Config      @"55"// 声网视频属性枚举值
     #define DMImage_Size_Config             2*1024*1024 // 图片大小界限，2兆
+    #define DMUpload_Max_Count_Config       20 //上传图片张数限制
 
 #elif SERVER_ENVIRONMENT == 2 //测试
 
     #define DM_Local_Url                    @"http://test.api.cn.discovermelody-app.com/" //服务器访问地址
     #define DMLog_Local_Url                 @"http://log.cn.discovermelody.com/"//统计服务器访问地址
-    #define DMAgoraAppID_Local_Config       @"2f4301adc17b415c98eba18b7f1066d4"//声网appID
+    #define DMAgoraAppID_Local_Config       @"f8101ce899cc4da8807b3eb81bed86e3"//声网appID
     #define DMAgoraVideoProfile_Config      @"55"// 声网视频属性枚举值
     #define DMImage_Size_Config             2*1024*1024 // 图片大小界限，2兆
+    #define DMUpload_Max_Count_Config       20 //上传图片张数限制
 
 #endif
 

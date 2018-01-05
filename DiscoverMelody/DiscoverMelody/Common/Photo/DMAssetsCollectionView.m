@@ -245,8 +245,9 @@
         cell.asset.isSelected = NO;
         [self reSetSelectedCpirsesIndex];
     } else {
-        if(self.selectedAssets.count == kMaxUploadPhotoCount) {
-            DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:nil message:[NSString stringWithFormat:DMTitleUploadCount, kMaxUploadPhotoCount] preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleOK otherTitle: nil];
+        NSInteger uploadNum = [[DMConfigManager shareInstance].uploadNum integerValue];
+        if(self.selectedAssets.count == uploadNum) {
+            DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:nil message:[NSString stringWithFormat:DMTitleUploadCount, uploadNum] preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleOK otherTitle: nil];
             [alert showWithViewController:(UIViewController *)self.delegate IndexBlock:^(NSInteger index){}];
          return;
         }

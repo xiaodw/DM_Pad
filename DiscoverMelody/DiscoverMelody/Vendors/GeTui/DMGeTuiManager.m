@@ -12,36 +12,46 @@
 #import "DMLiveController.h"
 #import "DMMsgWebViewController.h"
 #import "DMMsgNavViewController.h"
+#import "DMQuestionViewController.h"
+#import "DMMoviePlayerViewController.h"
 
 static DMGeTuiManager *bosinstance = nil;
 
 @implementation DMGeTuiManager
 
-#if APP_NAME_TYPE == 0 //中文
+#if SERVER_ENVIRONMENT == 2 //开发测试
 
-#define dmGtAppId           @"lvKZxIHhF78prsos2rFyn2"
-#define dmGtAppKey          @"r5HyE3js2e8k6qNkcJVoQ4"
-#define dmGtAppSecret       @"AM0BNmDTlG6CH3PpWMzWH3"
+    #define dmGtAppId           @"4XfInsObYx80NTAJntlsjA"
+    #define dmGtAppKey          @"uyjoM5KvJB9W2oXTroMxT9"
+    #define dmGtAppSecret       @"bgL0jYZXnA9Js04JlNXGOA"
 
-#elif APP_NAME_TYPE == 1 //英文学生
+#elif SERVER_ENVIRONMENT == 0
 
-#define dmGtAppId           @"A4WylAgftm93Ttw8fyXRU3"
-#define dmGtAppKey          @"j1TGdDpf2H7gikRvifAwHA"
-#define dmGtAppSecret       @"rzecg5zBzB9KCerFS6dg59"
+//正式环境下
+    #if APP_NAME_TYPE == 0 //中文
 
-#elif APP_NAME_TYPE == 2 //英文老师
+        #define dmGtAppId           @"lvKZxIHhF78prsos2rFyn2"
+        #define dmGtAppKey          @"r5HyE3js2e8k6qNkcJVoQ4"
+        #define dmGtAppSecret       @"AM0BNmDTlG6CH3PpWMzWH3"
 
-#define dmGtAppId           @"nUaZfzSb8190RtKfpuxSe5"
-#define dmGtAppKey          @"UBKHQLcG0iA79YwGkwC3eA"
-#define dmGtAppSecret       @"IIgZ4dLN0x7s9rh1usLwu8"
+    #elif APP_NAME_TYPE == 1 //英文学生
 
-#elif APP_NAME_TYPE == -1 //开发测试使用
+        #define dmGtAppId           @"A4WylAgftm93Ttw8fyXRU3"
+        #define dmGtAppKey          @"j1TGdDpf2H7gikRvifAwHA"
+        #define dmGtAppSecret       @"rzecg5zBzB9KCerFS6dg59"
 
-#define dmGtAppId           @"4XfInsObYx80NTAJntlsjA"
-#define dmGtAppKey          @"uyjoM5KvJB9W2oXTroMxT9"
-#define dmGtAppSecret       @"bgL0jYZXnA9Js04JlNXGOA"
+    #elif APP_NAME_TYPE == 2 //英文老师
+
+        #define dmGtAppId           @"nUaZfzSb8190RtKfpuxSe5"
+        #define dmGtAppKey          @"UBKHQLcG0iA79YwGkwC3eA"
+        #define dmGtAppSecret       @"IIgZ4dLN0x7s9rh1usLwu8"
+
+    #endif
 
 #endif
+
+
+
 
 
 
@@ -337,7 +347,10 @@ static DMGeTuiManager *bosinstance = nil;
     if (obj.data.native == 1) {
         [self goToHomePage:obj];
     } else if (obj.data.native == 2) {
-        [self goToDMQuestionViewController:obj.data.lesson_id];
+        [self goToNavViewController:obj.data.lesson_id navType:obj.data.native];
+    } else if (obj.data.native == 3) {
+        //回放页
+        [self goToNavViewController:obj.data.lesson_id navType:obj.data.native];
     } else { }
 }
 
@@ -376,9 +389,11 @@ static DMGeTuiManager *bosinstance = nil;
     }
 }
 
-- (void)goToDMQuestionViewController:(NSString *)lID {
+- (void)goToNavViewController:(NSString *)lID navType:(NSInteger)nativeType {
+    
     DMMsgNavViewController *qtVC = [[DMMsgNavViewController alloc] init];
     qtVC.lessonID = lID;
+    qtVC.navType = nativeType;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:qtVC];
 
     UIViewController *resVC = [self getCurrentVC];
@@ -388,11 +403,22 @@ static DMGeTuiManager *bosinstance = nil;
         animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight);
         nav.transitioningDelegate = animationHelper;
         nav.modalPresentationStyle = UIModalPresentationCustom;
-        if ([resVC isKindOfClass:[DMMsgNavViewController class]]) {
-            qtVC.animationHelper = animationHelper;
+        if (nativeType == 2) {
+            if ([resVC isKindOfClass:[DMQuestionViewController class]]) {
+                qtVC.animationHelper = animationHelper;
+            } else {
+                self.animationHelper = animationHelper;//注意
+            }
+        } else if (nativeType == 3) {
+            if ([resVC isKindOfClass:[DMMoviePlayerViewController class]]) {
+                qtVC.animationHelper = animationHelper;
+            } else {
+                self.animationHelper = animationHelper;//注意
+            }
         } else {
             self.animationHelper = animationHelper;//注意
         }
+
         [resVC presentViewController:nav animated:YES completion:nil];
     }
     
