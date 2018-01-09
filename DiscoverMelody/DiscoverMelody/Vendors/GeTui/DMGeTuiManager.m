@@ -21,9 +21,26 @@ static DMGeTuiManager *bosinstance = nil;
 
 #if SERVER_ENVIRONMENT == 2 //开发测试
 
-    #define dmGtAppId           @"4XfInsObYx80NTAJntlsjA"
-    #define dmGtAppKey          @"uyjoM5KvJB9W2oXTroMxT9"
-    #define dmGtAppSecret       @"bgL0jYZXnA9Js04JlNXGOA"
+//正式环境下
+    #if APP_NAME_TYPE == 0 //中文
+
+        #define dmGtAppId           @"4XfInsObYx80NTAJntlsjA"
+        #define dmGtAppKey          @"uyjoM5KvJB9W2oXTroMxT9"
+        #define dmGtAppSecret       @"bgL0jYZXnA9Js04JlNXGOA"
+
+    #elif APP_NAME_TYPE == 1 //英文学生
+
+        #define dmGtAppId           @"ZmRrGfsUqqAvsq9NZvwNc3"
+        #define dmGtAppKey          @"PqaMTiLpSi61e5cs8EGWi6"
+        #define dmGtAppSecret       @"fvB8knBFPYA7HF4Py2XLYA"
+
+    #elif APP_NAME_TYPE == 2 //英文老师
+
+        #define dmGtAppId           @"fAuDcBgX1r8WKkWfjziON"
+        #define dmGtAppKey          @"NVPHRjpa137ndkZFbhLd06"
+        #define dmGtAppSecret       @"QITvFFOkTL7zpfOQm8t5k2"
+
+    #endif
 
 #elif SERVER_ENVIRONMENT == 0
 
