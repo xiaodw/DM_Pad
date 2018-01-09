@@ -26,6 +26,10 @@
  *  7，检查相关证书
  *  8，检查InfoPlist.strings对应的名称
  *  9，检查InfoPlist中权限的中英文名称：
+ 中文：为了您可以正常视频上课，请开启摄像头权限
+     为了您可以正常视频上课，请开启麦克风权限
+     “寻律”需要访问您的相册
+ 英文：
  【It is for the success of a DM course. Your camera will be used during the video course】
  【It is for the success of a DM course. Your microphone will be used during the video course】
  【Discover Melody would like to access your photos】
