@@ -21,6 +21,9 @@
 //切换到客服的通知
 #define DMNotification_CustomerService_Key @"DMNotification_CustomerService_Key"
 
+//强制退出登录的通知
+#define DMNotification_Must_Logout_Key @"DMNotification_Must_Logout_Key"
+
 #pragma mark -
 
 //上传图片最大界限 比如2M

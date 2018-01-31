@@ -77,6 +77,7 @@
         DMLiveController *vv = (DMLiveController *)v;
         [vv quitLiveVideoClickSure];
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:DMNotification_Must_Logout_Key object:nil userInfo:nil];
 }
 
 #pragma mark -

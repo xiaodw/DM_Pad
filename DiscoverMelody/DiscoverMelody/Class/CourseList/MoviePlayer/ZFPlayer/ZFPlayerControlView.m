@@ -124,6 +124,8 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
         // app进入前台
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterPlayground) name:UIApplicationDidBecomeActiveNotification object:nil];
 
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mustLogout:) name:DMNotification_Must_Logout_Key object:nil];
+        
         [self listeningRotating];
     }
     return self;
@@ -134,8 +136,11 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
 }
 
-#pragma mark - Action
+- (void)mustLogout:(NSNotification *)nontification {
+    [self backBtnClick:nil];
+}
 
+#pragma mark - Action
 /**
  *  UISlider TapAction
  */

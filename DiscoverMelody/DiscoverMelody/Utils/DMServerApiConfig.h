@@ -108,52 +108,52 @@
 #define DM_Url      DM_Local_Url //[DMConfigManager shareInstance].apiHost
 
 //配置
-#define DM_Init_SetConfig_Url           [DM_Url stringByAppendingFormat:@"init/getConfig"]
+#define DM_Init_SetConfig_Url           [DM_Url stringByAppendingFormat:@"Init/getConfig"]
 
 //登录
-#define DM_User_Loing_Url               [DM_Url stringByAppendingFormat:@"user/login"]
+#define DM_User_Loing_Url               [DM_Url stringByAppendingFormat:@"User/login"]
 //退出登录
-#define DM_User_Logout_Url              [DM_Url stringByAppendingFormat:@"user/logout"]
+#define DM_User_Logout_Url              [DM_Url stringByAppendingFormat:@"User/logout"]
 //检测登录
-#define DM_User_Check_Login_Url         [DM_Url stringByAppendingFormat:@"userCenter/checkLogin"]
+#define DM_User_Check_Login_Url         [DM_Url stringByAppendingFormat:@"UserCenter/checkLogin"]
 //老师课程列表
-#define DM_User_Tcourse_List_Url        [DM_Url stringByAppendingFormat:@"lesson/tcourseList"]
+#define DM_User_Tcourse_List_Url        [DM_Url stringByAppendingFormat:@"Lesson/tcourseList"]
 //个人课程列表
-#define DM_User_Scourse_List_Url        [DM_Url stringByAppendingFormat:@"lesson/scourseList"]
+#define DM_User_Scourse_List_Url        [DM_Url stringByAppendingFormat:@"Lesson/scourseList"]
 
 //个人主页学生
-#define DM_User_Scourse_Index_Url       [DM_Url stringByAppendingFormat:@"lesson/scourseIndex"]
+#define DM_User_Scourse_Index_Url       [DM_Url stringByAppendingFormat:@"Lesson/scourseIndex"]
 //个人主页老师
-#define DM_User_Tcourse_Index_Url       [DM_Url stringByAppendingFormat:@"lesson/tcourseIndex"]
+#define DM_User_Tcourse_Index_Url       [DM_Url stringByAppendingFormat:@"Lesson/tcourseIndex"]
 
 //学生进入课堂
-#define DM_Student_Access_Url           [DM_Url stringByAppendingFormat:@"lesson/studentAccess"]
+#define DM_Student_Access_Url           [DM_Url stringByAppendingFormat:@"Lesson/studentAccess"]
 //老师进入课堂
-#define DM_Teacher_Access_Url           [DM_Url stringByAppendingFormat:@"lesson/teacherAccess"]
+#define DM_Teacher_Access_Url           [DM_Url stringByAppendingFormat:@"Lesson/teacherAccess"]
 
 //获取课件列表
 #define DM_Attachment_FileList_Url      [DM_Url stringByAppendingFormat:@"Attachment/getList"]
 //课件上传
-#define DM_User_Attachment_Upload_Url   [DM_Url stringByAppendingFormat:@"attachment/upload"]
+#define DM_User_Attachment_Upload_Url   [DM_Url stringByAppendingFormat:@"Attachment/upload"]
 //删除课件
 #define DM_Attachment_fileMove_Url      [DM_Url stringByAppendingFormat:@"Attachment/move"]
 
 //客服
-#define DM_Customer_Url                 [DM_Url stringByAppendingFormat:@"customer/index"]
+#define DM_Customer_Url                 [DM_Url stringByAppendingFormat:@"Customer/index"]
 
 //点播视频
-#define DM_Video_Replay_Url             [DM_Url stringByAppendingFormat:@"lesson/replay"]
+#define DM_Video_Replay_Url             [DM_Url stringByAppendingFormat:@"Lesson/replay"]
 
 //获取问题列表学生
-#define DM_Student_Question_List_Url    [DM_Url stringByAppendingFormat:@"survey/squestionList"]
+#define DM_Student_Question_List_Url    [DM_Url stringByAppendingFormat:@"Survey/squestionList"]
 //获取问题列表老师
-#define DM_Teacher_Question_List_Url    [DM_Url stringByAppendingFormat:@"survey/tquestionList"]
+#define DM_Teacher_Question_List_Url    [DM_Url stringByAppendingFormat:@"Survey/tquestionList"]
 //提交答案学生
-#define DM_Submit_Student_Answer_Url    [DM_Url stringByAppendingFormat:@"survey/submitStudent"]
+#define DM_Submit_Student_Answer_Url    [DM_Url stringByAppendingFormat:@"Survey/submitStudent"]
 //提交答案老师
-#define DM_Submit_Teacher_Answer_Url    [DM_Url stringByAppendingFormat:@"survey/submitTeacher"]
+#define DM_Submit_Teacher_Answer_Url    [DM_Url stringByAppendingFormat:@"Survey/submitTeacher"]
 //获取老师评语
-#define DM_Survey_TeacherSurvey_Url     [DM_Url stringByAppendingFormat:@"survey/teacherSurvey"]
+#define DM_Survey_TeacherSurvey_Url     [DM_Url stringByAppendingFormat:@"Survey/teacherSurvey"]
 
 //获取百度云配置信息
 #define DM_Cloud_Config_Url             [DM_Url stringByAppendingFormat:@"Attachment/getUploadConf"]
@@ -161,7 +161,7 @@
 #define DM_Cloud_Upload_Success_Url     [DM_Url stringByAppendingFormat:@"Attachment/uploadSuccess"]
 
 //声网用户状态
-#define DM_AgoraUserStatus_Log_Url      [DM_Url stringByAppendingFormat:@"log/agoraLog"]
+#define DM_AgoraUserStatus_Log_Url      [DM_Url stringByAppendingFormat:@"Log/agoraLog"]
 
 
 #endif /* DMServerApiConfig_h */
