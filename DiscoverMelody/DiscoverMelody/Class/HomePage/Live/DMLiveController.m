@@ -119,6 +119,9 @@ typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布�
 }
 
 - (void)didPanGuestureRecognizer:(UIPanGestureRecognizer *)pan {
+    if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeAveragDistribution) {
+        return;
+    }
     UIView *view = pan.view;
     
     if (pan.state == UIGestureRecognizerStateChanged) {
