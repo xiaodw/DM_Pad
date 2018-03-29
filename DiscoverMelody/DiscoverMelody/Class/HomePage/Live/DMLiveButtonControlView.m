@@ -7,6 +7,8 @@
 @property (strong, nonatomic) UIButton *swichCameraButton;
 @property (strong, nonatomic) UIButton *swichLayoutButton;
 @property (strong, nonatomic) UIButton *courseFilesButton;
+@property (strong, nonatomic) UIButton *brushButton;
+
 
 @end
 
@@ -19,6 +21,11 @@
         [self setupMakeLayoutSubviews];
     }
     return self;
+}
+
+- (void)didTapBrush {
+    if (![self.delegate respondsToSelector:@selector(liveButtonControlViewDidTapBrush:)]) return;
+    [self.delegate liveButtonControlViewDidTapBrush:self];
 }
 
 - (void)didTapLeave {
@@ -47,6 +54,7 @@
     [self addSubview:self.swichCameraButton];
     [self addSubview:self.swichLayoutButton];
     [self addSubview:self.courseFilesButton];
+    [self addSubview:self.brushButton];
 }
 
 - (void)setupMakeLayoutSubviews {
@@ -73,6 +81,11 @@
     [_leaveChannelButton makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(30);
         make.left.width.height.equalTo(_courseFilesButton);
+    }];
+    
+    [_brushButton makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.width.height.equalTo(_swichLayoutButton);
+        make.top.equalTo(_leaveChannelButton.mas_bottom).offset(20);
     }];
 }
 
@@ -122,6 +135,14 @@
     }
     
     return _courseFilesButton;
+}
+
+- (UIButton *)brushButton {
+    if (!_brushButton) {
+        _brushButton = [self setupButtonWithImage:@"icon_files" action:@selector(didTapBrush)];
+    }
+    
+    return _brushButton;
 }
 
 @end

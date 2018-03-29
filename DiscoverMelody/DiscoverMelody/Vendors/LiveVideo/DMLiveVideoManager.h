@@ -77,11 +77,13 @@ typedef void (^BlockSignalingOnLogout)(AgoraEcode ecode);//信令与服务器失
 /////////信令////////
 
 @property (nonatomic, strong)BlockOnMessageInstantReceive blockOnMessageInstantReceive;
+@property (nonatomic, strong)BlockOnMessageInstantReceive blockOnWhiteMessageInstantReceive;
 @property (nonatomic, strong)BlockSignalingOnLoginSuccess blockSignalingOnLoginSuccess;
 @property (nonatomic, strong)BlockSignalingOnLoginFailed blockSignalingOnLoginFailed;
 @property (nonatomic, strong)BlockSignalingOnLogout blockSignalingOnLogout;
 
 -(void)onSignalingMessageReceive:(BlockOnMessageInstantReceive)blockOnMessageInstantReceive;
+-(void)onSignalingWhiteMessageReceive:(BlockOnMessageInstantReceive)blockOnWhiteMessageInstantReceive;
 //
 /** 发送同步消息（点对点）
  *
@@ -96,7 +98,6 @@ typedef void (^BlockSignalingOnLogout)(AgoraEcode ecode);//信令与服务器失
                       msgID:(NSString*)msgID
                     success:(void(^)(NSString *messageID))success
                       faile:(void(^)(NSString *messageID, AgoraEcode ecode))faile;
-
 
 @end
 

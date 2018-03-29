@@ -9,6 +9,18 @@
 #import "DMSendSignalingMsg.h"
 
 @implementation DMSendSignalingMsg
+
++ (NSString *)getSignalingStruct:(DMSignalingCodeType)code sourceData:(NSMutableArray *)sourceData {
+    NSMutableDictionary *sourceDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld", (long)code], @"code", sourceData, @"sourceData", nil];
+    
+    NSError *parseError = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:sourceDic options:NSJSONWritingPrettyPrinted error:&parseError];
+    if (OBJ_IS_NIL(jsonData)) {
+        return @"";
+    }
+    return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+}
+
 + (NSString *)getSignalingStruct:(DMSignalingCodeType)code sourceData:(NSMutableArray *)sourceData index:(NSInteger)index {
 
     NSMutableArray *resultArray = [NSMutableArray array];

@@ -98,6 +98,7 @@
 		5100E4631F6A6358000AB506 /* DMTransitioningAnimationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5100E4601F6A6358000AB506 /* DMTransitioningAnimationHelper.m */; };
 		5100E4641F6A6358000AB506 /* DMPresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5100E4621F6A6358000AB506 /* DMPresentationController.m */; };
 		5100E4701F6A7662000AB506 /* DMTabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5100E46F1F6A7662000AB506 /* DMTabBarView.m */; };
+		510B10DD2057BD130099AFDF /* DMSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 510B10DC2057BD130099AFDF /* DMSlider.m */; };
 		5113D7BA1F7915A3004E3E9B /* DMBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5113D7B91F7915A2004E3E9B /* DMBarButtonItem.m */; };
 		515DCEC41F62980000AA9465 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 515DCEC31F62980000AA9465 /* libc++.tbd */; };
 		515DCEC61F62980800AA9465 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 515DCEC51F62980800AA9465 /* libresolv.tbd */; };
@@ -130,6 +131,11 @@
 		5169FFDB1F6E912100396EFA /* DMAssetTIFF.m in Sources */ = {isa = PBXBuildFile; fileRef = 5169FFD11F6E912100396EFA /* DMAssetTIFF.m */; };
 		5169FFE21F6E9A9A00396EFA /* DMClassFileDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A44FC0C1F6BF72500A1D574 /* DMClassFileDataModel.m */; };
 		5169FFE41F6E9ACB00396EFA /* DMClassDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A44FC091F6BF22A00A1D574 /* DMClassDataModel.m */; };
+		518AF15B205238FB008E00F0 /* DMBezierPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 518AF157205238F9008E00F0 /* DMBezierPath.m */; };
+		518AF15C205238FB008E00F0 /* DMWhiteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 518AF15A205238FA008E00F0 /* DMWhiteView.m */; };
+		518AF15F2052391F008E00F0 /* DMBrushViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 518AF15E2052391F008E00F0 /* DMBrushViewController.m */; };
+		518AF16220523F71008E00F0 /* DMColorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 518AF16120523F71008E00F0 /* DMColorView.m */; };
+		518AF16520523F91008E00F0 /* DMBrushControView.m in Sources */ = {isa = PBXBuildFile; fileRef = 518AF16420523F91008E00F0 /* DMBrushControView.m */; };
 		5197D7401F904DEA001AFD23 /* DMLiveView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5197D73F1F904DEA001AFD23 /* DMLiveView.m */; };
 		5197D7431F905948001AFD23 /* DMLivingTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5197D7421F905948001AFD23 /* DMLivingTimeView.m */; };
 		51B471391F62506D004FACC8 /* DMLiveController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B471381F62506D004FACC8 /* DMLiveController.m */; };
@@ -383,6 +389,8 @@
 		5100E4621F6A6358000AB506 /* DMPresentationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMPresentationController.m; sourceTree = "<group>"; };
 		5100E46E1F6A7662000AB506 /* DMTabBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMTabBarView.h; sourceTree = "<group>"; };
 		5100E46F1F6A7662000AB506 /* DMTabBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMTabBarView.m; sourceTree = "<group>"; };
+		510B10DB2057BD130099AFDF /* DMSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMSlider.h; sourceTree = "<group>"; };
+		510B10DC2057BD130099AFDF /* DMSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMSlider.m; sourceTree = "<group>"; };
 		5113D7B81F7915A2004E3E9B /* DMBarButtonItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DMBarButtonItem.h; sourceTree = "<group>"; };
 		5113D7B91F7915A2004E3E9B /* DMBarButtonItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DMBarButtonItem.m; sourceTree = "<group>"; };
 		515DCEC31F62980000AA9465 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
@@ -434,6 +442,16 @@
 		5169FFCF1F6E912100396EFA /* DMAssetExif.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMAssetExif.m; sourceTree = "<group>"; };
 		5169FFD01F6E912100396EFA /* DMAssetTIFF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMAssetTIFF.h; sourceTree = "<group>"; };
 		5169FFD11F6E912100396EFA /* DMAssetTIFF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMAssetTIFF.m; sourceTree = "<group>"; };
+		518AF157205238F9008E00F0 /* DMBezierPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMBezierPath.m; sourceTree = "<group>"; };
+		518AF158205238F9008E00F0 /* DMBezierPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMBezierPath.h; sourceTree = "<group>"; };
+		518AF159205238FA008E00F0 /* DMWhiteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMWhiteView.h; sourceTree = "<group>"; };
+		518AF15A205238FA008E00F0 /* DMWhiteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMWhiteView.m; sourceTree = "<group>"; };
+		518AF15D2052391F008E00F0 /* DMBrushViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DMBrushViewController.h; sourceTree = "<group>"; };
+		518AF15E2052391F008E00F0 /* DMBrushViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DMBrushViewController.m; sourceTree = "<group>"; };
+		518AF16020523F71008E00F0 /* DMColorView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DMColorView.h; sourceTree = "<group>"; };
+		518AF16120523F71008E00F0 /* DMColorView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DMColorView.m; sourceTree = "<group>"; };
+		518AF16320523F91008E00F0 /* DMBrushControView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DMBrushControView.h; sourceTree = "<group>"; };
+		518AF16420523F91008E00F0 /* DMBrushControView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DMBrushControView.m; sourceTree = "<group>"; };
 		5197D73E1F904DEA001AFD23 /* DMLiveView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DMLiveView.h; sourceTree = "<group>"; };
 		5197D73F1F904DEA001AFD23 /* DMLiveView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DMLiveView.m; sourceTree = "<group>"; };
 		5197D7411F905948001AFD23 /* DMLivingTimeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DMLivingTimeView.h; sourceTree = "<group>"; };
@@ -1036,6 +1054,25 @@
 			path = Photo;
 			sourceTree = "<group>";
 		};
+		518AF156205238E9008E00F0 /* Brush */ = {
+			isa = PBXGroup;
+			children = (
+				518AF158205238F9008E00F0 /* DMBezierPath.h */,
+				518AF157205238F9008E00F0 /* DMBezierPath.m */,
+				510B10DB2057BD130099AFDF /* DMSlider.h */,
+				510B10DC2057BD130099AFDF /* DMSlider.m */,
+				518AF159205238FA008E00F0 /* DMWhiteView.h */,
+				518AF15A205238FA008E00F0 /* DMWhiteView.m */,
+				518AF16020523F71008E00F0 /* DMColorView.h */,
+				518AF16120523F71008E00F0 /* DMColorView.m */,
+				518AF16320523F91008E00F0 /* DMBrushControView.h */,
+				518AF16420523F91008E00F0 /* DMBrushControView.m */,
+				518AF15D2052391F008E00F0 /* DMBrushViewController.h */,
+				518AF15E2052391F008E00F0 /* DMBrushViewController.m */,
+			);
+			path = Brush;
+			sourceTree = "<group>";
+		};
 		51B471361F625052004FACC8 /* Live */ = {
 			isa = PBXGroup;
 			children = (
@@ -1054,6 +1091,7 @@
 				5197D7411F905948001AFD23 /* DMLivingTimeView.h */,
 				5197D7421F905948001AFD23 /* DMLivingTimeView.m */,
 				5100E42B1F6A4B8F000AB506 /* Course */,
+				518AF156205238E9008E00F0 /* Brush */,
 			);
 			path = Live;
 			sourceTree = "<group>";
@@ -1483,6 +1521,7 @@
 				51D2D5D21F60DDED00764130 /* UIColor+Extension.m in Sources */,
 				51DCFA601F7A6A95007BC228 /* DMActivityView.m in Sources */,
 				515DCF061F67A7D200AA9465 /* DMLiveCoursewareView.m in Sources */,
+				518AF16220523F71008E00F0 /* DMColorView.m in Sources */,
 				5113D7BA1F7915A3004E3E9B /* DMBarButtonItem.m in Sources */,
 				5197D7431F905948001AFD23 /* DMLivingTimeView.m in Sources */,
 				2AB7DD711F6A37DA00270C03 /* DMRadioView.m in Sources */,
@@ -1494,6 +1533,7 @@
 				2A05C4601F5D544100FC4D9A /* UIViewController+DMRootViewController.m in Sources */,
 				2A3D1D2B1F692A44005671B2 /* ZFPlayerModel.m in Sources */,
 				51D2D6311F613E0800764130 /* DMCourseListHeaderView.m in Sources */,
+				518AF15F2052391F008E00F0 /* DMBrushViewController.m in Sources */,
 				51D2D5641F5EC00B00764130 /* DMLoginController.m in Sources */,
 				2A3D1D211F692A44005671B2 /* UIImageView+ZFCache.m in Sources */,
 				2A3D1CFA1F690AD1005671B2 /* DMMoviePlayerViewController.m in Sources */,
@@ -1505,11 +1545,13 @@
 				5169FFD81F6E912100396EFA /* DMAsset.m in Sources */,
 				2A5EA6BF1F73AF7A0041CBD2 /* DMCommitAnswerData.m in Sources */,
 				5169FF361F6BA38C00396EFA /* DMBrowseCourseController.m in Sources */,
+				518AF15B205238FB008E00F0 /* DMBezierPath.m in Sources */,
 				2A37E2D21FA8537F0067D226 /* DMGeTuiManager.m in Sources */,
 				2A4E96A11F66AA57000C4DFD /* DMPopCodeView.m in Sources */,
 				2A87F8841F6B68EC00DCC412 /* DMPullDownMenu.m in Sources */,
 				2A3D1D271F692A44005671B2 /* MMMaterialDesignSpinner.m in Sources */,
 				51DCFA631F7B467C007BC228 /* DMRefreshNormalHeader.m in Sources */,
+				510B10DD2057BD130099AFDF /* DMSlider.m in Sources */,
 				2ABBAB811F728CD6004536DB /* DMAnswerData.m in Sources */,
 				5100E4641F6A6358000AB506 /* DMPresentationController.m in Sources */,
 				2AD2AB371F5D441D00EDA962 /* DMHomeViewController.m in Sources */,
@@ -1521,7 +1563,9 @@
 				2A7A64C61F629F0800D1E62C /* DMLiveVideoManager.m in Sources */,
 				2A84269D1F6A63D8005BA6EC /* DMAccount.m in Sources */,
 				2A23C9741F665F110097F91B /* DMCustomerPhoneCell.m in Sources */,
+				518AF15C205238FB008E00F0 /* DMWhiteView.m in Sources */,
 				2A87F2561F75281C0063830C /* DMConfigManager.m in Sources */,
+				518AF16520523F91008E00F0 /* DMBrushControView.m in Sources */,
 				2A27E0D41F5E95C600865644 /* DMHttpClient.m in Sources */,
 				2A44FC071F6BD19D00A1D574 /* DMAlertMananger.m in Sources */,
 				51D2D55E1F5EBFE300764130 /* UIColor+Hex.m in Sources */,

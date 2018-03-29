@@ -126,6 +126,8 @@ static DMLiveVideoManager* _instance = nil;
 //声音控制
 - (void)switchSound:(BOOL)isEnable block:(void(^)(BOOL success))block {
     [self.agoraKit muteLocalAudioStream:YES];
+    [self.agoraKit muteAllRemoteAudioStreams:YES];
+//    [self.agoraKit muteAllRemoteVideoStreams:YES];
     int code = [self.agoraKit setEnableSpeakerphone:isEnable];
     if (block) {
         block((code == 0) ? YES : NO);
@@ -350,17 +352,17 @@ static DMLiveVideoManager* _instance = nil;
 
 //统计数据
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine reportRtcStats:(AgoraRtcStats*)stats {
-NSLog(@"统计数据");
+//NSLog(@"统计数据");
 }
 
 //本地视频统计 - 2秒触发一次
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine localVideoStats:(AgoraRtcLocalVideoStats*)stats {
-NSLog(@"本地视频统计 - 2秒触发一次");
+//NSLog(@"本地视频统计 - 2秒触发一次");
 }
 
 //远程视频统计 - 2秒触发一次
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine remoteVideoStats:(AgoraRtcRemoteVideoStats*)stats {
-NSLog(@"远程视频统计 - 2秒触发一次");
+//NSLog(@"远程视频统计 - 2秒触发一次");
 }
 
 //网络连接中断 - SDK会一直自动重连，除非主动离开频道
@@ -398,10 +400,13 @@ NSLog(@"远程视频统计 - 2秒触发一次");
      ];
     //收到消息
     _inst.onMessageInstantReceive = ^(NSString *account, uint32_t uid, NSString *msg) {
-        if (weakSelf.blockOnMessageInstantReceive) {
-            weakSelf.blockOnMessageInstantReceive(account, msg);
-        }
+//        if (weakSelf.blockOnMessageInstantReceive) {
+//            weakSelf.blockOnMessageInstantReceive(account, msg);
+//        }
         
+        if (weakSelf.blockOnWhiteMessageInstantReceive) {
+            weakSelf.blockOnWhiteMessageInstantReceive(account, msg);
+        }
     };
     
     //登录成功
@@ -438,6 +443,10 @@ NSLog(@"远程视频统计 - 2秒触发一次");
 
 -(void)onSignalingMessageReceive:(BlockOnMessageInstantReceive)blockOnMessageInstantReceive {
     self.blockOnMessageInstantReceive = blockOnMessageInstantReceive;
+}
+
+-(void)onSignalingWhiteMessageReceive:(BlockOnMessageInstantReceive)blockOnWhiteMessageInstantReceive {
+    self.blockOnWhiteMessageInstantReceive = blockOnWhiteMessageInstantReceive;
 }
 
 - (void)sendMessageSynEvent:(NSString *)name

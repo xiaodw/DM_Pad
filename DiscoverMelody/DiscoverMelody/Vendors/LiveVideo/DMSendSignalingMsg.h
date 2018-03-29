@@ -9,5 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface DMSendSignalingMsg : NSObject
+
++ (NSString *)getSignalingStruct:(DMSignalingCodeType)code sourceData:(NSMutableArray *)sourceData;
+
 + (NSString *)getSignalingStruct:(DMSignalingCodeType)code sourceData:(NSMutableArray *)sourceData index:(NSInteger)index;
 @end

@@ -12,6 +12,7 @@
 #import "DMSignalingMsgData.h"
 #import "DMSendSignalingMsg.h"
 #import "DMButton.h"
+#import "DMBrushViewController.h"
 
 #import "DMQuestionViewController.h"
 
@@ -98,7 +99,7 @@ typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布�
     [self joinChannel];
     [self setupMakeLiveCallback];
     [self timer];
-//    [self.liveVideoManager switchSound:NO block:nil];
+    [self.liveVideoManager switchSound:NO block:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -322,6 +323,16 @@ typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布�
     model.lesson_id = self.lessonID;
     qtVC.courseObj = model;
     [self.navigationController pushViewController:qtVC animated:YES];
+}
+
+- (void)liveButtonControlViewDidTapBrush:(DMLiveButtonControlView *)liveButtonControlView {
+    DMBrushViewController *brushViewVC = [DMBrushViewController new];
+    self.animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight);
+    brushViewVC.transitioningDelegate = self.animationHelper;
+    brushViewVC.modalPresentationStyle = UIModalPresentationCustom;
+    [self presentViewController:brushViewVC animated:YES completion:nil];
+//    courseFilesVC.liveVC = self;
+//    [self.presentVCs addObject:brushViewVC];
 }
 
 // 切换摄像头

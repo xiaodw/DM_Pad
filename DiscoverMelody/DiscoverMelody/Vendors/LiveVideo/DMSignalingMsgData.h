@@ -15,4 +15,5 @@
 @interface DMSignalingMsgData : NSObject
 @property (nonatomic, assign) NSInteger code;//1 同步开始， 2,操作，3,结束同步
 @property (nonatomic, strong) DMSignalingData *data;
+@property (strong, nonatomic) NSMutableArray *sourceData;
 @end

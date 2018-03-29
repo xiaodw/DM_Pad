@@ -5,6 +5,7 @@
 @protocol DMLiveButtonControlViewDelegate <NSObject>
 
 @optional
+- (void)liveButtonControlViewDidTapBrush:(DMLiveButtonControlView *)liveButtonControlView;
 - (void)liveButtonControlViewDidTapLeave:(DMLiveButtonControlView *)liveButtonControlView;
 - (void)liveButtonControlViewDidTapSwichCamera:(DMLiveButtonControlView *)liveButtonControlView;
 - (void)liveButtonControlViewDidTapSwichLayout :(DMLiveButtonControlView *)liveButtonControlView;
