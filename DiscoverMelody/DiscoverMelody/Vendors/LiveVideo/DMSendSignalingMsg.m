@@ -10,8 +10,15 @@
 
 @implementation DMSendSignalingMsg
 
-+ (NSString *)getSignalingStruct:(DMSignalingCodeType)code sourceData:(NSMutableArray *)sourceData {
-    NSMutableDictionary *sourceDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld", (long)code], @"code", sourceData, @"sourceData", nil];
++ (NSString *)getSignalingStruct:(NSInteger)code sourceData:(NSMutableArray *)sourceData sourceIndex:(NSInteger)index uuid:(NSString *)uuid {
+    NSString *screenSize = NSStringFromCGSize(DMScreenSize);
+    NSMutableDictionary *sourceDic = [NSMutableDictionary dictionary];
+    sourceDic[@"code"] = @(code);
+    sourceDic[@"sourceData"] = sourceData;
+    sourceDic[@"index"] = @(index);
+    sourceDic[@"size"] = screenSize;
+    sourceDic[@"uuid"] = uuid;
+    sourceDic[@"sendUUID"] = [NSUUID UUID].UUIDString;
     
     NSError *parseError = nil;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:sourceDic options:NSJSONWritingPrettyPrinted error:&parseError];
@@ -22,7 +29,7 @@
 }
 
 + (NSString *)getSignalingStruct:(DMSignalingCodeType)code sourceData:(NSMutableArray *)sourceData index:(NSInteger)index {
-
+    
     NSMutableArray *resultArray = [NSMutableArray array];
     switch (code) {
         case DMSignalingCode_Start_Syn:

@@ -5,17 +5,23 @@
 #import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
 #import "DMSignalingMsgData.h"
 
-#define kMaxPoint 50
-#define kMaxSeconds 10
+#define kMaxPoint 50  // 多少个点一个包
+#define kMaxSeconds 10 // 画的点不足一个包时, 间隔多少秒发一个包
+
+#define kSourceKey @"source"
+#define kIndexKey  @"index"
 
 @interface DMWhiteView()
-@property(nonatomic,strong) NSMutableArray *paths;//此数组用来管理画板上所有的路径
-@property (strong, nonatomic) DMBezierPath *lastPath;
-@property (strong, nonatomic) NSMutableArray *pathPoints;
-@property (strong, nonatomic) NSMutableArray *totalPathPoints;
+
+@property (strong, nonatomic) NSMutableDictionary *paths; // 画布呈现路径
+@property (strong, nonatomic) NSMutableArray *removeUUIDs; // 所有被删除的UUID
+@property (strong, nonatomic) NSMutableArray *sendUUIDs; // 发送的所有包UUID
+
+@property (strong, nonatomic) NSMutableArray *pathPoints; // 当前包的点个数
 @property (strong, nonatomic) DMLiveVideoManager *liveVideoManager;
-@property (strong, nonatomic) dispatch_source_t timer; // 1秒中更新一次时间UI
-@property (assign, nonatomic) NSInteger secondsNum;
+@property (strong, nonatomic) dispatch_source_t timer; // n秒中同步画布
+@property (assign, nonatomic) NSUInteger secondsNum; // 画布同步时间间隔
+@property (strong, nonatomic) NSString *currentUUID; // 当前最后路径的索引值
 
 @end
 
@@ -26,134 +32,103 @@
         _lineWidth = lineWidth;
     }];
 }
-
-- (instancetype)initWithFrame:(CGRect)frame
-{
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        _secondsNum = 0;
         WS(weakSelf)
         [self.liveVideoManager onSignalingWhiteMessageReceive:^(NSString *account, NSString *msg) {
-            if (!STR_IS_NIL(msg)) {
-                DMSignalingMsgData *responseDataModel = [DMSignalingMsgData mj_objectWithKeyValues:msg];
+            if (STR_IS_NIL(msg)) { return ;}
+            DMSignalingMsgData *responseDataModel = [DMSignalingMsgData mj_objectWithKeyValues:msg];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (responseDataModel.code == 0) { // 画笔
+                    if ([self.removeUUIDs containsObject:responseDataModel.uuid]) return;
+                    if ([self.sendUUIDs containsObject:responseDataModel.sendUUID]){
+                        return ;
+                    }
+                    [self.sendUUIDs addObject:responseDataModel.sendUUID];
+                    DMBezierPath *path = self.paths[responseDataModel.uuid][kSourceKey];
+                    if (!path) {
+                        path = [self setupInitBezierPath];
+                        self.paths[responseDataModel.uuid] = @{kSourceKey: path, kIndexKey: @(self.paths.count+1)};
+                    }
+                    CGSize reScreenSize = CGSizeFromString(responseDataModel.size);
+                    CGFloat reScreenWidth = reScreenSize.width;
+                    CGFloat reScreenHeight = reScreenSize.height;
+                    NSArray *points = responseDataModel.sourceData;
+                    for (int i = 0; i < points.count; i++) {
+                        NSString *pointStr = points[i];
+                        CGPoint point = CGPointFromString(pointStr);
+                        CGFloat wScale = point.x / reScreenWidth;
+                        CGFloat hScale = point.y / reScreenHeight;
+                        CGFloat pointX = DMScreenWidth * wScale;
+                        CGFloat pointY = DMScreenHeight * hScale;
+                        point = CGPointMake(pointX, pointY);
+                        if (i == 0 && path.empty) { [path moveToPoint:point]; }
+                        [path addLineToPoint:point];
+                    }
+                    [weakSelf setNeedsDisplay];
+                    //                    NSLog(@"response: pointCount: %d , index:%d, lastIndex:%@", (int)points.count, (int)self.paths.count, responseDataModel.uuid);
+                    return ;
+                }
+                if (responseDataModel.code == 3) {
+                    // 清除
+                    [weakSelf cleanSignalingControl];
+                    return ;
+                }
+                if (responseDataModel.code == 4) {
+                    // 回退
+                    //                    NSLog(@"回退: %@", responseDataModel.uuid);
+                    [self.removeUUIDs addObject:responseDataModel.uuid];
+                    [weakSelf undoSignalingControl:responseDataModel.uuid];
+                    return ;
+                }
                 
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if (responseDataModel.code == 0) {
-                        DMBezierPath *path = _lastPath;
-                        BOOL flag = NO;
-                        if (!path) {
-                            flag = YES;
-                            path = [weakSelf setupInitBezierPath];
-                            _lastPath = path;
-                            [weakSelf.paths addObject:path];
-                        }
-                        NSArray *points = responseDataModel.sourceData;
-                        NSLog(@"一部分包 count: %ld", points.count);
-                        for (int i = 0; i < points.count; i++) {
-                            NSString *pointStr = points[i];
-                            CGPoint point = CGPointFromString(pointStr);
-                            if (i == 0 && flag) { [path moveToPoint:point]; }
-                            [path addLineToPoint:point];
-                        }
-                        [weakSelf setNeedsDisplay];
-                        return ;
+                if (responseDataModel.code == 5) {
+                    // 橡皮擦
+                    [weakSelf eraserSignalingControl];
+                    return ;
+                }
+                if (responseDataModel.code == 6) {
+                    // 保存
+                    [weakSelf saveSignalingControl];
+                    return ;
+                }
+                if (responseDataModel.code == 7) {
+                    // 画笔
+                    NSArray *colors = responseDataModel.sourceData;
+                    NSString *colorString = colors.firstObject;
+                    if (OBJ_IS_NIL(colorString)) colorString = @"#FF0000";
+                    [weakSelf brushSignalingControlHexString:colorString];
+                    return ;
+                }
+                
+                if (responseDataModel.code == 8) {
+                    // width
+                    NSArray *colors = responseDataModel.sourceData;
+                    CGFloat width = [colors.firstObject floatValue];
+                    if (width < 1) width = 1;
+                    _lineWidth = width;
+                    if (weakSelf.brushWidthBlock)  {
+                        weakSelf.brushWidthBlock(width);
                     }
-                    
-                    if (responseDataModel.code == 1) {
-                        DMBezierPath *path = _lastPath;
-                        BOOL flag = NO;
-                        if (!path) {
-                            flag = YES;
-                            path = [weakSelf setupInitBezierPath];
-                            _lastPath = path;
-                            [weakSelf.paths addObject:path];
-                        }
-                        NSArray *points = responseDataModel.sourceData;
-                        NSLog(@"一部分path其他包 count: %ld", points.count);
-                        for (int i = 0; i < points.count; i++) {
-                            NSString *pointStr = points[i];
-                            CGPoint point = CGPointFromString(pointStr);
-                            if (i == 0 && flag) {
-                                [path moveToPoint:point];
-                            }
-                            [path addLineToPoint:point];
-                        }
-                        [weakSelf setNeedsDisplay];
-                        _lastPath = nil;
-                        return ;
-                    }
-                    if (responseDataModel.code == 2) {
-                        DMBezierPath *path = [weakSelf setupInitBezierPath];
-                        [weakSelf.paths addObject:path];
-                        NSArray *points = responseDataModel.sourceData;
-                        NSLog(@"一个完整包 count: %ld", points.count);
-                        for (int i = 0; i < points.count; i++) {
-                            NSString *pointStr = points[i];
-                            CGPoint point = CGPointFromString(pointStr);
-                            if (i == 0) {
-                                [path moveToPoint:point];
-                            }
-                            [path addLineToPoint:point];
-                        }
-                        [weakSelf setNeedsDisplay];
-                        return ;
-                    }
-                    if (responseDataModel.code == 3) {
-                        // 清除
-                        [weakSelf cleanSignalingControl];
-                        return ;
-                    }
-                    if (responseDataModel.code == 4) {
-                        // 回退
-                        [weakSelf undoSignalingControl];
-                        return ;
-                    }
-                    if (responseDataModel.code == 5) {
-                        // 橡皮擦
-                        [weakSelf eraserSignalingControl];
-                        return ;
-                    }
-                    if (responseDataModel.code == 6) {
-                        // 保存
-                        [weakSelf saveSignalingControl];
-                        return ;
-                    }
-                    if (responseDataModel.code == 7) {
-                        // 画笔
-                        NSArray *colors = responseDataModel.sourceData;
-                        NSString *colorString = colors.firstObject;
-                        if (OBJ_IS_NIL(colorString)) colorString = @"#FF0000";
-                        [weakSelf brushSignalingControlHexString:colorString];
-                        return ;
-                    }
-                    
-                    if (responseDataModel.code == 8) {
-                        // width
-                        NSArray *colors = responseDataModel.sourceData;
-                        CGFloat width = [colors.firstObject floatValue];
-                        if (width < 1) width = 1;
-                        _lineWidth = width;
-                        if (weakSelf.brushWidthBlock)  {
-                            weakSelf.brushWidthBlock(width);
-                        }
-                        return ;
-                    }
-                });
-            }
+                    return ;
+                }
+            });
         }];
     }
     return self;
 }
 
 - (void)sendSignalingControlCode:(NSInteger)code sourceData:(NSMutableArray *)array success:(void(^)())success {
-    NSString *msg = [DMSendSignalingMsg getSignalingStruct:code sourceData:array];
+    //    NSLog(@"send: pointCount: %d , index:%d, lastIndex:%@", (int)array.count, (int)self.paths.count, self.currentUUID);
+    NSString *msg = [DMSendSignalingMsg getSignalingStruct:code sourceData:array sourceIndex:self.paths.count uuid:self.currentUUID];
     [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) {
-        NSLog(@"success");
+        // NSLog(@"success");
         dispatch_async(dispatch_get_main_queue(), ^{
             if (success) success();
         });
     } faile:^(NSString *messageID, AgoraEcode ecode) {
-        NSLog(@"faile ");
+        // NSLog(@"faile ");
     }];
 }
 
@@ -172,29 +147,47 @@
 }
 
 - (void)cleanSignalingControl{
-    NSLog(@"%@", [NSThread currentThread]);
-    [self.paths removeAllObjects];
+    self.paths = nil;
+    self.removeUUIDs = nil;
+    self.sendUUIDs = nil;
     //重绘
     [self setNeedsDisplay];
 }
 
 //清除
 - (void)clean{
-    [self sendSignalingControlCode:3 success:^{
+    if (self.paths.count == 0) return;
+    [self sendSignalingControlCode:3 sourceData:nil success:^{
         [self cleanSignalingControl];
     }];
 }
 
-//回退
-- (void)undoSignalingControl{
-    [self.paths removeLastObject];
-    //重绘
-    [self setNeedsDisplay];
+- (NSString *)getLastUUIDInPaths {
+    NSString *lastUUID = @"";
+    NSInteger lastIndex = 0;
+    for (NSString *uuidKey in self.paths) {
+        NSDictionary *dict = self.paths[uuidKey];
+        NSInteger index = [dict[kIndexKey] integerValue];
+        if (index <= lastIndex) continue;
+        lastIndex = index;
+        lastUUID = uuidKey;
+    }
+    self.currentUUID = lastUUID;
+    return lastUUID;
 }
 
+//回退
+- (void)undoSignalingControl:(NSString *)uuid{
+    [self.paths removeObjectForKey:uuid];
+    [self setNeedsDisplay];
+}
+//回退
 - (void)undo{
+    if (self.paths.count == 0) return;
+    NSString *lastUUID = [self getLastUUIDInPaths];
+    if(lastUUID.length == 0) return;
     [self sendSignalingControlCode:4 success:^{
-        [self undoSignalingControl];
+        [self undoSignalingControl:lastUUID];
     }];
 }
 
@@ -255,21 +248,23 @@
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     [self timer];
     // 获取触摸对象
-    UITouch *touch=[touches anyObject];
+    UITouch *touch = [touches anyObject];
     // 获取手指的位置
-    CGPoint point=[touch locationInView:touch.view];
+    CGPoint point = [touch locationInView:touch.view];
     
     //当手指按下的时候就创建一条路径
     DMBezierPath *path = [self setupInitBezierPath];
+    
     //设置起点
     [path moveToPoint:point];
     [path addLineToPoint:point];
+    
     // 把每一次新创建的路径 添加到数组当中
-    [self.paths addObject:path];
+    self.currentUUID = [NSUUID UUID].UUIDString;
+    self.paths[self.currentUUID] = @{kSourceKey: path, kIndexKey: @(self.paths.count+1)};
     
     NSString *pointString = NSStringFromCGPoint(point);
     [self.pathPoints addObject:pointString];
-    [self.totalPathPoints addObject:pointString];
 }
 
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
@@ -280,77 +275,34 @@
     
     NSString *pointString = NSStringFromCGPoint(point);
     [self.pathPoints addObject:pointString];
-    [self.totalPathPoints addObject:pointString];
     
     if (self.pathPoints.count % kMaxPoint == 0) {
-        NSLog(@"发送一个path部分包 count: %ld", self.pathPoints.count);
-        [self sendSignalingControlCode:0 sourceData:self.pathPoints success:^{
-            NSLog(@"success");
-        }];
+        [self sendSignalingControlCode:0 sourceData:self.pathPoints success:nil];
         _pathPoints = nil;
         _secondsNum = 0;
     }
     
     // 连线的点
-    [[self.paths lastObject] addLineToPoint:point];
+    DMBezierPath *path = self.paths[self.currentUUID][kSourceKey];
+    [path addLineToPoint:point];
     // 重绘
     [self setNeedsDisplay];
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    NSString *log = @"发送一个path包";
-    NSInteger index = 2;
-    if(self.totalPathPoints.count >= kMaxPoint) {
-        index = 1;
-        log = @"发送一个path最后部分包";
+    if (self.pathPoints.count > 0) {
+        [self sendSignalingControlCode:0 sourceData:self.pathPoints success:nil];
     }
-    NSLog(@"%@ count: %ld", log, self.pathPoints.count);
-    [self sendSignalingControlCode:index sourceData:self.pathPoints success:^{
-        NSLog(@"success");
-    }];
-    [self.pathPoints removeAllObjects];
-    [self.totalPathPoints removeAllObjects];
-    [self invalidate];
     
+    self.pathPoints = nil;
+    [self invalidate];
     [self setNeedsDisplay];
-}
-
-- (void)invalidate {
-    if (!_timer) return;
-    dispatch_source_cancel(_timer);
-    _timer = nil;
-}
-
-
-/**
-- (void)sendSignalingControlCode:(NSInteger)code sourceData:(NSMutableArray *)array success:(void(^)())success {
-    NSString *msg = [DMSendSignalingMsg getSignalingStruct:code sourceData:array];
-    [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) {
-        NSLog(@"success");
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (success) success();
-        });
-    } faile:^(NSString *messageID, AgoraEcode ecode) {
-        NSLog(@"faile ");
-    }];
-}
- */
-
-- (void)computTime {
-    _secondsNum += 1;
-    if (_secondsNum >= kMaxSeconds) {
-        NSLog(@"发送一个path部分包 count: %ld", self.pathPoints.count);
-        [self sendSignalingControlCode:0 sourceData:self.pathPoints success:^{
-            NSLog(@"success");
-        }];
-        _pathPoints = nil;
-        _secondsNum = 0;
-    }
 }
 
 - (void)drawRect:(CGRect)rect {
     // Drawing code
-    for (DMBezierPath *path in self.paths) {
+    for (NSString *uuid in self.paths) {
+        DMBezierPath *path = self.paths[uuid][kSourceKey];
         //设置颜色
         [path.lineColor set];
         //渲染
@@ -367,9 +319,9 @@
     return _liveVideoManager;
 }
 
--(NSArray *)paths{
+-(NSMutableDictionary *)paths{
     if(!_paths){
-        _paths=[NSMutableArray array];
+        _paths = [NSMutableDictionary dictionary];
     }
     return _paths;
 }
@@ -382,12 +334,37 @@
     return _pathPoints;
 }
 
-- (NSMutableArray *)totalPathPoints {
-    if (!_totalPathPoints) {
-        _totalPathPoints = [NSMutableArray array];
+- (NSMutableArray *)removeUUIDs {
+    if (!_removeUUIDs) {
+        _removeUUIDs = [NSMutableArray array];
     }
     
-    return _totalPathPoints;
+    return _removeUUIDs;
+}
+
+- (NSMutableArray *)sendUUIDs {
+    if (!_sendUUIDs) {
+        _sendUUIDs = [NSMutableArray array];
+    }
+    
+    return _sendUUIDs;
+}
+
+- (void)invalidate {
+    if (!_timer) return;
+    dispatch_source_cancel(_timer);
+    _timer = nil;
+    _secondsNum = 0;
+}
+
+- (void)computTime {
+    _secondsNum += 1;
+    if (_secondsNum % kMaxSeconds == 0) {
+        if (self.pathPoints.count == 0) return;
+        [self sendSignalingControlCode:0 sourceData:self.pathPoints success:nil];
+        _pathPoints = nil;
+        _secondsNum = 0;
+    }
 }
 
 - (dispatch_source_t)timer {

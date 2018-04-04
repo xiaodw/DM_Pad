@@ -28,6 +28,7 @@ blue:(((rgbValue) & 0xFF))/255.f alpha:1.0]
 #define DMColor33(alpha) DMColorWithRGBA(33, 33, 33, alpha)
 
 #pragma mark - Numerical value
+#define DMScreenSize [UIScreen mainScreen].bounds.size
 #define DMScreenHeight [UIScreen mainScreen].bounds.size.height
 #define DMScreenWidth [UIScreen mainScreen].bounds.size.width
 

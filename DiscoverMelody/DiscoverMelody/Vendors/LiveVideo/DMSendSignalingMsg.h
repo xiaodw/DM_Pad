@@ -10,7 +10,7 @@
 
 @interface DMSendSignalingMsg : NSObject
 
-+ (NSString *)getSignalingStruct:(DMSignalingCodeType)code sourceData:(NSMutableArray *)sourceData;
++ (NSString *)getSignalingStruct:(NSInteger)code sourceData:(NSMutableArray *)sourceData sourceIndex:(NSInteger)index uuid:(NSString *)uuid;
 
 + (NSString *)getSignalingStruct:(DMSignalingCodeType)code sourceData:(NSMutableArray *)sourceData index:(NSInteger)index;
 @end

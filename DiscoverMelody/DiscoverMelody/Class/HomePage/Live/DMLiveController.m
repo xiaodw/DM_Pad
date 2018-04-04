@@ -250,6 +250,14 @@ typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布�
 #pragma mark - DMLiveButtonControlViewDelegate
 // 离开
 - (void)liveButtonControlViewDidTapLeave:(DMLiveButtonControlView *)liveButtonControlView {
+    
+    DMBrushViewController *brushViewVC = [DMBrushViewController new];
+    self.animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight);
+    brushViewVC.transitioningDelegate = self.animationHelper;
+    brushViewVC.modalPresentationStyle = UIModalPresentationCustom;
+    [self presentViewController:brushViewVC animated:YES completion:nil];
+    return;
+    
     WS(weakSelf)
     if(self.alreadyTime < self.totalTime + self.delayTime) {//
         DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:DMTitleExitLiveRoom
@@ -289,7 +297,7 @@ typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布�
             NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_End_Syn sourceData:nil index:0];
             [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) { } faile:^(NSString *messageID, AgoraEcode ecode) {}];
         }
-         [weakSelf agoraUserStatusLog:weakSelf.lessonID targetUID:[DMAccount getUserID] uploadUID:[DMAccount getUserID] action:DMAgoraUserStatusLog_Exit];
+        [weakSelf agoraUserStatusLog:weakSelf.lessonID targetUID:[DMAccount getUserID] uploadUID:[DMAccount getUserID] action:DMAgoraUserStatusLog_Exit];
     }];
 }
 
@@ -323,16 +331,6 @@ typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布�
     model.lesson_id = self.lessonID;
     qtVC.courseObj = model;
     [self.navigationController pushViewController:qtVC animated:YES];
-}
-
-- (void)liveButtonControlViewDidTapBrush:(DMLiveButtonControlView *)liveButtonControlView {
-    DMBrushViewController *brushViewVC = [DMBrushViewController new];
-    self.animationHelper.presentFrame = CGRectMake(0, 0, DMScreenWidth, DMScreenHeight);
-    brushViewVC.transitioningDelegate = self.animationHelper;
-    brushViewVC.modalPresentationStyle = UIModalPresentationCustom;
-    [self presentViewController:brushViewVC animated:YES completion:nil];
-//    courseFilesVC.liveVC = self;
-//    [self.presentVCs addObject:brushViewVC];
 }
 
 // 切换摄像头
