@@ -42,7 +42,7 @@
     if (!_imageView) {
         _imageView = [UIImageView new];
         _imageView.contentMode = UIViewContentModeScaleAspectFit;
-        _imageView.backgroundColor = kColor33;
+        _imageView.backgroundColor = DMColorWithRGBA(62, 62, 62, 1);
     }
     
     return _imageView;

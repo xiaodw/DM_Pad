@@ -52,7 +52,7 @@
 - (void)setShowBorder:(BOOL)showBorder {
     _showBorder = showBorder;
     
-    NSInteger borderWidth = _showBorder ? 2 : 0;
+    NSInteger borderWidth = _showBorder ? 1.5 : 0;
     if (_showBorder) {
         _imageView.layer.borderColor = DMColorBaseMeiRed.CGColor;
     }

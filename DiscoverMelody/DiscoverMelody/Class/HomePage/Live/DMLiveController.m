@@ -35,6 +35,7 @@ typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布�
 #pragma mark - UI property
 @property (strong, nonatomic) DMLiveVideoManager *liveVideoManager; // 声网SDK Manager
 
+@property (strong, nonatomic) UIView *backgroundView;
 @property (strong, nonatomic) DMLiveView *remoteView;
 @property (strong, nonatomic) DMLiveView *localView;
 @property (strong, nonatomic) UIPanGestureRecognizer *panGuestureRecognizer;
@@ -82,10 +83,7 @@ typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布�
 #pragma mark - Lifecycle Methods
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapShowControlButtons)];
-    [self.view addGestureRecognizer:tapGestureRecognizer];
-    
+
     [self agoraUserStatusLog:self.lessonID
                    targetUID:[DMAccount getUserID]
                    uploadUID:[DMAccount getUserID]
@@ -356,8 +354,6 @@ typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布�
     dispatch_async(dispatch_get_main_queue(), ^{
         if (!_isCoursewareMode) return;
         _isCoursewareMode = NO;
-        [self.coursewareView removeFromSuperview];
-        _coursewareView = nil;
         _syncCourseFiles  = nil;
         self.tapLayoutCount = _beforeLayoutMode;
         [self makeLayoutViews];
@@ -390,16 +386,22 @@ typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布�
 
 #pragma mark - AddSubviews
 - (void)setupMakeAddSubviews {
+    [self.view addSubview:self.backgroundView];
     [self.view addSubview:self.remoteView];
     [self.view addSubview:self.localView];
     [self.view addSubview:self.controlView];
     [self.view addSubview:self.timeView];
     [self.view addSubview:self.willStartView];
     [self.view addSubview:self.recordingLabel];
+    [self.view addSubview:self.coursewareView];
 }
 
 #pragma mark - LayoutSubviews
 - (void)setupMakeLayoutSubviews {
+    [_backgroundView makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
+    
     [_recordingLabel makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.view.mas_right).offset(-44);
         make.bottom.equalTo(self.view.mas_bottom).offset(-18);
@@ -427,6 +429,11 @@ typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布�
     [_willStartView makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self.view);
         make.size.equalTo(CGSizeMake(220, 220));
+    }];
+    [_coursewareView makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.mas_right);
+        make.bottom.top.equalTo(self.view);
+        make.width.equalTo(DMScreenWidth*0.5);
     }];
 }
 
@@ -628,6 +635,17 @@ typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布�
     return _syncCourseFiles;
 }
 
+- (UIView *)backgroundView {
+    if (!_backgroundView) {
+        _backgroundView = [UIView new];
+        _backgroundView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.01];
+        UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapShowControlButtons)];
+        [_backgroundView addGestureRecognizer:tapGestureRecognizer];
+    }
+    
+    return _backgroundView;
+}
+
 #pragma mark - Swich Layout
 - (void)makeLayoutViews {
     self.tapLayoutCount += 1;
@@ -635,8 +653,8 @@ typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布�
     [self setShowPlaceholderView];
     
     if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeRemoteFullAndLocalSmall) { // 远端大, 本地小模式
-        [self.view insertSubview:_localView atIndex:0];
-        [self.view insertSubview:_remoteView atIndex:0];
+        [self.view insertSubview:_localView aboveSubview:self.backgroundView];
+        [self.view insertSubview:_remoteView aboveSubview:self.backgroundView];
         [_localView addGestureRecognizer:self.panGuestureRecognizer];
         
         [_remoteView remakeConstraints:self.fullViewLayout];
@@ -651,8 +669,8 @@ typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布�
         _remoteView.mode = DMLiveViewFull;
     }
     else if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeRemoteSmallAndLocalFull) { // 远端小, 本地大模式
-        [self.view insertSubview:_localView atIndex:0];
-        [self.view insertSubview:_remoteView atIndex:0];
+        [self.view insertSubview:_localView aboveSubview:self.backgroundView];
+        [self.view insertSubview:_remoteView aboveSubview:self.backgroundView];
         [_remoteView addGestureRecognizer:self.panGuestureRecognizer];
         
         [_remoteView remakeConstraints:self.smallViewLayout];
@@ -667,8 +685,9 @@ typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布�
         _remoteView.mode = DMLiveViewSmall;
     }
     else if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeAveragDistribution) {
-        [self.view insertSubview:_remoteView atIndex:0];
-        [self.view insertSubview:_localView atIndex:0];
+        [self.view insertSubview:_remoteView aboveSubview:self.backgroundView];
+        [self.view insertSubview:_localView aboveSubview:self.backgroundView];
+        
         if (_isCoursewareMode) { // 上下
             [_remoteView remakeConstraints:^(MASConstraintMaker *make) {
                 make.left.top.equalTo(self.view);
@@ -680,9 +699,6 @@ typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布�
                 make.bottom.equalTo(self.view);
             }];
             
-            if (!self.coursewareView.superview){
-                [self.view insertSubview:self.coursewareView belowSubview:self.localView];
-            }
             [_coursewareView remakeConstraints:^(MASConstraintMaker *make) {
                 make.right.bottom.top.equalTo(self.view);
                 make.width.equalTo(DMScreenWidth*0.5);
@@ -703,6 +719,14 @@ typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布�
             _remoteView.mode = DMLiveViewBalanceLR;
         }
     }
+    MASViewAttribute *att = self.view.mas_right;
+    if (self.tapLayoutCount % DMLayoutModeAll == DMLayoutModeAveragDistribution && _isCoursewareMode) {
+        att = self.localView.mas_right;
+    }
+    [_recordingLabel remakeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(att).offset(-44);
+        make.bottom.equalTo(self.view.mas_bottom).offset(-18);
+    }];
     
     [UIView animateWithDuration:0.25 animations:^{
         [self.view layoutSubviews];
