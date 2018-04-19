@@ -28,6 +28,7 @@
 @implementation DMWhiteBoardView
 
 - (void)setLineWidth:(CGFloat)lineWidth {
+    _lineWidth = lineWidth;
     [self sendSignalingControlCode:8 sourceData:[@[@(lineWidth)] mutableCopy] success:^{
         _lineWidth = lineWidth;
     }];

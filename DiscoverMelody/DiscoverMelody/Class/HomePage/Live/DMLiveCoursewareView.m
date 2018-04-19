@@ -6,6 +6,7 @@
 #import "DMWhiteBoardControl.h"
 #import "DMSlider.h"
 #import "DMColorsView.h"
+#import "DMWhiteBoardView.h"
 
 #define kCoursewareCellID @"Courseware"
 
@@ -19,6 +20,7 @@
 @property (strong, nonatomic) DMColorsView *colorsView;
 @property (strong, nonatomic) UIView *backgroundView;
 @property (strong, nonatomic) UIImageView *imageView;
+@property (strong, nonatomic) DMWhiteBoardView *whiteBoardView;
 
 @end
 
@@ -59,13 +61,13 @@
 }
 
 - (void)didTapLineWidth:(DMSlider *)slider {
-    NSLog(@"%s", __func__);
-//    _drawView.lineWidth = slider.value;
+    NSLog(@"%s   ----- %f", __func__, slider.value);
+    _whiteBoardView.lineWidth = slider.value;
 }
 
 - (void)didTapAction:(DMSlider *)slider {
     NSLog(@"%s", __func__);
-//    [self didTapLineWidth:slider];
+    [self didTapLineWidth:slider];
 }
 
 - (void)didTapBackground {
@@ -106,6 +108,8 @@
     [UIView animateWithDuration:0.25 animations:^{
         _whiteBoardControl.alpha = 1;
         _sycBrowseView.alpha = 0;
+    } completion:^(BOOL finished) {
+        _whiteBoardView.hidden = NO;
     }];
 }
 
@@ -116,14 +120,17 @@
 #pragma mark - DMWhiteBoardControlDelegate
 - (void)whiteBoardControlDidTapClean:(DMWhiteBoardControl *)whiteBoardControl {
     NSLog(@"%s", __func__);
+    [_whiteBoardView clean];
 }
 
 - (void)whiteBoardControlDidTapUndo:(DMWhiteBoardControl *)whiteBoardControl {
     NSLog(@"%s", __func__);
+    [_whiteBoardView undo];
 }
 
 - (void)whiteBoardControlDidTapForward:(DMWhiteBoardControl *)whiteBoardControl {
     NSLog(@"%s", __func__);
+    [_whiteBoardView forward];
 }
 
 - (void)whiteBoardControl:(DMWhiteBoardControl *)whiteBoardControl didTapBrushButton:(UIButton *)button {
@@ -177,7 +184,8 @@
 
 #pragma mark - DMColorsViewDelegate
 - (void)colorsView:(DMColorsView *)colorsView didTapColr:(UIColor *)color {
-    self.whiteBoardControl.lineColor = color;
+    _whiteBoardControl.lineColor = color;
+    _whiteBoardView.lineColor = color;
 }
 
 - (void)setupMakeAddSubviews {
@@ -185,6 +193,7 @@
     [self addSubview:self.collectionView];
     [self addSubview:self.closeButton];
     [self addSubview:self.whiteBoardControl];
+    [self addSubview:self.whiteBoardView];
     [self addSubview:self.backgroundView];
 }
 
@@ -209,6 +218,10 @@
     }];
     [_backgroundView makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self);
+    }];
+    
+    [_whiteBoardView makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.collectionView);
     }];
 }
 
@@ -266,8 +279,8 @@
     if (!_slider) {
         _slider = [DMSlider new];
         _slider.minimumValue = 1;
-        _slider.maximumValue = 5;
-        _slider.value = 3;
+        _slider.maximumValue = 4;
+        _slider.value = (_slider.minimumValue + _slider.maximumValue) * 0.5;
         [_slider addTarget:self action:@selector(didTapLineWidth:) forControlEvents:UIControlEventTouchUpInside];
         [_slider dm_addTarget:self action:@selector(didTapAction:) forControlEvents:DMControlEventTouchUpInside];
         _slider.transform = CGAffineTransformMakeRotation(-M_PI_2);
@@ -291,6 +304,16 @@
     }
     
     return _colorsView;
+}
+
+- (DMWhiteBoardView *)whiteBoardView {
+    if (!_whiteBoardView) {
+        _whiteBoardView = [DMWhiteBoardView new];
+        _whiteBoardView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.01];
+        _whiteBoardView.hidden = YES;
+    }
+    
+    return _whiteBoardView;
 }
 
 - (UIView *)backgroundView {

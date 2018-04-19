@@ -1058,15 +1058,15 @@
 			isa = PBXGroup;
 			children = (
 				514253E22088353900776051 /* DMSycBrowseView.h */,
-				514253E32088353900776051 /* DMColorsView.m */,
-				514253E42088353900776051 /* DMWhiteBoardView.h */,
-				514253E52088353900776051 /* DMWhiteBoardControl.m */,
-				514253E62088353900776051 /* DMBezierPath.m */,
-				514253E72088353900776051 /* DMWhiteBoardView.m */,
-				514253E82088353900776051 /* DMColorsView.h */,
 				514253E92088353900776051 /* DMSycBrowseView.m */,
+				514253E42088353900776051 /* DMWhiteBoardView.h */,
+				514253E72088353900776051 /* DMWhiteBoardView.m */,
 				514253EA2088353900776051 /* DMWhiteBoardControl.h */,
+				514253E52088353900776051 /* DMWhiteBoardControl.m */,
+				514253E82088353900776051 /* DMColorsView.h */,
+				514253E32088353900776051 /* DMColorsView.m */,
 				514253EB2088353900776051 /* DMBezierPath.h */,
+				514253E62088353900776051 /* DMBezierPath.m */,
 			);
 			path = WhiteBoard;
 			sourceTree = "<group>";
