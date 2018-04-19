@@ -15,4 +15,6 @@
 
 @property (strong, nonatomic) NSArray *allCoursewares;
 
+- (void)cleanWhiteBoard;
+
 @end

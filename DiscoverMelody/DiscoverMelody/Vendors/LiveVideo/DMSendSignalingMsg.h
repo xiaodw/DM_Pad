@@ -14,6 +14,6 @@
 + (NSString *)getSignalingStruct:(DMSignalingCodeType)code sourceData:(NSArray *)sourceData synType:(DMSignalingMsgType)type;
 
 // 同步白板
-+ (NSString *)getSignalingStruct:(DMSignalingCodeType)code sourceData:(NSArray *)sourceData index:(NSInteger)index size:(CGSize)size lineWidth:(CGFloat)width lineColor:(NSString *)color pathUID:(NSString *)pathUID synType:(DMSignalingMsgType)type;
++ (NSString *)getSignalingStruct:(DMSignalingWhiteBoardCodeType)code sourceData:(NSArray *)sourceData index:(NSInteger)index size:(CGSize)size lineWidth:(CGFloat)width lineColor:(NSString *)color synType:(DMSignalingMsgType)type;
 
 @end

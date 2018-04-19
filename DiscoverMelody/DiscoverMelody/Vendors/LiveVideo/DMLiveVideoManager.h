@@ -85,6 +85,7 @@ typedef void (^BlockSignalingOnLogout)(AgoraEcode ecode);//信令与服务器失
 @property (nonatomic, strong)BlockSignalingOnLogout blockSignalingOnLogout;
 
 -(void)onSignalingMessageReceive:(BlockOnMessageInstantReceive)blockOnMessageInstantReceive;
+-(void)onSignalingMessageReceiveWhiteBoard:(BlockOnMessageInstantReceive)blockOnMessageInstantReceiveWhiteBoard;
 //
 /** 发送同步消息（点对点）
  *

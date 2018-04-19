@@ -30,7 +30,6 @@ typedef NS_ENUM(NSInteger, DMSignalingWhiteBoardCodeType) {
     DMSignalingWhiteBoardCodeClean       = 2, // 同步清除
     DMSignalingWhiteBoardCodeUndo        = 3, // 同步回退
     DMSignalingWhiteBoardCodeForward     = 4, // 同步前进
-    DMSignalingWhiteBoardCodeClose       = 5  // 同步取消
 };
 
 //上传图片的

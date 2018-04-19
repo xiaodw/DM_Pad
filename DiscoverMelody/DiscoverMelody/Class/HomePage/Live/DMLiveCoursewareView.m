@@ -61,17 +61,22 @@
     }];
 }
 
-- (void)didTapLineWidth:(DMSlider *)slider {
-    NSLog(@"%s   ----- %f", __func__, slider.value);
-    _whiteBoardView.lineWidth = slider.value;
-}
+//- (void)didTapLineWidth:(DMSlider *)slider {
+//    NSLog(@"%s   ----- %f", __func__, slider.value);
+//    _whiteBoardView.lineWidth = slider.value;
+//}
+//
+//- (void)didTapAction:(DMSlider *)slider {
+//    NSLog(@"%s", __func__);
+//    [self didTapLineWidth:slider];
+//}
 
-- (void)didTapAction:(DMSlider *)slider {
-    NSLog(@"%s", __func__);
-    [self didTapLineWidth:slider];
+- (void)cleanWhiteBoard {
+    [_whiteBoardView clean];
 }
 
 - (void)didTapBackground {
+    _whiteBoardView.lineWidth = self.slider.value;
     [self.colorsView removeFromSuperview];
     [self.slider removeFromSuperview];
     [_imageView removeFromSuperview];
@@ -112,6 +117,7 @@
         _sycBrowseView.alpha = 0;
     } completion:^(BOOL finished) {
         _whiteBoardView.hidden = NO;
+        _whiteBoardView.userInteractionEnabled = YES;
     }];
 }
 
@@ -130,7 +136,7 @@
 #pragma mark - DMWhiteBoardControlDelegate
 - (void)whiteBoardControlDidTapClean:(DMWhiteBoardControl *)whiteBoardControl {
     NSLog(@"%s", __func__);
-    [_whiteBoardView clean];
+    [self cleanWhiteBoard];
 }
 
 - (void)whiteBoardControlDidTapUndo:(DMWhiteBoardControl *)whiteBoardControl {
@@ -189,6 +195,10 @@
     [UIView animateWithDuration:0.25 animations:^{
         _whiteBoardControl.alpha = 0;
         _sycBrowseView.alpha = 1;
+    } completion:^(BOOL finished) {
+        _whiteBoardView.hidden = YES;
+        _whiteBoardView.userInteractionEnabled = NO;
+        [self cleanWhiteBoard];
     }];
 }
 
@@ -208,9 +218,11 @@
 }
 
 - (void)setupMakeLayoutSubviews {
+    NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue];
+    CGFloat bheight = userIdentity ? 80 : 0; // 0: 学生, 1: 老师
     [_sycBrowseView makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.left.right.equalTo(self);
-        make.height.equalTo(80);
+        make.height.equalTo(bheight);
     }];
     [_collectionView makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.equalTo(self);
@@ -226,6 +238,7 @@
     [_whiteBoardControl makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(_sycBrowseView);
     }];
+    
     [_backgroundView makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self);
     }];
@@ -269,6 +282,7 @@
 - (DMSycBrowseView *)sycBrowseView {
     if (!_sycBrowseView) {
         _sycBrowseView = [DMSycBrowseView new];
+        _sycBrowseView.hidden = ![[DMAccount getUserIdentity] integerValue];
         _sycBrowseView.delegate = self;
     }
     
@@ -278,6 +292,7 @@
 - (DMWhiteBoardControl *)whiteBoardControl {
     if (!_whiteBoardControl) {
         _whiteBoardControl = [DMWhiteBoardControl new];
+        _whiteBoardControl.hidden = ![[DMAccount getUserIdentity] integerValue];
         _whiteBoardControl.delegate = self;
         _whiteBoardControl.alpha = 0;
     }
@@ -291,8 +306,8 @@
         _slider.minimumValue = 1;
         _slider.maximumValue = 4;
         _slider.value = (_slider.minimumValue + _slider.maximumValue) * 0.5;
-        [_slider addTarget:self action:@selector(didTapLineWidth:) forControlEvents:UIControlEventTouchUpInside];
-        [_slider dm_addTarget:self action:@selector(didTapAction:) forControlEvents:DMControlEventTouchUpInside];
+//        [_slider addTarget:self action:@selector(didTapLineWidth:) forControlEvents:UIControlEventTouchUpInside];
+//        [_slider dm_addTarget:self action:@selector(didTapAction:) forControlEvents:DMControlEventTouchUpInside];
         _slider.transform = CGAffineTransformMakeRotation(-M_PI_2);
     }
     
@@ -305,8 +320,6 @@
         _colorsView.delegate = self;
         // 红, 黄, 绿, 蓝, 黑, 白
         _colorsView.colors = @[@"ff0000", @"#ffff00", @"#00ff00", @"#00a0e9", @"#000000", @"#ffffff"];
-        
-        
     }
     
     return _colorsView;
@@ -316,7 +329,8 @@
     if (!_whiteBoardView) {
         _whiteBoardView = [DMWhiteBoardView new];
         _whiteBoardView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.01];
-        _whiteBoardView.hidden = YES;
+        _whiteBoardView.userInteractionEnabled = NO;
+        _whiteBoardView.hidden = [[DMAccount getUserIdentity] integerValue];
     }
     
     return _whiteBoardView;

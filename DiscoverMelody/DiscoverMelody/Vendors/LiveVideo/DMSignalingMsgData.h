@@ -11,6 +11,7 @@
 @interface DMSignalingData : NSObject
 
 @property (nonatomic, strong) NSArray *list;
+@property (nonatomic, strong) NSArray *listPoint;
 
 @end
 

@@ -10,17 +10,21 @@
 
 #define kSourceKey @"source"
 #define kIndexKey  @"index"
+#define kFlag      @"flag"
+
 
 @interface DMWhiteBoardView()
 
 @property (strong, nonatomic) NSMutableDictionary *paths; // 画布呈现路径
+// 回退的路径, 再次开始画paths内会删除removeKeys, 并且清空
+@property (strong, nonatomic) NSMutableArray *removeKeys;
+@property (strong, nonatomic) NSMutableArray *sendUUIDs; // 发送的所有包UUID
 @property (strong, nonatomic) NSMutableArray *pathPoints; // 当前包的点个数
-@property (assign, nonatomic) NSInteger sendIndex;
+@property (assign, nonatomic) NSInteger sendIndex; // 发送的path索引
 
 @property (strong, nonatomic) DMLiveVideoManager *liveVideoManager;
 @property (strong, nonatomic) dispatch_source_t timer; // n秒中同步画布
 @property (assign, nonatomic) NSUInteger secondsNum; // 画布实时时间间隔
-@property (strong, nonatomic) NSString *currentIndex; // 当前最后路径的索引值
 
 @end
 
@@ -35,25 +39,147 @@
         self.lineWidth = 3;
         // 设置路径的颜色
         self.hexString = @"ff0000";
+        
+        [self.liveVideoManager onSignalingMessageReceiveWhiteBoard:^(NSString *account, DMSignalingMsgData *responseDataModel) {
+            if (responseDataModel.code == DMSignalingWhiteBoardCodeBrush) { // 同步笔触点
+                if (_removeKeys.count) {
+                    [self.paths removeObjectsForKeys:self.removeKeys];
+                    NSLog(@"self.paths.count:%ld", self.paths.count);
+                    _removeKeys = nil;
+                }
+                // 一个包屏蔽多次接收
+                if ([weakSelf.sendUUIDs containsObject:responseDataModel.packetUID]) return;
+                
+                [weakSelf.sendUUIDs addObject:responseDataModel.packetUID];
+                DMBezierPath *path = weakSelf.paths[@(responseDataModel.indexID)][kSourceKey];
+                if (!path) {
+                    path = [weakSelf setupInitBezierPath];
+                    path.lineWidth = responseDataModel.lineWidth;
+                    path.lineColor = DMColorWithHexString(responseDataModel.colorHex);
+                    weakSelf.paths[@(responseDataModel.indexID)] = [@{kSourceKey: path, kFlag:@(1)} mutableCopy];
+                }
+                CGSize reScreenSize = CGSizeFromString(responseDataModel.size);
+                CGFloat reScreenWidth = reScreenSize.width;
+                CGFloat reScreenHeight = reScreenSize.height;
+                NSArray *points = responseDataModel.data.listPoint;
+                for (int i = 0; i < points.count; i++) {
+                    NSString *pointStr = points[i];
+                    CGPoint point = CGPointFromString(pointStr);
+                    CGFloat wScale = point.x / reScreenWidth;
+                    CGFloat hScale = point.y / reScreenHeight;
+                    CGFloat pointX = weakSelf.dm_width * wScale;
+                    CGFloat pointY = weakSelf.dm_height * hScale;
+                    point = CGPointMake(pointX, pointY);
+                    if (path.empty) { [path moveToPoint:point]; }
+                    [path addLineToPoint:point];
+                }
+                [weakSelf setNeedsDisplay];
+                return ;
+            }
+            
+            if (responseDataModel.code == DMSignalingWhiteBoardCodeClean) {
+                [weakSelf cleanSignaling];
+                return;
+            }
+            
+            if (responseDataModel.code == DMSignalingWhiteBoardCodeUndo) {
+                [weakSelf undoSignaling:responseDataModel.indexID];
+                return;
+            }
+            
+            if (responseDataModel.code == DMSignalingWhiteBoardCodeForward) {
+                [weakSelf forwardSignaling:responseDataModel.indexID];
+                return;
+            }
+        }];
     }
     return self;
 }
 
+- (void)cleanSignaling {
+    _paths = nil;
+    _sendUUIDs = nil;
+    _removeKeys = nil;
+    _pathPoints = nil;
+    _secondsNum = 0;
+    //重绘
+    [self setNeedsDisplay];
+}
+
 // 清除
 - (void)clean {
-    
+    [self cleanSignaling];
+    [self sendSignalingControlCode:DMSignalingWhiteBoardCodeClean success:^(NSString *messageID) {
+        NSLog(@"sendSignalingControlCode: success");
+    } faile:^(NSString *messageID, AgoraEcode ecode) {
+        NSLog(@"sendSignalingControlCode: faile");
+    }];
+}
+
+//回退
+- (void)undoSignaling:(NSInteger)index{
+    NSMutableDictionary *dict = self.paths[@(index)];
+    dict[kFlag] = @(0);
+    [self.removeKeys addObject:@(index)];
+    NSLog(@"self.paths.count:%ld", self.paths.count);
+    [self setNeedsDisplay];
 }
 
 // 回退
 - (void)undo {
+    if (self.paths.count == 0) return;
+    NSInteger lastIndex = [self undoLastPath];
+    if(lastIndex == 0) return;
+    [self undoSignaling:lastIndex];
     
+    [self sendSignalingControlCode:DMSignalingWhiteBoardCodeUndo
+                       removeIndex:lastIndex
+                           success:^(NSString *messageID) {}
+                             faile:^(NSString *messageID, AgoraEcode ecode) {}];
+}
+
+- (void)forwardSignaling:(NSInteger)index{
+    NSMutableDictionary *dict = self.paths[@(index)];
+    dict[kFlag] = @(1);
+    [self.removeKeys removeObject:@(index)];
+    NSLog(@"self.paths.count:%ld", self.paths.count);
+    [self setNeedsDisplay];
 }
 
 // 前进
 - (void)forward {
+    if (self.removeKeys.count == 0) return;
+    NSInteger firstIndex = [self forwardFirstPath];
+    [self forwardSignaling:firstIndex];
     
+    [self sendSignalingControlCode:DMSignalingWhiteBoardCodeForward
+                       removeIndex:firstIndex
+                           success:^(NSString *messageID) {}
+                             faile:^(NSString *messageID, AgoraEcode ecode) {}];
 }
 
+- (NSInteger)forwardFirstPath {
+    NSInteger firstIndex = [self.removeKeys.lastObject integerValue];
+    for (NSString *indexKey in self.removeKeys) {
+        NSInteger index = indexKey.integerValue;
+        if (index < firstIndex ) {
+            firstIndex = index;
+        }
+    }
+    return firstIndex;
+}
+
+- (NSInteger)undoLastPath {
+    NSInteger lastIndex = 0;
+    for (NSString *indexKey in self.paths) {
+        NSMutableDictionary *dict = self.paths[indexKey];
+        if (![dict[kFlag] boolValue]) continue ;
+        NSInteger index = indexKey.integerValue;
+        if (lastIndex >= index) continue;
+        lastIndex = index;
+    }
+    return lastIndex;
+}
 
 // 创建一条路径
 - (DMBezierPath *)setupInitBezierPath {
@@ -63,9 +189,14 @@
     return path;
 }
 
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [self timer];
     _sendIndex++;
+    if (_removeKeys.count) {
+        [self.paths removeObjectsForKeys:self.removeKeys];
+        NSLog(@"self.paths.count:%ld", self.paths.count);
+        _removeKeys = nil;
+    }
     // 获取触摸对象
     UITouch *touch = [touches anyObject];
     // 获取手指的位置
@@ -79,7 +210,7 @@
     [path addLineToPoint:point];
 
     // 把每一次新创建的路径 添加到数组当中
-    self.paths[@(_sendIndex)] = @{kSourceKey: path, kIndexKey: @(self.paths.count+1)};
+    self.paths[@(_sendIndex)] = [@{kSourceKey: path, kFlag:@(1)} mutableCopy];
 
     NSString *pointString = NSStringFromCGPoint(point);
     [self.pathPoints addObject:pointString];
@@ -95,7 +226,11 @@
     [self.pathPoints addObject:pointString];
 
     if (self.pathPoints.count % kMaxPoint == 0) {
-//        [self sendSignalingControlCode:0 sourceData:self.pathPoints success:nil];
+        [self sendSignalingControlCode:DMSignalingWhiteBoardCodeBrush success:^(NSString *messageID) {
+            NSLog(@"sendSignalingControlCode: success");
+        } faile:^(NSString *messageID, AgoraEcode ecode) {
+            NSLog(@"sendSignalingControlCode: faile");
+        }];
         _pathPoints = nil;
         _secondsNum = 0;
     }
@@ -107,15 +242,44 @@
     [self setNeedsDisplay];
 }
 
+- (void)sendSignalingControlCode:(DMSignalingWhiteBoardCodeType)code success:(void(^)(NSString *messageID))success faile:(void(^)(NSString *messageID, AgoraEcode ecode))faile {
+    NSString *msg = [DMSendSignalingMsg getSignalingStruct:code sourceData:self.pathPoints index:self.sendIndex size:self.dm_size lineWidth:self.lineWidth lineColor:self.hexString synType:DMSignalingMsgSynWhiteBoard];
+    [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) {
+        NSLog(@"success");
+        if (success) success(messageID);
+    } faile:^(NSString *messageID, AgoraEcode ecode) {
+        NSLog(@"faile ");
+        if (faile) faile(messageID, ecode);
+    }];
+}
+
+- (void)sendSignalingControlCode:(DMSignalingWhiteBoardCodeType)code removeIndex:(NSInteger)index success:(void(^)(NSString *messageID))success faile:(void(^)(NSString *messageID, AgoraEcode ecode))faile {
+    NSString *msg = [DMSendSignalingMsg getSignalingStruct:code sourceData:self.pathPoints index:index size:self.dm_size lineWidth:self.lineWidth lineColor:self.hexString synType:DMSignalingMsgSynWhiteBoard];
+    [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) {
+        NSLog(@"success");
+        if (success) success(messageID);
+    } faile:^(NSString *messageID, AgoraEcode ecode) {
+        NSLog(@"faile ");
+        if (faile) faile(messageID, ecode);
+    }];
+}
+
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [self sendSignalingControlCode:DMSignalingWhiteBoardCodeBrush success:^(NSString *messageID) {
+        NSLog(@"sendSignalingControlCode: success");
+    } faile:^(NSString *messageID, AgoraEcode ecode) {
+        NSLog(@"sendSignalingControlCode: faile");
+    }];
     self.pathPoints = nil;
     [self setNeedsDisplay];
 }
 
 - (void)drawRect:(CGRect)rect {
     // Drawing code
-    for (NSString *uuid in self.paths) {
-        DMBezierPath *path = self.paths[uuid][kSourceKey];
+    for (NSString *index in self.paths) {
+        NSDictionary *dict = self.paths[index];
+        if (![dict[kFlag] boolValue]) continue;
+        DMBezierPath *path = self.paths[index][kSourceKey];
         //设置颜色
         [path.lineColor set];
         //渲染
@@ -123,20 +287,36 @@
     }
 }
 
-//#pragma mark - Lazy
-//- (DMLiveVideoManager *)liveVideoManager {
-//    if (!_liveVideoManager) {
-//        _liveVideoManager = [DMLiveVideoManager shareInstance];
-//    }
-//
-//    return _liveVideoManager;
-//}
+#pragma mark - Lazy
+- (DMLiveVideoManager *)liveVideoManager {
+    if (!_liveVideoManager) {
+        _liveVideoManager = [DMLiveVideoManager shareInstance];
+    }
+
+    return _liveVideoManager;
+}
 
 -(NSMutableDictionary *)paths{
     if(!_paths){
         _paths = [NSMutableDictionary dictionary];
     }
     return _paths;
+}
+
+- (NSMutableArray *)sendUUIDs {
+    if (!_sendUUIDs) {
+        _sendUUIDs = [NSMutableArray array];
+    }
+    
+    return _sendUUIDs;
+}
+
+- (NSMutableArray *)removeKeys {
+    if (!_removeKeys) {
+        _removeKeys = [NSMutableArray array];
+    }
+    
+    return _removeKeys;
 }
 
 - (NSMutableArray *)pathPoints {
@@ -146,21 +326,5 @@
 
     return _pathPoints;
 }
-//
-//- (NSMutableArray *)removeUUIDs {
-//    if (!_removeUUIDs) {
-//        _removeUUIDs = [NSMutableArray array];
-//    }
-//
-//    return _removeUUIDs;
-//}
-
-//- (NSMutableArray *)sendUUIDs {
-//    if (!_sendUUIDs) {
-//        _sendUUIDs = [NSMutableArray array];
-//    }
-//
-//    return _sendUUIDs;
-//}
 
 @end
