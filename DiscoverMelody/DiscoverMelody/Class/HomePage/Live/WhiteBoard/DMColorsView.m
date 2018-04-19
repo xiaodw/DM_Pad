@@ -42,9 +42,9 @@
 }
 
 - (void)didTapColor:(UIButton *)button {
-    if (![self.delegate respondsToSelector:@selector(colorsView:didTapColr:)]) return;
+    if (![self.delegate respondsToSelector:@selector(colorsView:didTapColr:strHex:)]) return;
     self.selectedView = button;
-    [self.delegate colorsView:self didTapColr:button.backgroundColor];
+    [self.delegate colorsView:self didTapColr:button.backgroundColor strHex:_colors[button.tag]];
 }
 
 - (UIButton *)setupButtons {
@@ -60,7 +60,8 @@
 - (void)setupMakeAddSubviews {
     for (int i = 0; i < _colors.count; i++) {
         UIButton *button = [self setupButtons];
-        button.backgroundColor = _colors[i];
+        button.tag = i;
+        button.backgroundColor = DMColorWithHexString(_colors[i]);
         [self addSubview:button];
         if (!_selectedView) self.selectedView = button;
     }

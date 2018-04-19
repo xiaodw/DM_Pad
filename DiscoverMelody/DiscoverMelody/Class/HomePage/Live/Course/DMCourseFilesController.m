@@ -249,7 +249,7 @@
         return;
     }
     
-    NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_Start_Syn sourceData:self.selectedCpirses index:0];
+    NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_Start_Syn sourceData:self.selectedCpirses synType:DMSignalingMsgSynCourse];
     WS(weakSelf)
     [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) {
         if (![weakSelf.delegate respondsToSelector:@selector(courseFilesController:syncCourses:)]){

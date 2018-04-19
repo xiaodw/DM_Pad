@@ -79,6 +79,7 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == _currentIndexPath.row) return;
     NSArray *reloadIndexPath = @[_currentIndexPath, indexPath];
     _currentIndexPath = indexPath;
     [self.collectionView reloadItemsAtIndexPaths:reloadIndexPath];

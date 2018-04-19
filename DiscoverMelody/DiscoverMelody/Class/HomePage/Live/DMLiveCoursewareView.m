@@ -47,12 +47,13 @@
 
 - (void)didTapClose {
     DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:DMTitleCloseSync message:DMTitleCloseSyncMessage preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleCancel otherTitle:DMTitleOK, nil];
+    WS(weakSelf)
     [alert showWithViewController:(UIViewController *)self.delegate IndexBlock:^(NSInteger index) {
         if (index == 1) { // 右侧
-            NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_End_Syn sourceData:nil index:0];
+            NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_End_Syn sourceData:nil synType:DMSignalingMsgSynCourse];
             [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) {
-                if (![self.delegate respondsToSelector:@selector(liveCoursewareViewDidTapClose:)]) return;
-                [self.delegate liveCoursewareViewDidTapClose:self];
+                if (![weakSelf.delegate respondsToSelector:@selector(liveCoursewareViewDidTapClose:)]) return;
+                [weakSelf.delegate liveCoursewareViewDidTapClose:weakSelf];
             } faile:^(NSString *messageID, AgoraEcode ecode) {
                 
             }];
@@ -92,8 +93,9 @@
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     NSInteger index = (scrollView.contentOffset.x / self.collectionView.dm_width + 0.5); // 约等于
+    if (index >= self.allCoursewares.count) return;
     
-    NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_Turn_Page sourceData:[self.allCoursewares mutableCopy] index:index];
+    NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_Turn_Page sourceData:@[self.allCoursewares[index]] synType:DMSignalingMsgSynCourse];
     [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) {
         
     } faile:^(NSString *messageID, AgoraEcode ecode) {
@@ -114,7 +116,15 @@
 }
 
 - (void)sycBrowseView:(DMSycBrowseView *)sycBrowseView didTapIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.row >= self.allCoursewares.count) return;
     [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
+    NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_Turn_Page sourceData:@[self.allCoursewares[indexPath.row]] synType:DMSignalingMsgSynCourse];
+    [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) {
+        
+    } faile:^(NSString *messageID, AgoraEcode ecode) {
+        
+    }];
 }
 
 #pragma mark - DMWhiteBoardControlDelegate
@@ -183,9 +193,9 @@
 }
 
 #pragma mark - DMColorsViewDelegate
-- (void)colorsView:(DMColorsView *)colorsView didTapColr:(UIColor *)color {
+- (void)colorsView:(DMColorsView *)colorsView didTapColr:(UIColor *)color strHex:(NSString *)strHex {
     _whiteBoardControl.lineColor = color;
-    _whiteBoardView.lineColor = color;
+    _whiteBoardView.hexString = strHex;
 }
 
 - (void)setupMakeAddSubviews {
@@ -293,14 +303,10 @@
     if (!_colorsView) {
         _colorsView = [DMColorsView new];
         _colorsView.delegate = self;
+        // 红, 黄, 绿, 蓝, 黑, 白
+        _colorsView.colors = @[@"ff0000", @"#ffff00", @"#00ff00", @"#00a0e9", @"#000000", @"#ffffff"];
         
-        UIColor *redColor = [UIColor redColor];
-        UIColor *yellowColor = [UIColor yellowColor];
-        UIColor *greenColor = [UIColor greenColor];
-        UIColor *blueColor = [UIColor blueColor];
-        UIColor *blackColor = [UIColor blackColor];
-        UIColor *whiteColor = [UIColor whiteColor];
-        _colorsView.colors = @[redColor, yellowColor, greenColor, blueColor, blackColor, whiteColor];
+        
     }
     
     return _colorsView;

@@ -9,8 +9,8 @@
 #import "DMCourseFilesController.h"
 #import "DMMicrophoneView.h"
 #import "DMSecretKeyManager.h"
-#import "DMSignalingMsgData.h"
 #import "DMSendSignalingMsg.h"
+#import "DMSignalingMsgData.h"
 #import "DMButton.h"
 
 #import "DMQuestionViewController.h"
@@ -96,7 +96,7 @@ typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布�
     [self joinChannel];
     [self setupMakeLiveCallback];
     [self timer];
-//    [self.liveVideoManager switchSound:NO block:nil];
+    [self.liveVideoManager switchSound:NO block:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -216,30 +216,25 @@ typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布�
     }];
     
     //接收信令同步的消息，完成同步功能
-    [self.liveVideoManager onSignalingMessageReceive:^(NSString *account, NSString *msg) {
-        // NSLog(@"接收到来自 %@，的超级好消息 %@", account , msg);
-        if (!STR_IS_NIL(msg)) {
-            DMSignalingMsgData *responseDataModel = [DMSignalingMsgData mj_objectWithKeyValues:msg];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                // 1 同步开始
-                if (responseDataModel.code == 1) {
-                    NSArray *courses = responseDataModel.data.list.firstObject;
-                    [weakSelf courseFilesController:nil syncCourses:@[courses]];
-                    return ;
-                }
-                
-                // 2,操作
-                if (responseDataModel.code == 2) {
-                    [weakSelf courseFilesController:nil syncCourses:responseDataModel.data.list];
-                    return ;
-                }
-                
-                // 3,结束同步
-                if (responseDataModel.code == 3) {
-                    [weakSelf liveCoursewareViewDidTapClose:nil];
-                    return ;
-                }
-            });
+    [self.liveVideoManager onSignalingMessageReceive:^(NSString *account, DMSignalingMsgData *responseDataModel) {
+        NSLog(@"onSignalingMessageReceive: %@", [NSThread currentThread]);
+        // 1 同步开始
+        if (responseDataModel.code == 1) {
+            NSArray *courses = responseDataModel.data.list.firstObject;
+            [weakSelf courseFilesController:nil syncCourses:@[courses]];
+            return ;
+        }
+        
+        // 2,操作
+        if (responseDataModel.code == 2) {
+            [weakSelf courseFilesController:nil syncCourses:responseDataModel.data.list];
+            return ;
+        }
+        
+        // 3,结束同步
+        if (responseDataModel.code == 3) {
+            [weakSelf liveCoursewareViewDidTapClose:nil];
+            return ;
         }
     }];
 }
@@ -283,7 +278,7 @@ typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布�
     [self.liveVideoManager quitLiveVideo:^(BOOL success) {
         [weakSelf desLastVC:weakSelf.presentVCs isPop:isPop];
         if ([[DMAccount getUserIdentity] integerValue]) {
-            NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_End_Syn sourceData:nil index:0];
+            NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_End_Syn sourceData:nil synType:DMSignalingMsgSynCourse];
             [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) { } faile:^(NSString *messageID, AgoraEcode ecode) {}];
         }
          [weakSelf agoraUserStatusLog:weakSelf.lessonID targetUID:[DMAccount getUserID] uploadUID:[DMAccount getUserID] action:DMAgoraUserStatusLog_Exit];
@@ -350,29 +345,30 @@ typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布�
 }
 
 #pragma mark - DMLiveCoursewareViewDelegate
+// 关闭课件
 - (void)liveCoursewareViewDidTapClose:(DMLiveCoursewareView *)liveCoursewareView {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (!_isCoursewareMode) return;
-        _isCoursewareMode = NO;
-        _syncCourseFiles  = nil;
-        self.tapLayoutCount = _beforeLayoutMode;
-        [self makeLayoutViews];
-    });
+     NSLog(@"liveCoursewareViewDidTapClose: %@", [NSThread currentThread]);
+    // 关闭课件
+    if (!_isCoursewareMode) return;
+    _isCoursewareMode = NO;
+    _syncCourseFiles  = nil;
+    self.tapLayoutCount = _beforeLayoutMode;
+    [self makeLayoutViews];
 }
 
 #pragma mark - DMCourseFilesControllerDelegate
+// 点击同步课件
 - (void)courseFilesController:(DMCourseFilesController *)courseFilesController syncCourses:(NSArray *)syncCourses {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        // 记录课件模式值前的布局格式
-        if (!_isCoursewareMode) _beforeLayoutMode = self.tapLayoutCount-1 % DMLayoutModeAll;
-        _isCoursewareMode = YES;
-        self.tapLayoutCount = DMLayoutModeRemoteSmallAndLocalFull; // tapLayoutCount = 1
-        
-        [self makeLayoutViews]; // tapLayoutCount = 2
-        _syncCourseFiles = nil;
-        [self.syncCourseFiles addObjectsFromArray:syncCourses];
-        self.coursewareView.allCoursewares = self.syncCourseFiles;
-    });
+    NSLog(@"syncCourses: %@", [NSThread currentThread]);
+    // 记录课件模式值前的布局格式
+    if (!_isCoursewareMode) _beforeLayoutMode = self.tapLayoutCount-1 % DMLayoutModeAll;
+    _isCoursewareMode = YES;
+    self.tapLayoutCount = DMLayoutModeRemoteSmallAndLocalFull; // tapLayoutCount = 1
+    
+    [self makeLayoutViews]; // tapLayoutCount = 2
+    _syncCourseFiles = nil;
+    [self.syncCourseFiles addObjectsFromArray:syncCourses];
+    self.coursewareView.allCoursewares = self.syncCourseFiles;
 }
 
 #pragma mark - initialization variate

@@ -12,10 +12,25 @@ typedef NS_ENUM(NSInteger, DMCourseListCondition) {
     DMCourseListCondition_WillStart = 3, // 未上课程
 };
 
+typedef NS_ENUM(NSInteger, DMSignalingMsgType) {
+    DMSignalingMsgSynCourse            = 1, // 课件同步
+    DMSignalingMsgSynWhiteBoard        = 2  // 白板同步
+};
+
+// 课件
 typedef NS_ENUM(NSInteger, DMSignalingCodeType) {
     DMSignalingCode_Start_Syn       = 1, // 开始同步
     DMSignalingCode_Turn_Page       = 2, // 同步翻页
     DMSignalingCode_End_Syn         = 3, // 同步结束
+};
+
+// 白板
+typedef NS_ENUM(NSInteger, DMSignalingWhiteBoardCodeType) {
+    DMSignalingWhiteBoardCodeBrush       = 1, // 同步笔触点
+    DMSignalingWhiteBoardCodeClean       = 2, // 同步清除
+    DMSignalingWhiteBoardCodeUndo        = 3, // 同步回退
+    DMSignalingWhiteBoardCodeForward     = 4, // 同步前进
+    DMSignalingWhiteBoardCodeClose       = 5  // 同步取消
 };
 
 //上传图片的

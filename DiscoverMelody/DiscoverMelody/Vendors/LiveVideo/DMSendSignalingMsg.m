@@ -7,34 +7,42 @@
 //
 
 #import "DMSendSignalingMsg.h"
+#import "DMSignalingMsgData.h"
 
 @implementation DMSendSignalingMsg
-+ (NSString *)getSignalingStruct:(DMSignalingCodeType)code sourceData:(NSMutableArray *)sourceData index:(NSInteger)index {
 
-    NSMutableArray *resultArray = [NSMutableArray array];
-    switch (code) {
-        case DMSignalingCode_Start_Syn:
-            [resultArray addObjectsFromArray: sourceData];
-            break;
-        case DMSignalingCode_Turn_Page:
-            if (index < sourceData.count) {
-                [resultArray addObject:[sourceData objectAtIndex:index]];
-            }
-            break;
-        case DMSignalingCode_End_Syn:
-            break;
-        default:
-            break;
-    }
-    NSArray *dicArray = [DMClassDataModel mj_keyValuesArrayWithObjectArray:resultArray];
-    NSMutableDictionary *dics = [NSMutableDictionary dictionaryWithObjectsAndKeys:dicArray, @"list", nil];
-    NSMutableDictionary *sourceDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld", (long)code], @"code", dics, @"data", nil];
-    
++ (NSString *)signalingDataToMsg:(DMSignalingMsgData *)data {
     NSError *parseError = nil;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:sourceDic options:NSJSONWritingPrettyPrinted error:&parseError];
-    if (OBJ_IS_NIL(jsonData)) {
-        return @"";
-    }
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:data.mj_keyValues options:NSJSONWritingPrettyPrinted error:&parseError];
+    if (OBJ_IS_NIL(jsonData)) { return @""; }
     return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 }
+
++ (NSString *)getSignalingStruct:(DMSignalingCodeType)code sourceData:(NSMutableArray *)sourceData index:(NSInteger)index size:(CGSize)size lineWidth:(CGFloat)width lineColor:(NSString *)color pathUID:(NSString *)pathUID synType:(DMSignalingMsgType)type {
+    DMSignalingMsgData *msgData = [DMSignalingMsgData new];
+    DMSignalingData *data = [DMSignalingData new];
+    data.list = sourceData;
+    msgData.type = type;
+    msgData.code = code;
+    msgData.indexID = index;
+    msgData.size = NSStringFromCGSize(size);
+    msgData.colorHex = color;
+    msgData.lineWidth = width;
+    msgData.packetUID = [NSUUID UUID].UUIDString;
+    
+    NSString *msg = [self signalingDataToMsg: msgData];
+    return msg;
+}
+
++ (NSString *)getSignalingStruct:(DMSignalingCodeType)code sourceData:(NSArray *)sourceData synType:(DMSignalingMsgType)type {
+    DMSignalingMsgData *msgData = [DMSignalingMsgData new];
+    DMSignalingData *data = [DMSignalingData new];
+    data.list = sourceData;
+    msgData.type = type;
+    msgData.code = code;
+    msgData.data = data;
+    NSString *msg = [self signalingDataToMsg: msgData];
+    return msg;
+}
+
 @end

@@ -3,8 +3,9 @@
 @class DMColorsView;
 
 @protocol DMColorsViewDelegate<NSObject>
+
 @optional
-- (void)colorsView:(DMColorsView *)colorsView didTapColr:(UIColor *)color;
+- (void)colorsView:(DMColorsView *)colorsView didTapColr:(UIColor *)color strHex:(NSString *)strHex;
 
 @end
 

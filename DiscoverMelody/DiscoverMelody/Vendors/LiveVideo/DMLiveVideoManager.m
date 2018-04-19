@@ -10,6 +10,8 @@
 #import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
 #import "DMSecretKeyManager.h"
 #import "DMSignalingKey.h"
+#import "DMSignalingMsgData.h"
+
 @interface DMLiveVideoManager () <AgoraRtcEngineDelegate>
 
 @property (nonatomic, strong) NSString *channelKey;
@@ -350,17 +352,17 @@ static DMLiveVideoManager* _instance = nil;
 
 //统计数据
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine reportRtcStats:(AgoraRtcStats*)stats {
-NSLog(@"统计数据");
+//NSLog(@"统计数据");
 }
 
 //本地视频统计 - 2秒触发一次
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine localVideoStats:(AgoraRtcLocalVideoStats*)stats {
-NSLog(@"本地视频统计 - 2秒触发一次");
+//NSLog(@"本地视频统计 - 2秒触发一次");
 }
 
 //远程视频统计 - 2秒触发一次
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine remoteVideoStats:(AgoraRtcRemoteVideoStats*)stats {
-NSLog(@"远程视频统计 - 2秒触发一次");
+//NSLog(@"远程视频统计 - 2秒触发一次");
 }
 
 //网络连接中断 - SDK会一直自动重连，除非主动离开频道
@@ -398,10 +400,25 @@ NSLog(@"远程视频统计 - 2秒触发一次");
      ];
     //收到消息
     _inst.onMessageInstantReceive = ^(NSString *account, uint32_t uid, NSString *msg) {
-        if (weakSelf.blockOnMessageInstantReceive) {
-            weakSelf.blockOnMessageInstantReceive(account, msg);
-        }
+        NSLog(@"接收到来自 %@，的超级好消息 %@", account , msg);
+        if (STR_IS_NIL(msg)) { return;}
         
+        DMSignalingMsgData *responseDataModel = [DMSignalingMsgData mj_objectWithKeyValues:msg];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(responseDataModel.type == DMSignalingMsgSynCourse) {
+                if (weakSelf.blockOnMessageInstantReceive) {
+                    weakSelf.blockOnMessageInstantReceive(account, responseDataModel);
+                }
+                return;
+            }
+            
+            if(responseDataModel.type == DMSignalingMsgSynWhiteBoard) {
+                if (weakSelf.blockOnMessageInstantReceiveWhiteBoard) {
+                    weakSelf.blockOnMessageInstantReceiveWhiteBoard(account, responseDataModel);
+                }
+                return;
+            }
+        });
     };
     
     //登录成功
@@ -453,13 +470,17 @@ NSLog(@"远程视频统计 - 2秒触发一次");
     
     //发送成功
     _inst.onMessageSendSuccess = ^(NSString *messageID) {
-        success(messageID);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            success(messageID);
+        });
          NSLog(@"发送信令消息成功了");
     };
     //失败
     _inst.onMessageSendError = ^(NSString *messageID, AgoraEcode ecode) {
-        faile(messageID, ecode);
-         NSLog(@"发送信令消息的失败了");
+        dispatch_async(dispatch_get_main_queue(), ^{
+            faile(messageID, ecode);
+        });
+        NSLog(@"发送信令消息的失败了");
     };
 }
 

@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "agorasdk.h"
 
+@class DMSignalingMsgData;
+
 typedef NS_ENUM(NSInteger, DMLiveVideoViewType) {
     DMLiveVideoViewType_Local = 0,
     DMLiveVideoViewType_Remote,
@@ -28,7 +30,7 @@ typedef void (^BlockRtcEngineConnectionDidLostDidInterrupted)(); //声网SDK与�
 
 
 //信令接收消息
-typedef void (^BlockOnMessageInstantReceive)(NSString* account, NSString* msg);//接收消息
+typedef void (^BlockOnMessageInstantReceive)(NSString* account, DMSignalingMsgData* responseDataModel);//接收消息
 typedef void (^BlockSignalingOnLoginSuccess)(uint32_t uid);//信令登录成功
 typedef void (^BlockSignalingOnLoginFailed)(AgoraEcode ecode);//信令登录失败
 typedef void (^BlockSignalingOnLogout)(AgoraEcode ecode);//信令与服务器失去连接
@@ -77,6 +79,7 @@ typedef void (^BlockSignalingOnLogout)(AgoraEcode ecode);//信令与服务器失
 /////////信令////////
 
 @property (nonatomic, strong)BlockOnMessageInstantReceive blockOnMessageInstantReceive;
+@property (nonatomic, strong)BlockOnMessageInstantReceive blockOnMessageInstantReceiveWhiteBoard;
 @property (nonatomic, strong)BlockSignalingOnLoginSuccess blockSignalingOnLoginSuccess;
 @property (nonatomic, strong)BlockSignalingOnLoginFailed blockSignalingOnLoginFailed;
 @property (nonatomic, strong)BlockSignalingOnLogout blockSignalingOnLogout;
