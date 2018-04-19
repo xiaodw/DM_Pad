@@ -170,6 +170,7 @@
     [self.paths removeObjectForKey:uuid];
     [self setNeedsDisplay];
 }
+
 //回退
 - (void)undo{
     if (self.paths.count == 0) return;
@@ -178,6 +179,12 @@
     [self sendSignalingControlCode:4 success:^{
         [self undoSignalingControl:lastUUID];
     }];
+}
+
+// 前进
+- (void)forwardSignalingControl:(NSString *)uuid{
+    [self.paths removeObjectForKey:uuid];
+    [self setNeedsDisplay];
 }
 
 - (void)forward {
