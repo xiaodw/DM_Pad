@@ -209,10 +209,10 @@
 - (void)setupMakeAddSubviews {
     [self addSubview:self.sycBrowseView];
     [self addSubview:self.collectionView];
-    [self addSubview:self.closeButton];
     [self addSubview:self.whiteBoardControl];
     [self addSubview:self.whiteBoardView];
     [self addSubview:self.backgroundView];
+    [self addSubview:self.closeButton];
 }
 
 - (void)setupMakeLayoutSubviews {
@@ -308,7 +308,6 @@
         _slider.minimumValue = 1;
         _slider.maximumValue = 4;
         _slider.value = (_slider.minimumValue + _slider.maximumValue) * 0.5;
-//        [_slider addTarget:self action:@selector(didTapLineWidth:) forControlEvents:UIControlEventTouchUpInside];
         [_slider dm_addTarget:self action:@selector(didTapAction:) forControlEvents:DMControlEventTouchUpInside];
         _slider.transform = CGAffineTransformMakeRotation(-M_PI_2);
     }
@@ -330,7 +329,7 @@
 - (DMWhiteBoardView *)whiteBoardView {
     if (!_whiteBoardView) {
         _whiteBoardView = [DMWhiteBoardView new];
-        _whiteBoardView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.01];
+        _whiteBoardView.backgroundColor = [UIColor clearColor];
         _whiteBoardView.userInteractionEnabled = NO;
         _whiteBoardView.hidden = [[DMAccount getUserIdentity] integerValue];
     }

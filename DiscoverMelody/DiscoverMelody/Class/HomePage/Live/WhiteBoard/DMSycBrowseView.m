@@ -15,14 +15,16 @@
 @implementation DMSycBrowseView
 
 - (void)setCurrentIndexPath:(NSIndexPath *)currentIndexPath {
+    _currentIndexPath = currentIndexPath;
     if (currentIndexPath.row >= self.allCoursewares.count) return;
     [self collectionView:self.collectionView didSelectItemAtIndexPath:currentIndexPath];
-    [self.collectionView scrollToItemAtIndexPath:self.currentIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    [self.collectionView scrollToItemAtIndexPath:currentIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
 }
 
 - (void)setAllCoursewares:(NSArray *)allCoursewares {
     _allCoursewares = allCoursewares;
 
+    _currentIndexPath = nil;
     _indexLabel.text = [NSString stringWithFormat:@"1/%d", (int)allCoursewares.count];
     [self.collectionView reloadData];
 }
@@ -33,7 +35,6 @@
         self.backgroundColor = DMColor33(1);
         [self setupMakeAddSubviews];
         [self setupMakeLayoutSubviews];
-        
     }
     return self;
 }
@@ -71,7 +72,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     DMCourseFileCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kcourseCellID forIndexPath:indexPath];
     cell.editorMode = NO;
-    if (!_currentIndexPath) _currentIndexPath = indexPath;
+    if (!_currentIndexPath) self.currentIndexPath = indexPath;
     cell.showBorder = _currentIndexPath == indexPath;
     cell.courseModel = self.allCoursewares[indexPath.row];
     

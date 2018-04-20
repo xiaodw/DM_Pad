@@ -51,7 +51,7 @@
         if (![responseObject isKindOfClass:[NSDictionary class]]) {
             responseObj = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
         }
-//        NSLog(@"返回的数据 = %@",responseObj);
+        DMLog(@"返回的数据 = %@",responseObj);
         if (OBJ_IS_NIL(responseObj)) {
             [DMTools showSVProgressHudCustom:@"hud_failed_icon" title:DMTitleNoTypeError];
             success(nil);
@@ -211,7 +211,7 @@
         if (!OBJ_IS_NIL(data)) {
             isSuc = YES;
             NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-//            NSLog(@"dict:%@",dict);
+            DMLog(@"dict:%@",dict);
             responseDataModel = [dataModelClass mj_objectWithKeyValues:[dict objectForKey:Data_Key]];
         }
         dispatch_semaphore_signal(semaphore);   //发送信号

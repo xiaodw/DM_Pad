@@ -352,17 +352,17 @@ static DMLiveVideoManager* _instance = nil;
 
 //统计数据
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine reportRtcStats:(AgoraRtcStats*)stats {
-//NSLog(@"统计数据");
+DMLog(@"统计数据");
 }
 
 //本地视频统计 - 2秒触发一次
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine localVideoStats:(AgoraRtcLocalVideoStats*)stats {
-//NSLog(@"本地视频统计 - 2秒触发一次");
+DMLog(@"本地视频统计 - 2秒触发一次");
 }
 
 //远程视频统计 - 2秒触发一次
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine remoteVideoStats:(AgoraRtcRemoteVideoStats*)stats {
-//NSLog(@"远程视频统计 - 2秒触发一次");
+DMLog(@"远程视频统计 - 2秒触发一次");
 }
 
 //网络连接中断 - SDK会一直自动重连，除非主动离开频道

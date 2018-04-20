@@ -112,7 +112,6 @@
 
 - (DMAssetInfo *)assetInfo {
     if (!_assetInfo) {
-#warning 需要修改
         _assetInfo = [[DMAssetInfo alloc] initWithDict:[self.representation metadata]];
     }
     
