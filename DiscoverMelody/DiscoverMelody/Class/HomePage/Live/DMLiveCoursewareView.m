@@ -8,6 +8,8 @@
 #import "DMColorsView.h"
 #import "DMWhiteBoardView.h"
 
+#define kConstNumber 80
+
 #define kCoursewareCellID @"Courseware"
 
 @interface DMLiveCoursewareView() <UICollectionViewDelegate, UICollectionViewDataSource, DMSycBrowseViewDelegate, DMWhiteBoardControlDelegate, DMColorsViewDelegate>
@@ -36,6 +38,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+        self.backgroundColor = DMColorWithRGBA(62, 62, 62, 1);
         [self setupMakeAddSubviews];
         [self setupMakeLayoutSubviews];
         
@@ -61,18 +64,10 @@
     }];
 }
 
-//- (void)didTapLineWidth:(DMSlider *)slider {
-//    NSLog(@"%s   ----- %f", __func__, slider.value);
-//    _whiteBoardView.lineWidth = slider.value;
-//}
-//
-//- (void)didTapAction:(DMSlider *)slider {
-//    NSLog(@"%s", __func__);
-//    [self didTapLineWidth:slider];
-//}
+- (void)didTapAction:(UIView *)v { }
 
-- (void)cleanWhiteBoard {
-    [_whiteBoardView clean];
+- (void)resetWhiteBoard {
+    [self whiteBoardControlDidTapClose:self.whiteBoardControl];
 }
 
 - (void)didTapBackground {
@@ -136,7 +131,7 @@
 #pragma mark - DMWhiteBoardControlDelegate
 - (void)whiteBoardControlDidTapClean:(DMWhiteBoardControl *)whiteBoardControl {
     NSLog(@"%s", __func__);
-    [self cleanWhiteBoard];
+    [_whiteBoardView clean];
 }
 
 - (void)whiteBoardControlDidTapUndo:(DMWhiteBoardControl *)whiteBoardControl {
@@ -192,13 +187,16 @@
 
 - (void)whiteBoardControlDidTapClose:(DMWhiteBoardControl *)whiteBoardControl {
     NSLog(@"%s", __func__);
+    NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue];
     [UIView animateWithDuration:0.25 animations:^{
         _whiteBoardControl.alpha = 0;
         _sycBrowseView.alpha = 1;
     } completion:^(BOOL finished) {
-        _whiteBoardView.hidden = YES;
-        _whiteBoardView.userInteractionEnabled = NO;
-        [self cleanWhiteBoard];
+        if (userIdentity) {
+            _whiteBoardView.hidden = YES;
+            _whiteBoardView.userInteractionEnabled = NO;
+        }
+        [_whiteBoardView clean];
     }];
 }
 
@@ -219,14 +217,18 @@
 
 - (void)setupMakeLayoutSubviews {
     NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue];
-    CGFloat bheight = userIdentity ? 80 : 0; // 0: 学生, 1: 老师
+    
+    CGFloat bheight = userIdentity ? kConstNumber : 0; // 0: 学生, 1: 老师
+    CGFloat top = userIdentity ? 0 : kConstNumber * 0.5; // 0: 学生, 1: 老师
+    CGFloat bottom = userIdentity ? 0 : -kConstNumber * 0.5; // 0: 学生, 1: 老师
     [_sycBrowseView makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.left.right.equalTo(self);
         make.height.equalTo(bheight);
     }];
     [_collectionView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.equalTo(self);
-        make.bottom.equalTo(_sycBrowseView.mas_top);
+        make.left.right.equalTo(self);
+        make.top.equalTo(top);
+        make.bottom.equalTo(_sycBrowseView.mas_top).offset(bottom);
     }];
     
     [_closeButton makeConstraints:^(MASConstraintMaker *make) {
@@ -307,7 +309,7 @@
         _slider.maximumValue = 4;
         _slider.value = (_slider.minimumValue + _slider.maximumValue) * 0.5;
 //        [_slider addTarget:self action:@selector(didTapLineWidth:) forControlEvents:UIControlEventTouchUpInside];
-//        [_slider dm_addTarget:self action:@selector(didTapAction:) forControlEvents:DMControlEventTouchUpInside];
+        [_slider dm_addTarget:self action:@selector(didTapAction:) forControlEvents:DMControlEventTouchUpInside];
         _slider.transform = CGAffineTransformMakeRotation(-M_PI_2);
     }
     

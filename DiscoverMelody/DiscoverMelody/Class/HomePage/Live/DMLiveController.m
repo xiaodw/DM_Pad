@@ -64,6 +64,7 @@ typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布�
 #pragma mark - Set Methods
 - (void)setIsRemoteUserOnline:(BOOL)isRemoteUserOnline {
     _isRemoteUserOnline = isRemoteUserOnline;
+    [self.coursewareView resetWhiteBoard];
     if (isRemoteUserOnline) return;
     for (int i = 0; i < self.remoteView.view.subviews.count; i++) {
         UIView *subview = self.remoteView.view.subviews[i];
@@ -218,7 +219,7 @@ typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布�
     //接收信令同步的消息，完成同步功能
     [self.liveVideoManager onSignalingMessageReceive:^(NSString *account, DMSignalingMsgData *responseDataModel) {
         NSLog(@"onSignalingMessageReceive: %@", [NSThread currentThread]);
-        [weakSelf.coursewareView cleanWhiteBoard];
+        [weakSelf.coursewareView resetWhiteBoard];
         // 1 同步开始
         if (responseDataModel.code == 1) {
             NSArray *courses = responseDataModel.data.list.firstObject;
@@ -348,7 +349,7 @@ typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布�
 #pragma mark - DMLiveCoursewareViewDelegate
 // 关闭课件
 - (void)liveCoursewareViewDidTapClose:(DMLiveCoursewareView *)liveCoursewareView {
-    [self.coursewareView cleanWhiteBoard];
+    [self.coursewareView resetWhiteBoard];
      NSLog(@"liveCoursewareViewDidTapClose: %@", [NSThread currentThread]);
     // 关闭课件
     if (!_isCoursewareMode) return;
@@ -361,7 +362,7 @@ typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布�
 #pragma mark - DMCourseFilesControllerDelegate
 // 点击同步课件
 - (void)courseFilesController:(DMCourseFilesController *)courseFilesController syncCourses:(NSArray *)syncCourses {
-    [self.coursewareView cleanWhiteBoard];
+    [self.coursewareView resetWhiteBoard];
     NSLog(@"syncCourses: %@", [NSThread currentThread]);
     // 记录课件模式值前的布局格式
     if (!_isCoursewareMode) _beforeLayoutMode = self.tapLayoutCount-1 % DMLayoutModeAll;

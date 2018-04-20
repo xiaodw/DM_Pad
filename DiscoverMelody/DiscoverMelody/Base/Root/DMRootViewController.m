@@ -93,7 +93,7 @@
     }
     [self togglePage:0];
     [self.view addSubview:self.contentViewController.view];
-    NSLog(@"sub = %@",self.view.subviews);
+//    NSLog(@"sub = %@",self.view.subviews);
 }
 
 - (void)togglePage:(NSInteger)selected {

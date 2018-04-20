@@ -44,7 +44,7 @@
             if (responseDataModel.code == DMSignalingWhiteBoardCodeBrush) { // 同步笔触点
                 if (_removeKeys.count) {
                     [self.paths removeObjectsForKeys:self.removeKeys];
-                    NSLog(@"self.paths.count:%ld", self.paths.count);
+                    NSLog(@"a r paths.count:%ld", self.paths.count);
                     _removeKeys = nil;
                 }
                 // 一个包屏蔽多次接收
@@ -108,6 +108,7 @@
 
 // 清除
 - (void)clean {
+    if (self.paths.count == 0) return;
     [self cleanSignaling];
     [self sendSignalingControlCode:DMSignalingWhiteBoardCodeClean success:^(NSString *messageID) {
         NSLog(@"sendSignalingControlCode: success");
@@ -121,7 +122,7 @@
     NSMutableDictionary *dict = self.paths[@(index)];
     dict[kFlag] = @(0);
     [self.removeKeys addObject:@(index)];
-    NSLog(@"self.paths.count:%ld", self.paths.count);
+    NSLog(@"re paths.count:%ld", self.paths.count);
     [self setNeedsDisplay];
 }
 
@@ -142,7 +143,7 @@
     NSMutableDictionary *dict = self.paths[@(index)];
     dict[kFlag] = @(1);
     [self.removeKeys removeObject:@(index)];
-    NSLog(@"self.paths.count:%ld", self.paths.count);
+    NSLog(@"f paths.count:%ld", self.paths.count);
     [self setNeedsDisplay];
 }
 
@@ -194,7 +195,7 @@
     _sendIndex++;
     if (_removeKeys.count) {
         [self.paths removeObjectsForKeys:self.removeKeys];
-        NSLog(@"self.paths.count:%ld", self.paths.count);
+        NSLog(@"d l aths.count:%ld", self.paths.count);
         _removeKeys = nil;
     }
     // 获取触摸对象

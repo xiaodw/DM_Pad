@@ -86,7 +86,7 @@
         [self getSurveyTeacher];
     }
     [self updateTopViewInfo:self.courseObj];
-    NSLog(@"addchild = %@", self.childViewControllers);
+//    NSLog(@"addchild = %@", self.childViewControllers);
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];

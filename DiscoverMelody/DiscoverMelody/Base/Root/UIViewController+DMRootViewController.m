@@ -40,14 +40,14 @@
         [self.view addSubview:controller.view];
         [controller didMoveToParentViewController:self];
     }
-    NSLog(@"addchild = %@", self.childViewControllers);
+//    NSLog(@"addchild = %@", self.childViewControllers);
 }
 
 - (void)dm_hideController:(UIViewController *)controller {
     [controller willMoveToParentViewController:nil];
     [controller.view removeFromSuperview];
     [controller removeFromParentViewController];
-    NSLog(@"addchild = %@", self.childViewControllers);
+//    NSLog(@"addchild = %@", self.childViewControllers);
 }
 
 - (DMRootViewController *)dmRootViewController {
