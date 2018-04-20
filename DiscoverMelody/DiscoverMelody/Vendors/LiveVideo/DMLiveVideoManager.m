@@ -211,14 +211,14 @@ static DMLiveVideoManager* _instance = nil;
 - (void)setupLocalVideoDisplay {
     _localVideoCanvas.uid = self.uId;
     _localVideoCanvas.view = self.localView;
-    _localVideoCanvas.renderMode = AgoraRtc_Render_Fit;
+    _localVideoCanvas.renderMode = AgoraRtc_Render_Fit; // 配合PC端共享左面, 改成缩放
     [self.agoraKit setupLocalVideo:_localVideoCanvas];
 }
 
 - (void)setupRemoteVideoDisplay:(NSUInteger)uid {
     _remoteVideoCanvas.uid = uid;
     _remoteVideoCanvas.view = self.remoteView;
-    _remoteVideoCanvas.renderMode = AgoraRtc_Render_Fit;
+    _remoteVideoCanvas.renderMode = AgoraRtc_Render_Fit; // 配合PC端共享左面, 改成缩放
     [self.agoraKit setupRemoteVideo:_remoteVideoCanvas];
 }
 
