@@ -12,6 +12,9 @@
 
 #define kCoursewareCellID @"Courseware"
 
+#define ksliderMinWidth 10
+#define ksliderMaxWidth 50
+
 @interface DMLiveCoursewareView() <UICollectionViewDelegate, UICollectionViewDataSource, DMSycBrowseViewDelegate, DMWhiteBoardControlDelegate, DMColorsViewDelegate>
 
 @property (strong, nonatomic) UICollectionView *collectionView;
@@ -23,6 +26,7 @@
 //@property (strong, nonatomic) UIView *backgroundView;
 @property (strong, nonatomic) UIImageView *imageView;
 @property (strong, nonatomic) DMWhiteBoardView *whiteBoardView;
+@property (strong, nonatomic) UIImage *image;
 
 @end
 
@@ -33,6 +37,8 @@
     
     [self.collectionView reloadData];
     self.sycBrowseView.allCoursewares = allCoursewares;
+    
+    [self didTapBackground];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -64,14 +70,21 @@
     }];
 }
 
-- (void)didTapAction:(UIView *)v { }
+- (void)didChangeLineWidth:(DMSlider *)slider {
+    UIImage *image = [self OriginImage:self.image scaleToSize:CGSizeMake(slider.value*0.5, slider.value*0.5)];
+    [slider setThumbImage:image forState:UIControlStateNormal];
+}
+
+- (void)didTapAction:(DMSlider *)slider {
+    [self didChangeLineWidth:slider];
+}
 
 - (void)resetWhiteBoard {
     [self whiteBoardControlDidTapClose:self.whiteBoardControl];
 }
 
 - (void)didTapBackground {
-    _whiteBoardView.lineWidth = self.slider.value;
+    _whiteBoardView.lineWidth = self.slider.value * 0.5;
     [self.colorsView removeFromSuperview];
     [self.slider removeFromSuperview];
     [_imageView removeFromSuperview];
@@ -146,7 +159,9 @@
 
 - (void)whiteBoardControl:(DMWhiteBoardControl *)whiteBoardControl didTapBrushButton:(UIButton *)button {
     NSLog(@"%s", __func__);
-    
+    BOOL isSuperView = self.slider.superview;
+    [self didTapBackground];
+    if (isSuperView) { return; }
     [self setupMakeLayoutPoperViews:button toView:self.slider];
 }
 
@@ -183,7 +198,10 @@
 
 - (void)whiteBoardControl:(DMWhiteBoardControl *)whiteBoardControl didTapColorsButton:(UIButton *)button {
     NSLog(@"%s", __func__);
+    BOOL isSuperView = self.colorsView.superview;
     [self didTapBackground];
+    if (isSuperView) { return; }
+    
     [self setupMakeLayoutPoperViews:button toView:self.colorsView];
 }
 
@@ -191,6 +209,7 @@
     NSLog(@"%s", __func__);
     [DMNotificationCenter postNotificationName:DMNotificationWhiteBoardCleanStatusKey object:nil];
     [_whiteBoardView clean];
+    [self didTapBackground];
     NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue];
     [UIView animateWithDuration:0.25 animations:^{
         _whiteBoardControl.alpha = 0;
@@ -305,16 +324,27 @@
     return _whiteBoardControl;
 }
 
+- (UIImage *)OriginImage:(UIImage *)image scaleToSize:(CGSize)size {
+    UIGraphicsBeginImageContext(size);//size为CGSize类型，即你所需要的图片尺寸
+    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    UIImage *scaledImage =UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return scaledImage;
+}
+
 - (DMSlider *)slider {
     if (!_slider) {
         _slider = [DMSlider new];
-        _slider.minimumValue = 1;
-        _slider.maximumValue = 4;
+        _slider.minimumValue = ksliderMinWidth;
+        _slider.maximumValue = ksliderMaxWidth;
         _slider.value = (_slider.minimumValue + _slider.maximumValue) * 0.5;
         [_slider dm_addTarget:self action:@selector(didTapAction:) forControlEvents:DMControlEventTouchUpInside];
+        [_slider addTarget:self action:@selector(didChangeLineWidth:) forControlEvents:UIControlEventValueChanged];
         _slider.transform = CGAffineTransformMakeRotation(-M_PI_2);
-        _slider.maximumTrackTintColor = [[UIColor blackColor] colorWithAlphaComponent:0.2];
+        _slider.maximumTrackTintColor = [[UIColor whiteColor] colorWithAlphaComponent:0.2];
         _slider.minimumTrackTintColor = [UIColor whiteColor];
+        [self didChangeLineWidth:_slider];
+//         [_slider setThumbImage:self.image forState:UIControlStateNormal];
     }
     
     return _slider;
@@ -369,6 +399,14 @@
 //
 //    return _backgroundView;
 //}
+
+- (UIImage *)image {
+    if (!_image) {
+        _image = [UIImage imageNamed:@"icon_slider"];
+    }
+    
+    return _image;
+}
 
 - (void)dealloc {
     DMLogFunc

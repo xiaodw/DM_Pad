@@ -1,7 +1,8 @@
 #import "DMWhiteBoardControl.h"
 #import "DMButton.h"
 
-#define kCornerRadius 20
+#define kCornerRadius 40
+#define kCornerColorRadius 35
 
 @interface DMWhiteBoardControl()
 
@@ -41,12 +42,14 @@
 
 - (void)changeForwardStatus:(NSNotification *)notification {
     self.undoButton.enabled = YES;
+    self.cleanButton.enabled = YES;
     self.forwardButton.enabled = ![notification.object boolValue];
 }
 
 - (void)resetStatus:(NSNotification *)notification {
     self.undoButton.enabled = NO;
     self.forwardButton.enabled = NO;
+    self.cleanButton.enabled = NO;
 }
 
 - (void)setupNotification {
@@ -67,34 +70,35 @@
 }
 
 - (void)setupMakeLayoutSubviews {
+    CGSize size = CGSizeMake(kCornerRadius, kCornerRadius);
     [_cleanButton makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(20);
-        make.size.equalTo(CGSizeMake(40, 40));
+        make.size.equalTo(size);
         make.centerY.equalTo(self);
     }];
     
     [_undoButton makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_cleanButton.mas_right).offset(40);
         make.centerY.equalTo(_cleanButton);
-        make.size.equalTo(CGSizeMake(40, 40));
+        make.size.equalTo(size);
     }];
     
     [_forwardButton makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_undoButton.mas_right).offset(40);
         make.centerY.equalTo(_cleanButton);
-        make.size.equalTo(CGSizeMake(40, 40));
+        make.size.equalTo(size);
     }];
     
     [_closeButton makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.mas_right).offset(-20);
         make.centerY.equalTo(_cleanButton);
-        make.size.equalTo(CGSizeMake(40, 40));
+        make.size.equalTo(size);
     }];
     
     [_colorButton makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(_closeButton.mas_left).offset(-40);
         make.centerY.equalTo(_cleanButton);
-        make.size.equalTo(CGSizeMake(40, 40));
+        make.size.equalTo(CGSizeMake(kCornerColorRadius-3, kCornerColorRadius-3));
     }];
     
     [_brushButton makeConstraints:^(MASConstraintMaker *make) {
@@ -143,10 +147,15 @@
 - (UIButton *)cleanButton {
     if (!_cleanButton) {
         _cleanButton = [self setupButton];
-        _cleanButton.titleLabel.font = DMFontPingFang_Light(15);
+        _cleanButton.enabled = NO;
+        _cleanButton.titleLabel.font = DMFontPingFang_Light(13);
         [_cleanButton setTitle:@"清除" forState:UIControlStateNormal];
         [_cleanButton setTitleColor:DMColorBaseMeiRed forState:UIControlStateNormal];
+        [_cleanButton setTitleColor:DMColorWithRGBA(66, 66, 66, 1) forState:UIControlStateDisabled];
         [_cleanButton addTarget:self action:@selector(didTapClean) forControlEvents:UIControlEventTouchUpInside];
+        _cleanButton.layer.cornerRadius = kCornerRadius * 0.5;
+        _cleanButton.layer.borderWidth = 1;
+        _cleanButton.layer.borderColor = DMColorWithRGBA(83, 83, 83, 1).CGColor;
     }
     
     return _cleanButton;
@@ -190,10 +199,9 @@
 - (UIButton *)colorButton {
     if (!_colorButton) {
         _colorButton = [self setupButton];
-        _colorButton.layer.cornerRadius = kCornerRadius;
-        _colorButton.layer.borderColor = DMColorWithRGBA(67, 67, 67, 1).CGColor;
-        _colorButton.layer.borderWidth = 4;
         _colorButton.backgroundColor = [UIColor redColor];
+        _colorButton.layer.cornerRadius = kCornerColorRadius * 0.49;
+        [_colorButton setImage:[UIImage imageNamed:@"image_borderColor_43"] forState:UIControlStateNormal];
         [_colorButton addTarget:self action:@selector(didTapColors:) forControlEvents:UIControlEventTouchUpInside];
     }
     
@@ -204,8 +212,8 @@
     if (!_closeButton) {
         _closeButton = [self setupButton];
         _closeButton.backgroundColor = DMColorWithRGBA(22, 22, 22, 1);
-        _closeButton.titleLabel.font = DMFontPingFang_Light(15);
-        _closeButton.layer.cornerRadius = kCornerRadius;
+        _closeButton.titleLabel.font = DMFontPingFang_Light(13);
+        _closeButton.layer.cornerRadius = kCornerRadius * 0.5;
         _closeButton.layer.borderWidth = 1;
         _closeButton.layer.borderColor = DMColorWithRGBA(83, 83, 83, 1).CGColor;
         [_closeButton setTitle:@"取消" forState:UIControlStateNormal];

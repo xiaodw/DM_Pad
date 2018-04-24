@@ -13,7 +13,7 @@
 @interface DMColorsView()
 
 @property (strong, nonatomic) NSMutableArray *colorViews;
-@property (strong, nonatomic) UIView *selectedView;
+@property (strong, nonatomic) UIButton *selectedView;
 
 @end
 
@@ -27,10 +27,10 @@
     [self setupMakeLayoutSubviews];
 }
 
-- (void)setSelectedView:(UIView *)selectedView {
-    _selectedView.layer.borderWidth = 0;
+- (void)setSelectedView:(UIButton *)selectedView {
+    _selectedView.selected = NO;
     _selectedView = selectedView;
-    _selectedView.layer.borderWidth = 2.5;
+    _selectedView.selected = YES;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -49,8 +49,9 @@
 
 - (UIButton *)setupButtons {
     UIButton *button = [UIButton new];
+    [button setBackgroundImage:[UIImage imageNamed:@"image_borderColor_DC"] forState:UIControlStateSelected];
     button.layer.cornerRadius = kColorButtonWidth * 0.5;
-    button.layer.borderColor = DMColorWithRGBA(220, 220, 220, 1).CGColor;
+//    button.layer.borderColor = DMColorWithRGBA(220, 220, 220, 1).CGColor;
     [button addTarget:self action:@selector(didTapColor:) forControlEvents:UIControlEventTouchUpInside];
     [self.colorViews addObject:button];
     
@@ -73,7 +74,7 @@
         UIButton *button = _colorViews[i];
         CGFloat top = (kColorButtonWidth + margin)*i + margin;
         [button makeConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(kColorButtonWidth, kColorButtonWidth));
+            make.size.equalTo(CGSizeMake(kColorButtonWidth-1, kColorButtonWidth-1));
             make.top.equalTo(top);
             make.centerX.equalTo(self);
         }];

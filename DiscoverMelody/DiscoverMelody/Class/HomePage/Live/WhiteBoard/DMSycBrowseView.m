@@ -140,7 +140,7 @@
 - (UIButton *)whiteBoardButton {
     if (!_whiteBoardButton) {
         _whiteBoardButton = [UIButton new];
-        _whiteBoardButton.titleLabel.font = DMFontPingFang_Light(15);
+        _whiteBoardButton.titleLabel.font = DMFontPingFang_Light(13);
         _whiteBoardButton.layer.cornerRadius = kCornerRadius;
         _whiteBoardButton.layer.borderWidth = 1;
         _whiteBoardButton.layer.borderColor = DMColorWithRGBA(83, 83, 83, 1).CGColor;
