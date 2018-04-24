@@ -20,7 +20,7 @@
 @property (strong, nonatomic) UIButton *closeButton;
 @property (strong, nonatomic) DMSlider *slider;
 @property (strong, nonatomic) DMColorsView *colorsView;
-@property (strong, nonatomic) UIView *backgroundView;
+//@property (strong, nonatomic) UIView *backgroundView;
 @property (strong, nonatomic) UIImageView *imageView;
 @property (strong, nonatomic) DMWhiteBoardView *whiteBoardView;
 
@@ -75,7 +75,7 @@
     [self.colorsView removeFromSuperview];
     [self.slider removeFromSuperview];
     [_imageView removeFromSuperview];
-    self.backgroundView.hidden = YES;
+//    self.backgroundView.hidden = YES;
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -94,6 +94,7 @@
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     NSInteger index = (scrollView.contentOffset.x / self.collectionView.dm_width + 0.5); // 约等于
     if (index >= self.allCoursewares.count) return;
+    if (index == self.sycBrowseView.currentIndexPath.row) return;
     
     NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_Turn_Page sourceData:@[self.allCoursewares[index]] synType:DMSignalingMsgSynCourse];
     [[DMLiveVideoManager shareInstance] sendMessageSynEvent:@"" msg:msg msgID:@"" success:^(NSString *messageID) {
@@ -117,7 +118,6 @@
 }
 
 - (void)sycBrowseView:(DMSycBrowseView *)sycBrowseView didTapIndexPath:(NSIndexPath *)indexPath {
-    
     if (indexPath.row >= self.allCoursewares.count) return;
     [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
     NSString *msg = [DMSendSignalingMsg getSignalingStruct:DMSignalingCode_Turn_Page sourceData:@[self.allCoursewares[indexPath.row]] synType:DMSignalingMsgSynCourse];
@@ -151,11 +151,11 @@
 }
 
 - (void)setupMakeLayoutPoperViews:(UIView *)button toView:(UIView *)toView {
-    self.backgroundView.hidden = NO;
+//    self.backgroundView.hidden = NO;
     CGFloat height = 268;
     CGFloat width = 50;
     
-    [_backgroundView addSubview:_imageView];
+    [self addSubview:self.imageView];
     [_imageView makeConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(height);
         make.width.equalTo(width);
@@ -172,7 +172,8 @@
         size = CGSizeMake(height, width);
         toView.layer.position = CGPointMake(_imageView.center.x, _imageView.center.y);
     }
-    [self.backgroundView addSubview:toView];
+//    [self.backgroundView addSubview:toView];
+    [self addSubview:toView];
     [toView makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(_imageView.mas_centerY).offset(offset);
         make.centerX.equalTo(_imageView);
@@ -182,11 +183,14 @@
 
 - (void)whiteBoardControl:(DMWhiteBoardControl *)whiteBoardControl didTapColorsButton:(UIButton *)button {
     NSLog(@"%s", __func__);
+    [self didTapBackground];
     [self setupMakeLayoutPoperViews:button toView:self.colorsView];
 }
 
 - (void)whiteBoardControlDidTapClose:(DMWhiteBoardControl *)whiteBoardControl {
     NSLog(@"%s", __func__);
+    [DMNotificationCenter postNotificationName:DMNotificationWhiteBoardCleanStatusKey object:nil];
+    [_whiteBoardView clean];
     NSInteger userIdentity = [[DMAccount getUserIdentity] integerValue];
     [UIView animateWithDuration:0.25 animations:^{
         _whiteBoardControl.alpha = 0;
@@ -196,7 +200,6 @@
             _whiteBoardView.hidden = YES;
             _whiteBoardView.userInteractionEnabled = NO;
         }
-        [_whiteBoardView clean];
     }];
 }
 
@@ -211,7 +214,7 @@
     [self addSubview:self.collectionView];
     [self addSubview:self.whiteBoardControl];
     [self addSubview:self.whiteBoardView];
-    [self addSubview:self.backgroundView];
+//    [self addSubview:self.backgroundView];
     [self addSubview:self.closeButton];
 }
 
@@ -241,9 +244,9 @@
         make.edges.equalTo(_sycBrowseView);
     }];
     
-    [_backgroundView makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self);
-    }];
+//    [_backgroundView makeConstraints:^(MASConstraintMaker *make) {
+//        make.edges.equalTo(self);
+//    }];
     
     [_whiteBoardView makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.collectionView);
@@ -256,7 +259,7 @@
         layout.minimumInteritemSpacing = 0;
         layout.minimumLineSpacing = 0;
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        layout.itemSize = CGSizeMake(DMScreenWidth*0.5, DMScreenHeight);
+        layout.itemSize = CGSizeMake(DMScreenWidth*0.5, DMScreenHeight-kConstNumber);
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
@@ -310,6 +313,8 @@
         _slider.value = (_slider.minimumValue + _slider.maximumValue) * 0.5;
         [_slider dm_addTarget:self action:@selector(didTapAction:) forControlEvents:DMControlEventTouchUpInside];
         _slider.transform = CGAffineTransformMakeRotation(-M_PI_2);
+        _slider.maximumTrackTintColor = [[UIColor blackColor] colorWithAlphaComponent:0.2];
+        _slider.minimumTrackTintColor = [UIColor whiteColor];
     }
     
     return _slider;
@@ -332,25 +337,38 @@
         _whiteBoardView.backgroundColor = [UIColor clearColor];
         _whiteBoardView.userInteractionEnabled = NO;
         _whiteBoardView.hidden = [[DMAccount getUserIdentity] integerValue];
+        WS(weakSelf)
+        [_whiteBoardView setTouchesBeganBlock:^{
+            [weakSelf didTapBackground];
+        }];
     }
     
     return _whiteBoardView;
 }
 
-- (UIView *)backgroundView {
-    if (!_backgroundView) {
-        _backgroundView = [UIView new];
-        _backgroundView.hidden = YES;
-         UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapBackground)];
-        
-        _backgroundView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.01];
-        [_backgroundView addGestureRecognizer:tapGestureRecognizer];
+- (UIImageView *)imageView {
+    if (!_imageView) {
         _imageView = [UIImageView new];
         _imageView.image = [UIImage imageNamed:@"opover_background"];
     }
     
-    return _backgroundView;
+    return _imageView;
 }
+
+//- (UIView *)backgroundView {
+//    if (!_backgroundView) {
+//        _backgroundView = [UIView new];
+//        _backgroundView.hidden = YES;
+//         UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapBackground)];
+//
+//        _backgroundView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.01];
+//        [_backgroundView addGestureRecognizer:tapGestureRecognizer];
+//        _imageView = [UIImageView new];
+//        _imageView.image = [UIImage imageNamed:@"opover_background"];
+//    }
+//
+//    return _backgroundView;
+//}
 
 - (void)dealloc {
     DMLogFunc

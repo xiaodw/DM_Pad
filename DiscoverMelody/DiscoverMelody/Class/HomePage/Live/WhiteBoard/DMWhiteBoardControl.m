@@ -29,8 +29,32 @@
         
         [self setupMakeAddSubviews];
         [self setupMakeLayoutSubviews];
+        [self setupNotification];
     }
     return self;
+}
+
+- (void)changeUndoStatus:(NSNotification *)notification {
+    self.undoButton.enabled = ![notification.object boolValue];
+    self.forwardButton.enabled = YES;
+}
+
+- (void)changeForwardStatus:(NSNotification *)notification {
+    self.undoButton.enabled = YES;
+    self.forwardButton.enabled = ![notification.object boolValue];
+}
+
+- (void)resetStatus:(NSNotification *)notification {
+    self.undoButton.enabled = NO;
+    self.forwardButton.enabled = NO;
+}
+
+- (void)setupNotification {
+    [DMNotificationCenter addObserver:self selector:@selector(changeUndoStatus:) name:DMNotificationWhiteBoardUndoStatusKey object:nil];
+    
+    [DMNotificationCenter addObserver:self selector:@selector(changeForwardStatus:) name:DMNotificationWhiteBoardForwardStatusKey object:nil];
+    
+    [DMNotificationCenter addObserver:self selector:@selector(resetStatus:) name:DMNotificationWhiteBoardCleanStatusKey object:nil];
 }
 
 - (void)setupMakeAddSubviews {
@@ -61,7 +85,6 @@
         make.size.equalTo(CGSizeMake(40, 40));
     }];
     
-    
     [_closeButton makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.mas_right).offset(-20);
         make.centerY.equalTo(_cleanButton);
@@ -87,6 +110,7 @@
 }
 
 - (void)didTapClean {
+    [self resetStatus: nil];
     if (![self.delegate respondsToSelector:@selector(whiteBoardControlDidTapClean:)]) return;
     [self.delegate whiteBoardControlDidTapClean:self];
 }
@@ -128,9 +152,11 @@
     return _cleanButton;
 }
 
+
 - (UIButton *)undoButton {
     if (!_undoButton) {
         _undoButton = [self setupButton];
+        _undoButton.enabled = NO;
         [_undoButton setImage:[UIImage imageNamed:@"icon_undo_normal"] forState:UIControlStateNormal];
         [_undoButton setImage:[UIImage imageNamed:@"icon_undo_disabled"] forState:UIControlStateDisabled];
         [_undoButton addTarget:self action:@selector(didTapUndo) forControlEvents:UIControlEventTouchUpInside];
@@ -142,6 +168,7 @@
 - (UIButton *)forwardButton {
     if (!_forwardButton) {
         _forwardButton = [self setupButton];
+        _forwardButton.enabled = NO;
         [_forwardButton setImage:[UIImage imageNamed:@"icon_forward_normal"] forState:UIControlStateNormal];
         [_forwardButton setImage:[UIImage imageNamed:@"icon_forward_disabled"] forState:UIControlStateDisabled];
         [_forwardButton addTarget:self action:@selector(didTapForward) forControlEvents:UIControlEventTouchUpInside];
@@ -176,7 +203,7 @@
 - (UIButton *)closeButton {
     if (!_closeButton) {
         _closeButton = [self setupButton];
-        _closeButton.backgroundColor = DMColor33(1);
+        _closeButton.backgroundColor = DMColorWithRGBA(22, 22, 22, 1);
         _closeButton.titleLabel.font = DMFontPingFang_Light(15);
         _closeButton.layer.cornerRadius = kCornerRadius;
         _closeButton.layer.borderWidth = 1;

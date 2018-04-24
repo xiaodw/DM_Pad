@@ -15,10 +15,14 @@
 @implementation DMSycBrowseView
 
 - (void)setCurrentIndexPath:(NSIndexPath *)currentIndexPath {
-    _currentIndexPath = currentIndexPath;
     if (currentIndexPath.row >= self.allCoursewares.count) return;
+    NSMutableArray *reloadIndexPath = [NSMutableArray array];
+    if (_currentIndexPath) [reloadIndexPath addObject:_currentIndexPath];
+    _currentIndexPath = currentIndexPath;
+    [reloadIndexPath addObject:_currentIndexPath];
     [self collectionView:self.collectionView didSelectItemAtIndexPath:currentIndexPath];
     [self.collectionView scrollToItemAtIndexPath:currentIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    [self.collectionView reloadItemsAtIndexPaths:reloadIndexPath];
 }
 
 - (void)setAllCoursewares:(NSArray *)allCoursewares {
@@ -104,7 +108,7 @@
         _indexLabel.textColor = [UIColor whiteColor];
         _indexLabel.layer.cornerRadius = kCornerRadius;
         _indexLabel.layer.borderWidth = 1;
-        _indexLabel.layer.borderColor = DMColorWithRGBA(83, 83, 83, 1).CGColor;
+        _indexLabel.layer.borderColor = DMColorWithRGBA(255, 255, 255, 0.07).CGColor;
     }
     
     return _indexLabel;
@@ -140,6 +144,7 @@
         _whiteBoardButton.layer.cornerRadius = kCornerRadius;
         _whiteBoardButton.layer.borderWidth = 1;
         _whiteBoardButton.layer.borderColor = DMColorWithRGBA(83, 83, 83, 1).CGColor;
+        _whiteBoardButton.backgroundColor = DMColorWithRGBA(22, 22, 22, 1);
         [_whiteBoardButton setTitle:@"白板" forState: UIControlStateNormal];
         [_whiteBoardButton setTitleColor:DMColorBaseMeiRed forState:UIControlStateNormal];
         [_whiteBoardButton addTarget:self action:@selector(didTapWhiteBoard) forControlEvents:UIControlEventTouchUpInside];

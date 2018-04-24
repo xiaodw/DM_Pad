@@ -11,6 +11,11 @@
 #define AgoraSAppID [DMConfigManager shareInstance].agoraAppId    //@"2f4301adc17b415c98eba18b7f1066d4"
 //#define certificate1 @"62950fd5459c472fbeb14ae42e79b99e"
 
+//上传图片最大界限 比如2M
+#define kMaxUploadSize   [DMConfigManager shareInstance].uploadMaxSize
+
+
+#pragma mark - Notification
 
 //登录成功的通知
 #define DMNotification_Login_Success_Key @"Login_Success_Key"
@@ -24,7 +29,9 @@
 //强制退出登录的通知
 #define DMNotification_Must_Logout_Key @"DMNotification_Must_Logout_Key"
 
-#pragma mark -
 
-//上传图片最大界限 比如2M
-#define kMaxUploadSize   [DMConfigManager shareInstance].uploadMaxSize
+// 白板按钮状态
+#define DMNotificationWhiteBoardUndoStatusKey @"DMNotificationWhiteBoardUndoStatus"
+#define DMNotificationWhiteBoardForwardStatusKey @"DMNotificationWhiteBoardForwardStatus"
+#define DMNotificationWhiteBoardCleanStatusKey @"DMNotificationWhiteBoardCleanStatus"
+

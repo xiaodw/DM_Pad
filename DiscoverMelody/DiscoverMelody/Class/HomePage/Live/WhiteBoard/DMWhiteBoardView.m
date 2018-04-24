@@ -44,7 +44,7 @@
             if (responseDataModel.code == DMSignalingWhiteBoardCodeBrush) { // 同步笔触点
                 if (_removeKeys.count) {
                     [self.paths removeObjectsForKeys:self.removeKeys];
-                    NSLog(@"a r paths.count:%ld", self.paths.count);
+                    NSLog(@"a r paths.count:%d", (int)self.paths.count);
                     _removeKeys = nil;
                 }
                 // 一个包屏蔽多次接收
@@ -122,7 +122,11 @@
     NSMutableDictionary *dict = self.paths[@(index)];
     dict[kFlag] = @(0);
     [self.removeKeys addObject:@(index)];
-    NSLog(@"re paths.count:%ld", self.paths.count);
+    NSLog(@"re paths.count:%d", (int)self.paths.count);
+    
+    BOOL isFirst = self.removeKeys.count == self.paths.count;
+    [DMNotificationCenter postNotificationName:DMNotificationWhiteBoardUndoStatusKey object:@(isFirst)];
+    
     [self setNeedsDisplay];
 }
 
@@ -143,7 +147,11 @@
     NSMutableDictionary *dict = self.paths[@(index)];
     dict[kFlag] = @(1);
     [self.removeKeys removeObject:@(index)];
-    NSLog(@"f paths.count:%ld", self.paths.count);
+    NSLog(@"f paths.count:%d", (int)self.paths.count);
+    
+    BOOL isLast = self.removeKeys.count == 0;
+    [DMNotificationCenter postNotificationName:DMNotificationWhiteBoardForwardStatusKey object:@(isLast)];
+    
     [self setNeedsDisplay];
 }
 
@@ -192,12 +200,15 @@
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [self timer];
+    if (_touchesBeganBlock) _touchesBeganBlock();
     _sendIndex++;
     if (_removeKeys.count) {
         [self.paths removeObjectsForKeys:self.removeKeys];
-        NSLog(@"d l aths.count:%ld", self.paths.count);
+        NSLog(@"d l aths.count:%d", (int)self.paths.count);
         _removeKeys = nil;
     }
+    
+    [DMNotificationCenter postNotificationName:DMNotificationWhiteBoardForwardStatusKey object:@(YES)];
     // 获取触摸对象
     UITouch *touch = [touches anyObject];
     // 获取手指的位置
@@ -272,6 +283,7 @@
         NSLog(@"sendSignalingControlCode: faile");
     }];
     self.pathPoints = nil;
+    [self invalidate];
     [self setNeedsDisplay];
 }
 
@@ -326,6 +338,47 @@
     }
 
     return _pathPoints;
+}
+
+- (void)invalidate {
+    if (!_timer) return;
+    dispatch_source_cancel(_timer);
+    _timer = nil;
+    _secondsNum = 0;
+}
+
+- (void)computTime {
+    _secondsNum += 1;
+    if (_secondsNum % kMaxSeconds == 0) {
+        if (self.pathPoints.count == 0) return;
+        [self sendSignalingControlCode:DMSignalingWhiteBoardCodeBrush success:^(NSString *messageID) {
+            NSLog(@"sendSignalingControlCode: success");
+        } faile:^(NSString *messageID, AgoraEcode ecode) {
+            NSLog(@"sendSignalingControlCode: faile");
+        }];
+        _pathPoints = nil;
+        _secondsNum = 0;
+    }
+}
+
+- (dispatch_source_t)timer {
+    if (!_timer) {
+        dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
+        _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+        dispatch_time_t start = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC));
+        uint64_t interval = (uint64_t)(1.0 * NSEC_PER_SEC);
+        dispatch_source_set_timer(_timer, start, interval, 0);
+        
+        // 设置回调
+        WS(weakSelf)
+        dispatch_source_set_event_handler(_timer, ^{
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [weakSelf computTime];
+            });
+        });
+        dispatch_resume(_timer);
+    }
+    return _timer;
 }
 
 @end
