@@ -90,10 +90,6 @@
     [_slider removeFromSuperview];
     [_sliderView removeFromSuperview];
     [_imageView removeFromSuperview];
-    _colorsView = nil;
-    _slider = nil;
-    _imageView = nil;
-    _sliderView = nil;
 }
 
 #pragma mark - UICollectionViewDataSource
