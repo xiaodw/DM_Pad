@@ -88,8 +88,12 @@
     _whiteBoardView.lineWidth = self.slider.value * 0.5;
     [_colorsView removeFromSuperview];
     [_slider removeFromSuperview];
-    [_imageView removeFromSuperview];
     [_sliderView removeFromSuperview];
+    [_imageView removeFromSuperview];
+    _colorsView = nil;
+    _slider = nil;
+    _imageView = nil;
+    _sliderView = nil;
 }
 
 #pragma mark - UICollectionViewDataSource

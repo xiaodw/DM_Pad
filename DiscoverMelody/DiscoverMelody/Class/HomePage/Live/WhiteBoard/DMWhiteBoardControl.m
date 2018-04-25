@@ -225,6 +225,7 @@
 
 - (void)dealloc {
     DMLogFunc
+    [DMNotificationCenter removeObserver:self];
 }
 
 @end

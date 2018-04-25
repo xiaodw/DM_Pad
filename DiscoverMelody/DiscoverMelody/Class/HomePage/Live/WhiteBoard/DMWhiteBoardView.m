@@ -33,16 +33,16 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        WS(weakSelf)
         _sendIndex = 0;
         // 设置路径的宽度
         self.lineWidth = 3;
         // 设置路径的颜色
         self.hexString = @"ff0000";
         
+        WS(weakSelf)
         [self.liveVideoManager onSignalingMessageReceiveWhiteBoard:^(NSString *account, DMSignalingMsgData *responseDataModel) {
             if (responseDataModel.code == DMSignalingWhiteBoardCodeBrush) { // 同步笔触点
-                if (_removeKeys.count) {
+                if (weakSelf.removeKeys.count) {
                     [weakSelf.paths removeObjectsForKeys:weakSelf.removeKeys];
                     NSLog(@"a r paths.count:%d", (int)weakSelf.paths.count);
                     weakSelf.removeKeys = nil;
@@ -381,9 +381,9 @@
     return _timer;
 }
 
-
 - (void)dealloc {
     DMLogFunc
+    [self invalidate];
 }
 
 @end

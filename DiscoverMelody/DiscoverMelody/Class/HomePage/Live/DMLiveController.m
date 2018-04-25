@@ -355,7 +355,7 @@ typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布�
     if (!_isCoursewareMode) return;
     _isCoursewareMode = NO;
     _syncCourseFiles  = nil;
-    self.tapLayoutCount = _beforeLayoutMode;
+    _tapLayoutCount = _beforeLayoutMode;
     [self makeLayoutViews];
 }
 
