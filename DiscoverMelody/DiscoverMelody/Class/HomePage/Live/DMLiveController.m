@@ -97,7 +97,7 @@ typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布�
     [self joinChannel];
     [self setupMakeLiveCallback];
     [self timer];
-// [self.liveVideoManager switchSound:NO block:nil];
+ [self.liveVideoManager switchSound:NO block:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
