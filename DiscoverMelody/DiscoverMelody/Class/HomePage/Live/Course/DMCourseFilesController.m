@@ -242,7 +242,6 @@
 // 同步接口
 #pragma mark - DMBrowseViewDelegate
 - (void)browseViewDidTapSync:(DMBrowseView *)browseView{
-    self.liveVC.isRemoteUserOnline = YES;
     if (!self.liveVC.isRemoteUserOnline) {
         DMAlertMananger *alert = [[DMAlertMananger shareManager] creatAlertWithTitle:DMAlertTitleNotSync message:@"" preferredStyle:UIAlertControllerStyleAlert cancelTitle:DMTitleOK otherTitle: nil];
         [alert showWithViewController:self IndexBlock:^(NSInteger index) { }];
@@ -263,7 +262,6 @@
             [weakSelf.delegate courseFilesController:weakSelf syncCourses:weakSelf.selectedCpirses];
         }];
     } faile:^(NSString *messageID, AgoraEcode ecode) {
-        
     }];
 }
 
