@@ -43,9 +43,9 @@
         [self.liveVideoManager onSignalingMessageReceiveWhiteBoard:^(NSString *account, DMSignalingMsgData *responseDataModel) {
             if (responseDataModel.code == DMSignalingWhiteBoardCodeBrush) { // 同步笔触点
                 if (_removeKeys.count) {
-                    [self.paths removeObjectsForKeys:self.removeKeys];
-                    NSLog(@"a r paths.count:%d", (int)self.paths.count);
-                    _removeKeys = nil;
+                    [weakSelf.paths removeObjectsForKeys:weakSelf.removeKeys];
+                    NSLog(@"a r paths.count:%d", (int)weakSelf.paths.count);
+                    weakSelf.removeKeys = nil;
                 }
                 // 一个包屏蔽多次接收
                 if ([weakSelf.sendUUIDs containsObject:responseDataModel.packetUID]) return;
@@ -379,6 +379,11 @@
         dispatch_resume(_timer);
     }
     return _timer;
+}
+
+
+- (void)dealloc {
+    DMLogFunc
 }
 
 @end

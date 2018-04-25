@@ -106,4 +106,8 @@
     return _describeTimeLabel;
 }
 
+- (void)dealloc {
+    DMLogFunc
+}
+
 @end

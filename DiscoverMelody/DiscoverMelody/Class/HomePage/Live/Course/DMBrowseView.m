@@ -248,4 +248,8 @@
     return _colBackgroundView;
 }
 
+- (void)dealloc {
+    DMLogFunc
+}
+
 @end

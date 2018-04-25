@@ -28,6 +28,7 @@
 }
 
 - (void)setSelectedView:(UIButton *)selectedView {
+    if (_selectedView == selectedView) return;
     _selectedView.selected = NO;
     _selectedView = selectedView;
     _selectedView.selected = YES;
@@ -49,9 +50,8 @@
 
 - (UIButton *)setupButtons {
     UIButton *button = [UIButton new];
-    [button setBackgroundImage:[UIImage imageNamed:@"image_borderColor_DC"] forState:UIControlStateSelected];
-    button.layer.cornerRadius = kColorButtonWidth * 0.5;
-//    button.layer.borderColor = DMColorWithRGBA(220, 220, 220, 1).CGColor;
+    [button setImage:[UIImage imageNamed:@"image_borderColor_DC_selected"] forState:UIControlStateSelected];
+    [button setImage:[UIImage imageNamed:@"image_borderColor_DC_nor"] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(didTapColor:) forControlEvents:UIControlEventTouchUpInside];
     [self.colorViews addObject:button];
     
@@ -90,7 +90,7 @@
 }
 
 - (void)dealloc {
-    NSLog(@"%s", __func__);
+    DMLogFunc
 }
 
 @end

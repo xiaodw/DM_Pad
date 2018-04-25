@@ -23,4 +23,9 @@
     return self;
 }
 
+
+- (void)dealloc {
+    DMLogFunc
+}
+
 @end

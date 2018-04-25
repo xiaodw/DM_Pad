@@ -38,7 +38,7 @@ blue:(((rgbValue) & 0xFF))/255.f alpha:1.0]
 #ifdef DEBUG
 #define DMLog(...)                      // NSLog(__VA_ARGS__);
 #define NSLog(...)                      NSLog(__VA_ARGS__);
-#define DMLogFunc                       DMLog(@"%s",__func__);
+#define DMLogFunc                       NSLog(@"%s",__func__);
 #define DMLogLine(arg1)                 DMLog(@"M:%s, L:%d.|\n%@",  __func__, __LINE__, arg1);
 #else
 #define DMLog(...)

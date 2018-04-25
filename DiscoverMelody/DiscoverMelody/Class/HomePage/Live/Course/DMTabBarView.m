@@ -104,4 +104,8 @@
     return _slippageView;
 }
 
+- (void)dealloc {
+    DMLogFunc
+}
+
 @end

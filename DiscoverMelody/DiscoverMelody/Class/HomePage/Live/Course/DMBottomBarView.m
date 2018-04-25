@@ -124,4 +124,8 @@
     return _separaterView;
 }
 
+- (void)dealloc {
+    DMLogFunc
+}
+
 @end

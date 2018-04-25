@@ -123,5 +123,9 @@
     return _placeholderIconView;
 }
 
+- (void)dealloc {
+    DMLogFunc
+}
+
 @end
 

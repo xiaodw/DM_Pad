@@ -154,7 +154,7 @@
 }
 
 - (void)dealloc {
-    NSLog(@"%s", __func__);
+    DMLogFunc
 }
 
 @end

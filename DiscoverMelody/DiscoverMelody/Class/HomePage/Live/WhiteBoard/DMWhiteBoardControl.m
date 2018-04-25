@@ -200,7 +200,6 @@
     if (!_colorButton) {
         _colorButton = [self setupButton];
         _colorButton.backgroundColor = [UIColor redColor];
-        _colorButton.layer.cornerRadius = kCornerColorRadius * 0.49;
         [_colorButton setImage:[UIImage imageNamed:@"image_borderColor_43"] forState:UIControlStateNormal];
         [_colorButton addTarget:self action:@selector(didTapColors:) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -225,7 +224,7 @@
 }
 
 - (void)dealloc {
-    NSLog(@"%s", __func__);
+    DMLogFunc
 }
 
 @end

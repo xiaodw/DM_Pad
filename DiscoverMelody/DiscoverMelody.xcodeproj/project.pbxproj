@@ -98,6 +98,7 @@
 		5100E4631F6A6358000AB506 /* DMTransitioningAnimationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5100E4601F6A6358000AB506 /* DMTransitioningAnimationHelper.m */; };
 		5100E4641F6A6358000AB506 /* DMPresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5100E4621F6A6358000AB506 /* DMPresentationController.m */; };
 		5100E4701F6A7662000AB506 /* DMTabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5100E46F1F6A7662000AB506 /* DMTabBarView.m */; };
+		51119CC220903DD600721EA2 /* DMBrushWidthView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51119CC120903DD600721EA2 /* DMBrushWidthView.m */; };
 		5113D7BA1F7915A3004E3E9B /* DMBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5113D7B91F7915A2004E3E9B /* DMBarButtonItem.m */; };
 		514253EC2088353900776051 /* DMColorsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 514253E32088353900776051 /* DMColorsView.m */; };
 		514253ED2088353900776051 /* DMWhiteBoardControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 514253E52088353900776051 /* DMWhiteBoardControl.m */; };
@@ -389,6 +390,8 @@
 		5100E4621F6A6358000AB506 /* DMPresentationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMPresentationController.m; sourceTree = "<group>"; };
 		5100E46E1F6A7662000AB506 /* DMTabBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMTabBarView.h; sourceTree = "<group>"; };
 		5100E46F1F6A7662000AB506 /* DMTabBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMTabBarView.m; sourceTree = "<group>"; };
+		51119CC020903DD600721EA2 /* DMBrushWidthView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMBrushWidthView.h; sourceTree = "<group>"; };
+		51119CC120903DD600721EA2 /* DMBrushWidthView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMBrushWidthView.m; sourceTree = "<group>"; };
 		5113D7B81F7915A2004E3E9B /* DMBarButtonItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DMBarButtonItem.h; sourceTree = "<group>"; };
 		5113D7B91F7915A2004E3E9B /* DMBarButtonItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DMBarButtonItem.m; sourceTree = "<group>"; };
 		514253E22088353900776051 /* DMSycBrowseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMSycBrowseView.h; sourceTree = "<group>"; };
@@ -1067,6 +1070,8 @@
 				514253E32088353900776051 /* DMColorsView.m */,
 				514253EB2088353900776051 /* DMBezierPath.h */,
 				514253E62088353900776051 /* DMBezierPath.m */,
+				51119CC020903DD600721EA2 /* DMBrushWidthView.h */,
+				51119CC120903DD600721EA2 /* DMBrushWidthView.m */,
 			);
 			path = WhiteBoard;
 			sourceTree = "<group>";
@@ -1505,6 +1510,7 @@
 				2A9D91671F6690FC00DF4A3B /* DMCustomerCell.m in Sources */,
 				2A3D1D251F692A44005671B2 /* UIViewController+ZFPlayerRotation.m in Sources */,
 				5100E4701F6A7662000AB506 /* DMTabBarView.m in Sources */,
+				51119CC220903DD600721EA2 /* DMBrushWidthView.m in Sources */,
 				2A40302A1F677CBA00663C72 /* DMSignalingKey.m in Sources */,
 				2ABBAB7E1F728CC3004536DB /* DMQuestData.m in Sources */,
 				2A3CA0361F9F1E3A00783757 /* AppDelegate+DMPushNotification.m in Sources */,

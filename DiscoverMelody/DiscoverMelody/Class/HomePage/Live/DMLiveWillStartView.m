@@ -56,5 +56,8 @@
     return _willStartDescribeImageView;
 }
 
+- (void)dealloc {
+    DMLogFunc
+}
 
 @end

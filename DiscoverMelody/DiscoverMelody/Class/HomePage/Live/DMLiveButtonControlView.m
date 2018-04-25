@@ -124,4 +124,8 @@
     return _courseFilesButton;
 }
 
+- (void)dealloc {
+    DMLogFunc
+}
+
 @end

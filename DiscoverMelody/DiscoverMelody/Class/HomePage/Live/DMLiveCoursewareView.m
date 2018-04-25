@@ -7,13 +7,14 @@
 #import "DMSlider.h"
 #import "DMColorsView.h"
 #import "DMWhiteBoardView.h"
+#import "DMBrushWidthView.h"
 
 #define kConstNumber 80
 
 #define kCoursewareCellID @"Courseware"
 
-#define ksliderMinWidth 10
-#define ksliderMaxWidth 50
+#define ksliderMinWidth 5
+#define ksliderMaxWidth 20
 
 @interface DMLiveCoursewareView() <UICollectionViewDelegate, UICollectionViewDataSource, DMSycBrowseViewDelegate, DMWhiteBoardControlDelegate, DMColorsViewDelegate>
 
@@ -21,12 +22,11 @@
 @property (strong, nonatomic) DMSycBrowseView *sycBrowseView;
 @property (strong, nonatomic) DMWhiteBoardControl *whiteBoardControl;
 @property (strong, nonatomic) UIButton *closeButton;
+@property (strong, nonatomic) DMBrushWidthView *sliderView;
 @property (strong, nonatomic) DMSlider *slider;
 @property (strong, nonatomic) DMColorsView *colorsView;
-//@property (strong, nonatomic) UIView *backgroundView;
 @property (strong, nonatomic) UIImageView *imageView;
 @property (strong, nonatomic) DMWhiteBoardView *whiteBoardView;
-@property (strong, nonatomic) UIImage *image;
 
 @end
 
@@ -71,8 +71,9 @@
 }
 
 - (void)didChangeLineWidth:(DMSlider *)slider {
-    UIImage *image = [self OriginImage:self.image scaleToSize:CGSizeMake(slider.value*0.5, slider.value*0.5)];
-    [slider setThumbImage:image forState:UIControlStateNormal];
+    NSLog(@"slider: %f", slider.value);
+    CGFloat value = (slider.value - slider.minimumValue) / (slider.maximumValue - slider.minimumValue);
+    self.sliderView.value = 1-value;
 }
 
 - (void)didTapAction:(DMSlider *)slider {
@@ -85,10 +86,10 @@
 
 - (void)didTapBackground {
     _whiteBoardView.lineWidth = self.slider.value * 0.5;
-    [self.colorsView removeFromSuperview];
-    [self.slider removeFromSuperview];
+    [_colorsView removeFromSuperview];
+    [_slider removeFromSuperview];
     [_imageView removeFromSuperview];
-//    self.backgroundView.hidden = YES;
+    [_sliderView removeFromSuperview];
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -166,10 +167,9 @@
 }
 
 - (void)setupMakeLayoutPoperViews:(UIView *)button toView:(UIView *)toView {
-//    self.backgroundView.hidden = NO;
     CGFloat height = 268;
     CGFloat width = 50;
-    
+    self.sliderView.hidden = ![toView isKindOfClass:[DMSlider class]];
     [self addSubview:self.imageView];
     [_imageView makeConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(height);
@@ -179,21 +179,22 @@
     }];
     
     [self layoutIfNeeded];
-    CGFloat offset = 0;
     CGSize size = CGSizeMake(width, height);
+    CGFloat offset = 0;
     if ([toView isKindOfClass:[DMSlider class]]) {
-        offset = -3;
-        height = height - 20;
-        size = CGSizeMake(height, width);
+        size = CGSizeMake(height-5, width);
         toView.layer.position = CGPointMake(_imageView.center.x, _imageView.center.y);
+        [self addSubview:self.sliderView];
+        offset = 3;
     }
-//    [self.backgroundView addSubview:toView];
     [self addSubview:toView];
     [toView makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(_imageView.mas_centerY).offset(offset);
-        make.centerX.equalTo(_imageView);
+        make.centerY.equalTo(_imageView).offset(-5);
+        make.centerX.equalTo(_imageView).offset(offset);
         make.size.equalTo(size);
     }];
+    [self layoutIfNeeded];
+    self.sliderView.frame = CGRectMake(self.imageView.dm_x + (width - ksliderMaxWidth)*0.5, self.slider.dm_y+18, ksliderMaxWidth, 233);
 }
 
 - (void)whiteBoardControl:(DMWhiteBoardControl *)whiteBoardControl didTapColorsButton:(UIButton *)button {
@@ -233,7 +234,6 @@
     [self addSubview:self.collectionView];
     [self addSubview:self.whiteBoardControl];
     [self addSubview:self.whiteBoardView];
-//    [self addSubview:self.backgroundView];
     [self addSubview:self.closeButton];
 }
 
@@ -262,10 +262,6 @@
     [_whiteBoardControl makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(_sycBrowseView);
     }];
-    
-//    [_backgroundView makeConstraints:^(MASConstraintMaker *make) {
-//        make.edges.equalTo(self);
-//    }];
     
     [_whiteBoardView makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.collectionView);
@@ -324,14 +320,6 @@
     return _whiteBoardControl;
 }
 
-- (UIImage *)OriginImage:(UIImage *)image scaleToSize:(CGSize)size {
-    UIGraphicsBeginImageContext(size);//size为CGSize类型，即你所需要的图片尺寸
-    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
-    UIImage *scaledImage =UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return scaledImage;
-}
-
 - (DMSlider *)slider {
     if (!_slider) {
         _slider = [DMSlider new];
@@ -341,10 +329,9 @@
         [_slider dm_addTarget:self action:@selector(didTapAction:) forControlEvents:DMControlEventTouchUpInside];
         [_slider addTarget:self action:@selector(didChangeLineWidth:) forControlEvents:UIControlEventValueChanged];
         _slider.transform = CGAffineTransformMakeRotation(-M_PI_2);
-        _slider.maximumTrackTintColor = [[UIColor whiteColor] colorWithAlphaComponent:0.2];
-        _slider.minimumTrackTintColor = [UIColor whiteColor];
-        [self didChangeLineWidth:_slider];
-//         [_slider setThumbImage:self.image forState:UIControlStateNormal];
+        _slider.maximumTrackTintColor = [[UIColor whiteColor] colorWithAlphaComponent:0.003];
+        _slider.minimumTrackTintColor = [[UIColor whiteColor] colorWithAlphaComponent:0.003];
+        [_slider setThumbImage:[UIImage imageNamed:@"icon_slider"] forState:UIControlStateNormal];
     }
     
     return _slider;
@@ -385,27 +372,12 @@
     return _imageView;
 }
 
-//- (UIView *)backgroundView {
-//    if (!_backgroundView) {
-//        _backgroundView = [UIView new];
-//        _backgroundView.hidden = YES;
-//         UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapBackground)];
-//
-//        _backgroundView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.01];
-//        [_backgroundView addGestureRecognizer:tapGestureRecognizer];
-//        _imageView = [UIImageView new];
-//        _imageView.image = [UIImage imageNamed:@"opover_background"];
-//    }
-//
-//    return _backgroundView;
-//}
-
-- (UIImage *)image {
-    if (!_image) {
-        _image = [UIImage imageNamed:@"icon_slider"];
+- (DMBrushWidthView *)sliderView {
+    if (!_sliderView) {
+        _sliderView = [DMBrushWidthView new];
     }
     
-    return _image;
+    return _sliderView;
 }
 
 - (void)dealloc {

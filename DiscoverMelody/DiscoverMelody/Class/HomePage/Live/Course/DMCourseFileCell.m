@@ -135,4 +135,8 @@
     return _activityIndicatorView;
 }
 
+- (void)dealloc {
+    DMLogFunc
+}
+
 @end
