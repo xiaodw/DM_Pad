@@ -16,6 +16,7 @@
 @interface DMWhiteBoardView()
 
 @property (strong, nonatomic) NSMutableDictionary *paths; // 画布呈现路径
+@property (strong, nonatomic) NSMutableArray *allCurrentIndexKays;
 // 回退的路径, 再次开始画paths内会删除removeKeys, 并且清空
 @property (strong, nonatomic) NSMutableArray *removeKeys;
 @property (strong, nonatomic) NSMutableArray *sendUUIDs; // 发送的所有包UUID
@@ -57,6 +58,7 @@
                     path.lineWidth = responseDataModel.lineWidth;
                     path.lineColor = DMColorWithHexString(responseDataModel.colorHex);
                     weakSelf.paths[@(responseDataModel.indexID)] = [@{kSourceKey: path, kFlag:@(1)} mutableCopy];
+                    [weakSelf.allCurrentIndexKays addObject:@(responseDataModel.indexID)];
                 }
                 CGSize reScreenSize = CGSizeFromString(responseDataModel.size);
                 CGFloat reScreenWidth = reScreenSize.width;
@@ -101,6 +103,7 @@
     _sendUUIDs = nil;
     _removeKeys = nil;
     _pathPoints = nil;
+    _allCurrentIndexKays = nil;
     _secondsNum = 0;
     //重绘
     [self setNeedsDisplay];
@@ -204,6 +207,7 @@
     _sendIndex++;
     if (_removeKeys.count) {
         [self.paths removeObjectsForKeys:self.removeKeys];
+        [self.allCurrentIndexKays removeObject:self.removeKeys];
         NSLog(@"d l aths.count:%d", (int)self.paths.count);
         _removeKeys = nil;
     }
@@ -222,6 +226,7 @@
     [path addLineToPoint:point];
 
     // 把每一次新创建的路径 添加到数组当中
+    [self.allCurrentIndexKays addObject:@(_sendIndex)];
     self.paths[@(_sendIndex)] = [@{kSourceKey: path, kFlag:@(1)} mutableCopy];
 
     NSString *pointString = NSStringFromCGPoint(point);
@@ -289,7 +294,7 @@
 
 - (void)drawRect:(CGRect)rect {
     // Drawing code
-    for (NSString *index in self.paths) {
+    for (NSString *index in self.allCurrentIndexKays) {
         NSDictionary *dict = self.paths[index];
         if (![dict[kFlag] boolValue]) continue;
         DMBezierPath *path = self.paths[index][kSourceKey];
@@ -379,6 +384,14 @@
         dispatch_resume(_timer);
     }
     return _timer;
+}
+
+- (NSMutableArray *)allCurrentIndexKays {
+    if (!_allCurrentIndexKays) {
+        _allCurrentIndexKays = [NSMutableArray array];
+    }
+    
+    return _allCurrentIndexKays;
 }
 
 - (void)dealloc {
