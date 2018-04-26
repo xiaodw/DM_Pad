@@ -84,8 +84,8 @@
     [self whiteBoardControlDidTapClose:self.whiteBoardControl];
 }
 
-- (void)didTapBackground {
-    _whiteBoardView.lineWidth = self.slider.value * 0.5;
+- (void)didTapBackground { // 有个问题循环引用的问题rem之后不设置nil就会引起, 现在未解决
+    _whiteBoardView.lineWidth = self.slider.value;
     [_colorsView removeFromSuperview];
     [_slider removeFromSuperview];
     [_sliderView removeFromSuperview];

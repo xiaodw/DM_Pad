@@ -64,7 +64,7 @@ typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布�
 #pragma mark - Set Methods
 - (void)setIsRemoteUserOnline:(BOOL)isRemoteUserOnline {
     _isRemoteUserOnline = isRemoteUserOnline;
-    [self.coursewareView resetWhiteBoard];
+
     if (isRemoteUserOnline) return;
     for (int i = 0; i < self.remoteView.view.subviews.count; i++) {
         UIView *subview = self.remoteView.view.subviews[i];
