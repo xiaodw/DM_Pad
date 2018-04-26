@@ -86,10 +86,10 @@
 
 - (void)didTapBackground { // 有个问题循环引用的问题rem之后不设置nil就会引起, 现在未解决
     _whiteBoardView.lineWidth = self.slider.value;
-    [_colorsView removeFromSuperview];
-    [_slider removeFromSuperview];
-    [_sliderView removeFromSuperview];
-    [_imageView removeFromSuperview];
+    if (_colorsView.superview) { [_colorsView removeFromSuperview]; }
+    if (_slider.superview)     { [_slider removeFromSuperview]; }
+    if (_sliderView.superview) { [_sliderView removeFromSuperview]; }
+    if (_imageView.superview)  { [_imageView removeFromSuperview]; }
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -145,16 +145,19 @@
 #pragma mark - DMWhiteBoardControlDelegate
 - (void)whiteBoardControlDidTapClean:(DMWhiteBoardControl *)whiteBoardControl {
     NSLog(@"%s", __func__);
+    [self didTapBackground];
     [_whiteBoardView clean];
 }
 
 - (void)whiteBoardControlDidTapUndo:(DMWhiteBoardControl *)whiteBoardControl {
     NSLog(@"%s", __func__);
+    [self didTapBackground];
     [_whiteBoardView undo];
 }
 
 - (void)whiteBoardControlDidTapForward:(DMWhiteBoardControl *)whiteBoardControl {
     NSLog(@"%s", __func__);
+    [self didTapBackground];
     [_whiteBoardView forward];
 }
 

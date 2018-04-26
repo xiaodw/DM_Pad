@@ -48,7 +48,7 @@
     CGPoint touchPoint = [sender locationInView:self];
     CGFloat value = touchPoint.x / frame.size.height * (self.maximumValue - self.minimumValue) + self.minimumValue;
     [self setValue:value animated:YES];
-    [_dm_target performSelector:_dm_action withObject:self];
+    ((void(*)(id,SEL, id,id))objc_msgSend)(_dm_target, _dm_action, self, nil);
 }
 
 - (void)dealloc {
