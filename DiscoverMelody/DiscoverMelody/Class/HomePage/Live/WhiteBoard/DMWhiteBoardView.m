@@ -35,7 +35,7 @@
     if (self) {
         _sendIndex = 0;
         // 设置路径的宽度
-        self.lineWidth = 3;
+        self.lineWidth = 5;
         // 设置路径的颜色
         self.hexString = @"ff0000";
         

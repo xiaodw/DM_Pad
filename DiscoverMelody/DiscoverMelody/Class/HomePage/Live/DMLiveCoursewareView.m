@@ -13,8 +13,8 @@
 
 #define kCoursewareCellID @"Courseware"
 
-#define ksliderMinWidth 5
-#define ksliderMaxWidth 20
+#define ksliderMinWidth 2
+#define ksliderMaxWidth 15
 
 @interface DMLiveCoursewareView() <UICollectionViewDelegate, UICollectionViewDataSource, DMSycBrowseViewDelegate, DMWhiteBoardControlDelegate, DMColorsViewDelegate>
 
