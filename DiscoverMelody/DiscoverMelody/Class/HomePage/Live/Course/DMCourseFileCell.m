@@ -127,7 +127,7 @@
     return _indexLabel;
 }
 
-- activityIndicatorView {
+- (UIActivityIndicatorView *)activityIndicatorView {
     if (!_activityIndicatorView) {
         _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     }

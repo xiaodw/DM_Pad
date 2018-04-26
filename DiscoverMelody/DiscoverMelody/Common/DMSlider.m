@@ -4,13 +4,12 @@
 @interface DMSlider() <UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) UITapGestureRecognizer *tapGesture;
+@property (weak, nonatomic) id dm_target;
+@property (assign, nonatomic) SEL dm_action;
 
 @end
 
-@implementation DMSlider {
-    id _dm_target;
-    SEL _dm_action;
-}
+@implementation DMSlider
 
 - (instancetype)initWithFrame:(CGRect)frame
 {

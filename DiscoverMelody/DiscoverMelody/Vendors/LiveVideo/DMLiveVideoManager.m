@@ -236,6 +236,7 @@ static DMLiveVideoManager* _instance = nil;
 }
 
 - (void)joinChannel {
+    WS(weakSelf)
     [self.agoraKit joinChannelByKey:self.channelKey
                         channelName:self.channelName
                                info:nil
@@ -244,10 +245,10 @@ static DMLiveVideoManager* _instance = nil;
     {
         NSLog(@"自己加入用户id（%lu）", (unsigned long)uid);
         //开始外放
-        [self.agoraKit setEnableSpeakerphone:YES];
+        [weakSelf.agoraKit setEnableSpeakerphone:YES];
         
-        [self.agoraKit adjustPlaybackSignalVolume:[DMSecretKeyManager shareManager].play_volume];
-        [self.agoraKit adjustRecordingSignalVolume:[DMSecretKeyManager shareManager].record_volume];
+        [weakSelf.agoraKit adjustPlaybackSignalVolume:[DMSecretKeyManager shareManager].play_volume];
+        [weakSelf.agoraKit adjustRecordingSignalVolume:[DMSecretKeyManager shareManager].record_volume];
         
         [UIApplication sharedApplication].idleTimerDisabled = YES;
     }];
