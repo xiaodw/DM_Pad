@@ -1,5 +1,6 @@
 #import "DMSlider.h"
 #import <objc/runtime.h>
+#import <objc/message.h>
 
 @interface DMSlider() <UIGestureRecognizerDelegate>
 
