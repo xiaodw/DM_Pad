@@ -105,7 +105,7 @@
                            cancelTitle:DMTitleMustUpgrade
                             otherTitle: nil];
         }
-        
+        WS(weakSelf)
         [alert showWithViewController:self.window.rootViewController IndexBlock:^(NSInteger index) {
             if (obj.update.intValue == 1) {
                 if (index == 1) {
@@ -113,7 +113,7 @@
                 }
             } else {
                 if (index == 0) {
-                    [self.window.rootViewController presentViewController:alert.alertCol animated:YES completion:nil];
+                    [weakSelf.window.rootViewController presentViewController:alert.alertCol animated:YES completion:nil];
                     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:obj.updateUrl]];
                 }
             }

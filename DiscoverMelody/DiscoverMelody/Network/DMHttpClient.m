@@ -43,6 +43,7 @@
         dic = [self fixedParameters:parameters];
     }
     
+    WS(weakSelf)
     [[DMRequestModel sharedInstance] requestWithPath:url method:requestMethod parameters:dic prepareExecute:^{
         
     } success:^(id responseObject) {
@@ -59,7 +60,7 @@
         }
         
         if (!STR_IS_NIL([responseObj objectForKey:Token_Key])) { //更新token
-            [self updateTokenToLatest:[responseObj objectForKey:Token_Key]];
+            [weakSelf updateTokenToLatest:[responseObj objectForKey:Token_Key]];
         }
         
         if ([[responseObj objectForKey:@"code"] intValue] == DMHttpResponseCodeType_Success) {
@@ -68,13 +69,13 @@
                 [DMAccount saveUserJoinClassTime:[responseObj objectForKey:Time_Key]];
             }
             
-            if (self.blockSuccessMsg) {
+            if (weakSelf.blockSuccessMsg) {
                 if ([[responseObj objectForKey:Msg_Key] isKindOfClass:[NSString class]]) {
-                    self.blockSuccessMsg([responseObj objectForKey:Msg_Key]);
+                    weakSelf.blockSuccessMsg([responseObj objectForKey:Msg_Key]);
                 } else {
-                    self.blockSuccessMsg(DMTitleNoTypeError);
+                    weakSelf.blockSuccessMsg(DMTitleNoTypeError);
                 }
-                self.blockSuccessMsg = nil;
+                weakSelf.blockSuccessMsg = nil;
             }
             
             id responseDataModel = [dataModelClass mj_objectWithKeyValues:[responseObj objectForKey:Data_Key]];
@@ -82,10 +83,10 @@
             
         } else {
             if ([[responseObj objectForKey:Msg_Key] isKindOfClass:[NSString class]]) {
-                [self responseStatusCodeException:[[responseObj objectForKey:Code_Key] intValue]
+                [weakSelf responseStatusCodeException:[[responseObj objectForKey:Code_Key] intValue]
                                               msg:[responseObj objectForKey:Msg_Key]];
             } else {
-                [self responseStatusCodeException:[[responseObj objectForKey:Code_Key] intValue]
+                [weakSelf responseStatusCodeException:[[responseObj objectForKey:Code_Key] intValue]
                                               msg:DMTitleNoTypeError];
             }
             
@@ -93,7 +94,7 @@
         }
     } failure:^(NSError *error) {
         NSLog(@"网络请求错误信息 = %@", error);
-        self.blockSuccessMsg = nil;
+        weakSelf.blockSuccessMsg = nil;
         [DMTools showSVProgressHudCustom:@"" title:DMTitleNetworkError];
         failure(error);
     }];

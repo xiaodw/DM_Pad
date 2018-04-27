@@ -18,8 +18,6 @@
 }
 
 - (void)drawRect:(CGRect)rect {
-    [super drawRect:rect];
-    
     // 图片
     // 17 * 25
     CGSize imageSize = self.voiceImage.size;

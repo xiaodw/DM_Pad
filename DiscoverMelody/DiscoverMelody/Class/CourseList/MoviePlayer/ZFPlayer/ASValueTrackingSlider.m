@@ -289,9 +289,10 @@
     if ([self.delegate respondsToSelector:@selector(sliderWillHidePopUpView:)]) {
         [self.delegate sliderWillHidePopUpView:self];
     }
+    WS(weakSelf)
     [self.popUpView hideAnimated:animated completionBlock:^{
-        if ([self.delegate respondsToSelector:@selector(sliderDidHidePopUpView:)]) {
-            [self.delegate sliderDidHidePopUpView:self];
+        if ([weakSelf.delegate respondsToSelector:@selector(sliderDidHidePopUpView:)]) {
+            [weakSelf.delegate sliderDidHidePopUpView:self];
         }
     }];
 }
