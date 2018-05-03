@@ -391,9 +391,9 @@ typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布�
     [self.view addSubview:self.localView];
     [self.view addSubview:self.controlView];
     [self.view addSubview:self.timeView];
-    [self.view addSubview:self.willStartView];
     [self.view addSubview:self.recordingLabel];
     [self.view addSubview:self.coursewareView];
+    [self.view addSubview:self.willStartView];
 }
 
 #pragma mark - LayoutSubviews
