@@ -79,6 +79,9 @@ UIKIT_EXTERN NSString * const DMTitleSelected;
 UIKIT_EXTERN NSString * const DMTitleUpload;
 UIKIT_EXTERN NSString * const DMTitleDeleted;
 UIKIT_EXTERN NSString * const DMTitleSync;
+UIKIT_EXTERN NSString * const DMTitleClean;
+UIKIT_EXTERN NSString * const DMTitleWhiteBoard;
+UIKIT_EXTERN NSString * const DMTitleClose;
 //课件 同步
 UIKIT_EXTERN NSString * const DMTitleImmediatelySync;
 UIKIT_EXTERN NSString * const DMTitleCloseSync;

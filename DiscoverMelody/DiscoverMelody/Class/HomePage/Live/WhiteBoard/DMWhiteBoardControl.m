@@ -148,8 +148,8 @@
     if (!_cleanButton) {
         _cleanButton = [self setupButton];
         _cleanButton.enabled = NO;
-        _cleanButton.titleLabel.font = DMFontPingFang_Light(13);
-        [_cleanButton setTitle:@"清除" forState:UIControlStateNormal];
+        _cleanButton.titleLabel.font = DMFontPingFang_Light(11);
+        [_cleanButton setTitle:DMTitleClean forState:UIControlStateNormal];
         [_cleanButton setTitleColor:DMColorBaseMeiRed forState:UIControlStateNormal];
         [_cleanButton setTitleColor:DMColorWithRGBA(66, 66, 66, 1) forState:UIControlStateDisabled];
         [_cleanButton addTarget:self action:@selector(didTapClean) forControlEvents:UIControlEventTouchUpInside];
@@ -211,11 +211,11 @@
     if (!_closeButton) {
         _closeButton = [self setupButton];
         _closeButton.backgroundColor = DMColorWithRGBA(22, 22, 22, 1);
-        _closeButton.titleLabel.font = DMFontPingFang_Light(13);
+        _closeButton.titleLabel.font = DMFontPingFang_Light(11);
         _closeButton.layer.cornerRadius = kCornerRadius * 0.5;
         _closeButton.layer.borderWidth = 1;
         _closeButton.layer.borderColor = DMColorWithRGBA(83, 83, 83, 1).CGColor;
-        [_closeButton setTitle:@"取消" forState:UIControlStateNormal];
+        [_closeButton setTitle:DMTitleClose forState:UIControlStateNormal];
         [_closeButton setTitleColor:DMColorBaseMeiRed forState:UIControlStateNormal];
         [_closeButton addTarget:self action:@selector(didTapClose) forControlEvents:UIControlEventTouchUpInside];
     }

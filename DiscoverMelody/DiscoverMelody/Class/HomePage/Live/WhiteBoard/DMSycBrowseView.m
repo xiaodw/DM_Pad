@@ -51,20 +51,21 @@
 
 - (void)setupMakeLayoutSubviews {
     [_indexLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.height.width.equalTo(20*2);
+        make.height.width.equalTo(kCornerRadius*2);
         make.left.equalTo(20);
         make.centerY.equalTo(self);
     }];
     
     [_whiteBoardButton makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.mas_right).offset(-20);
-        make.size.equalTo(_indexLabel);
+        make.right.equalTo(self.mas_right).offset(-7);
+        make.height.equalTo(_indexLabel);
+        make.width.equalTo(72);
         make.centerY.equalTo(self);
     }];
     
     [_collectionView makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_indexLabel.mas_right).offset(22);
-        make.right.equalTo(_whiteBoardButton.mas_left).offset(-22);
+        make.right.equalTo(_whiteBoardButton.mas_left).offset(-7);
         make.top.bottom.equalTo(self);
     }];
 }
@@ -136,16 +137,15 @@
     return _collectionView;
 }
 
-
 - (UIButton *)whiteBoardButton {
     if (!_whiteBoardButton) {
         _whiteBoardButton = [UIButton new];
-        _whiteBoardButton.titleLabel.font = DMFontPingFang_Light(13);
+        _whiteBoardButton.titleLabel.font = DMFontPingFang_Light(11);
         _whiteBoardButton.layer.cornerRadius = kCornerRadius;
         _whiteBoardButton.layer.borderWidth = 1;
         _whiteBoardButton.layer.borderColor = DMColorWithRGBA(83, 83, 83, 1).CGColor;
         _whiteBoardButton.backgroundColor = DMColorWithRGBA(22, 22, 22, 1);
-        [_whiteBoardButton setTitle:@"白板" forState: UIControlStateNormal];
+        [_whiteBoardButton setTitle:DMTitleWhiteBoard forState: UIControlStateNormal];
         [_whiteBoardButton setTitleColor:DMColorBaseMeiRed forState:UIControlStateNormal];
         [_whiteBoardButton addTarget:self action:@selector(didTapWhiteBoard) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -153,8 +153,6 @@
     return _whiteBoardButton;
 }
 
-- (void)dealloc {
-    DMLogFunc
-}
+- (void)dealloc { DMLogFunc }
 
 @end

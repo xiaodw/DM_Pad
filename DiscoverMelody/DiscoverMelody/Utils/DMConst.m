@@ -5,8 +5,8 @@
 
 #import "DMConst.h"
 
-#pragma NSString - 文案信息
-
+#pragma mark NSString - 文案信息
+#pragma mark 中文
 #if LANGUAGE_ENVIRONMENT == 0 //中文
 
 /////////////////////////////////////////////////////////////////////////// 通用
@@ -85,6 +85,9 @@ NSString * const DMTitleSelected = @"选择";
 NSString * const DMTitleUpload = @"上传";
 NSString * const DMTitleDeleted = @"删除";
 NSString * const DMTitleSync = @"同步";
+NSString * const DMTitleClean = @"清除";
+NSString * const DMTitleWhiteBoard = @"白板";
+NSString * const DMTitleClose = @"关闭";
 //课件 同步
 NSString * const DMAlertTitleNotSync = @"学生未上线, 不能同步操作";
 NSString * const DMTitleImmediatelySync = @"立即同步";
@@ -171,6 +174,8 @@ NSString * const DMRefreshHeaderNoneLastDateText = @"无记录";
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#pragma mark 英文
+
 #elif LANGUAGE_ENVIRONMENT == 1 //英文
 /////////////////////////////////////////////////////////////////////////// 通用
 //权限
@@ -248,6 +253,9 @@ NSString * const DMTitleSelected = @"Select";
 NSString * const DMTitleUpload = @"Upload";
 NSString * const DMTitleDeleted = @"Delete";
 NSString * const DMTitleSync = @"Synchronize";
+NSString * const DMTitleClean = @"Clear";
+NSString * const DMTitleWhiteBoard = @"Whiteboard";
+NSString * const DMTitleClose = @"Close";
 //课件 同步
 NSString * const DMAlertTitleNotSync = @"Unable to synchronize at this time";
 NSString * const DMTitleImmediatelySync = @"Synchronize Now";

@@ -593,6 +593,7 @@ typedef void (^BlockExchangeViewLayout)(MASConstraintMaker *make);// 窗口布�
 - (DMLiveWillStartView *)willStartView {
     if (!_willStartView) {
         _willStartView = [DMLiveWillStartView new];
+        _willStartView.userInteractionEnabled = NO;
     }
     
     return _willStartView;
