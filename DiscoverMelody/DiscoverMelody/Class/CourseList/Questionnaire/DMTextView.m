@@ -20,6 +20,26 @@
 
 - (void)loadUI {
     [self addSubview:self.textField];
+    [self addSubview:self.textLabel];
+    [self addSubview:self.textSubView];
+    self.textField.hidden = YES;
+    self.textLabel.hidden = YES;
+    self.textSubView.hidden = NO
+    ;
+    
+    [self.textLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self).offset(10);
+        make.top.equalTo(self).offset(0);
+        make.right.equalTo(self).offset(-10);
+        make.bottom.equalTo(self).offset(0);
+    }];
+    
+    [self.textSubView makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self).offset(10);
+        make.top.equalTo(self).offset(0);
+        make.right.equalTo(self).offset(-10);
+        make.bottom.equalTo(self).offset(0);
+    }];
 }
 
 - (UITextField *)textField {
@@ -36,4 +56,30 @@
     return _textField;
 }
 
+- (UILabel *)textLabel {
+    if (!_textLabel) {
+        _textLabel = [[UILabel alloc] init];
+        _textLabel.textColor = DMColorWithRGBA(102, 102, 102, 1);
+        _textLabel.font = DMFontPingFang_Light(14);
+        _textLabel.textAlignment = NSTextAlignmentLeft;
+        _textLabel.lineBreakMode = NSLineBreakByClipping;
+        _textLabel.numberOfLines = 0;
+    }
+    return _textLabel;
+}
+
+- (UITextView *)textSubView {
+    if (!_textSubView) {
+        _textSubView = [[SKTextView alloc] init];//WithFrame:CGRectMake(10, 0, self.frame.size.width-20, self.frame.size.height)
+        _textSubView.textColor = DMColorWithRGBA(102, 102, 102, 1);
+        _textSubView.font = DMFontPingFang_Light(14);
+        _textSubView.textAlignment = NSTextAlignmentLeft;
+        _textSubView.placeHold = @"请填写";
+        _textSubView.backgroundColor = [UIColor clearColor];
+        _textSubView.textContainerInset = UIEdgeInsetsMake(17.5, 0, 0, 0);
+        _textSubView.scrollEnabled = NO;
+        
+    }
+    return _textSubView;
+}
 @end

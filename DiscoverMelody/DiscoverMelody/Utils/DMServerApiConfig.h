@@ -38,13 +38,13 @@
 //#define App_Type @"cn_s" // @"cn_s"  @"cn_t" @"us_s"  @"us_t"
 
 //服务器环境配置:  1开发，2测试，0正式， 默认为0
-#define SERVER_ENVIRONMENT   2
+#define SERVER_ENVIRONMENT   0
 
 //语言环境: 0 中文， 1 英文
 #define LANGUAGE_ENVIRONMENT 0
 
 //0 学生中文， 1 学生英文， 2 老师英文    -1, 开发测试使用
-#define APP_NAME_TYPE  2
+#define APP_NAME_TYPE  0
 
 #if APP_NAME_TYPE == 0 //中文
     #define App_Type @"cn_s"

@@ -313,6 +313,16 @@
 #pragma mark -
 #pragma mark UITableView Datasource
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section < self.questionList.count) {
+        DMQuestSingleData *obj = [self.questionList objectAtIndex:indexPath.section];
+        if (obj.type.intValue == 0) { //@"一段经历往往会改变一个人的一生。出身于革命家庭的习近平，15岁的时候去陕北农村插队，也正是那一段经历给了他一种力量、一种勇气和一种生活信念"
+            CGFloat X_OFFSET = 0;
+            CGFloat H = [DMTools getContactHeight:obj.answer_content font:DMFontPingFang_Light(14) width:DMScreenWidth-34-20-34-X_OFFSET];
+            if (H > 21) {
+                return 50+(H-21);
+            }
+        }
+    }
     return 50;
 }
 
@@ -353,6 +363,10 @@
         } else {
             [weakSelf restoreLayout];
         }
+    };
+    cell.clickTextViewDidChangeBlock = ^(NSString *content){
+        [weakSelf.bTableView beginUpdates];
+        [weakSelf.bTableView endUpdates];
     };
     return cell;
 }

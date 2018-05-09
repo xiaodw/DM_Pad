@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "SKTextView.h"
 @interface DMTextView : UIView
 @property (nonatomic, strong) UITextField *textField;
+@property (nonatomic, strong) UILabel *textLabel;
+@property (nonatomic, strong) SKTextView *textSubView;
 @end

@@ -10,7 +10,7 @@
 #import "DMEStarView.h"
 #import "DMRadioView.h"
 #import "DMTextView.h"
-@interface DMQuestionCell ()<UITextFieldDelegate>
+@interface DMQuestionCell ()<UITextFieldDelegate, UITextViewDelegate>
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) DMEStarView *starView;
 @property (nonatomic, strong) DMRadioView *radioView;
@@ -51,6 +51,7 @@
     
     self.textView = [[DMTextView alloc] initWithFrame:CGRectMake(34, H, DMScreenWidth-68, 50)];
     self.textView.textField.delegate = self;
+    self.textView.textSubView.delegate = self;
     self.radioView = [[DMRadioView alloc] initWithFrame:CGRectMake(34, H, DMScreenWidth-68, 45)];
     [self.radioView.selButton addTarget:self action:@selector(clickSelButton:) forControlEvents:UIControlEventTouchUpInside];
     self.starView = [[DMEStarView alloc] initWithFrame:CGRectMake(34, H, 250, 50) finish:^(CGFloat currentScore) {
@@ -70,6 +71,7 @@
     self.textView.hidden = YES;
     self.radioView.hidden = YES;
     self.starView.hidden = YES;
+    self.textView.textSubView.placeHold = @"";
 }
 
 - (void)configObj:(DMQuestSingleData *)obj indexRow:(NSInteger)index indexSection:(NSInteger)section {
@@ -78,9 +80,31 @@
         self.obje = obj;
         switch (obj.type.intValue) {
             case 0://问答题
+//                self.textView.hidden = NO;
+//
+//                self.textView.textField.text = STR_IS_NIL(obj.answer_content) ? @"": obj.answer_content;
+            {
+                self.textView.textSubView.hidden = NO;
                 self.textView.hidden = NO;
+                //                self.textView.textField.text = @"一段经历往往会改变一个人的一生。出身于革命家庭的习近平，15岁的时候去陕北农村插队，也正是那一段经历给了他一种力量、一种勇气和一种生活信念";//STR_IS_NIL(obj.answer_content) ? @"": obj.answer_content;
+                NSString *contentStr = @"";
+                if (!STR_IS_NIL(obj.answer_content)) {
+                    contentStr = obj.answer_content;
+                }
+                self.textView.textSubView.text = contentStr;
+                if (!STR_IS_NIL(contentStr)) {
+                    self.textView.textSubView.placeHold = @"";
+                } else {
+                    self.textView.textSubView.placeHold = @"请填写";
+                }
+                [self.textView updateConstraints:^(MASConstraintMaker *make) {
+                    make.left.equalTo(self).offset(34);
+                    make.top.equalTo(self).offset(0);
+                    make.right.equalTo(self).offset(-34);
+                    make.bottom.equalTo(self).offset(0);
+                }];
                 
-                self.textView.textField.text = STR_IS_NIL(obj.answer_content) ? @"": obj.answer_content;
+            }
                 break;
             case 1://判断／选择题
                 if (index < obj.options.count) {
@@ -141,6 +165,21 @@
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
    
     return YES;
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+    self.clickTextFieldBlock(YES);
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView {
+    self.obje.answer_content = textView.text;
+    self.clickTextFieldBlock(NO);
+    
+}
+
+- (void)textViewDidChange:(UITextView *)textView {
+    self.obje.answer_content = textView.text;
+    self.clickTextViewDidChangeBlock(self.obje.answer_content);
 }
 
 - (void)awakeFromNib {
